@@ -1,0 +1,104 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Pendências · Bálcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+:root{
+ /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
+ --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
+ --accent:#0B7285;--accent-ink:#FFFFFF;--sea:#CDE5EB;--land:#F6F8F4;--route:#0B7285;
+ --c-drive:#0B7285;--c-see:#4B5FA8;--c-eat:#A15A12;--c-tip:#2F7D4F;--c-warn:#B3341F;--c-stay:#6B5A8E;
+ --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--f-body:'Public Sans','Segoe UI',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+nav.pills{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.pills a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:14px;white-space:nowrap}
+nav.pills a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+.hero{padding-block:32px 24px;display:grid;gap:12px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{max-width:62ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:800;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+.cdown{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;display:grid;gap:8px}.cd-n{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:flex-end}.cd-n b{display:block;font-family:var(--f-display);font-size:clamp(2.6rem,12vw,4rem);line-height:1;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}.cd-n span{font-size:13px;color:var(--muted)}.cd-msg{font-family:var(--f-display);font-size:1.6rem;font-weight:700;color:var(--accent)}
+section.day{margin-top:36px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;border-top:2px solid var(--ink);padding-top:12px}
+.day-h .date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.day-h h2{font-size:1.5rem;font-weight:700}
+ol.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.tl li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.time{font-family:var(--f-mono);font-size:14px;font-weight:600;padding-top:2px}
+.time.none{color:var(--muted)}
+.k{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.k-drive .k,.k-drive .time{color:var(--c-drive)}.k-see .k{color:var(--c-see)}.k-eat .k{color:var(--c-eat)}.k-tip .k{color:var(--c-tip)}.k-warn .k{color:var(--c-warn)}.k-stay .k{color:var(--c-stay)}
+.k-warn{border-left:4px solid var(--c-warn)}.k-tip{border-left:4px solid var(--c-tip)}.k-drive{border-left:4px solid var(--c-drive)}
+ol.tl h3{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+ol.tl p{margin:0;color:var(--muted);font-size:15px}
+.gm{display:inline-block;margin-top:10px;font-size:14px;font-weight:600}
+.x{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:10px 0 0;font-size:14px}.x dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}.x dd{margin:0;overflow-wrap:anywhere}
+ul.bul{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}.prose{max-width:70ch;margin:0 0 10px}
+a.tag{text-decoration:none;color:var(--accent)}
+.num td.n,.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.num td:first-child{white-space:nowrap}
+.tot td{font-weight:700;border-top:2px solid var(--ink)}
+table.wide{font-size:13px}table.wide th,table.wide td{padding:6px 8px}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px}
+.pn a{font-weight:600;text-decoration:none}
+table.opt{width:100%;border-collapse:collapse;font-size:15px}
+table.opt th,table.opt td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+.att{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ac{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.ac.I{border-color:var(--c-warn);border-width:2px}
+.ac h3{font-size:1.1rem;margin:0}
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:99px;width:max-content}
+.bd.I{background:var(--c-warn);color:#fff}.bd.V{background:var(--c-see);color:#fff}.bd.O{background:var(--line);color:var(--ink)}
+.st{font-size:18px;letter-spacing:2px;color:#D98A00}.st i{color:var(--line);font-style:normal}
+.ac .m{font-size:13px;color:var(--muted)}.ac p{margin:0;font-size:14px}
+.ac .lk{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal a{text-decoration:none;color:inherit}
+/*rt*/.rt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px}.rt .st{font-size:15px}.rt .m{color:var(--muted)}.rt .lk{display:flex;gap:10px;font-weight:600}
+@media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
+</style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="voos.html">✈ Voos</a><a href="hospedagem.html">Hospedagem</a><a href="imperdiveis.html">Imperdíveis</a><a href="orcamento.html">Orçamento</a><a href="gastos.html">Controle de Gastos</a><a href="costumes.html">Costumes e Dicas</a><a href="jantar.html">Onde jantar</a><a href="seguranca.html">Segurança e Documentos</a><a href="pendencias.html" aria-current="page">Pendências</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><div id="gx-sync" class="fbstrip" style="margin-top:10px"></div><section class="day"><div class="day-h"><span class="date">antes de ir</span><h2>Pendências</h2></div><ol class="tl" id="todo"><li class="k-warn" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td0" data-i="0" aria-label="feito"><div><label for="td0" style="color:var(--ink)">Prazos de cancelamento grátis (até 23:59): Libertas 04/05, Tesla&#x27;s 06/05, Central Apartments 12/05, Astoria 13/05, MK 17/05, Marea 21/05, Mirjana 26/05, Capital 01/06. O primeiro a vencer é o Libertas.</label></div></li><li class="k-tip" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td1" data-i="1" aria-label="feito"><div><label for="td1" style="color:var(--ink)">Perguntar ao Olympia: piscinas abertas em 1–3/06, animação, preço da meia-pensão.</label></div></li><li class="k-warn" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td2" data-i="2" aria-label="feito"><div><label for="td2" style="color:var(--ink)">Acompanhar o início do ETIAS (autorização online, cerca de €20). Se estiver valendo antes de maio de 2027, a Andréa precisa fazer o pedido no site oficial da UE antes de embarcar. Sergio usa o passaporte português.</label></div></li><li class="k-warn" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td3" data-i="3" aria-label="feito"><div><label for="td3" style="color:var(--ink)">Nova Rent a Car: vinheta, segundo condutor e como medem os 500 km/dia.</label></div></li><li class="k-drive" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td4" data-i="4" aria-label="feito"><div><label for="td4" style="color:var(--ink)">Comprar a e-vinheta da Eslovênia (classe 2A, €16/7 dias) em 18/05 com a placa do carro.</label></div></li><li class="k-tip" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td5" data-i="5" aria-label="feito"><div><label for="td5" style="color:var(--ink)">Conferir se o sistema Crolibertas (pedágio croata sem cabine) já está ativo em 2027.</label></div></li><li class="k-tip" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td6" data-i="6" aria-label="feito"><div><label for="td6" style="color:var(--ink)">Em 21/05, antes de sair de Ljubljana, comprar o piquenique de Plitvice (pão, queijo duro, salame seco, frutas, castanhas, água, e fatiado ou com uma faquinha, que volta na mala despachada), porque 22/05 será um dia inteiro no parque.</label></div></li><li class="k-tip" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td7" data-i="7" aria-label="feito"><div><label for="td7" style="color:var(--ink)">Tarifa Economy Full já emitida: 1 mala de 23 kg por pessoa. Confirmar no check-in se a bagagem segue direto até Guarulhos na volta (LATAM + Lufthansa) e pesar a mala dobrável cheia.</label></div></li><li class="k-tip" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td8" data-i="8" aria-label="feito"><div><label for="td8" style="color:var(--ink)">Preencher os contatos de emergência da aba Segurança da planilha.</label></div></li><li class="k-warn" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td9" data-i="9" aria-label="feito"><div><label for="td9" style="color:var(--ink)">Voos: marcar assentos nos trechos Lufthansa (LH 1406, 1405 e 918) e conferir terminais e tempos de conexão em Frankfurt (1h25 na volta) e Heathrow (2h40).</label></div></li></ol></section><p class="foot">Bálcãs 2027 · roteiros atualizados ao longo do planejamento. Valores de ingressos, pedágios e horários são estimativas a confirmar nos sites oficiais.</p><div class="bk bk-end"><button type="button" class="back" data-back>← Voltar</button></div></div><script>
+(function(){var K='balcas2027-todo',s={};try{s=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+var boxes=[].slice.call(document.querySelectorAll('#todo input'));
+function paint(){boxes.forEach(function(c){c.checked=!!s[c.dataset.i]})}
+function keep(){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
+paint();
+var ready=false;
+boxes.forEach(function(c){c.addEventListener('change',function(){s[c.dataset.i]=c.checked;keep();
+  if(ready&&window.FB){var o={};o[c.dataset.i]=c.checked;FB.set('data/todo',{done:o},true)}})});
+function bind(){if(!window.FB)return;
+  var el=document.getElementById('gx-sync');if(el)FB.strip(el);
+  var unsub=null;
+  FB.onAuth(function(u){if(unsub){unsub();unsub=null}ready=false;if(!u)return;
+    unsub=FB.watchDoc('todo','data/todo',function(d,meta){
+      var r=(d&&d.done)||{},miss={},n=0;
+      Object.keys(r).forEach(function(k){s[k]=!!r[k]});
+      Object.keys(s).forEach(function(k){if(!(k in r)){miss[k]=s[k];n++}});
+      keep();paint();ready=true;
+      if(n&&!meta.fromCache)FB.set('data/todo',{done:miss},true)})})}
+if(window.FB)bind();else{document.addEventListener('fb-ready',bind);setTimeout(function(){var el=document.getElementById('gx-sync');if(!window.FB&&el)el.textContent='☁ Salvo só neste aparelho (Firebase indisponível)'},4000)}})();
+</script>
+<script src="nav.js"></script><script type="module" src="fb.js"></script>
+</body></html>

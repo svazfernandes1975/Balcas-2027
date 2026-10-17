@@ -1,0 +1,138 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Controle de gastos · Bálcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+:root{
+ /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
+ --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
+ --accent:#0B7285;--accent-ink:#FFFFFF;--sea:#CDE5EB;--land:#F6F8F4;--route:#0B7285;
+ --c-drive:#0B7285;--c-see:#4B5FA8;--c-eat:#A15A12;--c-tip:#2F7D4F;--c-warn:#B3341F;--c-stay:#6B5A8E;
+ --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--f-body:'Public Sans','Segoe UI',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+nav.pills{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.pills a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:14px;white-space:nowrap}
+nav.pills a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+.hero{padding-block:32px 24px;display:grid;gap:12px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{max-width:62ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:800;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+.cdown{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;display:grid;gap:8px}.cd-n{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:flex-end}.cd-n b{display:block;font-family:var(--f-display);font-size:clamp(2.6rem,12vw,4rem);line-height:1;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}.cd-n span{font-size:13px;color:var(--muted)}.cd-msg{font-family:var(--f-display);font-size:1.6rem;font-weight:700;color:var(--accent)}
+section.day{margin-top:36px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;border-top:2px solid var(--ink);padding-top:12px}
+.day-h .date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.day-h h2{font-size:1.5rem;font-weight:700}
+ol.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.tl li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.time{font-family:var(--f-mono);font-size:14px;font-weight:600;padding-top:2px}
+.time.none{color:var(--muted)}
+.k{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.k-drive .k,.k-drive .time{color:var(--c-drive)}.k-see .k{color:var(--c-see)}.k-eat .k{color:var(--c-eat)}.k-tip .k{color:var(--c-tip)}.k-warn .k{color:var(--c-warn)}.k-stay .k{color:var(--c-stay)}
+.k-warn{border-left:4px solid var(--c-warn)}.k-tip{border-left:4px solid var(--c-tip)}.k-drive{border-left:4px solid var(--c-drive)}
+ol.tl h3{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+ol.tl p{margin:0;color:var(--muted);font-size:15px}
+.gm{display:inline-block;margin-top:10px;font-size:14px;font-weight:600}
+.x{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:10px 0 0;font-size:14px}.x dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}.x dd{margin:0;overflow-wrap:anywhere}
+ul.bul{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}.prose{max-width:70ch;margin:0 0 10px}
+a.tag{text-decoration:none;color:var(--accent)}
+.num td.n,.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.num td:first-child{white-space:nowrap}
+.tot td{font-weight:700;border-top:2px solid var(--ink)}
+table.wide{font-size:13px}table.wide th,table.wide td{padding:6px 8px}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px}
+.pn a{font-weight:600;text-decoration:none}
+table.opt{width:100%;border-collapse:collapse;font-size:15px}
+table.opt th,table.opt td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+.att{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ac{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.ac.I{border-color:var(--c-warn);border-width:2px}
+.ac h3{font-size:1.1rem;margin:0}
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:99px;width:max-content}
+.bd.I{background:var(--c-warn);color:#fff}.bd.V{background:var(--c-see);color:#fff}.bd.O{background:var(--line);color:var(--ink)}
+.st{font-size:18px;letter-spacing:2px;color:#D98A00}.st i{color:var(--line);font-style:normal}
+.ac .m{font-size:13px;color:var(--muted)}.ac p{margin:0;font-size:14px}
+.ac .lk{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal a{text-decoration:none;color:inherit}
+/*rt*/.rt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px}.rt .st{font-size:15px}.rt .m{color:var(--muted)}.rt .lk{display:flex;gap:10px;font-weight:600}
+@media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
+</style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="voos.html">✈ Voos</a><a href="hospedagem.html">Hospedagem</a><a href="imperdiveis.html">Imperdíveis</a><a href="orcamento.html">Orçamento</a><a href="gastos.html" aria-current="page">Controle de Gastos</a><a href="costumes.html">Costumes e Dicas</a><a href="jantar.html">Onde jantar</a><a href="seguranca.html">Segurança e Documentos</a><a href="pendencias.html">Pendências</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><section class="day" id="gastos"><div class="day-h"><span class="date">durante a viagem</span><h2>Controle de gastos</h2></div>
+<link rel="stylesheet" href="gastos.css">
+<div class="gx" id="gx">
+<div id="gx-sync" class="fbstrip"></div>
+
+<div class="gx-tabs" role="tablist" aria-label="Controle de gastos">
+<button type="button" role="tab" data-tab="lancar">Lançar</button><button type="button" role="tab" data-tab="resumo">Resumo</button><button type="button" role="tab" data-tab="extrato">Extrato</button><button type="button" role="tab" data-tab="orc">Orçamento</button><button type="button" role="tab" data-tab="meios">Meios</button></div>
+
+<div class="view" id="v-lancar">
+<div class="kpis strip"><div class="kpi" id="k-saldo"></div><div class="kpi" id="k-gasto"></div><div class="kpi" id="k-dia"></div></div>
+
+<div class="card" id="p-g"><form id="g-form" autocomplete="off">
+<div id="g-where"></div>
+<div class="stp" id="s1"><button type="button" class="stp-h" data-step="1"><span class="num">1</span><span class="tt">Pago com</span><span class="sv" id="sv1"></span></button><div class="stp-b"><div class="chips" id="g-meths"></div></div></div>
+<div class="stp" id="s2"><button type="button" class="stp-h" data-step="2"><span class="num">2</span><span class="tt">Categoria</span><span class="sv" id="sv2"></span></button><div class="stp-b"><div class="chips" id="g-cats"></div></div></div>
+<div class="stp" id="s3"><button type="button" class="stp-h" data-step="3"><span class="num">3</span><span class="tt">Valor</span><span class="sv" id="sv3"></span></button><div class="stp-b">
+<div class="amt"><input type="text" id="g-amt" inputmode="decimal" placeholder="0,00" aria-label="Valor do gasto"><div class="cs" id="g-ecur" role="group" aria-label="Moeda do gasto"></div></div>
+<div id="g-conv"></div>
+<div id="g-brl" hidden><label class="f"><span>Valor em R$ (pela cotação do dia, ajuste se a sua foi outra)</span><input type="text" id="g-brlv" inputmode="decimal" placeholder="0,00"></label></div>
+<div id="g-deb" hidden><label class="f"><span>Sai da <b id="g-debname"></b> em <b id="g-debcur"></b> (calculado pelo câmbio, ajuste se precisar)</span><input type="text" id="g-debit" inputmode="decimal" placeholder="0,00"></label></div>
+</div></div>
+<details class="more"><summary>Data e descrição (opcional)</summary><div class="row2" style="margin-top:8px"><label class="f">Data<input type="date" id="g-date"></label><label class="f">Descrição<input type="text" id="g-desc" placeholder="Ex.: pizza em Split"></label></div></details>
+<div class="sticky-go"><button type="submit" class="btn" id="g-go">Digite o valor</button><button type="button" class="btn sec" id="g-cancel" hidden>Cancelar</button></div>
+</form>
+<div class="acts"><button type="button" class="btn sec sm" data-mode="t">Sacar dinheiro ou mover saldo</button><button type="button" class="btn sec sm" data-mode="a">Corrigir saldo</button></div>
+</div>
+
+<div class="card" id="p-t" hidden><form id="t-form" autocomplete="off">
+<div><button type="button" class="btn sec sm" data-mode="g">← Voltar ao gasto</button></div>
+<h3 id="t-title">Sacar dinheiro ou mover saldo</h3><p class="hint">Use quando o dinheiro só <b>muda de lugar</b>, sem ser gasto. Exemplo: você saca €100 no caixa com o cartão Wise EUR e recebe €100 em notas. Escolha <b>Sai de</b> Wise EUR, <b>Entra em</b> Cash EUR e digite 100 nos dois valores. Se o caixa cobrou tarifa (saiu €102 e entrou €100), ponha 102 em "sai" e 100 em "entra": a diferença sai do saldo total.</p>
+<div class="row2"><label class="f">Sai de<select id="t-from"></select></label><label class="f">Entra em<select id="t-to"></select></label></div>
+<div class="row2" style="margin-top:10px"><label class="f"><span>Valor que sai (<b id="t-out-cur"></b>)</span><input type="text" id="t-out" inputmode="decimal" placeholder="0,00"></label><label class="f"><span>Valor que entra (<b id="t-in-cur"></b>)</span><input type="text" id="t-in" inputmode="decimal" placeholder="0,00"></label></div>
+<label class="f" style="margin-top:10px">Descrição (opcional)<input type="text" id="t-desc" placeholder="Ex.: saque ATM Zagreb"></label>
+<div class="sticky-go"><button type="submit" class="btn" id="t-go">Registrar</button><button type="button" class="btn sec" id="t-cancel" hidden>Cancelar</button></div>
+</form></div>
+
+<div class="card" id="p-a" hidden><form id="a-form" autocomplete="off">
+<div><button type="button" class="btn sec sm" data-mode="g">← Voltar ao gasto</button></div>
+<h3 id="a-title">Corrigir saldo</h3><p class="hint">Use quando o saldo mostrado aqui <b>não bate</b> com o real. Exemplo: o site diz que o Cash EUR tem €85, mas na carteira há €80. Escolha o meio, digite 80 e o site lança a diferença (−€5). Se a diferença é um gasto que você esqueceu, prefira lançar como gasto para ele entrar na categoria certa.</p>
+<label class="f">Meio<select id="a-m"></select></label>
+<p class="hint" id="a-now" style="margin:8px 0 0"></p>
+<div class="amt" style="margin-top:6px"><input type="text" id="a-real" inputmode="decimal" placeholder="Saldo real" aria-label="Saldo real"><span class="cur" id="a-cur"></span></div>
+<p class="hint" id="a-diff" style="min-height:1.2em"></p>
+<label class="f">Motivo (opcional)<input type="text" id="a-desc" placeholder="Ex.: troco, tarifa do banco"></label>
+<div class="sticky-go"><button type="submit" class="btn" id="a-go">Corrigir saldo</button><button type="button" class="btn sec" id="a-cancel" hidden>Cancelar</button></div>
+</form></div>
+</div>
+
+<div class="view" id="v-resumo" hidden></div>
+<div class="view" id="v-extrato" hidden></div>
+<div class="view" id="v-meios" hidden></div>
+<div class="view" id="v-orc" hidden></div>
+</div><div id="gx-toast" hidden></div></section><p class="foot">Bálcãs 2027 · roteiros atualizados ao longo do planejamento. Valores de ingressos, pedágios e horários são estimativas a confirmar nos sites oficiais.</p><div class="bk bk-end"><button type="button" class="back" data-back>← Voltar</button></div></div>
+<script src="gastos.js"></script>
+<script type="module" src="fb.js"></script>
+<script src="nav.js"></script>
+</body></html>

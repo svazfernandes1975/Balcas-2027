@@ -1,0 +1,84 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Onde jantar · Bálcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+:root{
+ /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
+ --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
+ --accent:#0B7285;--accent-ink:#FFFFFF;--sea:#CDE5EB;--land:#F6F8F4;--route:#0B7285;
+ --c-drive:#0B7285;--c-see:#4B5FA8;--c-eat:#A15A12;--c-tip:#2F7D4F;--c-warn:#B3341F;--c-stay:#6B5A8E;
+ --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--f-body:'Public Sans','Segoe UI',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+nav.pills{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.pills a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:14px;white-space:nowrap}
+nav.pills a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+.hero{padding-block:32px 24px;display:grid;gap:12px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{max-width:62ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:800;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+.cdown{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;display:grid;gap:8px}.cd-n{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:flex-end}.cd-n b{display:block;font-family:var(--f-display);font-size:clamp(2.6rem,12vw,4rem);line-height:1;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}.cd-n span{font-size:13px;color:var(--muted)}.cd-msg{font-family:var(--f-display);font-size:1.6rem;font-weight:700;color:var(--accent)}
+section.day{margin-top:36px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;border-top:2px solid var(--ink);padding-top:12px}
+.day-h .date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.day-h h2{font-size:1.5rem;font-weight:700}
+ol.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.tl li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.time{font-family:var(--f-mono);font-size:14px;font-weight:600;padding-top:2px}
+.time.none{color:var(--muted)}
+.k{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.k-drive .k,.k-drive .time{color:var(--c-drive)}.k-see .k{color:var(--c-see)}.k-eat .k{color:var(--c-eat)}.k-tip .k{color:var(--c-tip)}.k-warn .k{color:var(--c-warn)}.k-stay .k{color:var(--c-stay)}
+.k-warn{border-left:4px solid var(--c-warn)}.k-tip{border-left:4px solid var(--c-tip)}.k-drive{border-left:4px solid var(--c-drive)}
+ol.tl h3{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+ol.tl p{margin:0;color:var(--muted);font-size:15px}
+.gm{display:inline-block;margin-top:10px;font-size:14px;font-weight:600}
+.x{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:10px 0 0;font-size:14px}.x dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}.x dd{margin:0;overflow-wrap:anywhere}
+ul.bul{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}.prose{max-width:70ch;margin:0 0 10px}
+a.tag{text-decoration:none;color:var(--accent)}
+.num td.n,.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.num td:first-child{white-space:nowrap}
+.tot td{font-weight:700;border-top:2px solid var(--ink)}
+table.wide{font-size:13px}table.wide th,table.wide td{padding:6px 8px}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px}
+.pn a{font-weight:600;text-decoration:none}
+table.opt{width:100%;border-collapse:collapse;font-size:15px}
+table.opt th,table.opt td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+.att{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ac{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.ac.I{border-color:var(--c-warn);border-width:2px}
+.ac h3{font-size:1.1rem;margin:0}
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:99px;width:max-content}
+.bd.I{background:var(--c-warn);color:#fff}.bd.V{background:var(--c-see);color:#fff}.bd.O{background:var(--line);color:var(--ink)}
+.st{font-size:18px;letter-spacing:2px;color:#D98A00}.st i{color:var(--line);font-style:normal}
+.ac .m{font-size:13px;color:var(--muted)}.ac p{margin:0;font-size:14px}
+.ac .lk{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal a{text-decoration:none;color:inherit}
+/*rt*/.rt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px}.rt .st{font-size:15px}.rt .m{color:var(--muted)}.rt .lk{display:flex;gap:10px;font-weight:600}
+@media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
+</style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="voos.html">✈ Voos</a><a href="hospedagem.html">Hospedagem</a><a href="imperdiveis.html">Imperdíveis</a><a href="orcamento.html">Orçamento</a><a href="gastos.html">Controle de Gastos</a><a href="costumes.html">Costumes e Dicas</a><a href="jantar.html" aria-current="page">Onde jantar</a><a href="seguranca.html">Segurança e Documentos</a><a href="pendencias.html">Pendências</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><section class="day"><div class="day-h"><span class="date">noite a noite</span><h2>Onde jantar</h2></div><div class="scroll"><table class="opt"><thead><tr><th>Data</th><th>Cidade</th><th>Indicação</th></tr></thead><tbody><tr><td><a href="zagreb.html">Dom 16/05</a></td><td>Zagreb</td><td>Vinodol (Nikole Tesle 10, €€–€€€), croata clássico a poucos minutos da Tkalčićeva. Reserve; no domingo confirme o horário de funcionamento. Plano B: Didov San (Mletačka 15, €€).</td></tr><tr><td><a href="zagreb.html">Seg 17/05</a></td><td>Zagreb</td><td>Pivnica Medvedgrad (Ilica 49, €€), cervejaria com pratos croatas e cerveja da casa. Para uma noite especial, Dubravkin Put (Dubravkin put 2, €€€€, reserva).</td></tr><tr><td><a href="ljubljana.html">Ter 18/05</a></td><td>Ljubljana</td><td>Druga Violina (Stari trg 21, €–€€), cozinha eslovena na cidade velha, sem grande pressão de preço depois da viagem. Alternativa à beira do rio: restaurantes na margem do Ljubljanica.</td></tr><tr><td><a href="ljubljana.html">Qua 19/05</a></td><td>Ljubljana</td><td>Gostilna AS (Knafljev prehod 1, €€–€€€), cozinha europeia moderna com pátio. Alternativa: Špajza (Gledališka 14, €€€), esloveno refinado.</td></tr><tr><td><a href="ljubljana.html">Qui 20/05</a></td><td>Ljubljana</td><td>Al Bagatto (Via Cadorna 7, €€€–€€€€, frutos do mar, reservar) ou, mais rápido e barato, Buffet da Pepi (Via Cassa di Risparmio 3, €€), famoso por carnes cozidas com chucrute. Reserve ao menos 1h30 antes da volta.</td></tr><tr><td><a href="plitvice.html">Sex 21/05</a></td><td>Plitvice</td><td>Restaurante do Tesla&#x27;s Gastro House (€€): cozinha da Lika, com cordeiro, truta e cogumelos. Alternativa: Lička Kuća, em Plitvička Jezera (€€).</td></tr><tr><td><a href="plitvice.html">Sáb 22/05</a></td><td>Plitvice</td><td>Lička Kuća (€€), cozinha da Lika, ou o restaurante do hotel. Prove cordeiro na peka e škripavac.</td></tr><tr><td><a href="split.html">Dom 23/05</a></td><td>Split</td><td>Konoba Fetivi (Tomića stine 4, Veli Varoš, €€–€€€), dálmata tradicional com pašticada e peixe. Reserve; domingo confirme horário.</td></tr><tr><td><a href="split.html">Seg 24/05</a></td><td>Split</td><td>Bokeria Kitchen &amp; Wine Bar (Domaldova 8, €€€), cozinha mediterrânea moderna. Mais casual: Villa Spiza (Kružićeva 3, €€), pequena e sem reserva.</td></tr><tr><td><a href="split.html">Ter 25/05</a></td><td>Split</td><td>Konoba Matejuška (Tomića stine, Varoš, €€), peixe do dia em ambiente de pescadores.</td></tr><tr><td><a href="dubrovnik.html">Qua 26/05</a></td><td>Dubrovnik</td><td>Kamenice (Gundulićeva poljana 8, €–€€), ostras e peixe em ambiente simples e bom preço. Alternativa barata: Taj Mahal (Nikole Božidarevića 14, €), ćevapi bósnios.</td></tr><tr><td><a href="dubrovnik.html">Qui 27/05</a></td><td>Dubrovnik</td><td>Lokanda Peskarija (Na Ponti bb, porto velho, €€–€€€), frutos do mar ao lado dos barcos, depois do pôr do sol no Srđ. Reserve ou chegue cedo.</td></tr><tr><td><a href="dubrovnik.html">Sex 28/05</a></td><td>Dubrovnik</td><td>Pantarul (Kneza Damjana Jude 6, Lapad, €€€–€€€€), cozinha moderna dálmata. Reserve com antecedência. Alternativa clássica: Proto (Široka 1, €€€€).</td></tr><tr><td><a href="kotor.html">Sáb 29/05</a></td><td>Kotor</td><td>Scala Santa (cidade velha de Kotor, €€–€€€), mediterrâneo. Preços bem mais baixos que na Croácia.</td></tr><tr><td><a href="kotor.html">Dom 30/05</a></td><td>Kotor</td><td>Restaurante Conte (cais de Perast, €€€), frutos do mar com mesas à beira da água. Alternativa mais barata: mesas simples ao longo do cais.</td></tr><tr><td><a href="kotor.html">Dom 30/05</a></td><td>Kotor</td><td>Mais leve depois do passeio: konobas simples da cidade velha (€–€€) ou o restaurante do hotel.</td></tr><tr><td><a href="kotor.html">Seg 31/05</a></td><td>Kotor</td><td>Galion (Šuranj bb, Kotor, €€€–€€€€), frutos do mar com vista da baía. Reserve.</td></tr><tr><td><a href="sibenik.html">Ter 01/06</a></td><td>Šibenik</td><td>Restaurante do hotel ou Vodice/Šibenik, sem planos além de descansar. Se ficar em Šibenik: Gradska Vijećnica (€€€).</td></tr><tr><td><a href="sibenik.html">Qua 02/06</a></td><td>Šibenik</td><td>Gradska Vijećnica (Trg Republike Hrvatske, Šibenik, €€€) para jantar com pratos locais. Para uma noite especial, Pelegrini (Jurja Dalmatinca 1, €€€€, reserva obrigatória).</td></tr><tr><td><a href="rastoke.html">Qui 03/06</a></td><td>Rastoke</td><td>Restaurante do Hotel Mirjana (€€) ou restaurantes de Slunj (€–€€): truta (pastrva) e carnes na peka.</td></tr><tr><td><a href="zagreb-final.html">Sex 04/06</a></td><td>Zagreb</td><td>Vinodol (Nikole Tesle 10, €€–€€€), clássico croata para fechar a viagem. Alternativa: Stari Fijaker 900 (Mesnička 6, €€).</td></tr></tbody></table></div><p class="foot" style="border:0;margin-top:8px">Faixas: € até 15 · €€ de 15 a 30 · €€€ de 30 a 50 · €€€€ acima de 50, por pessoa, sem bebida. Confira horário e reserva.</p></section><p class="foot">Bálcãs 2027 · roteiros atualizados ao longo do planejamento. Valores de ingressos, pedágios e horários são estimativas a confirmar nos sites oficiais.</p><div class="bk bk-end"><button type="button" class="back" data-back>← Voltar</button></div></div>
+<script src="nav.js"></script>
+</body></html>
