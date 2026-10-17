@@ -1,4 +1,4 @@
-/* Bálcãs 2027 · camada Firebase (login Google + Firestore com cache offline).
+/* Balcãs 2027 · camada Firebase (login Google + Firestore com cache offline).
    Expõe window.FB. Se este arquivo não carregar (sem rede na primeira visita), o site segue funcionando só com o armazenamento local. */
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import {getAuth,onAuthStateChanged,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';

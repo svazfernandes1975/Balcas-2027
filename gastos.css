@@ -200,3 +200,9 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .cs.cpl button:disabled{opacity:.5;cursor:not-allowed}
 .gx .cs.cpl button[aria-pressed="true"]:disabled{opacity:.8}
 .gx label.f .cs.cpl{margin-top:2px}
+
+/* v14: bloqueio sem login */
+.gx.locked .gx-tabs,.gx.locked .view{display:none!important}
+.gx #gx-gate{border:2px solid var(--c-warn);border-left-width:8px;gap:12px;padding:18px}
+.gx #gx-gate h3{font-size:1.25rem;color:var(--c-warn)}
+.gx.locked .fbstrip{border-color:var(--c-warn)}

@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Controle de gastos · Bálcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+<title>Controle de gastos · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
  --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
@@ -83,6 +83,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 <link rel="stylesheet" href="gastos.css">
 <div class="gx" id="gx">
 <div id="gx-sync" class="fbstrip"></div>
+<div class="card" id="gx-gate" hidden></div>
 
 <div class="gx-tabs" role="tablist" aria-label="Controle de gastos">
 <button type="button" role="tab" data-tab="lancar">Lançar</button><button type="button" role="tab" data-tab="resumo">Resumo</button><button type="button" role="tab" data-tab="extrato">Extrato</button><button type="button" role="tab" data-tab="orc">Orçamento</button><button type="button" role="tab" data-tab="meios">Meios</button></div>
@@ -131,7 +132,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 <div class="view" id="v-extrato" hidden></div>
 <div class="view" id="v-meios" hidden></div>
 <div class="view" id="v-orc" hidden></div>
-</div><div id="gx-toast" hidden></div></section><p class="foot">Bálcãs 2027 · roteiros atualizados ao longo do planejamento. Valores de ingressos, pedágios e horários são estimativas a confirmar nos sites oficiais.</p><div class="bk bk-end"><button type="button" class="back" data-back>← Voltar</button></div></div>
+</div><div id="gx-toast" hidden></div></section><p class="foot">Balcãs 2027 · roteiros atualizados ao longo do planejamento. Valores de ingressos, pedágios e horários são estimativas a confirmar nos sites oficiais.</p><div class="bk bk-end"><button type="button" class="back" data-back>← Voltar</button></div></div>
 <script src="gastos.js"></script>
 <script type="module" src="fb.js"></script>
 <script src="nav.js"></script>

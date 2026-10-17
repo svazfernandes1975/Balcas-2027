@@ -114,12 +114,37 @@ function syncStart(u){
     var sg=JSON.stringify(list);var ch=sg!==SYNC.entSig;SYNC.entSig=sg;SYNC.ent=list;SYNC.entSeen=true;if(!meta.fromCache)SYNC.entServer=true;step(ch)}));
 }
 function mountStrip(){var el=document.getElementById('gx-sync');if(!el)return;if(window.FB)FB.strip(el);else el.innerHTML='<span class="fbs">☁ Salvo só neste aparelho (Firebase indisponível)</span>'}
+function canWrite(){return !!(window.FB&&FB.user&&FB.status&&FB.status.state!=='denied')}
+var lockWas=null,fbWait=true;
+function applyLock(){
+  if(!root)return;
+  var lock=!canWrite(),g=$('#gx-gate');
+  root.classList.toggle('locked',lock);
+  if(g){
+    g.hidden=!lock;
+    if(lock){
+      var stt=window.FB&&FB.status?FB.status.state:'nofb',msg,btn='';
+      if(!window.FB){msg=fbWait?'<b>Carregando o login…</b>':'<b>Não foi possível carregar o login.</b> Sem internet, o Controle de Gastos não abre. Conecte-se e recarregue a página.'}
+      else if(stt==='init'){msg='<b>Verificando o login…</b>'}
+      else if(stt==='denied'){msg='<b>Esta conta não tem acesso.</b> Entre com uma das contas Google autorizadas.';btn='<button type="button" class="btn" id="gate-out">Trocar de conta</button>'}
+      else{msg='<b>Entre com o Google para usar o Controle de Gastos.</b> Só assim os lançamentos são salvos na nuvem e aparecem nos dois celulares. Você entra uma vez por aparelho.';btn='<button type="button" class="btn" id="gate-in">Entrar com Google</button>'}
+      g.innerHTML='<h3>🔒 Controle de Gastos bloqueado</h3><p style="margin:0;font-size:15px">'+msg+'</p>'+btn;
+      var bi=$('#gate-in'),bo=$('#gate-out');
+      if(bi)bi.onclick=function(){FB.login()};
+      if(bo)bo.onclick=function(){FB.logout()};
+    }
+  }
+  if(lockWas===true&&!lock){try{render()}catch(e){}}
+  lockWas=lock;
+}
 function initSync(){
   if(SYNC.bound||!window.FB)return;SYNC.bound=true;mountStrip();
-  FB.onAuth(function(u){syncStop();if(u)syncStart(u);else refreshUI()});
-  FB.onStatus(function(s){if(s.state==='denied'||s.state==='out')syncStop()});
+  FB.onAuth(function(u){syncStop();if(u)syncStart(u);else refreshUI();applyLock()});
+  FB.onStatus(function(s){if(s.state==='denied'||s.state==='out')syncStop();applyLock()});
+  applyLock();
 }
-if(window.FB)initSync();else{document.addEventListener('fb-ready',initSync);if(root)setTimeout(function(){if(!window.FB)mountStrip()},4000)}
+if(root){setTimeout(function(){fbWait=false;applyLock()},5000)}
+if(window.FB)initSync();else{document.addEventListener('fb-ready',initSync);if(root)setTimeout(applyLock,0);if(root)setTimeout(function(){if(!window.FB)mountStrip()},4000)}
 
 
 /* ---------- formatação e conversão ---------- */

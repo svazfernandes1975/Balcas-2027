@@ -44,3 +44,13 @@ document.addEventListener('click',function(e){
   else{var el=document.getElementById(decodeURIComponent(a.hash.slice(1)));if(el)el.scrollIntoView()}
 });
 })();
+
+/* Versão do site: ATUALIZAR a cada nova publicação */
+var SITE_VERSION='v16';
+(function(){
+  function put(){var n=document.querySelector('nav.pills');if(!n||n.querySelector('.ver'))return;
+    var v=document.createElement('span');v.className='ver';v.textContent=SITE_VERSION;v.title='Versão do site';
+    v.style.cssText='flex:none;align-self:center;font:600 11px/1 var(--f-mono,monospace);letter-spacing:.06em;color:var(--muted);border:1px dashed var(--line);border-radius:5px;padding:5px 7px';
+    n.insertBefore(v,n.firstChild)}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',put);else put();
+})();
