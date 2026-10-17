@@ -642,12 +642,12 @@ function rOrcTab(){
   h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro, arredondados. Previsto vem das linhas do orçamento; gasto vem dos lançamentos (antes e durante a viagem). Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p><div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>';
   S.cats.forEach(function(c){
     var ls=S.budget.filter(function(l){return l.cat===c.id}),plan=(st.bT[c.id]||0)+(st.bP[c.id]||0),sp=st.by[c.id]||0,rest=plan-sp;
-    h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+'" data-goc="'+c.id+'"><td>'+esc(c.name)+'</td>'+cell(plan)+cell(sp)+cell(rest,rest<-0.005?'neg':'')+'</tr>';
+    h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+'" data-goc="'+c.id+'"><td>'+esc(c.name)+'</td>'+cell(plan,'cp')+cell(sp,'cg')+cell(rest,rest<-0.005?'neg cr':(rest>0.005?'cr':'cz'))+'</tr>';
     var showLines=ls.length>1||(ls[0]&&(ls[0].label||ls[0].cur!=='EUR'||ls[0].when==='pre'));
     if(showLines)ls.forEach(function(l){
       h+='<tr class="ol"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':'durante')+'</em></td><td>'+ms(lEur(l))+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td><td></td><td></td></tr>'})});
   var tp=B.br.planned+B.out.planned+st.budT,ts=B.br.spent+B.out.spent+st.spentT;
-  function tot(name,p,s,cls){var r=p-s;return '<tr class="ot '+(cls||'')+'"><td>'+name+'</td>'+cell(p)+cell(s)+cell(r,r<-0.005?'neg':'')+'</tr>'}
+  function tot(name,p,s,cls){var r=p-s;return '<tr class="ot '+(cls||'')+'"><td>'+name+'</td>'+cell(p,'cp')+cell(s,'cg')+cell(r,r<-0.005?'neg cr':(r>0.005?'cr':'cz'))+'</tr>'}
   h+='</tbody><tfoot>'+tot('Antes da viagem · pago aqui em R$',B.br.planned,B.br.spent)+tot('Antes da viagem · outra moeda',B.out.planned,B.out.spent)+tot('Durante a viagem',st.budT,st.spentT)+tot('Total geral',tp,ts,'gt')+'</tfoot></table></div>';
   h+='<p class="hint">Em reais: previsto '+brl(tp)+' · gasto '+money(st.spentTb+st.spentPb,'BRL')+'.</p><div class="acts"><button type="button" class="btn" data-ov="edit">Configurar orçamento</button></div></div>';
   $('#v-orc').innerHTML=h;bindSeg();

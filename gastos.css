@@ -234,3 +234,17 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .qu .qt{display:grid;gap:2px;font-size:13px;color:var(--muted);align-content:end;min-height:44px}
 .gx .qu .qt b{font-size:1rem;color:var(--ink);font-variant-numeric:tabular-nums}.gx .qu .qt small{font-size:11px}
 .gx .qx{font-size:11.5px;color:var(--muted);white-space:nowrap}
+
+/* v23: tabela do orçamento com cores por coluna */
+.gx .otbl th:nth-child(2),.gx .otbl td.cp{color:var(--accent)}
+.gx .otbl th:nth-child(3),.gx .otbl td.cg{color:var(--c-eat)}
+.gx .otbl th:nth-child(4),.gx .otbl td.cr,.gx .otbl td.neg{color:var(--c-warn)}
+.gx .otbl td.cr{font-weight:800;background:color-mix(in srgb,var(--c-warn) 9%,transparent)}
+.gx .otbl th:nth-child(4){background:color-mix(in srgb,var(--c-warn) 9%,transparent)}
+.gx .otbl td.neg{box-shadow:inset 3px 0 0 var(--c-warn)}
+.gx .otbl td.cz{color:var(--c-tip);font-weight:700}
+.gx .otbl td.cp,.gx .otbl td.cg{font-weight:600}
+.gx .otbl tr.ol td{font-weight:400}
+.gx .otbl td.cr small,.gx .otbl td.cp small,.gx .otbl td.cg small{color:var(--muted)}
+.gx .otbl tr.oc td.cr,.gx .otbl tr.ot td.cr,.gx .otbl tr.gt td.cr{background:color-mix(in srgb,var(--c-warn) 9%,var(--bg))}
+.gx .otbl tr.oc td.cz{background:var(--bg)}
