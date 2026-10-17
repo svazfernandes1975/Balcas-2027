@@ -2,6 +2,9 @@
 (function(){
 'use strict';
 var KEY='balcas2027-gastos-v1';
+(function(){try{if(document.getElementById('gx-crit'))return;var st=document.createElement('style');st.id='gx-crit';
+st.textContent='.gx .cs.cpl{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:4px!important;width:max-content;max-width:100%}.gx .cs.cpl button{margin:0!important;min-width:40px!important;padding:6px 9px!important;border-radius:8px!important;flex:none}.gx .mrow[data-m]{grid-template-columns:minmax(0,1.4fr) auto minmax(0,1fr) auto!important}@media (max-width:560px){.gx .mrow[data-m]{grid-template-columns:1fr 1fr!important}.gx .mrow[data-m]>label:nth-child(1),.gx .mrow[data-m]>label:nth-child(2){grid-column:1/-1!important}}';
+document.head.appendChild(st)}catch(e){}})();
 var root=document.getElementById('gx');
 function $(s,r){return (r||root).querySelector(s)}
 function $$(s,r){return Array.prototype.slice.call((r||root).querySelectorAll(s))}
