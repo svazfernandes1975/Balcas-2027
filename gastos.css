@@ -283,3 +283,12 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .ci svg{width:16px;height:16px}
 .gx .chip[aria-pressed=true] .ci,.gx .ctg .ci,.gx .oc .ci{color:var(--accent)}
 .gx .chip[aria-pressed=true] .ci{color:inherit}
+
+/* v40: total geral em destaque no topo da tabela */
+.gx .gtop{margin:4px 0 14px;padding:12px;border:1px solid var(--accent);border-left-width:6px;border-radius:10px;background:var(--bg)}
+.gx .gt-h{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.gx .gtop .sp{background:var(--surface,#fff);padding:10px 12px}
+.gx .gtop .sp b{font-size:clamp(.9rem,3.7vw,1.4rem);line-height:1.15;white-space:nowrap;overflow-wrap:normal}.gx .gtop .sp{padding:10px 8px}
+.gx .gtop .sp small{font-size:12.5px}
+.gx .gtop .gp b{color:var(--accent)}.gx .gtop .gg b{color:#a3590a}.gx .gtop .gr.rest b,.gx .gtop .gr.over b{color:var(--c-warn,#b3261e)}.gx .gtop .gr.ok b{color:var(--c-tip,#1b7a3a)}
+.gx .gtop .gr.rest,.gx .gtop .gr.over{background:#f6e7e4}

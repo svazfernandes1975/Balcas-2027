@@ -690,7 +690,7 @@ function ms(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'
 function rOrcTab(){
   var st=stats(),B=preBuckets(),h=orcSeg();
   function cell(v,cls){return '<td class="'+(cls||'')+'">'+ms(v)+'</td>'}
-  h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro. Previsto vem das linhas do orçamento; gasto vem dos lançamentos (antes e durante a viagem). Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p><div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>';
+  h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro. Previsto vem das linhas do orçamento; gasto vem dos lançamentos (antes e durante a viagem). Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p>@@TOP@@<div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>';
   S.cats.forEach(function(c){
     var ls=S.budget.filter(function(l){return l.cat===c.id}),plan=(st.bT[c.id]||0)+(st.bP[c.id]||0)+(st.bO[c.id]||0),sp=st.by[c.id]||0,rest=plan-sp;
     var planB=0,spB=0,mix={};ls.forEach(function(l){planB+=conv(l.val,l.cur,'BRL');mix[l.cur]=1});S.entries.forEach(function(e){if(e.t==='g'&&e.cat===c.id)spB+=entryBrl(e)});
@@ -705,6 +705,12 @@ function rOrcTab(){
   function cellB(v,b,cls){return '<td class="'+(cls||'')+'">'+ms(v)+'<small class="rb">'+money(b,'BRL')+'</small></td>'}
   function tot(name,p,s,cls,pb,sb){var r=p-s,rb=pb-sb;return '<tr class="ot '+(cls||'')+'"><td>'+name+'</td>'+cellB(p,pb,'cp')+cellB(s,sb,'cg')+cellB(r,rb,r<-0.005?'neg cr':(r>0.005?'cr':'cz'))+'</tr>'}
   var pbBr=pB(function(l){return l.when==='pre'&&l.cur==='BRL'}),pbOut=pB(function(l){return l.when==='pre'&&l.cur!=='BRL'}),pbT=pB(function(l){return l.when!=='pre'&&l.when!=='post'}),pbO=pB(function(l){return l.when==='post'});
+  (function(){var gp=pbBr+pbOut+pbT+pbO,gs=B.br.spentB+B.out.spentB+st.spentTb+st.spentOb,r=tp-ts,rb=gp-gs,rc=r<-0.005?'bad':(r>0.005?'bad':'ok');
+    var top='<div class="gtop"><div class="gt-h">Total geral do orçamento</div><div class="split3">'+
+      '<div class="sp gp"><span>Previsto</span><b>'+money(tp)+'</b><small>'+money(gp,'BRL')+'</small></div>'+
+      '<div class="sp gg"><span>Gasto</span><b>'+money(ts)+'</b><small>'+money(gs,'BRL')+'</small></div>'+
+      '<div class="sp gr '+(r<-0.005?'over':(r>0.005?'rest':'ok'))+'"><span>'+(r<-0.005?'Acima do previsto':'Resta')+'</span><b>'+money(Math.abs(r))+'</b><small>'+money(Math.abs(rb),'BRL')+'</small></div></div></div>';
+    h=h.replace('@@TOP@@',top)})();
   h+='</tbody><tfoot>'+tot('Total geral',tp,ts,'gt',pbBr+pbOut+pbT+pbO,B.br.spentB+B.out.spentB+st.spentTb+st.spentOb)+'<tr class="osub"><td colspan="4">Divisão por momento do pagamento</td></tr>'+tot('Antes da viagem · pago aqui em R$',B.br.planned,B.br.spent,'',pbBr,B.br.spentB)+tot('Antes da viagem · outra moeda',B.out.planned,B.out.spent,'',pbOut,B.out.spentB)+tot('Durante a viagem',st.budT,st.spentT,'',pbT,st.spentTb)+tot('Depois da viagem',st.budO,st.spentO,'',pbO,st.spentOb)+'</tfoot></table></div>';
   h+='<p class="hint">Em reais: previsto '+brl(tp)+' · gasto '+money(st.spentTb+st.spentPb+st.spentOb,'BRL')+'.</p><div class="acts"><button type="button" class="btn" data-ov="edit">Configurar orçamento</button></div></div>';
   $('#v-orc').innerHTML=h;bindSeg();
