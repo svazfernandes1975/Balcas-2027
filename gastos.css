@@ -300,5 +300,10 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 /* v44: pills do total com saldo nos meios */
 .gx .gtop .split3{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 @media (max-width:620px){.gx .gtop .split3{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-.gx .gtop .gm b{color:var(--c-tip,#1b7a3a)}
+.gx .gtop .gmx b{color:var(--c-tip,#1b7a3a)}
 .gx .gtop .gr.ok{background:#e6f2ea}
+
+/* v45 */
+.gx .gtop .split3{align-items:stretch!important}.gx .gtop .sp{height:auto;align-self:stretch;align-content:start;box-sizing:border-box}
+.gx .gt-n{margin:10px 0 0;font-size:12.5px}
+.gx .otbl td small.pd{display:block;font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
