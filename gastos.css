@@ -248,3 +248,10 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .otbl td.cr small,.gx .otbl td.cp small,.gx .otbl td.cg small{color:var(--muted)}
 .gx .otbl tr.oc td.cr,.gx .otbl tr.ot td.cr,.gx .otbl tr.gt td.cr{background:color-mix(in srgb,var(--c-warn) 9%,var(--bg))}
 .gx .otbl tr.oc td.cz{background:var(--bg)}
+
+/* v26: total da categoria = soma das linhas */
+.gx .ctot{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--accent);border-left-width:6px;border-radius:8px;padding:10px 12px;background:var(--bg)}
+.gx .ctot span{font-weight:700;font-size:14px;display:block}.gx .ctot small{font-size:12px;color:var(--muted);display:block}
+.gx .ctot .ctv{text-align:right}.gx .ctot .ctv b{font-size:1.2rem;font-variant-numeric:tabular-nums;color:var(--accent)}
+.gx .brow.lr{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg)}
+.gx .lh{grid-column:1/-1;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}

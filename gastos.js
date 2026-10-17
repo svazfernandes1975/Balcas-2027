@@ -626,8 +626,8 @@ function rMeios(){
 
 /* ---------- ORÇAMENTO ---------- */
 function whenOpts(sel){return '<option value="trip"'+(sel==='trip'?' selected':'')+'>Durante a viagem</option><option value="pre"'+(sel==='pre'?' selected':'')+'>Antes da viagem</option>'}
-function lineRow(l){
-  return '<div class="brow lr" data-l="'+l.id+'"><label class="f nm">Descrição (opcional)<input type="text" data-f="label" value="'+esc(l.label)+'" placeholder="Ex.: Hotel de Zagreb"></label>'+
+function lineRow(l,n){
+  return '<div class="brow lr" data-l="'+l.id+'"><div class="lh">Linha '+n+'</div><label class="f nm">Descrição (opcional)<input type="text" data-f="label" value="'+esc(l.label)+'" placeholder="Ex.: Hotel de Zagreb"></label>'+
   '<div class="qu"><label class="f">Quantidade<input type="text" inputmode="decimal" data-f="qty" value="'+finq(l.qty)+'"></label><label class="f">Valor unitário<input type="text" inputmode="decimal" data-f="unit" value="'+fin(l.unit)+'"></label><div class="f qt"><span>Total</span><b>'+money(l.val,l.cur)+'</b>'+(l.cur!=='EUR'?'<small>≈ '+both(lEur(l))+'</small>':'')+'</div></div>'+
   '<label class="f">Moeda<select data-f="cur">'+curOpts(l.cur)+'</select></label><label class="f">Quando paga<select data-f="when">'+whenOpts(l.when)+'</select></label>'+
   (l.when==='trip'?'<label class="chk"><input type="checkbox" data-f="bal"'+(l.bal?' checked':'')+'> sai do dinheiro dos meios</label>':'<span class="hint">paga daqui'+(l.cur==='BRL'?', em reais':', em '+l.cur)+'</span>')+
@@ -657,18 +657,19 @@ function rOrc(){
   if(orcView==='tab'){rOrcTab();return}
   var st=stats(),h='',br=0,out=0,tr=0;
   S.budget.forEach(function(l){var v=lEur(l);if(l.when==='pre'){if(l.cur==='BRL')br+=v;else out+=v}else tr+=v});
+  h+='<div class="alert" style="border-color:var(--accent)"><b>Como funciona:</b> a categoria <b>não tem valor próprio</b>. O total dela é sempre a <b>soma das linhas</b> que estão dentro dela. Preencha quantidade e valor unitário em cada linha e, para detalhar (por exemplo, vários hotéis em Hospedagem), toque em <b>+ Linha</b>. Cada linha tem a própria moeda e o próprio momento de pagamento.</div>';
   h+='<div class="card"><h3>Como o orçamento está dividido</h3><div class="split3">'+
    '<div class="sp"><span>Pago aqui, em reais</span><b>'+money(br*S.rates.eurBrl,'BRL')+'</b><small>'+money(br)+' · antes da viagem</small></div>'+
    '<div class="sp"><span>Antecipado, outra moeda</span><b>'+money(out)+'</b><small>antes da viagem, em € ou US$</small></div>'+
    '<div class="sp"><span>Durante a viagem</span><b>'+money(tr)+'</b><small>'+brl(tr)+' · sai dos meios</small></div></div>'+
    '<p class="gs">Total: <b>'+both(br+out+tr)+'</b>. Cada categoria pode ter várias linhas, com valor, moeda e momento próprios. Assim a hospedagem, por exemplo, pode ter hotéis pagos antes e outros pagos na viagem.</p></div>';
-  h+='<div class="card"><h3>+ Nova categoria</h3><p class="hint">Vira uma opção na hora de lançar. Depois você adiciona mais linhas nela.</p><div class="brow"><label class="f nm">Nome<input type="text" id="b-name" placeholder="Ex.: Souvenirs"></label><label class="f">Quantidade<input type="text" inputmode="decimal" id="b-qty" value="1"></label><label class="f">Valor unitário<input type="text" inputmode="decimal" id="b-unit" placeholder="0,00"></label><label class="f">Moeda<select id="b-cur">'+curOpts('EUR')+'</select></label><label class="f">Quando paga<select id="b-when">'+whenOpts('trip')+'</select></label><button type="button" class="btn sm" id="b-add">Adicionar categoria</button></div></div>';
+  h+='<div class="card"><h3>+ Nova categoria</h3><p class="hint">Vira uma opção na hora de lançar. Os valores abaixo viram a primeira linha da categoria; depois você pode adicionar mais linhas, e o total será a soma delas.</p><div class="brow"><label class="f nm">Nome<input type="text" id="b-name" placeholder="Ex.: Souvenirs"></label><label class="f">Quantidade<input type="text" inputmode="decimal" id="b-qty" value="1"></label><label class="f">Valor unitário<input type="text" inputmode="decimal" id="b-unit" placeholder="0,00"></label><label class="f">Moeda<select id="b-cur">'+curOpts('EUR')+'</select></label><label class="f">Quando paga<select id="b-when">'+whenOpts('trip')+'</select></label><button type="button" class="btn sm" id="b-add">Adicionar categoria</button></div></div>';
   S.cats.forEach(function(c){
     var ls=S.budget.filter(function(l){return l.cat===c.id}),pre=0,tri=0;
     ls.forEach(function(l){if(l.when==='pre')pre+=lEur(l);else tri+=lEur(l)});
     h+='<div class="card" data-c="'+c.id+'"><div class="chd"><label class="f nm">Categoria<input type="text" data-cn value="'+esc(c.name)+'"></label><button type="button" class="btn sec sm danger" data-rmc="'+c.id+'">Remover categoria</button></div>'+
-       '<p class="gs">'+(tri>0?'Durante a viagem <b>'+money(tri)+'</b>':'')+(tri>0&&pre>0?' · ':'')+(pre>0?'Antes da viagem <b>'+money(pre)+'</b>':'')+(tri+pre===0?'Sem valor previsto.':'')+'</p>';
-    ls.forEach(function(l){h+=lineRow(l)});
+       '<div class="ctot"><div><span>Total da categoria</span><small>soma de '+ls.length+(ls.length===1?' linha':' linhas')+'</small></div><div class="ctv"><b>'+money(tri+pre)+'</b><small>'+(tri+pre===0?'sem valor previsto':[tri>0?'durante '+money(tri):'',pre>0?'antes '+money(pre):''].filter(Boolean).join(' · '))+'</small></div></div>';
+    ls.forEach(function(l,ix){h+=lineRow(l,ix+1)});
     h+='<div class="acts"><button type="button" class="btn sec sm" data-addl="'+c.id+'">+ Linha em '+esc(c.name)+'</button></div></div>'});
   h+='<div class="acts"><button type="button" class="btn sec sm" id="b-rst">Restaurar orçamento padrão</button></div>';
   $('#v-orc').innerHTML=orcSeg()+h;bindSeg();
