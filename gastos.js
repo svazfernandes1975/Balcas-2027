@@ -20,7 +20,7 @@ function defCountries(){return[{name:'Brasil',cur:'BRL'},{name:'Croácia',cur:'E
 function defRoute(){return[{from:'1900-01-01',c:'Brasil'},{from:'2027-05-15',c:'Croácia'},{from:'2027-05-18',c:'Eslovênia'},{from:'2027-05-21',c:'Croácia'},{from:'2027-05-29',c:'Montenegro'},{from:'2027-06-01',c:'Croácia'},{from:'2027-06-06',c:'Brasil'}]}
 function defaults(){return{
   v:3,
-  rates:{usdEur:0.88,eurBrl:6.0},
+  rates:{usdBrl:5.28,eurBrl:6.0},
   extra:[],
   trip:{start:'2027-05-15',end:'2027-06-05'},
   refDate:'',
@@ -50,6 +50,8 @@ function migrate(o){
     [['compras','Compras'],['outros','Outros']].forEach(function(x){if(!o.budget.some(function(b){return b.id===x[0]})){o.budget.splice(at,0,{id:x[0],name:x[1],val:0,cur:'EUR',when:'trip',bal:true});at++}})})();
   if(o.v<3){o.cats=o.budget.map(function(b){return{id:b.id,name:b.name}});o.budget=o.budget.map(function(b){return{id:'l_'+b.id,cat:b.id,label:'',val:b.val,cur:b.cur||'EUR',when:b.when||'trip',bal:!!b.bal}});o.v=3}
   if(!o.extra)o.extra=[];
+  if(o.rates.usdBrl===undefined)o.rates.usdBrl=Math.round((o.rates.usdEur||0.88)*o.rates.eurBrl*10000)/10000;
+  o.extra.forEach(function(x){if(x.brl===undefined)x.brl=Math.round(o.rates.eurBrl/(x.perEur||1)*10000)/10000});
   if(!o.countries){o.countries=defCountries();o.route=defRoute()}
   o.methods.forEach(function(m){if(!m.dcur)m.dcur=m.cur==='USD'?'EUR':m.cur});
   return o}
@@ -60,7 +62,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}try{pu
    config: documento data/config; lançamentos: um documento por lançamento em entries/{id}.
    O localStorage continua sendo o cache local; o Firestore guarda a cópia compartilhada. */
 var SYNC={on:false,ready:false,uid:null,unsubs:[],pushed:{},cfgPushed:'',cfg:null,ent:[],cfgSeen:false,entSeen:false,cfgServer:false,entServer:false,cfgSig:null,entSig:null,bound:false};
-var CFGK=['v','cats','budget','methods','rates','extra','countries','route','trip','refDate'];
+var CFGK=['v','cats','budget','methods','rates','extra','countries','route','trip','refDate','ratesAt'];
 var SKEY='balcas2027-synced';
 function cfgOf(o){var c={};CFGK.forEach(function(k){if(o[k]!==undefined)c[k]=o[k]});return c}
 function jclean(o){return JSON.parse(JSON.stringify(o))}
@@ -151,13 +153,15 @@ if(window.FB)initSync();else{document.addEventListener('fb-ready',initSync);if(r
 var nfc={};
 function money(v,c){c=c||'EUR';if(!nfc[c]){try{nfc[c]=new Intl.NumberFormat('pt-BR',{style:'currency',currency:c})}catch(e){nfc[c]={format:function(x){return c+' '+(Math.round(x*100)/100).toLocaleString('pt-BR',{minimumFractionDigits:2})}}}}return nfc[c].format(v||0)}
 function num(s){s=String(s==null?'':s).trim().replace(/\s/g,'');if(!s)return NaN;if(s.indexOf(',')>-1)s=s.replace(/\./g,'').replace(',','.');return parseFloat(s)}
-function perEur(c){if(c==='EUR')return 1;if(c==='USD')return 1/S.rates.usdEur;if(c==='BRL')return S.rates.eurBrl;var x=S.extra.filter(function(e){return e.code===c})[0];return x?x.perEur:1}
+function brlPer(c){if(c==='BRL')return 1;if(c==='EUR')return S.rates.eurBrl;if(c==='USD')return S.rates.usdBrl;var x=S.extra.filter(function(e){return e.code===c})[0];return x?x.brl:1}
+function perEur(c){return S.rates.eurBrl/brlPer(c)}
 function toEUR(v,c){return v/perEur(c)}
 function fromEUR(v,c){return v*perEur(c)}
 function entryBrl(e){return e.brl!=null?e.brl:fromEUR(e.eur,'BRL')}
 function conv(v,from,to){return from===to?v:fromEUR(toEUR(v,from),to)}
 function r2(v){return Math.round(v*100)/100}
 function fin(v){return String(r2(v)).replace('.',',')}
+function fin4(v){return String(Math.round(v*10000)/10000).replace('.',',')}
 function brl(eur){return money(eur*S.rates.eurBrl,'BRL')}
 function both(eur){return money(eur)+' · '+brl(eur)}
 function dnum(s){var p=String(s).split('-');return Date.UTC(+p[0],+p[1]-1,+p[2])/864e5}
@@ -502,12 +506,12 @@ function drawConv(){
   var a=num(CV.a),out=$('#cv-out');if(!out)return;
   if(!(a>=0)){out.innerHTML='<p class="hint">Digite um valor.</p>';return}
   out.innerHTML='<div class="cvs cvw">'+curList().map(function(c){return '<span class="cv'+(c===CV.from?' on':'')+'"><small>'+c+'</small><b>'+money(conv(a,CV.from,c),c)+'</b></span>'}).join('')+'</div>'+
-   '<p class="hint" style="margin:6px 0 0">Cotações usadas: '+curList().filter(function(c){return c!=='EUR'}).map(function(c){return '€ 1 = '+money(perEur(c),c)}).join(' · ')+'</p>'}
+   '<p class="hint" style="margin:6px 0 0">Cotações usadas (em R$): '+curList().filter(function(c){return c!=='BRL'}).map(function(c){return money(1,c)+' = '+money(brlPer(c),'BRL')}).join(' · ')+'</p>'}
 function rMeios(){
   var h='<div class="card"><h3>Conversor de moedas</h3><p class="hint">Usa as cotações da seção Câmbio, logo abaixo. Euro, dólar e real ficam sempre disponíveis; as outras moedas você adiciona lá.</p><div class="amt" style="margin-top:4px"><input type="text" id="cv-amt" inputmode="decimal" value="'+esc(CV.a)+'" aria-label="Valor a converter" style="font-size:1.5rem;min-height:52px"><select id="cv-from" style="max-width:110px" aria-label="Moeda de origem">'+curOpts(CV.from)+'</select></div><div id="cv-out"></div></div>';
-  h+='<div class="card"><h3>Câmbio</h3><div class="row2"><label class="f">1 USD = ? EUR<input type="text" inputmode="decimal" id="c-usd" value="'+fin(S.rates.usdEur)+'"></label><label class="f">1 EUR = ? R$<input type="text" inputmode="decimal" id="c-brl" value="'+fin(S.rates.eurBrl)+'"></label></div><h3 style="margin-top:12px">Outras moedas</h3><p class="hint">Para um país com moeda diferente de euro, dólar e real. Informe quantas unidades da moeda valem € 1.</p>'+
-  S.extra.map(function(x,i){return '<div class="xrow crow" data-x="'+i+'"><label class="f">'+esc(x.code)+' por € 1<input type="text" inputmode="decimal" data-f="perEur" value="'+fin(x.perEur)+'"></label><button type="button" class="btn sec sm danger" data-rm>Remover '+esc(x.code)+'</button></div>'}).join('')+
-  '<div class="crow"><label class="f">Código (3 letras)<input type="text" id="x-code" maxlength="3" placeholder="GBP" style="text-transform:uppercase"></label><label class="f">Quantas valem € 1<input type="text" id="x-rate" inputmode="decimal" placeholder="0,85"></label><button type="button" class="btn sm" id="x-add">Adicionar moeda</button></div>'+
+  h+='<div class="card"><h3>Câmbio</h3><div class="row2"><label class="f">1 US$ = quantos R$?<input type="text" inputmode="decimal" id="c-usd" value="'+fin4(S.rates.usdBrl)+'"></label><label class="f">1 € = quantos R$?<input type="text" inputmode="decimal" id="c-brl" value="'+fin4(S.rates.eurBrl)+'"></label></div><div class="acts" style="margin-top:10px"><button type="button" class="btn sec sm" id="fx-upd">↻ Atualizar cotações</button></div><div id="fx-prop"></div><p class="hint" id="fx-when">'+(S.ratesAt?'Cotações aplicadas em '+esc(S.ratesAt)+'.':'Cotações digitadas à mão.')+'</p><h3 style="margin-top:12px">Outras moedas</h3><p class="hint">Informe sempre quanto vale <b>1 unidade em R$</b>. As conversões entre dólar, euro e as outras moedas são calculadas a partir daí. Use para um país com moeda diferente de euro, dólar e real.</p>'+
+  S.extra.map(function(x,i){return '<div class="xrow crow" data-x="'+i+'"><label class="f">1 '+esc(x.code)+' = quantos R$?<input type="text" inputmode="decimal" data-f="brl" value="'+fin4(x.brl)+'"></label><button type="button" class="btn sec sm danger" data-rm>Remover '+esc(x.code)+'</button></div>'}).join('')+
+  '<div class="crow"><label class="f">Código (3 letras)<input type="text" id="x-code" maxlength="3" placeholder="GBP" style="text-transform:uppercase"></label><label class="f">1 unidade = quantos R$?<input type="text" id="x-rate" inputmode="decimal" placeholder="7,20"></label><button type="button" class="btn sm" id="x-add">Adicionar moeda</button></div>'+
   '<p class="hint">Cada gasto guarda o valor em euro e em reais da hora em que foi lançado. Mudar o câmbio depois não altera os já lançados, mas os saldos e o orçamento passam a usar o novo valor.</p></div>';
   h+='<div class="card"><h3>Meios de pagamento</h3><p class="hint">Edite nome, moeda e saldo inicial antes da viagem. O saldo atual muda a cada lançamento e aparece nas três moedas.</p>';
   S.methods.forEach(function(m){
@@ -554,14 +558,32 @@ function rMeios(){
   $('#cv-from').onchange=function(){CV.from=this.value;drawConv()};
   drawConv();
   $$('.xrow[data-x]').forEach(function(row){var i=+row.dataset.x,x=S.extra[i];
-    $('[data-f=perEur]',row).onchange=function(){var v=num(this.value);if(v>0){x.perEur=v;save();render()}};
+    $('[data-f=brl]',row).onchange=function(){var v=num(this.value);if(v>0){x.brl=v;save();render()}};
     $('[data-rm]',row).onclick=function(){if(curUsed(x.code)){alert('A moeda '+x.code+' está em uso (meio, país, orçamento ou lançamento). Troque antes de remover.');return}S.extra.splice(i,1);save();render()}});
   $('#x-add').onclick=function(){var c=($('#x-code').value||'').trim().toUpperCase(),v=num($('#x-rate').value);
     if(!/^[A-Z]{3}$/.test(c)){toast('Use o código de 3 letras, como GBP');return}
     if(curList().indexOf(c)>-1){toast('Essa moeda já existe');return}
-    if(!(v>0)){toast('Informe quantas '+c+' valem € 1');return}
-    S.extra.push({code:c,perEur:v});save();render();toast('Moeda adicionada: '+c)};
-  $('#c-usd').onchange=function(){var v=num(this.value);if(v>0){S.rates.usdEur=v;save();render()}};
+    if(!(v>0)){toast('Informe quantos R$ vale 1 '+c);return}
+    S.extra.push({code:c,brl:v});save();render();toast('Moeda adicionada: '+c)};
+  $('#fx-upd').onclick=function(){
+    var btn=this,box=$('#fx-prop');btn.disabled=true;box.innerHTML='<p class="hint">Buscando a cotação média do dia…</p>';
+    var syms=['USD','BRL'].concat(S.extra.map(function(x){return x.code}));
+    function tm(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},8000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('http '+r.status);return r.json()})}
+    tm('https://api.frankfurter.dev/v1/latest?base=EUR&symbols='+syms.join(',')).then(function(j){return{rates:j.rates,date:j.date,src:'Banco Central Europeu (frankfurter.dev)'}})
+    .catch(function(){return tm('https://open.er-api.com/v6/latest/EUR').then(function(j){return{rates:j.rates,date:(j.time_last_update_utc||'').slice(5,16),src:'open.er-api.com'}})})
+    .then(function(o){
+      var r=o.rates||{};if(!(r.USD>0)||!(r.BRL>0))throw new Error('sem dados');
+      var R4=function(v){return Math.round(v*10000)/10000},P={usdBrl:R4(r.BRL/r.USD),eurBrl:R4(r.BRL),extra:{}};
+      S.extra.forEach(function(x){if(r[x.code]>0)P.extra[x.code]=R4(r.BRL/r[x.code])});
+      var ln=['1 US$ = R$ '+fin4(P.usdBrl),'1 € = R$ '+fin4(P.eurBrl)].concat(Object.keys(P.extra).map(function(c){return '1 '+c+' = R$ '+fin4(P.extra[c])}));
+      box.innerHTML='<div class="alert" style="margin-top:8px"><b>Cotação média do dia</b> ('+esc(o.src)+', '+esc(o.date||'hoje')+')<br>'+ln.map(esc).join(' · ')+'<br><span class="hint">É a cotação média de mercado; o cartão da Wise cobra uma taxa pequena por cima. Depois de aplicar, você ainda pode ajustar à mão.</span><div class="acts" style="margin-top:8px"><button type="button" class="btn sm" id="fx-ok">Aplicar</button><button type="button" class="btn sec sm" id="fx-no">Cancelar</button></div></div>';
+      $('#fx-no').onclick=function(){box.innerHTML=''};
+      $('#fx-ok').onclick=function(){S.rates.usdBrl=P.usdBrl;S.rates.eurBrl=P.eurBrl;S.extra.forEach(function(x){if(P.extra[x.code])x.brl=P.extra[x.code]});
+        var d=new Date();S.ratesAt=('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear()+' ('+(o.src.indexOf('frankfurter')>-1?'BCE':'open.er-api')+')';save();render();toast('Cotações atualizadas')};
+    }).catch(function(){box.innerHTML='<p class="hint" style="color:var(--c-warn)">Não consegui buscar a cotação agora (sem internet?). Os valores atuais continuam; você pode digitar à mão.</p>'})
+    .then(function(){btn.disabled=false});
+  };
+  $('#c-usd').onchange=function(){var v=num(this.value);if(v>0){S.rates.usdBrl=v;save();render()}};
   $('#c-brl').onchange=function(){var v=num(this.value);if(v>0){S.rates.eurBrl=v;save();render()}};
   $('#d-exp').onclick=function(){var b=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='gastos-balcas-2027.json';document.body.appendChild(a);a.click();a.remove()};
   $('#d-imp').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(o&&(o.v===1||o.v===2||o.v===3)&&o.methods&&o.budget&&o.entries){S=migrate(o);save();render();toast('Dados importados')}else toast('Arquivo inválido')}catch(e){toast('Arquivo inválido')}};r.readAsText(f)};

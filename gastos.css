@@ -2,7 +2,7 @@
 .gx{display:grid;gap:14px}
 .gx .note{font-size:14px;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;max-width:70ch}
 .gx-tabs{display:flex;gap:6px;overflow-x:auto;position:sticky;top:57px;z-index:4;background:var(--bg);padding:8px 0;scrollbar-width:thin}
-.gx-tabs button{flex:none;font:inherit;font-size:14px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 16px;min-height:40px;cursor:pointer}
+.gx-tabs button{flex:none;font:inherit;font-size:14px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 16px;min-height:40px;cursor:pointer}
 .gx-tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .gx .view[hidden]{display:none}
 .gx .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:10px}
@@ -13,7 +13,7 @@
 .gx .kpi span{font-size:13px;color:var(--muted)}
 .gx .kpi.ok b{color:var(--c-tip)}.gx .kpi.warn b{color:var(--c-eat)}.gx .kpi.bad b{color:var(--c-warn)}
 .gx .seg{display:flex;gap:6px;flex-wrap:wrap}
-.gx .seg button,.gx .chip{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 14px;min-height:44px;cursor:pointer;text-align:left}
+.gx .seg button,.gx .chip{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 14px;min-height:44px;cursor:pointer;text-align:left}
 .gx .seg button[aria-pressed="true"],.gx .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
 .gx .chip small{display:block;font-size:11px;opacity:.8;font-family:var(--f-mono)}
 .gx .chips{display:flex;gap:8px;flex-wrap:wrap}
@@ -25,7 +25,7 @@
 .gx .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .gx .btn{font:inherit;font-weight:700;font-size:16px;color:var(--accent-ink);background:var(--accent);border:0;border-radius:12px;padding:12px 18px;min-height:48px;cursor:pointer}
 .gx .btn.sec{background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:600}
-.gx .btn.sm{font-size:14px;min-height:36px;padding:6px 12px;border-radius:999px}
+.gx .btn.sm{font-size:14px;min-height:36px;padding:6px 12px;border-radius:8px}
 .gx .btn.danger{color:var(--c-warn)}
 .gx .acts{display:flex;gap:8px;flex-wrap:wrap}
 .gx .bar{height:10px;background:var(--line);border-radius:99px;position:relative;overflow:hidden}
@@ -172,7 +172,7 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 /* v10 */
 .gx .fxb summary{cursor:pointer;min-height:36px;display:flex;align-items:center;gap:8px;font-size:16px}
 .gx .fxbody{display:grid;gap:8px;margin-top:8px}
-.gx .fch{min-height:36px;padding:5px 12px;font-size:13.5px;border-radius:999px}
+.gx .fch{min-height:36px;padding:5px 12px;font-size:13.5px;border-radius:8px}
 .gx .fxb .lbl{margin-top:4px}.gx .fxb .lbl .hint{text-transform:none;letter-spacing:0;font-family:inherit}
 .gx .otbl tr.go{cursor:pointer}.gx .otbl tr.go:active td{background:var(--line)}
 .gx .orcseg button{font-size:14px}
@@ -206,3 +206,11 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx #gx-gate{border:2px solid var(--c-warn);border-left-width:8px;gap:12px;padding:18px}
 .gx #gx-gate h3{font-size:1.25rem;color:var(--c-warn)}
 .gx.locked .fbstrip{border-color:var(--c-warn)}
+
+/* v18: pills de moeda em linha única nas grades de formulário */
+.gx .mrow{grid-template-columns:minmax(0,1.4fr) auto minmax(0,1fr) auto}
+.gx .cs.cpl button{min-width:40px;padding:6px 9px}
+@media (min-width:640px){.gx .brow{grid-template-columns:2fr 1fr auto 1.4fr}}
+@media (max-width:560px){.gx .mrow{grid-template-columns:1fr 1fr}.gx .mrow .cs.cpl{flex-wrap:wrap}}
+@media (min-width:561px){.gx .cs.cpl{flex-wrap:nowrap}}
+@media (max-width:560px){.gx .mrow[data-m]>label:nth-child(1),.gx .mrow[data-m]>label:nth-child(2){grid-column:1/-1}.gx .mrow .cs.cpl{flex-wrap:nowrap}}
