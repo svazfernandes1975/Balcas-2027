@@ -258,3 +258,19 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 
 /* v27 */
 .gx .subs{margin-top:12px}.gx .subs[hidden]{display:none}.gx .draft{border:1px dashed var(--accent)!important}
+
+/* v29 */
+.gx .otbl tr.osub td{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:14px;background:transparent}
+
+/* v32: barra salvar/cancelar na edição */
+.gx .sbar{position:sticky;bottom:8px;z-index:5;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;padding:10px 12px;background:var(--surface,#fff);border:1px solid var(--accent);border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.gx .sbar[hidden]{display:none}.gx .sbar span{flex:1 1 140px;font-weight:700;font-size:14px}
+
+/* v34 */
+.gx .otbl .rb{display:block;font-weight:400;font-size:11px;opacity:.8;font-variant-numeric:tabular-nums}
+
+/* v35: categorias recolhíveis */
+.gx .ctg{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;padding:6px 2px;font:inherit;cursor:pointer;color:inherit;min-height:44px}
+.gx .ctg b{flex:1;font-size:1.05rem}.gx .ctg-s{font-size:13px;color:var(--muted);white-space:nowrap}
+.gx .chev{display:inline-block;transition:transform .15s;color:var(--accent);font-size:14px}.gx .ctg[aria-expanded=true] .chev{transform:rotate(90deg)}
+.gx .cbody{margin-top:8px}.gx .cbody[hidden]{display:none}

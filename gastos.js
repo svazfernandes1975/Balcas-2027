@@ -205,6 +205,9 @@ if(!root){window.GX={stats:stats,money:money,brl:brl,both:both,S:function(){retu
 
 /* ---------- estado do formulário ---------- */
 var D={line:null,route:false};
+function openIds(){try{return JSON.parse(localStorage.getItem('gx-orc-open')||'[]')}catch(e){return[]}}
+function setOpen(ids){try{localStorage.setItem('gx-orc-open',JSON.stringify(ids))}catch(e){}}
+function openCat(id){var o=openIds();if(o.indexOf(id)<0){o.push(id);setOpen(o)}}
 function addCancels(l){l.forEach(function(p){var a=$('#'+p[0]);if(!a||(a.nextSibling&&a.nextSibling.className==='btn sec sm cx'))return;var c=document.createElement('button');c.type='button';c.className='btn sec sm cx';c.textContent='Cancelar';c.onclick=function(){$$('input',a.parentNode).forEach(function(i){i.value=i.id==='b-qty'?'1':''})};a.parentNode.insertBefore(c,a.nextSibling)})}
 function catLines(id){return S.budget.filter(function(l){return l.cat===id})}
 function lnName(l,i){return l.label||('Linha '+(i+1))}
@@ -568,7 +571,7 @@ function rMeios(){
     '<label class="f">Saldo inicial<input type="text" inputmode="decimal" data-f="init" value="'+fin(m.init)+'"></label>'+
     '<button type="button" class="btn sec sm danger" data-rm="'+m.id+'">Remover</button>'+
     '<div class="hint" style="grid-column:1/-1">Saldo atual: <b>'+money(b,m.cur)+'</b>'+(m.cur!=='EUR'?' · '+money(e):'')+(m.cur!=='BRL'?' · '+brl(e):'')+'</div>'+
-    '<label class="chk" style="grid-column:1/-1"><input type="checkbox" data-f="cnt"'+(m.cnt?' checked':'')+'> Conta no saldo disponível da viagem</label></div>'});
+    '<label class="chk" style="grid-column:1/-1"><input type="checkbox" data-f="cnt"'+(m.cnt?' checked':'')+'> Conta no saldo disponível da viagem</label>'+'<div class="sbar" style="grid-column:1/-1" hidden><span>Alterações não salvas</span><button type="button" class="btn sm" data-sv>Salvar</button><button type="button" class="btn sec sm" data-cx>Cancelar</button></div>'+'</div>'});
   h+='</div><div class="card"><h3>Novo meio</h3><div class="mrow"><label class="f">Nome<input type="text" id="n-name" placeholder="Ex.: Cartão de crédito A"></label><label class="f">Moeda<select id="n-cur">'+curOpts('EUR')+'</select></label><label class="f">Saldo inicial<input type="text" inputmode="decimal" id="n-init" placeholder="0,00"></label><button type="button" class="btn sm" id="n-add">Salvar meio</button></div></div>';
   h+='<div class="card"><h3>Países e moedas</h3><p class="hint">A moeda do país vem como padrão ao lançar. Dá para trocar em cada lançamento.</p>';
   S.countries.forEach(function(c,i){h+='<div class="crow" data-ci="'+i+'"><label class="f">País<input type="text" data-f="name" value="'+esc(c.name)+'"></label><label class="f">Moeda<select data-f="cur">'+curOpts(c.cur)+'</select></label><button type="button" class="btn sec sm danger" data-rm>Remover</button></div>'});
@@ -579,13 +582,15 @@ function rMeios(){
   h+='<div class="card"><h3>Dados e backup</h3><p class="hint">Com o login Google (faixa no topo), os dados sincronizam entre os seus aparelhos e ficam também neste. Exporte um JSON para ter uma cópia de segurança.</p><div class="acts"><button type="button" class="btn sec sm" id="d-exp">Exportar JSON</button><label class="btn sec sm" style="display:inline-flex;align-items:center;cursor:pointer">Importar JSON<input type="file" id="d-imp" accept="application/json" hidden></label><button type="button" class="btn sec sm danger" id="d-clr">Apagar lançamentos</button><button type="button" class="btn sec sm danger" id="d-rst">Restaurar tudo ao padrão</button></div></div>';
   $('#v-meios').innerHTML=h;
   $$('.mrow[data-m]').forEach(function(row){var m=mById(row.dataset.m);
-    $$('[data-f]',row).forEach(function(i){i.onchange=function(){
-      var f=i.dataset.f;if(f==='name')m.name=i.value.trim()||m.name;
-      else if(f==='cur')m.cur=i.value;
-      else if(f==='dcur')m.dcur=i.value;
-      else if(f==='init'){var v=num(i.value);if(isFinite(v))m.init=r2(v)}
-      else if(f==='cnt')m.cnt=i.checked;
-      save();render()}});
+    var bar=$('.sbar',row);
+    function dirty(e){if(e.target.closest('[data-f]'))bar.hidden=false}
+    row.addEventListener('input',dirty);row.addEventListener('change',dirty);
+    $('[data-cx]',bar).onclick=function(){render()};
+    $('[data-sv]',bar).onclick=function(){
+      var nm=$('[data-f=name]',row).value.trim();if(nm)m.name=nm;
+      var cs=$('[data-f=cur]',row);if(cs&&!cs.disabled)m.cur=cs.value;
+      var v=num($('[data-f=init]',row).value);if(isFinite(v))m.init=r2(v);
+      m.cnt=$('[data-f=cnt]',row).checked;save();render();toast('Meio salvo')};
     $('[data-rm]',row).onclick=function(){
       var used=S.entries.some(function(e){return e.m===m.id||e.from===m.id||e.to===m.id});
       if(used){alert('Este meio já tem lançamentos. Apague-os antes ou apenas desmarque "Conta no saldo".');return}
@@ -654,19 +659,22 @@ function ms(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'
 function rOrcTab(){
   var st=stats(),B=preBuckets(),h=orcSeg();
   function cell(v,cls){return '<td class="'+(cls||'')+'">'+ms(v)+'</td>'}
-  h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro, arredondados. Previsto vem das linhas do orçamento; gasto vem dos lançamentos (antes e durante a viagem). Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p><div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>';
+  h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro. Previsto vem das linhas do orçamento; gasto vem dos lançamentos (antes e durante a viagem). Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p><div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>';
   S.cats.forEach(function(c){
     var ls=S.budget.filter(function(l){return l.cat===c.id}),plan=(st.bT[c.id]||0)+(st.bP[c.id]||0),sp=st.by[c.id]||0,rest=plan-sp;
-    h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+'" data-goc="'+c.id+'"><td>'+esc(c.name)+'</td>'+cell(plan,'cp')+cell(sp,'cg')+cell(rest,rest<-0.005?'neg cr':(rest>0.005?'cr':'cz'))+'</tr>';
+    var planB=0,spB=0,mix={};ls.forEach(function(l){planB+=conv(l.val,l.cur,'BRL');mix[l.cur]=1});S.entries.forEach(function(e){if(e.t==='g'&&e.cat===c.id)spB+=entryBrl(e)});
+    var nm=Object.keys(mix).length;
+    function cb(v,b,cls){return '<td class="'+cls+'">'+ms(v)+'<small class="rb">'+money(b,'BRL')+'</small></td>'}
+    h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+'" data-goc="'+c.id+'"><td>'+esc(c.name)+(nm>1?' <em class="tag" title="Linhas em moedas diferentes: cada uma é convertida pela cotação">'+Object.keys(mix).join(' + ')+'</em>':'')+'</td>'+cb(plan,planB,'cp')+cb(sp,spB,'cg')+cb(rest,planB-spB,rest<-0.005?'neg cr':(rest>0.005?'cr':'cz'))+'</tr>';
     var showLines=ls.length>1||(ls[0]&&(ls[0].label||ls[0].cur!=='EUR'||ls[0].when==='pre'));
     if(showLines)ls.forEach(function(l){
       h+='<tr class="ol"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':'durante')+'</em></td><td>'+ms(lEur(l))+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td><td></td><td></td></tr>'})});
   var tp=B.br.planned+B.out.planned+st.budT,ts=B.br.spent+B.out.spent+st.spentT;
   function tot(name,p,s,cls){var r=p-s;return '<tr class="ot '+(cls||'')+'"><td>'+name+'</td>'+cell(p,'cp')+cell(s,'cg')+cell(r,r<-0.005?'neg cr':(r>0.005?'cr':'cz'))+'</tr>'}
-  h+='</tbody><tfoot>'+tot('Antes da viagem · pago aqui em R$',B.br.planned,B.br.spent)+tot('Antes da viagem · outra moeda',B.out.planned,B.out.spent)+tot('Durante a viagem',st.budT,st.spentT)+tot('Total geral',tp,ts,'gt')+'</tfoot></table></div>';
+  h+='</tbody><tfoot>'+tot('Total geral',tp,ts,'gt')+'<tr class="osub"><td colspan="4">Divisão por momento do pagamento</td></tr>'+tot('Antes da viagem · pago aqui em R$',B.br.planned,B.br.spent)+tot('Antes da viagem · outra moeda',B.out.planned,B.out.spent)+tot('Durante a viagem',st.budT,st.spentT)+'</tfoot></table></div>';
   h+='<p class="hint">Em reais: previsto '+brl(tp)+' · gasto '+money(st.spentTb+st.spentPb,'BRL')+'.</p><div class="acts"><button type="button" class="btn" data-ov="edit">Configurar orçamento</button></div></div>';
   $('#v-orc').innerHTML=h;bindSeg();
-  $$('[data-goc]').forEach(function(r){r.onclick=function(){orcView='edit';try{sessionStorage.setItem('gx-orc','edit')}catch(e){}rOrc();var t=$('[data-c="'+r.dataset.goc+'"]');if(t)t.scrollIntoView({block:'start'})}});
+  $$('[data-goc]').forEach(function(r){r.onclick=function(){orcView='edit';try{sessionStorage.setItem('gx-orc','edit')}catch(e){}openCat(r.dataset.goc);rOrc();var t=$('[data-c="'+r.dataset.goc+'"]');if(t)t.scrollIntoView({block:'start'})}});
 }
 function rOrc(){
   if(orcView==='tab'){rOrcTab();return}
@@ -679,28 +687,35 @@ function rOrc(){
    '<div class="sp"><span>Durante a viagem</span><b>'+money(tr)+'</b><small>'+brl(tr)+' · sai dos meios</small></div></div>'+
    '<p class="gs">Total: <b>'+both(br+out+tr)+'</b>. Cada categoria pode ter várias linhas, com valor, moeda e momento próprios. Assim a hospedagem, por exemplo, pode ter hotéis pagos antes e outros pagos na viagem.</p></div>';
   h+='<div class="card"><h3>+ Nova categoria</h3><p class="hint">Vira uma opção na hora de lançar. Os valores abaixo viram a primeira linha da categoria; depois você pode adicionar mais linhas, e o total será a soma delas.</p><div class="brow"><label class="f nm">Nome<input type="text" id="b-name" placeholder="Ex.: Souvenirs"></label><label class="f">Quantidade<input type="text" inputmode="decimal" id="b-qty" value="1"></label><label class="f">Valor unitário<input type="text" inputmode="decimal" id="b-unit" placeholder="0,00"></label><label class="f">Moeda<select id="b-cur">'+curOpts('EUR')+'</select></label><label class="f">Quando paga<select id="b-when">'+whenOpts('trip')+'</select></label><button type="button" class="btn sm" id="b-add">Salvar categoria</button></div></div>';
+  h+='<div class="acts" style="margin:4px 0 8px"><button type="button" class="btn sec sm" id="o-exp">Expandir tudo</button><button type="button" class="btn sec sm" id="o-col">Recolher tudo</button></div>';
   S.cats.forEach(function(c){
     var ls=S.budget.filter(function(l){return l.cat===c.id}),pre=0,tri=0;
     ls.forEach(function(l){if(l.when==='pre')pre+=lEur(l);else tri+=lEur(l)});
-    h+='<div class="card" data-c="'+c.id+'"><div class="chd"><label class="f nm">Categoria<input type="text" data-cn value="'+esc(c.name)+'"></label><button type="button" class="btn sec sm danger" data-rmc="'+c.id+'">Remover categoria</button></div>'+
+    var isOpen=openIds().indexOf(c.id)>-1||D.line===c.id;
+    h+='<div class="card" data-c="'+c.id+'"><button type="button" class="ctg" data-tg="'+c.id+'" aria-expanded="'+isOpen+'"><span class="chev" aria-hidden="true">▸</span><b>'+esc(c.name)+'</b><span class="ctg-s">'+money(tri+pre)+' · '+ls.length+(ls.length===1?' linha':' linhas')+'</span></button><div class="cbody"'+(isOpen?'':' hidden')+'><div class="chd"><label class="f nm">Categoria<input type="text" data-cn value="'+esc(c.name)+'"></label><button type="button" class="btn sec sm danger" data-rmc="'+c.id+'">Remover categoria</button></div>'+
        '<div class="ctot"><div><span>Total da categoria</span><small>soma de '+ls.length+(ls.length===1?' linha':' linhas')+'</small></div><div class="ctv"><b>'+money(tri+pre)+'</b><small>'+(tri+pre===0?'sem valor previsto':[tri>0?'durante '+money(tri):'',pre>0?'antes '+money(pre):''].filter(Boolean).join(' · '))+'</small></div></div>';
     ls.forEach(function(l,ix){h+=lineRow(l,ix+1)});
-    if(D.line===c.id)h+='<div class="brow lr draft"><div class="lh">Nova linha em '+esc(c.name)+'</div><label class="f nm">Nome da linha (subcategoria)<input type="text" id="dl-label" placeholder="Ex.: Hotel de Zagreb"></label><div class="qu"><label class="f">Quantidade<input type="text" inputmode="decimal" id="dl-qty" value="1"></label><label class="f">Valor unitário<input type="text" inputmode="decimal" id="dl-unit" placeholder="0,00"></label></div><label class="f">Moeda<select id="dl-cur">'+curOpts('EUR')+'</select></label><label class="f">Quando paga<select id="dl-when">'+whenOpts('trip')+'</select></label><div class="acts"><button type="button" class="btn sm" id="dl-save">Salvar linha</button><button type="button" class="btn sec sm" id="dl-cancel">Cancelar</button></div></div>';
+    if(D.line===c.id)h+='<div class="brow lr draft"><div class="lh">Nova linha em '+esc(c.name)+'</div><label class="f nm">Nome da linha (subcategoria)<input type="text" id="dl-label" placeholder="Ex.: Hotel de Zagreb"></label><div class="qu"><label class="f">Quantidade<input type="text" inputmode="decimal" id="dl-qty" value="1"></label><label class="f">Valor unitário<input type="text" inputmode="decimal" id="dl-unit" placeholder="0,00"></label></div><label class="f">Moeda<select id="dl-cur">'+curOpts(ls.length?ls[ls.length-1].cur:'EUR')+'</select></label><label class="f">Quando paga<select id="dl-when">'+whenOpts(ls.length?ls[ls.length-1].when:'trip')+'</select></label><div class="acts"><button type="button" class="btn sm" id="dl-save">Salvar linha</button><button type="button" class="btn sec sm" id="dl-cancel">Cancelar</button></div></div>';
   else h+='<div class="acts"><button type="button" class="btn sec sm" data-addl="'+c.id+'">+ Linha em '+esc(c.name)+'</button></div>';
-  h+='</div>'});
+  h+='<div class="sbar" hidden><span>Alterações não salvas</span><button type="button" class="btn sm" data-sv>Salvar</button><button type="button" class="btn sec sm" data-cx>Cancelar</button></div>'+'</div></div>'});
   h+='<div class="acts"><button type="button" class="btn sec sm" id="b-rst">Restaurar orçamento padrão</button></div>';
   $('#v-orc').innerHTML=orcSeg()+h;bindSeg();
   $$('.brow[data-l]').forEach(function(row){var l=S.budget.filter(function(x){return x.id===row.dataset.l})[0];if(!l)return;
-    $$('[data-f]',row).forEach(function(i){i.onchange=function(){var f=i.dataset.f;
-      if(f==='label')l.label=i.value.trim();
-      else if(f==='qty'){var q=num(i.value);if(isFinite(q)&&q>=0){l.qty=Math.round(q*1000)/1000;l.val=r2(l.qty*l.unit)}}
-      else if(f==='unit'){var u=num(i.value);if(isFinite(u)&&u>=0){l.unit=r2(u);l.val=r2(l.qty*l.unit)}}
-      else if(f==='cur')l.cur=i.value;
-      else if(f==='when'){l.when=i.value;l.bal=i.value==='trip'}
-      else l.bal=i.checked;
-      save();render()}});
     $('[data-rml]',row).onclick=function(){S.budget=S.budget.filter(function(x){return x.id!==l.id});save();render()}});
-  $$('[data-cn]').forEach(function(i){i.onchange=function(){var c=bById(i.closest('[data-c]').dataset.c);if(c&&i.value.trim()){c.name=i.value.trim();save();render()}}});
+  $$('.card[data-c]').forEach(function(card){var bar=$('.sbar',card);
+    function prev(row){var q=num($('[data-f=qty]',row).value),u=num($('[data-f=unit]',row).value),cur=$('[data-f=cur]',row).value;var b=$('.qt b',row);if(b)b.textContent=money(r2((isFinite(q)?q:0)*(isFinite(u)?u:0)),cur)}
+    function dirty(e){if(e.target.closest('.draft'))return;if(!e.target.closest('[data-cn],.brow[data-l]'))return;bar.hidden=false;var row=e.target.closest('.brow[data-l]');if(row)prev(row)}
+    card.addEventListener('input',dirty);card.addEventListener('change',dirty);
+    $('[data-cx]',bar).onclick=function(){render()};
+    $('[data-sv]',bar).onclick=function(){
+      var nm=$('[data-cn]',card).value.trim(),c=bById(card.dataset.c);if(c&&nm)c.name=nm;
+      $$('.brow[data-l]',card).forEach(function(row){var l=S.budget.filter(function(x){return x.id===row.dataset.l})[0];if(!l)return;
+        l.label=$('[data-f=label]',row).value.trim();
+        var q=num($('[data-f=qty]',row).value),u=num($('[data-f=unit]',row).value);
+        if(isFinite(q)&&q>=0)l.qty=Math.round(q*1000)/1000;if(isFinite(u)&&u>=0)l.unit=r2(u);l.val=r2(l.qty*l.unit);
+        l.cur=$('[data-f=cur]',row).value;var w=$('[data-f=when]',row).value,bx=$('[data-f=bal]',row);
+        if(w!==l.when){l.when=w;l.bal=w==='trip'}else if(bx)l.bal=bx.checked});
+      save();render();toast('Alterações salvas')}});
   $$('[data-rmc]').forEach(function(b){b.onclick=function(){var c=bById(b.dataset.rmc);
     if(S.entries.some(function(e){return e.cat===c.id})){alert('Há lançamentos nesta categoria. Apague-os antes.');return}
     if(confirm('Remover '+c.name+' e as linhas dela?')){S.cats=S.cats.filter(function(x){return x.id!==c.id});S.budget=S.budget.filter(function(l){return l.cat!==c.id});save();render()}}});
@@ -708,9 +723,13 @@ function rOrc(){
   if($('#dl-save')){$('#dl-cancel').onclick=function(){D.line=null;render()};
     $('#dl-save').onclick=function(){var q=num($('#dl-qty').value),v=num($('#dl-unit').value),w=$('#dl-when').value;if(!(q>=0))q=1;if(!isFinite(v)||v<0)v=0;
       S.budget.push({id:uid(),cat:D.line,label:$('#dl-label').value.trim(),qty:q,unit:r2(v),val:r2(q*v),cur:$('#dl-cur').value,when:w,bal:w==='trip'});D.line=null;save();render();toast('Linha salva')}}
+  $$('[data-tg]').forEach(function(t){t.onclick=function(){var id=t.dataset.tg,o=openIds(),i=o.indexOf(id),body=t.nextElementSibling;
+    if(i>-1){o.splice(i,1);body.hidden=true;t.setAttribute('aria-expanded','false')}else{o.push(id);body.hidden=false;t.setAttribute('aria-expanded','true')}setOpen(o)}});
+  $('#o-exp').onclick=function(){setOpen(S.cats.map(function(c){return c.id}));rOrc()};
+  $('#o-col').onclick=function(){setOpen([]);rOrc()};
   addCancels([['b-add']]);
   $('#b-add').onclick=function(){var n=$('#b-name').value.trim(),q=num($('#b-qty').value),v=num($('#b-unit').value);if(!(q>=0))q=1;if(!n){toast('Dê um nome à categoria');$('#b-name').focus();return}
-    var id=uid(),w=$('#b-when').value;S.cats.push({id:id,name:n});S.budget.push({id:uid(),cat:id,label:'',qty:q,unit:isFinite(v)&&v>=0?r2(v):0,val:isFinite(v)&&v>=0?r2(q*v):0,cur:$('#b-cur').value,when:w,bal:w==='trip'});save();render();toast('Categoria adicionada: '+n)};
+    var id=uid(),w=$('#b-when').value;S.cats.push({id:id,name:n});openCat(id);S.budget.push({id:uid(),cat:id,label:'',qty:q,unit:isFinite(v)&&v>=0?r2(v):0,val:isFinite(v)&&v>=0?r2(q*v):0,cur:$('#b-cur').value,when:w,bal:w==='trip'});save();render();toast('Categoria adicionada: '+n)};
   $('#b-rst').onclick=function(){if(confirm('Restaurar o orçamento padrão? Os lançamentos ficam, mas categorias e linhas criadas saem do orçamento.')){S.cats=defCats();S.budget=defLines();save();render()}};
 }
 
@@ -729,10 +748,23 @@ function pillify(root){
       g.appendChild(b)});
     sel.parentNode.insertBefore(g,sel.nextSibling)})}
 (function(){['#v-meios','#v-orc'].forEach(function(id){var el=$(id);if(!el||!window.MutationObserver)return;new MutationObserver(function(){pillify(el)}).observe(el,{childList:true,subtree:true})})})();
+/* máscara de dinheiro: digita só números e a vírgula já fica nas 2 últimas casas */
+var MASK='#g-amt,#g-brlv,#g-debit,#t-out,#t-in,#a-real,#dl-unit,#b-unit,#n-init,[data-f=unit],[data-f=init]';
+function maskVal(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';while(d.length<3)d='0'+d;return d.slice(0,-2)+','+d.slice(-2)}
+document.addEventListener('input',function(e){var t=e.target;if(!t||!t.matches||!t.matches(MASK))return;var m=maskVal(t.value);if(m!==t.value)t.value=m},true);
+document.addEventListener('focusin',function(e){var t=e.target;if(t&&t.matches&&t.matches(MASK)&&t.value)setTimeout(function(){try{t.select()}catch(x){}},0)},true);
+var NAV={v:null,i:0,t:0};
+function navList(v){return $$('input:not([type=hidden]):not([disabled]),select:not([disabled]),button:not([disabled]),textarea',v).filter(function(x){return x.offsetParent!==null})}
+function navMark(e,d){var t=e.target;if(!t||!t.closest)return;var v=t.closest('#v-orc,#v-meios');if(!v)return;var i=navList(v).indexOf(t);if(i<0)return;NAV={v:v.id,i:i+d,t:Date.now()}}
+document.addEventListener('keydown',function(e){if(e.key==='Tab'&&!e.ctrlKey&&!e.altKey)navMark(e,e.shiftKey?-1:1)},true);
+document.addEventListener('pointerdown',function(e){var t=e.target;if(t&&t.matches&&t.matches('input[type=text],input[type=date]'))navMark(e,0)},true);
+function navRestore(){if(!NAV.v||Date.now()-NAV.t>600){NAV.v=null;return}var n=NAV;NAV={v:null,i:0,t:0};
+  setTimeout(function(){var v=$('#'+n.v);if(!v)return;var el=navList(v)[n.i];if(!el)return;el.focus();if(el.tagName==='INPUT'&&el.type==='text')try{el.select()}catch(x){}},0)}
 function render(){
   $$('.gx-tabs button').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.tab===tab))});
   $$('.view').forEach(function(v){v.hidden=v.id!=='v-'+tab});
   if(tab==='lancar')rLancar();else if(tab==='resumo')rResumo();else if(tab==='extrato')rExtrato();else if(tab==='meios')rMeios();else if(tab==='orc')rOrc();
+  navRestore();
 }
 
 /* ---------- ligações do formulário ---------- */
