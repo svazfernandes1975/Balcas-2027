@@ -229,6 +229,7 @@ function openCat(id){var o=openIds();if(o.indexOf(id)<0){o.push(id);setOpen(o)}}
 function addCancels(l){l.forEach(function(p){var a=$('#'+p[0]);if(!a||(a.nextSibling&&a.nextSibling.className==='btn sec sm cx'))return;var c=document.createElement('button');c.type='button';c.className='btn sec sm cx';c.textContent='Cancelar';c.onclick=function(){$$('input',a.parentNode).forEach(function(i){i.value=i.id==='b-qty'?'1':''})};a.parentNode.insertBefore(c,a.nextSibling)})}
 function catLines(id){return S.budget.filter(function(l){return l.cat===id})}
 function lnName(l,i){return l.label||('Linha '+(i+1))}
+function subTxt(e){var cls=catLines(e.cat),lq=e.ln?lnById(e.ln):(cls.length===1?cls[0]:null);return lq&&cls.indexOf(lq)>-1?' › '+esc(lnName(lq,cls.indexOf(lq))):''}
 function lnById(id){return S.budget.filter(function(l){return l.id===id})[0]||null}
 var F={ln:null,mode:'g',cat:null,meth:null,ecur:'EUR',step:1,country:null,ctouched:false,whereOpen:false,edit:null,editT:null,editA:null,brlTouched:false,tIn:false,debTouched:false,dateTouched:false,curTouched:false};
 F.ecur=(mById(S.last.method)&&mById(S.last.method).dcur)||S.last.cur||'EUR';
@@ -283,9 +284,10 @@ function rLancar(){
     var cl=catLines(F.cat),se=$('#g-subs');
     if(!se){se=document.createElement('div');se.id='g-subs';se.className='subs';ce.parentNode.appendChild(se)}
     if(F.ln&&!cl.some(function(l){return l.id===F.ln}))F.ln=null;
-    if(cl.length>1){var sh='<div class="lbl">Subcategoria <span class="hint">(escolha uma)</span></div><div class="chips">';cl.forEach(function(l,i){sh+='<button type="button" class="chip" data-ln="'+l.id+'" aria-pressed="'+(F.ln===l.id)+'">'+esc(lnName(l,i))+'</button>'});se.innerHTML=sh+'</div>';se.hidden=false;
+    if(cl.length===1)F.ln=cl[0].id;
+    if(cl.length>=1){var sh='<div class="lbl">Subcategoria'+(cl.length>1?' <span class="hint">(escolha uma)</span>':'')+'</div><div class="chips">';cl.forEach(function(l,i){sh+='<button type="button" class="chip" data-ln="'+l.id+'" aria-pressed="'+(F.ln===l.id)+'">'+esc(lnName(l,i))+'</button>'});se.innerHTML=sh+'</div>';se.hidden=false;
       $$('[data-ln]',se).forEach(function(b){b.onclick=function(){F.ln=b.dataset.ln;F.step=3;rLancar();$('#g-amt').focus()}})}
-    else{se.innerHTML='';se.hidden=true;F.ln=cl.length===1?cl[0].id:null}
+    else{se.innerHTML='';se.hidden=true;F.ln=null}
     chipsMeth();renderWhere(ct,dt);
     $('#g-ecur').innerHTML=curList().map(function(c){return '<button type="button" data-c="'+c+'" aria-pressed="'+(c===F.ecur)+'">'+curSym(c)+'</button>'}).join('');
     var m=mById(F.meth),cb=bById(F.cat),a=num($('#g-amt').value),diff=!!m&&m.cur!==F.ecur;
@@ -293,7 +295,7 @@ function rLancar(){
     $('#s2').classList.toggle('lock',!stepOk(1));$('#s3').classList.toggle('lock',!(stepOk(1)&&stepOk(2)));
     [1,2,3].forEach(function(n){$('#s'+n).classList.toggle('on',F.step===n);$('#s'+n+' .stp-h').setAttribute('aria-expanded',String(F.step===n))});
     $('#sv1').innerHTML=m?esc(m.name)+' <small>'+money(balance(m),m.cur)+'</small>':'—';
-    var cl2=catLines(F.cat),lx=lnById(F.ln);$('#sv2').textContent=cb?cb.name+(lx&&cl2.length>1?' › '+lnName(lx,cl2.indexOf(lx)):''):'—';
+    var cl2=catLines(F.cat),lx=lnById(F.ln);$('#sv2').textContent=cb?cb.name+(lx&&cl2.length>0?' › '+lnName(lx,cl2.indexOf(lx)):''):'—';
     $('#sv3').textContent=a>0?money(a,F.ecur):'informe o valor';
     $('#g-deb').hidden=!diff;
     if(diff){$('#g-debname').textContent=m.name;$('#g-debcur').textContent=m.cur;if(!F.debTouched)$('#g-debit').value=a>0?fin(conv(a,F.ecur,m.cur)):''}
@@ -396,7 +398,7 @@ function mhist(m){
   var rows=[],gast=0;
   S.entries.forEach(function(e){
     if(e.t==='g'&&e.m===m.id){var dd=debited(e),b=bById(e.cat),c=e.cur||m.cur;gast+=dd;
-      rows.push({d:e.date,id:e.id,l:ci(b)+esc(b?b.name:'Sem categoria')+(isPre(e)?' <em class="tag">antes</em>':(isPost(e)?' <em class="tag">depois</em>':''))+(e.desc?' · '+esc(e.desc):''),m:esc(e.ctry||''),v:'−'+money(dd,m.cur),s:(c!==m.cur?'gasto de '+money(e.amt,c):'')})}
+      rows.push({d:e.date,id:e.id,l:ci(b)+esc(b?b.name:'Sem categoria')+subTxt(e)+(isPre(e)?' <em class="tag">antes</em>':(isPost(e)?' <em class="tag">depois</em>':''))+(e.desc?' · '+esc(e.desc):''),m:esc(e.ctry||''),v:'−'+money(dd,m.cur),s:(c!==m.cur?'gasto de '+money(e.amt,c):'')})}
     else if(e.t==='t'){var f=mById(e.from),t=mById(e.to);
       if(e.from===m.id)rows.push({d:e.date,id:e.id,l:'Saque / saldo movido'+(e.desc?' · '+esc(e.desc):''),m:'para '+esc(t?t.name:'?'),v:'−'+money(e.out,m.cur),s:''});
       if(e.to===m.id)rows.push({d:e.date,id:e.id+'b',l:'Saque / saldo movido'+(e.desc?' · '+esc(e.desc):''),m:'de '+esc(f?f.name:'?'),v:'+'+money(e.in,m.cur),s:''})}
@@ -462,24 +464,6 @@ function rResumo(){
     h+='<div class="cat '+r.lvl+'"><div class="l"><span>'+esc(r.c.name)+tag+'</span><span>'+Math.round(r.p*100)+'%</span></div><div class="bar '+r.lvl+'"><i style="width:'+Math.min(100,r.p*100)+'%"></i></div><div class="m">'+money(r.g)+' de '+money(r.v)+' · resta '+money(r.v-r.g)+'</div><div class="m">'+extra.join(' · ')+'</div>'+proj+'</div>'});
   if(!rows.length)h+='<p class="hint">Ainda não há gastos na viagem.</p>';
   h+='</div>';
-  // antes da viagem
-  var B=preBuckets();
-  if(B.br.planned>0||B.br.spent>0||B.out.planned>0||B.out.spent>0){
-    h+='<div class="card"><h3>Antes da viagem</h3><p class="hint">O que você paga ou já pagou daqui, antes de embarcar. Não entra no ritmo diário nem no dinheiro dos meios.</p>';
-    ['br','out'].forEach(function(k){var b=B[k];if(!(b.planned>0||b.spent>0))return;
-      var falta=b.planned-b.spent,cl=falta<-0.005?'warn':(falta>0.005?'bad':'ok');
-      h+='<div class="pb"><div class="pbh"><b>'+b.name+'</b><span class="m">'+b.hint+'</span></div>';
-      h+='<p class="gs">Pago <b>'+money(b.spent)+'</b> ('+money(b.spentB,'BRL')+') de <b>'+money(b.planned)+'</b> ('+brl(b.planned)+') · '+(falta>0.005?'<b class="bad">falta pagar '+money(falta)+' ('+brl(falta)+')</b>':(falta<-0.005?'<b class="warn">acima em '+money(-falta)+'</b>':'<b class="ok">tudo pago</b>'))+'</p>';
-      Object.keys(b.cats).forEach(function(id){var r=b.cats[id],c=bById(id),f=r.p-r.s;
-        h+='<div class="it"><div>'+esc(c?c.name:'?')+'</div><div class="v">'+money(r.s)+' de '+money(r.p)+'<small>'+(f>0.005?'falta '+money(f):(f<-0.005?'acima '+money(-f):'pago'))+'</small></div></div>'});
-      h+='</div>'});
-    h+='</div>';
-  }
-  if(st.budO>0||st.spentO>0){var fo=st.budO-st.spentO;
-    h+='<div class="card"><h3>Depois da viagem</h3><p class="hint">Gastos previstos ou lançados com data depois de '+fmtDate(S.trip.end)+'. Não entram no ritmo diário nem no dinheiro dos meios durante a viagem.</p><p class="gs">Pago <b>'+money(st.spentO)+'</b> ('+money(st.spentOb,'BRL')+') de <b>'+money(st.budO)+'</b> ('+brl(st.budO)+') · '+(fo>0.005?'<b class="bad">falta '+money(fo)+'</b>':(fo<-0.005?'<b class="warn">acima em '+money(-fo)+'</b>':'<b class="ok">tudo pago</b>'))+'</p>';
-    S.cats.forEach(function(c){var p=st.bO[c.id]||0,g=st.byO[c.id]||0;if(!(p>0||g>0))return;var f=p-g;
-      h+='<div class="it"><div>'+ci(c)+esc(c.name)+'</div><div class="v">'+money(g)+' de '+money(p)+'<small>'+(f>0.005?'falta '+money(f):(f<-0.005?'acima '+money(-f):'pago'))+'</small></div></div>'});
-    h+='</div>'}
   h+='<div class="card"><h3>Quanto tenho em cada meio</h3><p class="hint" style="margin:0">Toque num meio para ver o histórico dele.</p><div class="mpills">';
   S.methods.forEach(function(m){var bl=balance(m),e=toEUR(bl,m.cur);
     h+='<button type="button" class="chip" data-pm="'+m.id+'" aria-pressed="'+(selMeio===m.id)+'">'+esc(m.name)+'<small>'+money(bl,m.cur)+(m.cur!=='EUR'?' · '+money(e):'')+(m.cnt?'':' · não conta')+'</small></button>'});
@@ -555,8 +539,8 @@ function drawList(){
     if(e.date!==cur){cur=e.date;h+='<div class="dh"><span>'+fmtDate(cur)+'</span><span>'+(dayTot[cur]?money(dayTot[cur]):'')+'</span></div>'}
     if(e.t==='g'){var m=mById(e.m),b=bById(e.cat),c=e.cur||(m?m.cur:'EUR');
       var sub=[];if(m&&m.cur!==c)sub.push('debitado '+money(debited(e),m.cur));if(c!=='EUR')sub.push('≈ '+money(e.eur));if(c!=='BRL')sub.push(money(entryBrl(e),'BRL'));
-      var lq=e.ln?lnById(e.ln):null,cls=lq?catLines(e.cat):[],lt=lq&&cls.length>1?' › '+esc(lnName(lq,cls.indexOf(lq))):'';
-      h+='<div class="it"><div>'+ci(b)+esc(b?b.name:'Sem categoria')+lt+(isPre(e)?' <em class="tag">antes</em>':(isPost(e)?' <em class="tag">depois</em>':''))+(e.desc?' · '+esc(e.desc):'')+'<div class="m">'+esc(m?m.name:'?')+(e.ctry?' · '+esc(e.ctry):'')+'</div></div><div class="v">'+money(e.amt,c)+(sub.length?'<small>'+sub.join(' · ')+'</small>':'')+'</div><div class="acts"><button class="btn sec sm" data-edit="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
+      var cls=catLines(e.cat),lq=e.ln?lnById(e.ln):(cls.length===1?cls[0]:null),lt=lq&&cls.indexOf(lq)>-1?' › '+esc(lnName(lq,cls.indexOf(lq))):'';
+      h+='<div class="it"><div>'+ci(b)+esc(b?b.name:'Sem categoria')+lt+(isPre(e)?' <em class="tag">antes</em>':(isPost(e)?' <em class="tag">depois</em>':''))+(e.desc?'<div class="dsc">'+esc(e.desc)+'</div>':'')+'<div class="m">'+esc(m?m.name:'?')+(e.ctry?' · '+esc(e.ctry):'')+'</div></div><div class="v">'+money(e.amt,c)+(sub.length?'<small>'+sub.join(' · ')+'</small>':'')+'</div><div class="acts"><button class="btn sec sm" data-edit="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
     else if(e.t==='t'){var f=mById(e.from),t=mById(e.to);
       h+='<div class="it"><div>Saque / saldo movido'+(e.desc?' · '+esc(e.desc):'')+'<div class="m">'+esc(f?f.name:'?')+' → '+esc(t?t.name:'?')+'</div></div><div class="v">'+money(e.out,f?f.cur:'EUR')+'<small>→ '+money(e.in,t?t.cur:'EUR')+'</small></div><div class="acts"><button class="btn sec sm" data-editt="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
     else{var mm=mById(e.m);
@@ -706,10 +690,12 @@ function rOrcTab(){
   function tot(name,p,s,cls,pb,sb){var r=p-s,rb=pb-sb;return '<tr class="ot '+(cls||'')+'"><td>'+name+'</td>'+cellB(p,pb,'cp')+cellB(s,sb,'cg')+cellB(r,rb,r<-0.005?'neg cr':(r>0.005?'cr':'cz'))+'</tr>'}
   var pbBr=pB(function(l){return l.when==='pre'&&l.cur==='BRL'}),pbOut=pB(function(l){return l.when==='pre'&&l.cur!=='BRL'}),pbT=pB(function(l){return l.when!=='pre'&&l.when!=='post'}),pbO=pB(function(l){return l.when==='post'});
   (function(){var gp=pbBr+pbOut+pbT+pbO,gs=B.br.spentB+B.out.spentB+st.spentTb+st.spentOb,r=tp-ts,rb=gp-gs,rc=r<-0.005?'bad':(r>0.005?'bad':'ok');
+    var av=st.avail,fal=r-av,falB=fal*S.rates.eurBrl;
     var top='<div class="gtop"><div class="gt-h">Total geral do orçamento</div><div class="split3">'+
       '<div class="sp gp"><span>Previsto</span><b>'+money(tp)+'</b><small>'+money(gp,'BRL')+'</small></div>'+
       '<div class="sp gg"><span>Gasto</span><b>'+money(ts)+'</b><small>'+money(gs,'BRL')+'</small></div>'+
-      '<div class="sp gr '+(r<-0.005?'over':(r>0.005?'rest':'ok'))+'"><span>'+(r<-0.005?'Acima do previsto':'Resta')+'</span><b>'+money(Math.abs(r))+'</b><small>'+money(Math.abs(rb),'BRL')+'</small></div></div></div>';
+      '<div class="sp gm"><span>Já nos meios</span><b>'+money(av)+'</b><small>'+money(av*S.rates.eurBrl,'BRL')+' · já saiu do seu bolso</small></div>'+
+      '<div class="sp gr '+(fal>0.005?'rest':'ok')+'"><span>'+(fal>0.005?'Falta cobrir':(fal<-0.005?'Sobra nos meios':'Tudo coberto'))+'</span><b>'+money(Math.abs(fal))+'</b><small>'+money(Math.abs(falB),'BRL')+' · previsto − gasto − meios</small></div></div></div>';
     h=h.replace('@@TOP@@',top)})();
   h+='</tbody><tfoot>'+tot('Total geral',tp,ts,'gt',pbBr+pbOut+pbT+pbO,B.br.spentB+B.out.spentB+st.spentTb+st.spentOb)+'<tr class="osub"><td colspan="4">Divisão por momento do pagamento</td></tr>'+tot('Antes da viagem · pago aqui em R$',B.br.planned,B.br.spent,'',pbBr,B.br.spentB)+tot('Antes da viagem · outra moeda',B.out.planned,B.out.spent,'',pbOut,B.out.spentB)+tot('Durante a viagem',st.budT,st.spentT,'',pbT,st.spentTb)+tot('Depois da viagem',st.budO,st.spentO,'',pbO,st.spentOb)+'</tfoot></table></div>';
   h+='<p class="hint">Em reais: previsto '+brl(tp)+' · gasto '+money(st.spentTb+st.spentPb+st.spentOb,'BRL')+'.</p><div class="acts"><button type="button" class="btn" data-ov="edit">Configurar orçamento</button></div></div>';

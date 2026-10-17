@@ -80,7 +80,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 .bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="voos.html">✈ Voos</a><a href="hospedagem.html">Hospedagem</a><a href="imperdiveis.html">Imperdíveis</a><a href="orcamento.html">Orçamento</a><a href="gastos.html" aria-current="page">Controle de Gastos</a><a href="costumes.html">Costumes e Dicas</a><a href="jantar.html">Onde jantar</a><a href="seguranca.html">Segurança e Documentos</a><a href="pendencias.html">Pendências</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><section class="day" id="gastos"><div class="day-h"><span class="date">durante a viagem</span><h2>Controle de gastos</h2></div>
-<link rel="stylesheet" href="gastos.css?v=40">
+<link rel="stylesheet" href="gastos.css?v=44">
 <div class="gx" id="gx">
 <div id="gx-sync" class="fbstrip"></div>
 <div class="card" id="gx-gate" hidden></div>
@@ -98,10 +98,11 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 <div class="stp" id="s3"><button type="button" class="stp-h" data-step="3"><span class="num">3</span><span class="tt">Valor</span><span class="sv" id="sv3"></span></button><div class="stp-b">
 <div class="amt"><input type="text" id="g-amt" inputmode="decimal" placeholder="0,00" aria-label="Valor do gasto"><div class="cs" id="g-ecur" role="group" aria-label="Moeda do gasto"></div></div>
 <div id="g-conv"></div>
+<label class="f gdesc"><span>Descrição <small>(opcional)</small></span><input type="text" id="g-desc" placeholder="Ex.: pizza em Split" maxlength="120" autocomplete="off"></label>
 <div id="g-brl" hidden><label class="f"><span>Valor em R$ (pela cotação do dia, ajuste se a sua foi outra)</span><input type="text" id="g-brlv" inputmode="decimal" placeholder="0,00"></label></div>
 <div id="g-deb" hidden><label class="f"><span>Sai da <b id="g-debname"></b> em <b id="g-debcur"></b> (calculado pelo câmbio, ajuste se precisar)</span><input type="text" id="g-debit" inputmode="decimal" placeholder="0,00"></label></div>
 </div></div>
-<details class="more"><summary>Data e descrição (opcional)</summary><div class="row2" style="margin-top:8px"><label class="f">Data<input type="date" id="g-date"></label><label class="f">Descrição<input type="text" id="g-desc" placeholder="Ex.: pizza em Split"></label></div></details>
+<details class="more"><summary>Data do gasto (opcional)</summary><div class="row2" style="margin-top:8px"><label class="f">Data<input type="date" id="g-date"></label></div></details>
 <div class="sticky-go"><button type="submit" class="btn" id="g-go">Digite o valor</button><button type="button" class="btn sec" id="g-cancel" hidden>Cancelar</button></div>
 </form>
 <div class="acts"><button type="button" class="btn sec sm" data-mode="t">Sacar dinheiro ou mover saldo</button><button type="button" class="btn sec sm" data-mode="a">Corrigir saldo</button></div>
@@ -133,7 +134,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 <div class="view" id="v-meios" hidden></div>
 <div class="view" id="v-orc" hidden></div>
 </div><div id="gx-toast" hidden></div></section><p class="foot">Balcãs 2027 · roteiros atualizados ao longo do planejamento. Valores de ingressos, pedágios e horários são estimativas a confirmar nos sites oficiais.</p><div class="bk bk-end"><button type="button" class="back" data-back>← Voltar</button></div></div>
-<script src="gastos.js?v=40"></script>
-<script type="module" src="fb.js?v=40"></script>
-<script src="nav.js?v=40"></script>
+<script src="gastos.js?v=44"></script>
+<script type="module" src="fb.js?v=44"></script>
+<script src="nav.js?v=44"></script>
 </body></html>

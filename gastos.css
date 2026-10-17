@@ -292,3 +292,13 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .gtop .sp small{font-size:12.5px}
 .gx .gtop .gp b{color:var(--accent)}.gx .gtop .gg b{color:#a3590a}.gx .gtop .gr.rest b,.gx .gtop .gr.over b{color:var(--c-warn,#b3261e)}.gx .gtop .gr.ok b{color:var(--c-tip,#1b7a3a)}
 .gx .gtop .gr.rest,.gx .gtop .gr.over{background:#f6e7e4}
+
+/* v42 */
+.gx .gdesc{margin-top:10px}.gx .gdesc small{color:var(--muted);font-weight:400}
+.gx .it .dsc{font-size:14px;font-style:italic;color:var(--ink);opacity:.85;margin-top:2px;overflow-wrap:anywhere}
+
+/* v44: pills do total com saldo nos meios */
+.gx .gtop .split3{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+@media (max-width:620px){.gx .gtop .split3{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+.gx .gtop .gm b{color:var(--c-tip,#1b7a3a)}
+.gx .gtop .gr.ok{background:#e6f2ea}
