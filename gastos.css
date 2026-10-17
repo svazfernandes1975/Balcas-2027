@@ -307,3 +307,8 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .gtop .split3{align-items:stretch!important}.gx .gtop .sp{height:auto;align-self:stretch;align-content:start;box-sizing:border-box}
 .gx .gt-n{margin:10px 0 0;font-size:12.5px}
 .gx .otbl td small.pd{display:block;font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+
+/* v46: subcategorias em 'Onde estou gastando' */
+.gx .subs-r{margin:10px 0 2px 10px;padding-left:10px;border-left:2px solid var(--line);display:grid;gap:8px}
+.gx .sub .sl{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--ink)}.gx .sub .sl span:last-child{color:var(--muted);font-variant-numeric:tabular-nums}
+.gx .bar.mini{height:5px;margin-top:3px}

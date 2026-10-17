@@ -455,13 +455,19 @@ function rResumo(){
     var avg=st.idx>0?g/st.idx:null,pr=avg==null?0:avg*st.total,left=(v-g)/st.left;
     var lvl=g>v?'bad':((avg!=null&&pr>v*1.05)||p>0.85?'warn':'');
     return{c:c,v:v,g:g,p:p,avg:avg,pr:pr,left:left,lvl:lvl}}).sort(function(x,y){var o={bad:2,warn:1,'':0};return(o[y.lvl]-o[x.lvl])||(y.p-x.p)});
+  function subRows(c){var ls=catLines(c.id);if(ls.length<2&&!(ls[0]&&ls[0].label))return '';
+    var sp={};S.entries.forEach(function(e){if(e.t!=='g'||e.cat!==c.id||isPre(e)||isPost(e))return;var k=(e.ln&&ls.some(function(l){return l.id===e.ln}))?e.ln:(ls.length===1?ls[0].id:'_x');sp[k]=(sp[k]||0)+e.eur});
+    var out='';ls.forEach(function(l,i){var pl=(l.when==='pre'||l.when==='post')?0:lEur(l),g=sp[l.id]||0;if(!(pl>0||g>0))return;var p=pl>0?g/pl:(g>0?9:0),lv=g>pl?'bad':(p>0.85?'warn':'');
+      out+='<div class="sub"><div class="sl"><span>'+esc(lnName(l,i))+'</span><span>'+money(g)+' de '+money(pl)+'</span></div><div class="bar mini '+lv+'"><i style="width:'+Math.min(100,p*100)+'%"></i></div></div>'});
+    if(sp._x>0)out+='<div class="sub"><div class="sl"><span>Sem subcategoria</span><span>'+money(sp._x)+'</span></div></div>';
+    return out?'<div class="subs-r">'+out+'</div>':''}
   rows.forEach(function(r){
     var tag=r.lvl==='bad'?(r.g>r.v?' <em class="tag bad">estourou</em>':''):(r.lvl==='warn'?' <em class="tag warn">atenção</em>':'');
     var extra=[];
     extra.push(r.avg==null?'sem gastos ainda':'média '+money(r.avg)+'/dia');
     extra.push(r.left>0?'pode gastar '+money(r.left)+'/dia':'sem saldo no orçamento');
     var proj=(r.avg!=null&&r.pr>r.v*1.05&&r.g<=r.v)?'<div class="m wn">No ritmo atual fecha em '+money(r.pr)+' ('+money(r.pr-r.v)+' acima do previsto).</div>':'';
-    h+='<div class="cat '+r.lvl+'"><div class="l"><span>'+esc(r.c.name)+tag+'</span><span>'+Math.round(r.p*100)+'%</span></div><div class="bar '+r.lvl+'"><i style="width:'+Math.min(100,r.p*100)+'%"></i></div><div class="m">'+money(r.g)+' de '+money(r.v)+' · resta '+money(r.v-r.g)+'</div><div class="m">'+extra.join(' · ')+'</div>'+proj+'</div>'});
+    h+='<div class="cat '+r.lvl+'"><div class="l"><span>'+esc(r.c.name)+tag+'</span><span>'+Math.round(r.p*100)+'%</span></div><div class="bar '+r.lvl+'"><i style="width:'+Math.min(100,r.p*100)+'%"></i></div><div class="m">'+money(r.g)+' de '+money(r.v)+' · resta '+money(r.v-r.g)+'</div><div class="m">'+extra.join(' · ')+'</div>'+proj+subRows(r.c)+'</div>'});
   if(!rows.length)h+='<p class="hint">Ainda não há gastos na viagem.</p>';
   h+='</div>';
   h+='<div class="card"><h3>Quanto tenho em cada meio</h3><p class="hint" style="margin:0">Toque num meio para ver o histórico dele.</p><div class="mpills">';
