@@ -164,9 +164,9 @@ function fromEUR(v,c){return v*perEur(c)}
 function entryBrl(e){return e.brl!=null?e.brl:fromEUR(e.eur,'BRL')}
 function conv(v,from,to){return from===to?v:fromEUR(toEUR(v,from),to)}
 function r2(v){return Math.round(v*100)/100}
-function fin(v){return String(r2(v)).replace('.',',')}
+function fin(v){return (Math.round((+v||0)*100)/100).toFixed(2).replace('.',',')}
 function finq(v){return String(Math.round(v*1000)/1000).replace('.',',')}
-function fin4(v){return String(Math.round(v*10000)/10000).replace('.',',')}
+function fin4(v){var t=String(Math.round(v*10000)/10000);if(t.indexOf('.')<0)t+='.00';else if(t.split('.')[1].length<2)t+='0';return t.replace('.',',')}
 function brl(eur){return money(eur*S.rates.eurBrl,'BRL')}
 function both(eur){return money(eur)+' · '+brl(eur)}
 function dnum(s){var p=String(s).split('-');return Date.UTC(+p[0],+p[1]-1,+p[2])/864e5}
@@ -650,7 +650,7 @@ function lineRow(l,n){
 var orcView='tab';try{orcView=sessionStorage.getItem('gx-orc')||'tab'}catch(e){}
 function orcSeg(){return '<div class="seg orcseg" role="group" aria-label="Visão do orçamento"><button type="button" data-ov="tab" aria-pressed="'+(orcView==='tab')+'">Ver tabela</button><button type="button" data-ov="edit" aria-pressed="'+(orcView==='edit')+'">Configurar orçamento</button></div>'}
 function bindSeg(){$$('[data-ov]',$('#v-orc')).forEach(function(b){b.onclick=function(){orcView=b.dataset.ov;try{sessionStorage.setItem('gx-orc',orcView)}catch(e){}rOrc();window.scrollTo(0,0)}})}
-function ms(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(Math.round(v))}
+function ms(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(v||0)}
 function rOrcTab(){
   var st=stats(),B=preBuckets(),h=orcSeg();
   function cell(v,cls){return '<td class="'+(cls||'')+'">'+ms(v)+'</td>'}
