@@ -255,3 +255,6 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .ctot .ctv{text-align:right}.gx .ctot .ctv b{font-size:1.2rem;font-variant-numeric:tabular-nums;color:var(--accent)}
 .gx .brow.lr{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg)}
 .gx .lh{grid-column:1/-1;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* v27 */
+.gx .subs{margin-top:12px}.gx .subs[hidden]{display:none}.gx .draft{border:1px dashed var(--accent)!important}
