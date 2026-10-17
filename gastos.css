@@ -274,3 +274,12 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .ctg b{flex:1;font-size:1.05rem}.gx .ctg-s{font-size:13px;color:var(--muted);white-space:nowrap}
 .gx .chev{display:inline-block;transition:transform .15s;color:var(--accent);font-size:14px}.gx .ctg[aria-expanded=true] .chev{transform:rotate(90deg)}
 .gx .cbody{margin-top:8px}.gx .cbody[hidden]{display:none}
+
+/* v36 */
+.gx .stp.lock .stp-h{opacity:.5}.gx .stp.lock .tt::after{content:' 🔒';font-size:12px}
+
+/* v37: ícones das categorias */
+.gx .ci{display:inline-flex;vertical-align:-3px;width:16px;height:16px;margin-right:7px;color:var(--muted);flex:none}
+.gx .ci svg{width:16px;height:16px}
+.gx .chip[aria-pressed=true] .ci,.gx .ctg .ci,.gx .oc .ci{color:var(--accent)}
+.gx .chip[aria-pressed=true] .ci{color:inherit}
