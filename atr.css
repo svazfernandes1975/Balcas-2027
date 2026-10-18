@@ -37,3 +37,7 @@
 
 /* v55: cabeçalho congelado em Passeios pagos */
 .scroll.sv{max-height:min(75vh,680px);overflow:auto}#pt thead th{position:sticky;top:0;z-index:2;background:var(--surface);box-shadow:0 1px 0 var(--line)}
+
+/* v58: coluna Dia estreita */
+#pt th:first-child,#pt td:first-child{width:1%;white-space:nowrap;padding-right:6px}#pt td:first-child .dtag{font-size:11.5px}
+#pt th:nth-child(1),#pt td:nth-child(1){min-width:0}#pt th{text-align:left}#pt th:nth-child(6),#pt td.n{text-align:right}

@@ -54,6 +54,25 @@ var ITEMS=[
  ['Etapas','1 · Zagreb','zagreb.html'],['','2 · Ljubljana','ljubljana.html'],['','↳ Trieste','trieste.html'],['','3 · Plitvice','plitvice.html'],['','4 · Split','split.html'],['','5 · Dubrovnik','dubrovnik.html'],['','6 · Kotor','kotor.html'],['','7 · Šibenik','sibenik.html'],['','8 · Rastoke','rastoke.html'],['','9 · Zagreb final','zagreb-final.html'],
  ['Planejamento','Voos','voos.html','','<path d="M10.5 13.5 3 11l1.5-1.5 8 .5 4.5-4.5a1.8 1.8 0 0 1 2.6 2.6L14.5 12.5l.5 8L13.5 22 11 14.5z"/>'],['','Hospedagem','hospedagem.html','','<path d="M3 18V7M3 14h18v4M21 14v-2.5A2.5 2.5 0 0 0 18.5 9H11v5"/><circle cx="7" cy="11" r="1.6"/>'],['','Imperdíveis','imperdiveis.html','','<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'],['','Passeios pagos','passeios.html','','<path d="M3 9a2 2 0 0 0 0 6v3h18v-3a2 2 0 0 1 0-6V6H3z"/><path d="M14 6v12" stroke-dasharray="2 2"/>'],['','Orçamento','gastos.html?aba=orcamento','','<circle cx="12" cy="12" r="9"/><path d="M14.8 9.2c-.6-.8-1.6-1.2-2.8-1.2-1.5 0-2.6.8-2.6 2s1 1.7 2.6 2 2.6.8 2.6 2-1.1 2-2.6 2c-1.2 0-2.2-.4-2.8-1.2M12 6.5V8m0 8v1.5"/>'],['','Controle de Gastos','gastos.html','','<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>'],['','Costumes e Dicas','costumes.html','','<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/>'],['','Onde jantar','jantar.html','','<path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17 21V3c-2.2 1.5-3 4-3 7 0 2 1 3 3 3"/>'],['','Segurança e Documentos','seguranca.html','','<path d="M12 3 4.5 6v5.5c0 4.5 3 8 7.5 9.5 4.5-1.500 7.500-5 7.500-9.500V6z"/><path d="m9 12 2.200 2.200L15.500 10"/>'],['','Dossiê de imigração','dossie.html','','<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/>'],['','Pendências','pendencias.html','','<path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.500 6 1 1 2-2M3.500 12l1 1 2-2M3.500 18l1 1 2-2"/>']
 ];
+
+var CI={
+'zagreb.html':'<path d="M5 21V10l2.500-6L10 10v11M14 21V10l2.500-6L19 10v11M3 21h18M10 21v-5h4v5"/>',
+'ljubljana.html':'<path d="M2 13h20M2 18h20M3 18v-2a2.300 2.300 0 0 1 4.600 0v2M9.700 18v-2a2.300 2.300 0 0 1 4.600 0v2M16.400 18v-2a2.300 2.300 0 0 1 4.600 0v2M2 21h20M6 13V9M12 13V7M18 13V9"/>',
+'trieste.html':'<path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5zM16 10h1.500a2.500 2.500 0 0 1 0 5H16M8 3v3M11 3v3M3 21h15"/>',
+'plitvice.html':'<path d="M3 4h18M7 4v6M12 4v9M17 4v6M7 13v1M17 13v1M3 20c2-2 3.500-2 5.500 0s3.500 2 5.500 0 3.500-2 5.500 0 1.500 1 2.500 0M12 16v1"/>',
+'split.html':'<path d="M3 21h18M4 10h16M4 10l8-6 8 6M6 10v11M10 10v11M14 10v11M18 10v11"/>',
+'dubrovnik.html':'<path d="M3 21V9h3V7h2v2h2V7h2v2h2V7h2v2h3v12M3 21h18M9 21v-5a3 3 0 0 1 6 0v5"/>',
+'kotor.html':'<path d="M2 20 9 7l3 5 3-4 7 12zM9 7l1 3M13 20l-2-3 3-1-2-3"/>',
+'sibenik.html':'<path d="M4 21h16M6 21v-8M18 21v-8M5 13h14M7 13a5 5 0 0 1 10 0M12 8V5M10.500 6.500h3M10 21v-4h4v4"/>',
+'rastoke.html':'<circle cx="12" cy="11" r="6"/><circle cx="12" cy="11" r="1.500"/><path d="M12 5v12M6 11h12M7.800 6.800l8.400 8.400M16.200 6.800l-8.400 8.400M3 21c2-1.500 3.500-1.500 5.500 0s3.500 1.500 5.500 0 3.500-1.500 6 0"/>',
+'zagreb-final.html':'<path d="M5 21V4M5 4h13l-2.500 4 2.500 4H5M9 4v8M13 4v8M5 8h13"/>'};
+function ico(f,cls){var p=CI[f];return p?'<svg class="'+cls+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>':''}
+function decorate(){
+ var st=document.createElement('style');st.textContent='.ci-p{width:16px;height:16px;vertical-align:-3px;margin-right:6px;flex:none}.ci-h{width:.8em;height:.8em;vertical-align:-.05em;margin-right:.3em;color:var(--accent);stroke-width:1.5}.ci-c{width:22px;height:22px;vertical-align:-4px;margin-right:8px;color:var(--accent)}';document.head.appendChild(st);
+ [].forEach.call(document.querySelectorAll('nav.pills a[href]'),function(a){var f=a.getAttribute('href').split('#')[0];if(CI[f]&&!a.querySelector('svg'))a.insertAdjacentHTML('afterbegin',ico(f,'ci-p'))});
+ var here=location.pathname.split('/').pop();var h=document.querySelector('.hero h1');if(h&&CI[here])h.insertAdjacentHTML('afterbegin',ico(here,'ci-h'));
+ [].forEach.call(document.querySelectorAll('a[href$=".html#top"] article h3'),function(t){var f=t.closest('a').getAttribute('href').split('#')[0];if(CI[f])t.insertAdjacentHTML('afterbegin',ico(f,'ci-c'))});
+}
 var css='.hbg{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:16px;z-index:30;box-shadow:0 1px 4px rgba(0,0,0,.12);width:40px;height:36px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer;padding:0}.hbg:hover{border-color:var(--accent);color:var(--accent)}.hbg svg{width:20px;height:20px}'
 +'.sm-ov{position:fixed;inset:0;background:rgba(8,20,24,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}.sm-ov.open{opacity:1;pointer-events:auto}'
 +'.sm{position:fixed;top:0;left:0;bottom:0;width:min(300px,86vw);background:var(--surface);color:var(--ink);border-right:1px solid var(--line);box-shadow:4px 0 24px rgba(0,0,0,.18);transform:translateX(-102%);transition:transform .22s ease;z-index:41;display:flex;flex-direction:column;visibility:hidden;padding-top:env(safe-area-inset-top,0px)}.sm.open{transform:none;visibility:visible}'
@@ -67,11 +86,11 @@ function build(){
  var h='<div class="sm-h"><b>Balcãs 2027</b><button type="button" class="sm-x" aria-label="Fechar menu">✕</button></div><div class="sm-b">';
  ITEMS.forEach(function(it){if(it[0])h+='<div class="sm-g">'+it[0]+'</div>';
   var f=it[2].split('#')[0];var cur=(f===here&&it[3]!=='act'&&it[2].indexOf('?')<0)?' aria-current="page"':'';
-  var ic=it[4]?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+it[4]+'</svg>':'';h+='<a href="'+it[2]+'"'+cur+((it[3]||ic)?' class="'+((it[3]||'')+(ic?' pl':'')).trim()+'"':'')+'>'+ic+it[1]+'</a>'});
+  var ic=CI[f]?ico(f,'')+'':it[4]?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+it[4]+'</svg>':'';h+='<a href="'+it[2]+'"'+cur+((it[3]||ic)?' class="'+((it[3]||'')+(ic?' pl':'')).trim()+'"':'')+'>'+ic+it[1]+'</a>'});
  h+='</div>';
  var m=document.createElement('aside');m.className='sm';m.id='sidemenu';m.setAttribute('aria-label','Menu do site');m.innerHTML=h;
  var ov=document.createElement('div');ov.className='sm-ov';
- document.body.appendChild(ov);document.body.appendChild(m);
+ document.body.appendChild(ov);document.body.appendChild(m);decorate();
  var btn=document.createElement('button');btn.type='button';btn.className='hbg';btn.setAttribute('aria-label','Abrir menu');btn.setAttribute('aria-controls','sidemenu');btn.setAttribute('aria-expanded','false');
  btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
  var nav=document.querySelector('nav.pills');
@@ -88,7 +107,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 /* Versão do site: ATUALIZAR a cada nova publicação */
-var SITE_VERSION='v56';
+var SITE_VERSION='v58';
 (function(){
   function put(){var n=document.querySelector('nav.pills');if(!n||n.querySelector('.ver'))return;
     var v=document.createElement('span');v.className='ver';v.textContent=SITE_VERSION;v.title='Versão do site';
