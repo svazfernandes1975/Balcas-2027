@@ -111,7 +111,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 .ml-l li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
 .ml-l input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent)}
 .ml-l label{cursor:pointer}.ml-l li.ok label{color:var(--muted);text-decoration:line-through}
-.ml-ic{display:inline-flex;vertical-align:-4px;margin-right:8px;color:var(--accent)}.ml-ic svg{width:22px;height:22px}.ml-w svg{width:18px;height:18px;display:block}
+.ml-ic{display:inline-flex;vertical-align:-4px;margin-right:8px;color:var(--accent)}.ml-ic svg{width:26px;height:26px}.ml-w svg{width:22px;height:22px;display:block}
 .ml-w{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:8px;padding:1px 8px;color:var(--muted);white-space:nowrap}
 .ml-clr{margin-top:20px;font:inherit;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 
@@ -189,7 +189,7 @@ function defCfg(){var o={ts:0};['S','A'].forEach(function(k){o[k]=DATA[k].grupos
 try{cfg=JSON.parse(localStorage.getItem(KC)||'null')}catch(e){}
 if(!cfg||!cfg.S||!cfg.A)cfg=defCfg();
 var L={M:'Mala de mão',B:'Mochila',U:'No corpo'},NOME={S:'Sergio',A:'Andréa'};
-var IC={M:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="7" width="12" height="14" rx="2"/><path d="M9 7V4h6v3M10 11v6M14 11v6"/></svg>',B:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6a4 4 0 0 1 8 0"/><rect x="5" y="6" width="14" height="15" rx="4"/><rect x="8.5" y="13" width="7" height="5" rx="1.5"/><path d="M9 10h6"/></svg>',U:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 7l2.500 4L8 10v10h8V10l2.500 1L21 7l-6-3a3 3 0 0 1-6 0z"/></svg>'};
+var IC={M:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7V3.500h6V7"/><rect x="4.500" y="7" width="15" height="11" rx="2"/><path d="M9.500 10.500v4M14.500 10.500v4"/><circle cx="8" cy="20.500" r="1"/><circle cx="16" cy="20.500" r="1"/></svg>',B:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.500v2"/><path d="M5.500 21V12a6.500 6.500 0 0 1 13 0v9z"/><path d="M8.500 21v-6h7v6"/><path d="M8.500 17.500h7"/><path d="M3.500 14v5M20.500 14v5"/></svg>',U:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 7l2.500 4L8 10v10h8V10l2.500 1L21 7l-6-3a3 3 0 0 1-6 0z"/></svg>'};
 [].forEach.call(document.querySelectorAll('.ml-ic'),function(e){e.innerHTML=IC[e.dataset.w]});
 function keep(){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
 function keepC(){try{localStorage.setItem(KC,JSON.stringify(cfg))}catch(e){}}
@@ -260,4 +260,4 @@ function bind(){if(!window.FB)return;
    readyC=true})})}
 if(window.FB)bind();else{document.addEventListener('fb-ready',bind);setTimeout(function(){var el=document.getElementById('gx-sync');if(!window.FB&&el)el.textContent='☁ Salvo só neste aparelho (Firebase indisponível)'},4000)}})();
 </script>
-<script src="nav.js?v=68"></script><script type="module" src="fb.js?v=61"></script>
+<script src="nav.js?v=69"></script><script type="module" src="fb.js?v=61"></script>
