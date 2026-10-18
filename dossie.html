@@ -1,0 +1,244 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Dossiê de imigração · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+:root{
+ /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
+ --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
+ --accent:#0B7285;--accent-ink:#FFFFFF;--sea:#CDE5EB;--land:#F6F8F4;--route:#0B7285;
+ --c-drive:#0B7285;--c-see:#4B5FA8;--c-eat:#A15A12;--c-tip:#2F7D4F;--c-warn:#B3341F;--c-stay:#6B5A8E;
+ --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--f-body:'Public Sans','Segoe UI',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+nav.pills{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.pills a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 14px;font-size:14px;white-space:nowrap}
+nav.pills a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+.hero{padding-block:32px 24px;display:grid;gap:12px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{max-width:62ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:800;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:8px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+.cdown{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;display:grid;gap:8px}.cd-n{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:flex-end}.cd-n b{display:block;font-family:var(--f-display);font-size:clamp(2.6rem,12vw,4rem);line-height:1;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}.cd-n span{font-size:13px;color:var(--muted)}.cd-msg{font-family:var(--f-display);font-size:1.6rem;font-weight:700;color:var(--accent)}
+section.day{margin-top:36px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;border-top:2px solid var(--ink);padding-top:12px}
+.day-h .date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.day-h h2{font-size:1.5rem;font-weight:700}
+ol.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.tl li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.time{font-family:var(--f-mono);font-size:14px;font-weight:600;padding-top:2px}
+.time.none{color:var(--muted)}
+.k{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.k-drive .k,.k-drive .time{color:var(--c-drive)}.k-see .k{color:var(--c-see)}.k-eat .k{color:var(--c-eat)}.k-tip .k{color:var(--c-tip)}.k-warn .k{color:var(--c-warn)}.k-stay .k{color:var(--c-stay)}
+.k-warn{border-left:4px solid var(--c-warn)}.k-tip{border-left:4px solid var(--c-tip)}.k-drive{border-left:4px solid var(--c-drive)}
+ol.tl h3{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+ol.tl p{margin:0;color:var(--muted);font-size:15px}
+.gm{display:inline-block;margin-top:10px;font-size:14px;font-weight:600}
+.x{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:10px 0 0;font-size:14px}.x dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}.x dd{margin:0;overflow-wrap:anywhere}
+ul.bul{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}.prose{max-width:70ch;margin:0 0 10px}
+a.tag{text-decoration:none;color:var(--accent)}
+.num td.n,.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.num td:first-child{white-space:nowrap}
+.tot td{font-weight:700;border-top:2px solid var(--ink)}
+table.wide{font-size:13px}table.wide th,table.wide td{padding:6px 8px}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px}
+.pn a{font-weight:600;text-decoration:none}
+table.opt{width:100%;border-collapse:collapse;font-size:15px}
+table.opt th,table.opt td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+.att{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ac{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.ac.I{border-color:var(--c-warn);border-width:2px}
+.ac h3{font-size:1.1rem;margin:0}
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:6px;width:max-content}
+.bd.I{background:var(--c-warn);color:#fff}.bd.V{background:var(--c-see);color:#fff}.bd.O{background:var(--line);color:var(--ink)}
+.st{font-size:18px;letter-spacing:2px;color:#D98A00}.st i{color:var(--line);font-style:normal}
+.ac .m{font-size:13px;color:var(--muted)}.ac p{margin:0;font-size:14px}
+.ac .lk{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal a{text-decoration:none;color:inherit}
+/*rt*/.rt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px}.rt .st{font-size:15px}.rt .m{color:var(--muted)}.rt .lk{display:flex;gap:10px;font-weight:600}
+@media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
+</style><style>
+.dz{display:grid;gap:14px}
+.dz fieldset.card{margin:0;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px 14px 14px;display:grid;gap:10px;min-width:0}
+.dz legend{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:0 6px}
+.dz .f{display:grid;gap:3px;font-size:13px;color:var(--muted)}
+.dz .f input{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;min-width:0;width:100%}
+.dz .f input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.dz .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+#form{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+#form .wide{grid-column:1/-1}
+.bt{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+.bt button{font:inherit;font-size:15px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 16px;min-height:44px;cursor:pointer}
+.bt button.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.bt button[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.bt .sep{flex:1}
+.paper{background:#fff;color:#000;border:1px solid var(--line);border-radius:6px;padding:18px 20px;overflow-x:auto;box-shadow:0 1px 6px rgba(0,0,0,.12)}
+.paper .dossier{max-width:760px;margin:0 auto}
+.ntx{font-size:14px;color:var(--muted);max-width:70ch}
+@media print{nav.pills,.bk,.bt,#form,.ntx,.day-h,.prose,.foot{display:none!important}.paper{border:0;box-shadow:none;padding:0}}
+</style><style id="dst"></style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="dossie.html" aria-current="page">Dossiê de imigração</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
+<section class="day" id="dossie"><div class="day-h"><span class="date">para mostrar ao oficial</span><h2>Dossiê de imigração</h2></div>
+<p class="prose">Um resumo da viagem em uma página só para mostrar no controle de passaportes: quem viaja, voos, hotéis, carro, seguro e recursos. Preencha os campos abaixo e gere o documento em inglês (para o oficial) ou em português.</p>
+<p class="ntx"><b>Privacidade:</b> o que você digita aqui (passaporte, apólice, telefones) fica só neste aparelho e não vai para a nuvem nem para o site. Campos vazios saem com uma linha em branco para preencher à mão depois de imprimir.</p>
+<div class="dz"><div id="form"></div></div>
+<div class="bt" role="group" aria-label="Gerar documento"><button type="button" class="main" id="b-doc">⬇ Gerar documento (.doc)</button><button type="button" id="b-pdf">🖨 Imprimir / salvar em PDF</button><span class="sep"></span><span style="font-size:13px;color:var(--muted)">Idioma:</span><button type="button" data-lg="en" aria-pressed="true">English</button><button type="button" data-lg="pt" aria-pressed="false">Português</button><button type="button" id="b-clr">Limpar dados</button></div>
+<div class="paper" id="prev" aria-label="Prévia do documento"></div>
+<p class="foot" style="border:0;margin-top:10px">O arquivo .doc abre no Word e no Google Docs. Para PDF, escolha "Salvar como PDF" na janela de impressão. Horários, hotéis e voos vêm das páginas Voos e Hospedagem; se algo mudar lá, atualize aqui também.</p></section>
+<p class="foot">Balcãs 2027 · roteiros atualizados ao longo do planejamento. Valores de ingressos, pedágios e horários são estimativas a confirmar nos sites oficiais.</p><div class="bk bk-end"><button type="button" class="back" data-back>← Voltar</button></div></div>
+<script>
+(function(){
+var K='balcas2027-dossie';
+var F={};try{F=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+var LANG='en';try{LANG=localStorage.getItem(K+'-lang')||'en'}catch(e){}
+var DEF={n1:'Sergio Vaz Fernandes',nat1:'Portugal (EU citizen)',n2:'Andréa Balieiro Dias',nat2:'Brazil'};
+var P1=[['n','Nome completo',''],['nat','Nacionalidade / passaporte',''],['pp','Nº do passaporte','AB123456'],['exp','Validade do passaporte','dd/mm/aaaa'],['dob','Data de nascimento','dd/mm/aaaa'],['job','Profissão','ex.: gerente de projetos'],['ph','Telefone','+55 11 ...'],['em','E-mail','']];
+var SH=[['rel','Relação entre os viajantes','ex.: marido e mulher / companheiros'],['addr','Endereço residencial (Brasil)','rua, nº, cidade, CEP'],['emn','Contato de emergência (nome e parentesco)',''],['emp','Telefone do contato de emergência','+55 ...'],
+['ins','Seguradora','nome da seguradora'],['pol','Nº da apólice','apólice'],['insp','Telefone de assistência 24 h','+55 ... / +...'],['cov','Cobertura médica','ex.: EUR 60.000 por pessoa'],
+['funds','Recursos disponíveis / meios de pagamento','ex.: cartões de crédito + EUR em espécie'],['plate','Placa do carro alugado','preencher na retirada (18/05)'],['rent','Nº do contrato da Nova Rent a Car',''],['idp','Nº da PID (Permissão Internacional para Dirigir)','']];
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function val(k){return (F[k]!=null&&F[k]!=='')?F[k]:(DEF[k]||'')}
+function save(){try{localStorage.setItem(K,JSON.stringify(F))}catch(e){}}
+/* ---- formulário */
+function field(k,lab,ph){return '<label class="f"><span>'+esc(lab)+'</span><input type="text" data-k="'+k+'" value="'+esc(val(k))+'" placeholder="'+esc(ph||'')+'" autocomplete="off"></label>'}
+function drawForm(){
+ var h='';
+ [1,2].forEach(function(t){h+='<fieldset class="card"><legend>Viajante '+t+'</legend>'+P1.map(function(x){return field(x[0]+t,x[1],x[2])}).join('')+'</fieldset>'});
+ h+='<fieldset class="card wide"><legend>Dados da viagem</legend><div class="g2">'+SH.map(function(x){return field(x[0],x[1],x[2])}).join('')+'</div></fieldset>';
+ document.getElementById('form').innerHTML=h;
+}
+/* ---- documento */
+var CSS='.dossier{font:11pt/1.4 Arial,Helvetica,sans-serif;color:#000;background:#fff}.dossier h1{font-size:20pt;margin:0 0 2pt}.dossier h2{font-size:12.5pt;margin:16pt 0 4pt;padding-bottom:2pt;border-bottom:1.5pt solid #000}.dossier p{margin:3pt 0}.dossier .sub{color:#444;font-size:10.5pt}.dossier table{border-collapse:collapse;width:100%;margin:3pt 0}.dossier th,.dossier td{border:1px solid #777;padding:3pt 5pt;text-align:left;vertical-align:top;font-size:10pt}.dossier th{background:#eee}.dossier .sig{display:inline-block;width:46%;margin-top:26pt;border-top:1px solid #000;padding-top:2pt;font-size:10pt}.dossier ul{margin:3pt 0 3pt 14pt;padding:0}.dossier li{margin:1pt 0}.dossier .note{font-size:9.5pt;color:#444}.dossier .box{border:1px solid #000;padding:5pt 8pt;margin:6pt 0}';
+function build(lang){
+ var pt=lang==='pt';
+ function L(en,p){return pt?p:en}
+ function v(k){var x=val(k);return x?esc(x):'________________'}
+ function row(a,b){return '<tr><th style="width:34%">'+a+'</th><td>'+b+'</td></tr>'}
+ var o='';
+ o+='<h1>'+L('Travel dossier','Dossiê de viagem')+'</h1>';
+ o+='<p class="sub">'+L('Road trip through Croatia, Slovenia, Italy (Trieste) and Montenegro · 14 May – 6 June 2027','Viagem de carro por Croácia, Eslovênia, Itália (Trieste) e Montenegro · 14/05 a 06/06/2027')+'</p>';
+ o+='<p class="note">'+L('Prepared to present at immigration control. Original documents are carried with us.','Preparado para apresentar no controle de imigração. Os documentos originais estão conosco.')+'</p>';
+ /* 1 */
+ o+='<h2>1. '+L('Travellers','Viajantes')+'</h2><table border="1" cellspacing="0" cellpadding="4"><tr><th></th><th>'+L('Traveller 1','Viajante 1')+'</th><th>'+L('Traveller 2','Viajante 2')+'</th></tr>';
+ [['n',L('Full name','Nome completo')],['nat',L('Nationality / passport','Nacionalidade / passaporte')],['pp',L('Passport no.','Nº do passaporte')],['exp',L('Passport expiry','Validade do passaporte')],['dob',L('Date of birth','Data de nascimento')],['job',L('Occupation','Profissão')],['ph',L('Phone','Telefone')],['em','E-mail']].forEach(function(r){o+='<tr><th>'+r[1]+'</th><td>'+v(r[0]+'1')+'</td><td>'+v(r[0]+'2')+'</td></tr>'});
+ o+='</table><p>'+L('Relationship between travellers: ','Relação entre os viajantes: ')+v('rel')+'</p><p>'+L('Home address: ','Endereço residencial: ')+v('addr')+'</p>';
+ /* 2 */
+ o+='<h2>2. '+L('Purpose and length of stay','Motivo e duração da estadia')+'</h2><table border="1" cellspacing="0" cellpadding="4">';
+ o+=row(L('Purpose','Motivo'),L('Tourism (leisure road trip). No work, study or paid activity.','Turismo (viagem de carro a lazer). Sem trabalho, estudo ou atividade remunerada.'));
+ o+=row(L('Arrival in the Schengen area','Chegada ao espaço Schengen'),L('Sat 15 May 2027, Frankfurt (FRA), Germany, 16:25 · first Schengen entry','Sáb 15/05/2027, Frankfurt (FRA), Alemanha, 16:25 · primeira entrada no Schengen'));
+ o+=row(L('Departure from the Schengen area','Saída do espaço Schengen'),L('Sat 5 June 2027, Frankfurt (FRA), flight LH 918 to London at 18:00, then to São Paulo','Sáb 05/06/2027, Frankfurt (FRA), voo LH 918 para Londres às 18:00 e depois São Paulo'));
+ o+=row(L('Length of stay','Duração'),L('22 days in Europe (15 May – 5 June 2027), well within 90 days in any 180-day period','22 dias na Europa (15/05 a 05/06/2027), dentro do limite de 90 dias em 180'));
+ o+=row(L('Countries','Países'),L('Croatia, Slovenia, Italy (day trip to Trieste), Montenegro (3 nights)','Croácia, Eslovênia, Itália (bate-volta a Trieste), Montenegro (3 noites)'));
+ o+='</table>';
+ /* 3 */
+ o+='<h2>3. '+L('Flights (return tickets issued)','Voos (passagens de ida e volta emitidas)')+'</h2><table border="1" cellspacing="0" cellpadding="4"><tr><th>'+L('Flight','Voo')+'</th><th>'+L('Route','Trecho')+'</th><th>'+L('Departure','Saída')+'</th><th>'+L('Arrival','Chegada')+'</th></tr>';
+ [['LA 8070','São Paulo (GRU) → Frankfurt (FRA)',L('Fri 14 May 2027, 23:40','Sex 14/05/2027, 23:40'),L('Sat 15 May, 16:25','Sáb 15/05, 16:25')],
+  ['LH 1406','Frankfurt (FRA) → Zagreb (ZAG)',L('Sat 15 May, 22:10','Sáb 15/05, 22:10'),L('Sat 15 May, 23:40','Sáb 15/05, 23:40')],
+  ['LH 1405','Zagreb (ZAG) → Frankfurt (FRA)',L('Sat 5 June, 15:00','Sáb 05/06, 15:00'),L('Sat 5 June, 16:35','Sáb 05/06, 16:35')],
+  ['LH 918','Frankfurt (FRA) → London (LHR)',L('Sat 5 June, 18:00','Sáb 05/06, 18:00'),L('Sat 5 June, 18:40','Sáb 05/06, 18:40')],
+  ['LA 8085','London (LHR) → '+L('São Paulo','São Paulo')+' (GRU)',L('Sat 5 June, 21:20','Sáb 05/06, 21:20'),L('Sun 6 June, 04:45','Dom 06/06, 04:45')]].forEach(function(r){o+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>'});
+ o+='</table><p>'+L('Booking references: LATAM <b>LNDUTE</b> (LA 8070, LA 8085); Lufthansa <b>24RHZU</b> (LH 1406, LH 1405, LH 918). Fare: Economy Full, valid for up to 6 months.','Códigos de reserva: LATAM <b>LNDUTE</b> (LA 8070, LA 8085); Lufthansa <b>24RHZU</b> (LH 1406, LH 1405, LH 918). Tarifa Economy Full, válida por até 6 meses.')+'</p>';
+ o+='<p class="note">'+L('London Heathrow is an airside connection only; we do not intend to enter the United Kingdom.','Londres (Heathrow) é apenas conexão dentro do aeroporto; não pretendemos entrar no Reino Unido.')+'</p>';
+ /* 4 */
+ o+='<h2>4. '+L('Accommodation (all booked, free cancellation, pay at the property)','Hospedagem (tudo reservado, cancelamento grátis, pagamento no local)')+'</h2><table border="1" cellspacing="0" cellpadding="4"><tr><th>'+L('Dates','Datas')+'</th><th>'+L('Hotel','Hotel')+'</th><th>'+L('Address','Endereço')+'</th></tr>';
+ [['15–18 May','15–18/05','Best Western Premier Hotel Astoria','Petrinjska 71, 10000 Zagreb, Croatia'],
+  ['18–21 May','18–21/05','Central Apartments with Parking','Mirje 3a, 1000 Ljubljana, Slovenia'],
+  ['21–23 May','21–23/05',"Tesla's Gastro House Plitvice",'Čujića Krčevina 2, 53231 Plitvička Jezera, Croatia'],
+  ['23–26 May','23–26/05','MK Luxury Rooms','Rodrigina 2, 21000 Split, Croatia'],
+  ['26–29 May','26–29/05','Guesthouse Libertas 3','Ulica Pera Budmani 19, 20000 Dubrovnik, Croatia'],
+  ['29 May – 1 Jun','29/05–01/06','Marea DeLuxe Apartments','Škaljari 150, 85330 Kotor, Montenegro'],
+  ['1–3 June','01–03/06','Hotel Olympia Sky','Ljudevita Gaja 6, 22211 Vodice, Croatia'],
+  ['3–4 June','03–04/06','Hotel Mirjana & Rastoke','Donji Nikšić 101, 47240 Slunj, Croatia'],
+  ['4–5 June','04–05/06','Hotel Capital (Amadria Park)','Jurišićeva ulica 22, 10000 Zagreb, Croatia']].forEach(function(r){o+='<tr><td>'+L(r[0],r[1])+'</td><td>'+esc(r[2])+'</td><td>'+esc(r[3])+'</td></tr>'});
+ o+='</table>';
+ /* 5 */
+ o+='<h2>5. '+L('Route and border crossings','Roteiro e passagens de fronteira')+'</h2><ul>';
+ o+='<li>'+L('Zagreb (15–18 May) → Ljubljana (18 May, Croatia–Slovenia, inside Schengen)','Zagreb (15–18/05) → Ljubljana (18/05, Croácia–Eslovênia, dentro do Schengen)')+'</li>';
+ o+='<li>'+L('20 May: day trip Ljubljana → Postojna → Trieste (Italy) → Ljubljana','20/05: bate-volta Ljubljana → Postojna → Trieste (Itália) → Ljubljana')+'</li>';
+ o+='<li>'+L('21 May: Slovenia → Plitvice (Croatia); then Split (23 May) and Dubrovnik (26 May)','21/05: Eslovênia → Plitvice (Croácia); depois Split (23/05) e Dubrovnik (26/05)')+'</li>';
+ o+='<li><b>'+L('29 May: Croatia → Montenegro (Kotor), land border, outside Schengen; 1 June: back to Croatia','29/05: Croácia → Montenegro (Kotor), fronteira terrestre, fora do Schengen; 01/06: volta à Croácia')+'</b></li>';
+ o+='<li>'+L('Šibenik/Vodice (1–3 June), Rastoke (3–4 June), Zagreb (4–5 June)','Šibenik/Vodice (01–03/06), Rastoke (03–04/06), Zagreb (04–05/06)')+'</li></ul>';
+ /* 6 */
+ o+='<h2>6. '+L('Rental car','Carro alugado')+'</h2><table border="1" cellspacing="0" cellpadding="4">';
+ o+=row(L('Company','Locadora'),'Nova Rent a Car');
+ o+=row(L('Pick-up / return','Retirada / devolução'),L('Pick-up in Zagreb on 18 May 2027; return at Zagreb airport (ZAG) on 5 June 2027','Retirada em Zagreb em 18/05/2027; devolução no aeroporto de Zagreb (ZAG) em 05/06/2027'));
+ o+=row(L('Rental contract no.','Nº do contrato'),v('rent'));
+ o+=row(L('Licence plate','Placa'),v('plate'));
+ o+=row(L('Cross-border use','Uso em outros países'),L('Slovenia, Italy and Montenegro (cross-border authorisation and green card from the rental company)','Eslovênia, Itália e Montenegro (autorização de viagem internacional e carta verde da locadora)'));
+ o+=row(L('Driving documents','Documentos de condução'),L('Brazilian driving licence (CNH) and International Driving Permit no. ','CNH brasileira e PID (Permissão Internacional para Dirigir) nº ')+v('idp'));
+ o+='</table>';
+ /* 7 */
+ o+='<h2>7. '+L('Means of subsistence','Meios de subsistência')+'</h2><table border="1" cellspacing="0" cellpadding="4">';
+ o+=row(L('Estimated trip budget','Orçamento estimado da viagem'),L('about EUR 8,000 for the two travellers (22 days), including all costs','cerca de EUR 8.000 para os dois viajantes (22 dias), com todos os custos'));
+ o+=row(L('Funds available / payment methods','Recursos disponíveis / meios de pagamento'),v('funds'));
+ o+=row(L('Accommodation and flights','Hospedagem e voos'),L('Flights already paid (miles plus taxes). Hotels reserved, paid at the property.','Voos já pagos (milhas mais taxas). Hotéis reservados, pagamento no local.'));
+ o+='</table><p class="note">'+L('Bank statements and card statements are available on request.','Extratos bancários e de cartão disponíveis se solicitados.')+'</p>';
+ /* 8 */
+ o+='<h2>8. '+L('Travel medical insurance','Seguro viagem')+'</h2><table border="1" cellspacing="0" cellpadding="4">';
+ o+=row(L('Insurer','Seguradora'),v('ins'))+row(L('Policy no.','Nº da apólice'),v('pol'))+row(L('24-hour assistance phone','Telefone de assistência 24 h'),v('insp'))+row(L('Medical coverage','Cobertura médica'),v('cov'));
+ o+='</table>';
+ /* 9 */
+ o+='<h2>9. '+L('Emergency contact','Contato de emergência')+'</h2><p>'+L('Contact in Brazil: ','Contato no Brasil: ')+v('emn')+' · '+L('Phone: ','Telefone: ')+v('emp')+'</p><p class="note">'+L('Emergency number in the EU and Montenegro: 112.','Emergência na UE e em Montenegro: 112.')+'</p>';
+ /* 10 */
+ o+='<h2>10. '+L('Documents we carry','Documentos que levamos')+'</h2><ul>';
+ [L('Passports valid for at least 3 months after our departure from the Schengen area, with free pages','Passaportes válidos por pelo menos 3 meses após a saída do Schengen, com páginas livres'),
+  L('Return and onward flight tickets (e-tickets) listed in section 3','Passagens de ida e volta (e-tickets) listadas na seção 3'),
+  L('Hotel reservation confirmations listed in section 4','Confirmações de reserva dos hotéis da seção 4'),
+  L('Car rental voucher, driving licence and International Driving Permit','Voucher do carro, CNH e PID'),
+  L('Travel insurance policy','Apólice do seguro viagem'),
+  L('Proof of funds (cards and bank statements)','Comprovação de recursos (cartões e extratos)'),
+  L('ETIAS travel authorisation, if it is required at the time of travel','Autorização ETIAS, se estiver em vigor na data da viagem')].forEach(function(x){o+='<li>☐ '+x+'</li>'});
+ o+='</ul>';
+ /* declaração */
+ o+='<h2>'+L('Declaration','Declaração')+'</h2><p>'+L('We declare that the information above is correct. We are travelling as tourists, we hold return tickets, and we will leave the Schengen area on 5 June 2027.','Declaramos que as informações acima estão corretas. Viajamos como turistas, temos passagens de volta e deixaremos o espaço Schengen em 05/06/2027.')+'</p>';
+ o+='<p><span class="sig">'+esc(val('n1'))+'</span> &nbsp; <span class="sig">'+esc(val('n2'))+'</span></p>';
+ return o;
+}
+function fullDoc(lang){
+ return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Travel dossier</title><style>@page{size:A4;margin:14mm}body{margin:0}'+CSS+'</style></head><body><div class="dossier">'+build(lang)+'</div></body></html>';
+}
+var prev=document.getElementById('prev');
+function paint(){prev.innerHTML='<div class="dossier">'+build(LANG)+'</div>';
+ [].forEach.call(document.querySelectorAll('[data-lg]'),function(b){b.setAttribute('aria-pressed',b.dataset.lg===LANG?'true':'false')})}
+document.getElementById('dst').textContent=CSS;
+document.getElementById('form').addEventListener('input',function(e){var k=e.target.getAttribute('data-k');if(!k)return;F[k]=e.target.value;save();paint()});
+[].forEach.call(document.querySelectorAll('[data-lg]'),function(b){b.addEventListener('click',function(){LANG=b.dataset.lg;try{localStorage.setItem(K+'-lang',LANG)}catch(e){}paint()})});
+document.getElementById('b-doc').addEventListener('click',function(){
+ var blob=new Blob(['﻿'+fullDoc(LANG)],{type:'application/msword;charset=utf-8'});
+ var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='dossie-balcas-2027-'+LANG+'.doc';document.body.appendChild(a);a.click();
+ setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500)});
+document.getElementById('b-pdf').addEventListener('click',function(){
+ var w=window.open('','_blank');
+ if(!w){alert('O navegador bloqueou a janela. Permita pop-ups para este site e tente de novo.');return}
+ w.document.open();w.document.write(fullDoc(LANG));w.document.close();
+ setTimeout(function(){try{w.focus();w.print()}catch(e){}},400)});
+document.getElementById('b-clr').addEventListener('click',function(){
+ if(!confirm('Apagar os dados que você preencheu neste aparelho (passaporte, apólice, telefones etc.)?'))return;
+ F={};save();drawForm();paint()});
+drawForm();paint();
+})();
+
+</script>
+<script src="nav.js?v=49"></script>
+</body></html>

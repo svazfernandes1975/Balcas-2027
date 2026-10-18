@@ -1,0 +1,33 @@
+/* v48: tabelas de atrações e passeios */
+.atr{min-width:780px}
+.atr th,.atr td{vertical-align:top}
+.atr td small{display:block;color:var(--muted);font-size:12px;margin-top:3px;line-height:1.4}
+.atr td:nth-child(1){min-width:190px}
+.atr td:nth-child(2){white-space:nowrap}
+.atr .st{display:block;font-size:14px;letter-spacing:1px;margin-top:3px}
+.atr .bd{font-size:10px}
+.pg{font-weight:700;white-space:nowrap}
+.pg.free{color:var(--c-tip)}
+.pg.chk{color:var(--muted);font-weight:600}
+.cp{display:inline-block;font:700 11px/1.4 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:6px;white-space:nowrap}
+.cp.antes{background:var(--accent);color:var(--accent-ink)}
+.cp.tanto{border:1px solid var(--accent);color:var(--accent)}
+.cp.hora{border:1px solid var(--line);color:var(--muted)}
+.cp.na{color:var(--muted)}
+.okv{display:block;color:var(--c-tip);font-size:11px;font-weight:600;margin-top:3px}
+.atr tfoot td{font-weight:700;border-top:2px solid var(--ink);background:color-mix(in srgb,var(--line) 22%,transparent)}
+.atr tbody tr:nth-child(even){background:color-mix(in srgb,var(--line) 22%,transparent)}
+.atr .pai{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.pstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:0 0 20px}
+.pst{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:2px;align-content:start}
+.pst b{font-family:var(--f-display);font-size:1.7rem;line-height:1.1;color:var(--accent)}
+.pst span{font-size:13px;color:var(--muted)}
+.fl{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.fl button{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 14px;cursor:pointer}
+.fl button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.dtag{font-family:var(--f-mono);font-size:12px;white-space:nowrap}
+@media print{nav.pills,.bk,.fl{display:none!important}}
+#pt{min-width:1100px!important}
+#pt td:nth-child(3){min-width:280px}
+#pt td:nth-child(5){min-width:130px}
+#pt td.n{white-space:nowrap}
