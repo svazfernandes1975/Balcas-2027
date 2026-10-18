@@ -41,3 +41,12 @@
 /* v58: coluna Dia estreita */
 #pt th:first-child,#pt td:first-child{width:1%;white-space:nowrap;padding-right:6px}#pt td:first-child .dtag{font-size:11.5px}
 #pt th:nth-child(1),#pt td:nth-child(1){min-width:0}#pt th{text-align:left}#pt th:nth-child(6),#pt td.n{text-align:right}
+
+/* v63: tabelas de compras */
+.cmp{min-width:700px}
+.cmp td:nth-child(2){white-space:normal;min-width:130px}
+.cmp td:nth-child(3){min-width:140px}
+.cmp td:nth-child(5){min-width:170px;color:var(--muted);font-size:14px}
+.brz{display:inline-block;font:700 11px/1.4 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:6px;white-space:nowrap;border:1px solid}
+.brz.ok{color:var(--c-tip)}.brz.cond{color:var(--c-eat)}.brz.no{color:var(--c-warn);border-width:2px}
+.cnote{font-size:13px;color:var(--muted);margin-top:10px}

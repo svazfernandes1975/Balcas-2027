@@ -1,0 +1,168 @@
+<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=65"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Compras e Tax Free · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+:root{
+ /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
+ --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
+ --accent:#0B7285;--accent-ink:#FFFFFF;--sea:#CDE5EB;--land:#F6F8F4;--route:#0B7285;
+ --c-drive:#0B7285;--c-see:#4B5FA8;--c-eat:#A15A12;--c-tip:#2F7D4F;--c-warn:#B3341F;--c-stay:#6B5A8E;
+ --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--f-body:'Public Sans','Segoe UI',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+nav.pills{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.pills a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 14px;font-size:14px;white-space:nowrap}
+nav.pills a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+.hero{padding-block:32px 24px;display:grid;gap:12px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{max-width:62ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:800;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:8px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+.cdown{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;display:grid;gap:8px}.cd-n{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:flex-end}.cd-n b{display:block;font-family:var(--f-display);font-size:clamp(2.6rem,12vw,4rem);line-height:1;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}.cd-n span{font-size:13px;color:var(--muted)}.cd-msg{font-family:var(--f-display);font-size:1.6rem;font-weight:700;color:var(--accent)}
+section.day{margin-top:36px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;border-top:2px solid var(--ink);padding-top:12px}
+.day-h .date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.day-h h2{font-size:1.5rem;font-weight:700}
+ol.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.tl li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.time{font-family:var(--f-mono);font-size:14px;font-weight:600;padding-top:2px}
+.time.none{color:var(--muted)}
+.k{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.k-drive .k,.k-drive .time{color:var(--c-drive)}.k-see .k{color:var(--c-see)}.k-eat .k{color:var(--c-eat)}.k-tip .k{color:var(--c-tip)}.k-warn .k{color:var(--c-warn)}.k-stay .k{color:var(--c-stay)}
+.k-warn{border-left:4px solid var(--c-warn)}.k-tip{border-left:4px solid var(--c-tip)}.k-drive{border-left:4px solid var(--c-drive)}
+ol.tl h3{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+ol.tl p{margin:0;color:var(--muted);font-size:15px}
+.gm{display:inline-block;margin-top:10px;font-size:14px;font-weight:600}
+.x{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:10px 0 0;font-size:14px}.x dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}.x dd{margin:0;overflow-wrap:anywhere}
+ul.bul{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}.prose{max-width:70ch;margin:0 0 10px}
+a.tag{text-decoration:none;color:var(--accent)}
+.num td.n,.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.num td:first-child{white-space:nowrap}
+.tot td{font-weight:700;border-top:2px solid var(--ink)}
+table.wide{font-size:13px}table.wide th,table.wide td{padding:6px 8px}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px}
+.pn a{font-weight:600;text-decoration:none}
+table.opt{width:100%;border-collapse:collapse;font-size:15px}
+table.opt th,table.opt td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+.att{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ac{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.ac.I{border-color:var(--c-warn);border-width:2px}
+.ac h3{font-size:1.1rem;margin:0}
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:6px;width:max-content}
+.bd.I{background:var(--c-warn);color:#fff}.bd.V{background:var(--c-see);color:#fff}.bd.O{background:var(--line);color:var(--ink)}
+.st{font-size:18px;letter-spacing:2px;color:#D98A00}.st i{color:var(--line);font-style:normal}
+.ac .m{font-size:13px;color:var(--muted)}.ac p{margin:0;font-size:14px}
+.ac .lk{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal a{text-decoration:none;color:inherit}
+/*rt*/.rt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px}.rt .st{font-size:15px}.rt .m{color:var(--muted)}.rt .lk{display:flex;gap:10px;font-weight:600}
+@media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
+
+.cp-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:10px 0 6px}
+.cp-c{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:4px;align-content:start}
+.cp-c b{font-family:var(--f-display);font-size:1.6rem;line-height:1;color:var(--accent)}
+.cp-c small{color:var(--muted);font-size:13px}
+.hub-t{width:100%;border-collapse:collapse;font-size:14px}.hub-t th,.hub-t td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+.hub-t th{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.brz{display:inline-block;font:700 11px/1.4 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:6px;white-space:nowrap;border:1px solid}
+.brz.ok{color:var(--c-tip)}.brz.cond{color:var(--c-eat)}.brz.no{color:var(--c-warn);border-width:2px}
+.src li{font-size:13px;overflow-wrap:anywhere}
+.scroll{overflow-x:auto}
+</style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="compras.html" aria-current="page">Compras e Tax Free</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
+<section class="day"><div class="day-h"><span class="date">planejamento</span><h2>Compras e Tax Free</h2></div>
+<p class="prose">Regras e números para decidir o que comprar, como levar e o que passa na alfândega brasileira. Os artigos de cada cidade estão na seção <b>Compras</b> da página da etapa.</p>
+<div class="cp-g"><div class="cp-c"><b>US$ 1.000</b><span>cota de compras por pessoa, na chegada de avião</span><small>Individual: US$ 2.000 para o casal, mas sem somar entre vocês. Acima disso, 50 % de imposto sobre o excedente.</small></div>
+<div class="cp-c"><b>12 litros</b><span>de bebida alcoólica por pessoa</span><small>Dentro da cota de US$ 1.000. Bebida vai na mala despachada, lacrada.</small></div>
+<div class="cp-c"><b>23 kg</b><span>mala despachada na volta</span><small>Mala dobrável cheia entra nesse peso. Bagagem de mão: 12 kg e mochila de 10 kg.</small></div></div></section>
+
+<section class="day"><div class="day-h"><span class="date">reembolso do IVA</span><h2>Tax Free por país</h2></div>
+<div class="scroll"><table class="hub-t"><thead><tr><th>País</th><th>Valor mínimo</th><th>Como funciona</th></tr></thead><tbody>
+<tr><td><b>Croácia</b><br>Zagreb, Plitvice, Split, Šibenik, Dubrovnik</td><td>acima de <b>€ 100</b> por nota, IVA incluído</td><td>Um formulário PDV-P para cada nota (regra de julho de 2026). A alfândega carimba na saída da UE, em até 3 meses da compra. Guarde nota e formulário originais.</td></tr>
+<tr><td><b>Eslovênia</b><br>Ljubljana</td><td>≈ <b>€ 50,01</b> por nota (confirme na loja)</td><td>Peça o formulário no caixa, com o passaporte. Mesma validação na saída da UE.</td></tr>
+<tr><td><b>Itália</b><br>Trieste</td><td>acima de <b>€ 70</b> na mesma loja e no mesmo dia</td><td>Formulário digital ou em papel; validação na saída da UE. O reembolso líquido costuma ficar em 10 a 15 % do valor, pela taxa do operador.</td></tr>
+<tr><td><b>Montenegro</b><br>Kotor</td><td>sem sistema confiável</td><td>Fora da UE. Se uma loja oferecer, peça por escrito o formulário e onde validar. Não entre no orçamento.</td></tr>
+</tbody></table></div>
+<h3 style="margin-top:20px">Como fazer na volta (ZAG → Frankfurt → Londres → São Paulo)</h3>
+<ul class="bul"><li>Peça o formulário na loja e mostre o passaporte (vale o passaporte brasileiro ou o português: o que conta é <b>não morar na UE</b>).</li>
+<li>No aeroporto de Zagreb a alfândega fica no <b>Piso 2, Partidas, antes da segurança</b>. Chegue ao check-in por volta das 12h, para o voo das 15h. Leve os itens com Tax Free na mão para a conferência.</li>
+<li>O reembolso é pago na área Schengen depois da segurança (SonusArt, das 7h às 21h). Fora desse horário, use o app da Global Blue ou o envelope no correio.</li>
+<li><b>Atenção à conexão:</b> a saída da UE de vocês é Frankfurt (o trecho seguinte é para Londres). A regra geral é validar no último ponto de saída da UE. Como a mala é despachada até São Paulo, <b>pergunte à alfândega de Zagreb se carimba o formulário</b> ou se o carimbo deve ser feito em Frankfurt (balcão Zoll, Terminal 1). Se for em Frankfurt, deixe os itens com Tax Free na bagagem de mão e reserve 45 a 60 minutos: a conexão é de apenas 1h25.</li>
+<li>Se o prazo apertar, abra mão do reembolso: o valor líquido de uma compra de € 100 é pequeno.</li></ul></section>
+
+<section class="day"><div class="day-h"><span class="date">volta para o Brasil</span><h2>O que entra e o que não entra</h2></div>
+<p class="prose">Regras do Ministério da Agricultura (lista de viajantes, versão 09/2025, com norma nova de fevereiro de 2026) e da Receita Federal. A lista pode mudar: confira antes de viajar.</p>
+<div class="scroll"><table class="hub-t"><thead><tr><th>Produto</th><th>Situação</th><th>Observação</th></tr></thead><tbody>
+<tr><td><b>Mel, própolis e geleia real</b></td><td><span class="brz no">✕ Não entra</span></td><td>Proibido mesmo lacrado e em embalagem original.</td></tr>
+<tr><td><b>Presunto, salame, linguiça e outros produtos de porco</b> (pršut, kulen, šokol, prosciutto)</td><td><span class="brz no">✕ Não entra</span></td><td>Só passa o produto enlatado ou esterilizado pelo calor, industrializado e com rótulo.</td></tr>
+<tr><td><b>Queijos e laticínios</b></td><td><span class="brz cond">! Com condição</span></td><td>Só industrializado, em embalagem de fábrica lacrada, com rótulo em português, inglês, espanhol ou francês. Proibido aberto, fracionado ou a vácuo. Proibido o de leite cru de países com dermatose nodular (a lista cita Itália e França).</td></tr>
+<tr><td><b>Azeite, vinho, rakija e licores</b></td><td><span class="brz cond">! Com condição</span></td><td>Industrializados, lacrados e rotulados. Garrafa caseira sem rótulo corre risco de apreensão. Até 12 l por pessoa dentro da cota.</td></tr>
+<tr><td><b>Lavanda, ervas e plantas secas naturalmente</b></td><td><span class="brz no">✕ Não entra</span></td><td>Passa o industrializado (desidratado artificialmente, torrado) em embalagem lacrada e rotulada. Óleo, hidrolato, sabonete e cosmético passam.</td></tr>
+<tr><td><b>Chocolate, biscoitos, doces e geleias industrializadas</b></td><td><span class="brz ok">✓ Pode</span></td><td>Em embalagem de fábrica, com rótulo.</td></tr>
+<tr><td><b>Café, chá industrializado, sal marinho</b></td><td><span class="brz ok">✓ Pode</span></td><td>Café e chá em embalagem lacrada. Sal não consta como restrito.</td></tr>
+<tr><td><b>Roupas, gravatas, guarda-chuvas, cerâmica, rendas, joias</b></td><td><span class="brz ok">✓ Pode</span></td><td>Contam na cota de US$ 1.000. Guarde as notas.</td></tr>
+</tbody></table></div>
+<ul class="bul" style="margin-top:14px"><li>Passou da cota ou trouxe produto que exige declaração: declare no <b>e-DBV</b> (declaração digital de bagagem) e use o canal "Bens a declarar". Se não declarar e a Receita encontrar, a multa é de 50 % além do imposto.</li>
+<li>Produto proibido: descarte nas lixeiras do desembarque antes da alfândega, ou declare.</li>
+<li>Dinheiro em espécie acima de US$ 10.000 deve ser declarado.</li>
+<li>A cota se renova a cada 30 dias, contados da última viagem internacional.</li></ul></section>
+
+<section class="day"><div class="day-h"><span class="date">logística</span><h2>Como levar</h2></div>
+<ul class="bul"><li>Na ida e nos voos internos de Schengen, líquidos acima de 100 ml não passam na bagagem de mão (Frankfurt segue o limite de 100 ml em um saco transparente de 1 litro). <b>Tudo que for líquido vai na mala despachada.</b></li>
+<li>Garrafas de vidro: embrulhe em roupa, no centro da mala, e use sacos plásticos com fecho.</li>
+<li>Duty free do aeroporto: o lacre (STEB) pode ser questionado nas conexões de Frankfurt e Londres, onde as regras diferem. Para evitar risco, compre antes e despache.</li>
+<li>Peças com Tax Free vão na bagagem de mão se o carimbo for em Frankfurt.</li>
+<li>A mala dobrável vazia segue na lista de mala. Peso máximo da despachada: 23 kg por pessoa.</li></ul></section>
+
+<section class="day"><div class="day-h"><span class="date">resumo</span><h2>O que comprar em cada cidade</h2></div>
+<div class="scroll"><table class="hub-t"><thead><tr><th>Cidade</th><th>Vale levar</th><th>Deixe para consumir lá</th></tr></thead><tbody>
+<tr><td><a href="zagreb.html#compras">Zagreb</a></td><td>Gravata Croata, guarda-chuva Šestine, licitar, Bajadera, renda de Lepoglava</td><td>Mel e queijos do Dolac</td></tr>
+<tr><td><a href="ljubljana.html#compras">Ljubljana</a></td><td>Óleo de abóbora, sal de Piran, geleias, trufa, lecitar e painel de colmeia</td><td>Mel esloveno</td></tr>
+<tr><td><a href="trieste.html#compras">Trieste</a></td><td>Café illy e Hausbrandt, livros antigos, moda com Tax Free</td><td>Queijos e frios italianos</td></tr>
+<tr><td><a href="plitvice.html#compras">Plitvice</a></td><td>Rakija em miniatura, lavanda em hidrolato, cerâmica e artesanato da Lika</td><td>Mel da Lika e linguiça de javali</td></tr>
+<tr><td><a href="split.html#compras">Split</a></td><td>Azeite, vinho Plavac Mali e Pošip, óleo de lavanda, Break Time</td><td>Queijo de Pag e pršut</td></tr>
+<tr><td><a href="dubrovnik.html#compras">Dubrovnik</a></td><td>Sal de Ston, vinho de Pelješac, bordado de Konavle, Rozalin</td><td>Mel e queijos locais</td></tr>
+<tr><td><a href="kotor.html#compras">Kotor</a></td><td>Vranac, lozovača, azeite, gatos, kapa e brojanica</td><td>Pršut e queijo de Njeguši, mel</td></tr>
+<tr><td><a href="sibenik.html#compras">Šibenik</a></td><td>Travarica, vinho Babić, canecas e joias das fortalezas, sal de Pag</td><td>Queijo de Pag e pršut de Drniš</td></tr>
+<tr><td><a href="rastoke.html#compras">Rastoke</a></td><td>Artesanato, geleias de fábrica</td><td>Mel e licor caseiro sem rótulo</td></tr>
+<tr><td><a href="zagreb-final.html#compras">Zagreb final</a></td><td>Chocolates Kraš, peças com Tax Free</td><td>Qualquer coisa de porco, mel ou queijo a vácuo</td></tr>
+</tbody></table></div></section>
+
+<section class="day"><div class="day-h"><span class="date">fontes</span><h2>Onde conferir</h2></div>
+<ul class="bul src"><li><a href="https://carina.gov.hr/featured/information-for-passengers-natural-persons/exemption-from-vat-on-an-export-of-goods/6746" target="_blank" rel="noopener">Alfândega croata: isenção de IVA na exportação (acima de € 100 por nota, 3 meses)</a></li>
+<li><a href="https://www.vatupdate.com/2026/08/27/croatia-requires-separate-tax-free-shopping-form-for-each-invoice/" target="_blank" rel="noopener">VAT Update: um formulário PDV-P por nota (Croácia, 2026)</a></li>
+<li><a href="https://www.zagreb-airport.hr/en/passengers/at-the-airport/facilities-services/tax-free-refund/1076" target="_blank" rel="noopener">Aeroporto de Zagreb: procedimento de Tax Free</a></li>
+<li><a href="https://www.withprive.com/en/blog/vat-refund-frankfurt-airport" target="_blank" rel="noopener">Reembolso de IVA em Frankfurt: balcões Zoll e conexões</a></li>
+<li><a href="https://www.dolcevia.com/en/articles/tax-free-shopping-in-italy-a-practical-guide-for-travellers" target="_blank" rel="noopener">Tax Free na Itália (€ 70 por loja)</a></li>
+<li><a href="https://way4i.com/tax-free-shopping/slovenia/" target="_blank" rel="noopener">Tax Free na Eslovênia (cerca de € 50)</a></li>
+<li><a href="https://way4i.com/?p=3669" target="_blank" rel="noopener">Tax Free em Montenegro</a></li>
+<li><a href="https://www.gov.br/agricultura/pt-br/assuntos/vigilancia-agropecuaria/viajantes-e-bagagens/viajantes-e-bagagens-produtos-permitidos-x-produtos-proibidos-v-4.pdf" target="_blank" rel="noopener">Ministério da Agricultura: produtos permitidos x proibidos na bagagem</a></li>
+<li><a href="https://www.moneytimes.com.br/vai-viajar-atencao-ao-que-entra-na-mala-ministerio-da-agricultura-aperta-regras-para-produtos-agropecuarios-pads/" target="_blank" rel="noopener">Money Times: regras do Mapa para a bagagem (2026)</a></li>
+<li><a href="https://passageirodeprimeira.com/como-funciona-cota-isencao-alfandega-brasileira-2025/" target="_blank" rel="noopener">Cota de isenção da alfândega brasileira</a></li>
+<li><a href="https://www.frankfurt-airport.com/en/faqs/overview-faqs/faq-hand-luggage.html" target="_blank" rel="noopener">Frankfurt: líquidos na bagagem de mão e duty free</a></li>
+<li><a href="https://www.frankaboutcroatia.com/croatian-souvenirs/" target="_blank" rel="noopener">Frank About Croatia: lembranças croatas</a>, <a href="https://www.chasingthedonkey.com/what-to-buy-in-croatia-souvenirs/" target="_blank" rel="noopener">Chasing the Donkey</a>, <a href="https://secretcroatia.blog/2026/04/11/croatian-souvenirs-for-foodies-what-to-get-from-croatia/" target="_blank" rel="noopener">Secret Dalmatia</a></li>
+<li><a href="https://www.trvlogue.com/en/ljubljana-souvenir-shopping-guide" target="_blank" rel="noopener">Trvlogue: lembranças de Ljubljana</a>, <a href="https://www.inyourpocket.com/slovenia/ljubljana/articles/best-souvenir-shops-in-ljubljana" target="_blank" rel="noopener">In Your Pocket</a></li>
+<li><a href="https://np-plitvicka-jezera.hr/en/certified-local-products-2025/" target="_blank" rel="noopener">Plitvice: produtos locais certificados</a>, <a href="https://tvrdjava-kulture.hr/en/blog/souvenir-shops-at-the-fortresses-pieces-of-sibenik-you-can-take-with-you/" target="_blank" rel="noopener">Fortalezas de Šibenik</a></li></ul>
+<p class="foot" style="margin-top:12px">Valores com "≈" vêm dessas fontes (2023 a 2026) e os marcados "est." nas cidades são estimativas. Confirme tudo antes de comprar.</p></section></div>
+<script src="nav.js?v=65"></script><script type="module" src="fb.js?v=65"></script>

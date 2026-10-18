@@ -1,0 +1,211 @@
+<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=65"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Clima · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+:root{
+ /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
+ --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
+ --accent:#0B7285;--accent-ink:#FFFFFF;--sea:#CDE5EB;--land:#F6F8F4;--route:#0B7285;
+ --c-drive:#0B7285;--c-see:#4B5FA8;--c-eat:#A15A12;--c-tip:#2F7D4F;--c-warn:#B3341F;--c-stay:#6B5A8E;
+ --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--f-body:'Public Sans','Segoe UI',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+nav.pills{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.pills a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 14px;font-size:14px;white-space:nowrap}
+nav.pills a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+.hero{padding-block:32px 24px;display:grid;gap:12px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{max-width:62ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:800;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:8px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+.cdown{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;display:grid;gap:8px}.cd-n{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:flex-end}.cd-n b{display:block;font-family:var(--f-display);font-size:clamp(2.6rem,12vw,4rem);line-height:1;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}.cd-n span{font-size:13px;color:var(--muted)}.cd-msg{font-family:var(--f-display);font-size:1.6rem;font-weight:700;color:var(--accent)}
+section.day{margin-top:36px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;border-top:2px solid var(--ink);padding-top:12px}
+.day-h .date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.day-h h2{font-size:1.5rem;font-weight:700}
+ol.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.tl li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.time{font-family:var(--f-mono);font-size:14px;font-weight:600;padding-top:2px}
+.time.none{color:var(--muted)}
+.k{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.k-drive .k,.k-drive .time{color:var(--c-drive)}.k-see .k{color:var(--c-see)}.k-eat .k{color:var(--c-eat)}.k-tip .k{color:var(--c-tip)}.k-warn .k{color:var(--c-warn)}.k-stay .k{color:var(--c-stay)}
+.k-warn{border-left:4px solid var(--c-warn)}.k-tip{border-left:4px solid var(--c-tip)}.k-drive{border-left:4px solid var(--c-drive)}
+ol.tl h3{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+ol.tl p{margin:0;color:var(--muted);font-size:15px}
+.gm{display:inline-block;margin-top:10px;font-size:14px;font-weight:600}
+.x{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:10px 0 0;font-size:14px}.x dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}.x dd{margin:0;overflow-wrap:anywhere}
+ul.bul{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}.prose{max-width:70ch;margin:0 0 10px}
+a.tag{text-decoration:none;color:var(--accent)}
+.num td.n,.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.num td:first-child{white-space:nowrap}
+.tot td{font-weight:700;border-top:2px solid var(--ink)}
+table.wide{font-size:13px}table.wide th,table.wide td{padding:6px 8px}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px}
+.pn a{font-weight:600;text-decoration:none}
+table.opt{width:100%;border-collapse:collapse;font-size:15px}
+table.opt th,table.opt td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+.att{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ac{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.ac.I{border-color:var(--c-warn);border-width:2px}
+.ac h3{font-size:1.1rem;margin:0}
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:6px;width:max-content}
+.bd.I{background:var(--c-warn);color:#fff}.bd.V{background:var(--c-see);color:#fff}.bd.O{background:var(--line);color:var(--ink)}
+.st{font-size:18px;letter-spacing:2px;color:#D98A00}.st i{color:var(--line);font-style:normal}
+.ac .m{font-size:13px;color:var(--muted)}.ac p{margin:0;font-size:14px}
+.ac .lk{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal a{text-decoration:none;color:inherit}
+/*rt*/.rt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px}.rt .st{font-size:15px}.rt .m{color:var(--muted)}.rt .lk{display:flex;gap:10px;font-weight:600}
+@media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
+
+.cl-now{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:10px 0 4px}
+.cl-n{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:2px}
+.cl-n b{font-family:var(--f-display);font-size:1.7rem;line-height:1;color:var(--accent)}
+.cl-n span{font-size:13px;color:var(--muted)}
+.cl-c{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.cl-h{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;justify-content:space-between}
+.cl-h h3{font-size:1.25rem}.cl-h a{text-decoration:none}
+.cl-d{font:600 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.cl-s{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0}
+.cl-s div{font-size:13px;color:var(--muted)}.cl-s b{display:block;font-family:var(--f-display);font-size:1.3rem;color:var(--ink);line-height:1.1}
+.cl-t{margin:0 0 10px;font-size:15px}
+.cl-w{overflow-x:auto}
+.cl-tb{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}
+.cl-tb th,.cl-tb td{text-align:left;padding:6px 8px;border-top:1px solid var(--line);white-space:nowrap}
+.cl-tb th{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:0}
+.cl-g{display:inline-block;font:700 10px/1.4 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:1px 7px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
+.cl-g.pv{border-color:var(--accent);color:var(--accent)}
+.cl-g.hs{border-color:var(--c-see);color:var(--c-see)}
+.cl-r{display:inline-block;min-width:44px}
+.cl-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+.cl-st{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:12px 14px;font-size:14px;margin:8px 0 0}
+</style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="clima.html" aria-current="page">Clima</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
+<section class="day"><div class="day-h"><span class="date">planejamento</span><h2>Clima cidade por cidade</h2></div>
+<p class="prose">O que esperar nas suas datas, em cada cidade. Para cada dia a página usa a melhor informação disponível: a <b>previsão do tempo</b> (a partir de 16 dias antes), ou a <b>média histórica</b> daquele dia nos últimos 10 anos, ou a <b>média climática</b> do mês, como último recurso.</p>
+<div class="cl-st" id="cl-status">Carregando dados do tempo…</div></section>
+<section class="day"><div class="day-h"><span class="date">tempo real</span><h2>Agora nas cidades</h2></div><div class="cl-now" id="cl-now"></div><p class="cl-note" id="cl-nownote"></p></section>
+<section class="day"><div class="day-h"><span class="date">por etapa</span><h2>Dia a dia, nas suas datas</h2></div><div id="cl-cards"></div>
+<p class="cl-note">Fontes: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (previsão e dados históricos de 2015 em diante, carregados quando você abre a página) e <a href="https://www.climatestotravel.com/climate/croatia" target="_blank" rel="noopener">Climates to Travel</a> (médias climáticas de Zagreb, Split, Šibenik, Dubrovnik, Gospić, Ljubljana, Trieste e Kotor). Plitvice usa Gospić como referência; Rastoke é a média de Zagreb e Gospić (estimativa). A temperatura do mar vem das médias de maio e junho.</p>
+<p class="foot">Ajuste a mala conforme o clima: veja o <a href="mala.html">Checklist de mala</a>.</p></section></div>
+<script>
+(function(){
+var Y=2027,H0=2015;
+var DOW=['dom','seg','ter','qua','qui','sex','sáb'];
+// N = [máx, mín, mm, dias de chuva, horas de sol] para [maio, junho]
+var L={
+ zagreb:{lat:45.815,lon:15.982,N:[[22,11,75,9,8],[26,15,85,9,8]]},
+ ljubljana:{lat:46.056,lon:14.506,N:[[22,11,115,11,8],[26,14,125,10,8]]},
+ trieste:{lat:45.649,lon:13.777,N:[[22.3,14.8,85,9,7.5],[26.5,18.8,100,9,8]],mar:[18,22.5]},
+ plitvice:{lat:44.881,lon:15.616,N:[[20,7,105,10,8],[24,11,80,8,9]]},
+ rastoke:{lat:45.117,lon:15.587,N:[[21,9,90,9.5,8],[25,13,82,8.5,8.5]]},
+ split:{lat:43.508,lon:16.44,N:[[24,16,55,6,9],[28,20,50,5,11]],mar:[18,22]},
+ sibenik:{lat:43.735,lon:15.89,N:[[24,15,50,9,9],[28,19,55,8,10]],mar:[18,22]},
+ dubrovnik:{lat:42.65,lon:18.094,N:[[23,16,65,6,9],[27,20,55,4,10]],mar:[18,22]},
+ kotor:{lat:42.424,lon:18.771,N:[[23,12,85,9,8],[28,16,65,7,10]],mar:[18,21]}
+};
+var KEYS=Object.keys(L);
+var CID=[
+ {id:'zagreb',loc:'zagreb',n:'Zagreb',href:'zagreb.html',d:['15/05','16/05','17/05'],tip:'Primavera instável: pancadas de chuva são comuns. Leve guarda-chuva dobrável e um casaco leve para a noite. Sábado e domingo de abertura, com chegada de voo longo.'},
+ {id:'ljubljana',loc:'ljubljana',n:'Ljubljana e Lago Bled',href:'ljubljana.html',d:['18/05','19/05'],tip:'A etapa mais chuvosa do roteiro (a média de maio passa de 110 mm). Capa de chuva leve. No Lago Bled a manhã é fresca.'},
+ {id:'trieste',loc:'trieste',n:'Postojna, Predjama e Trieste',href:'trieste.html',d:['20/05'],tip:'A caverna de Postojna fica por volta de 10 °C o ano todo: leve um casaco, mesmo num dia quente. Trieste pode ter o vento forte chamado bora.'},
+ {id:'plitvice',loc:'plitvice',n:'Plitvice',href:'plitvice.html',d:['21/05','22/05'],tip:'O trecho mais frio do roteiro: manhãs perto de 7 °C e muita chuva. As passarelas ficam molhadas: tênis com boa aderência, jaqueta impermeável e uma troca de meias na mochila.'},
+ {id:'split',loc:'split',n:'Split, Trogir e Klis',href:'split.html',d:['23/05','24/05','25/05'],tip:'Quente e seco. Sol forte nas pedras do palácio: protetor, chapéu e água. O mar ainda está frio, perto de 19 °C: banho curto.'},
+ {id:'dubrovnik',loc:'dubrovnik',n:'Dubrovnik, Lokrum e Cavtat',href:'dubrovnik.html',d:['26/05','27/05','28/05'],tip:'As muralhas não têm sombra: vá cedo ou no fim da tarde. Mar em torno de 19 a 20 °C para Lokrum.'},
+ {id:'kotor',loc:'kotor',n:'Kotor, Perast e Lovćen',href:'kotor.html',d:['29/05','30/05','31/05'],tip:'Baía abafada nas horas de sol. No Lovćen faz vários graus a menos que na baía: leve um agasalho. Chuva ainda possível em maio.'},
+ {id:'sibenik',loc:'sibenik',n:'Šibenik e Krka',href:'sibenik.html',d:['01/06','02/06'],tip:'Calor de início de verão: 27 a 28 °C. Água para Krka e roupa leve. Mar perto de 21 a 22 °C.'},
+ {id:'rastoke',loc:'rastoke',n:'Rastoke',href:'rastoke.html',d:['03/06'],tip:'Cachoeiras e umidade: mais fresco que a costa. Calçado que possa molhar.'},
+ {id:'zagreb-final',loc:'zagreb',n:'Zagreb (volta)',href:'zagreb-final.html',d:['04/06','05/06'],tip:'Calor e chuva de verão possíveis (média de junho: 85 mm). Guarde o guarda-chuva na bagagem de mão.'}
+];
+var WC={0:['☀️','Céu limpo'],1:['🌤️','Poucas nuvens'],2:['⛅','Parcialmente nublado'],3:['☁️','Nublado'],45:['🌫️','Neblina'],48:['🌫️','Neblina'],51:['🌦️','Garoa'],53:['🌦️','Garoa'],55:['🌦️','Garoa'],56:['🌦️','Garoa gelada'],57:['🌦️','Garoa gelada'],61:['🌧️','Chuva fraca'],63:['🌧️','Chuva'],65:['🌧️','Chuva forte'],66:['🌧️','Chuva gelada'],67:['🌧️','Chuva gelada'],71:['🌨️','Neve'],73:['🌨️','Neve'],75:['🌨️','Neve'],77:['🌨️','Neve'],80:['🌦️','Pancadas'],81:['🌧️','Pancadas'],82:['⛈️','Pancadas fortes'],85:['🌨️','Neve'],86:['🌨️','Neve'],95:['⛈️','Trovoada'],96:['⛈️','Trovoada'],99:['⛈️','Trovoada']};
+function wc(c){return WC[c]||['·','—']}
+function pad(n){return(n<10?'0':'')+n}
+function ymd(dd){var p=dd.split('/');return Y+'-'+p[1]+'-'+p[0]}
+function mmdd(dd){var p=dd.split('/');return p[1]+'-'+p[0]}
+function dow(dd){var p=dd.split('/');return DOW[new Date(Date.UTC(Y,+p[1]-1,+p[0])).getUTCDay()]}
+function doy(m,d){return Math.round((Date.UTC(2001,m-1,d)-Date.UTC(2001,0,1))/864e5)}
+function lerp(a,b,f){return a+(b-a)*f}
+// média climática interpolada entre meados de maio e meados de junho
+function norm(loc,dd){var p=dd.split('/'),f=(doy(+p[1],+p[0])-doy(5,16))/30;f=Math.max(0,Math.min(1,f));var N=L[loc].N,r={};
+ r.hi=lerp(N[0][0],N[1][0],f);r.lo=lerp(N[0][1],N[1][1],f);r.pp=Math.round(lerp(N[0][3],N[1][3],f)/30*100);r.mm=lerp(N[0][2],N[1][2],f)/30;
+ if(L[loc].mar)r.mar=lerp(L[loc].mar[0],L[loc].mar[1],f);return r}
+var HIST={},FC={},CUR={},tripStart=new Date(Date.UTC(Y,4,15));
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function agg(data){// data.daily -> {mmdd:{hi,lo,mm,pp,n}} com janela de ±2 dias
+ var t=data.daily.time,hi=data.daily.temperature_2m_max,lo=data.daily.temperature_2m_min,pr=data.daily.precipitation_sum,raw={};
+ for(var i=0;i<t.length;i++){if(hi[i]==null||lo[i]==null)continue;var k=t[i].slice(5);(raw[k]=raw[k]||[]).push([hi[i],lo[i],pr[i]||0,t[i].slice(0,4)])}
+ var out={};
+ CID.forEach(function(c){c.d.forEach(function(dd){var p=dd.split('/'),m=+p[1],d=+p[0],h=0,l=0,mm=0,pp=0,n=0;
+  for(var o=-2;o<=2;o++){var dt=new Date(Date.UTC(2001,m-1,d+o));var k=pad(dt.getUTCMonth()+1)+'-'+pad(dt.getUTCDate());(raw[k]||[]).forEach(function(x){h+=x[0];l+=x[1];mm+=x[2];if(x[2]>=1)pp++;n++})}
+  if(n)out[mmdd(dd)]={hi:h/n,lo:l/n,mm:mm/n,pp:Math.round(pp/n*100),n:n}})});
+ return out}
+function histFor(key){return HIST[key]}
+function dayInfo(c,dd){var f=FC[c.loc]&&FC[c.loc][ymd(dd)];
+ if(f)return{src:'pv',hi:f.hi,lo:f.lo,pp:f.pp,mm:f.mm,code:f.code};
+ var h=HIST[c.loc]&&HIST[c.loc][mmdd(dd)];
+ if(h)return{src:'hs',hi:h.hi,lo:h.lo,pp:h.pp,mm:h.mm};
+ var n=norm(c.loc,dd);return{src:'nm',hi:n.hi,lo:n.lo,pp:n.pp,mm:n.mm}}
+function r0(x){return Math.round(x)}
+function render(){var h='';
+ CID.forEach(function(c){var rows=c.d.map(function(dd){return{dd:dd,i:dayInfo(c,dd)}});
+  var hi=0,lo=0,pp=0,mm=0;rows.forEach(function(r){hi+=r.i.hi;lo+=r.i.lo;pp+=r.i.pp;mm+=r.i.mm});var n=rows.length;
+  var nm=norm(c.loc,c.d[Math.floor(n/2)]),mar=nm.mar;
+  var anyPv=rows.some(function(r){return r.i.src==='pv'});
+  h+='<div class="cl-c" id="c-'+c.id+'"><div class="cl-h"><h3>'+c.n+'</h3><span class="cl-d">'+(n>1?c.d[0].slice(0,2)+'–'+c.d[n-1]:c.d[0])+'</span></div>';
+  h+='<div class="cl-s"><div>Máxima<b>'+r0(hi/n)+' °C</b></div><div>Mínima<b>'+r0(lo/n)+' °C</b></div><div>Chance de chuva<b>'+r0(pp/n)+' %</b></div>'+(mar?'<div>Mar<b>≈ '+r0(mar)+' °C</b></div>':'')+'<div>Chuva média no mês<b>'+r0(lerp(L[c.loc].N[0][2],L[c.loc].N[1][2],0.3))+' mm</b></div></div>';
+  h+='<p class="cl-t">'+c.tip+'</p>';
+  h+='<div class="cl-w"><table class="cl-tb"><thead><tr><th>Dia</th><th>Tempo</th><th>Máx / mín</th><th>Chuva</th><th>Base</th></tr></thead><tbody>';
+  rows.forEach(function(r){var i=r.i,w=i.code!=null?wc(i.code):null;
+   h+='<tr><td><b>'+r.dd+'</b> '+dow(r.dd)+'</td><td>'+(w?w[0]+' '+w[1]:'—')+'</td><td>'+r0(i.hi)+' / '+r0(i.lo)+' °C</td><td><span class="cl-r">'+r0(i.pp)+' %</span>'+(i.mm>=0.1?' <small>'+(Math.round(i.mm*10)/10).toString().replace('.',',')+' mm</small>':'')+'</td><td><span class="cl-g '+i.src+'">'+(i.src==='pv'?'previsão':i.src==='hs'?'histórico':'média')+'</span></td></tr>'});
+  h+='</tbody></table></div>';
+  if(!anyPv)h+='<p class="cl-note">Previsão real aparece sozinha 16 dias antes ('+prevDate()+'). Até lá: '+(HIST[c.loc]?'média dos mesmos dias nos últimos 10 anos.':'média climática do mês.')+'</p>';
+  h+='<p class="cl-note"><a href="'+c.href+'">Abrir a etapa ↗</a></p></div>'});
+ document.getElementById('cl-cards').innerHTML=h;
+ var now='';KEYS.forEach(function(k){var c=CUR[k],nm={zagreb:'Zagreb',ljubljana:'Ljubljana',trieste:'Trieste',plitvice:'Plitvice',rastoke:'Rastoke',split:'Split',sibenik:'Šibenik',dubrovnik:'Dubrovnik',kotor:'Kotor'}[k];
+  now+='<div class="cl-n"><span>'+nm+'</span>'+(c?'<b>'+r0(c.t)+' °C</b><span>'+wc(c.code)[0]+' '+wc(c.code)[1]+'</span>':'<b>—</b><span>sem dados</span>')+'</div>'});
+ document.getElementById('cl-now').innerHTML=now;
+ var hs=Object.keys(HIST).length,fc=Object.keys(FC).length,cu=Object.keys(CUR).length;
+ document.getElementById('cl-status').innerHTML=(cu?'Tempo atual carregado. ':'Tempo atual indisponível (sem conexão ou bloqueio da API). ')+(fc?'Previsão em tempo real disponível para as datas da viagem. ':'Previsão para as datas da viagem ainda não está disponível (aparece 16 dias antes: '+prevDate()+'). ')+(hs?'Histórico de '+H0+' a '+(new Date().getFullYear()-1)+' carregado.':'Histórico indisponível agora: usando as médias climáticas do mês.');
+ document.getElementById('cl-nownote').textContent=cu?'Clima de agora nessas cidades, não nas datas da viagem.':''}
+function prevDate(){var d=new Date(tripStart.getTime()-16*864e5);return pad(d.getUTCDate())+'/'+pad(d.getUTCMonth()+1)+'/'+d.getUTCFullYear()}
+render();
+// ---- dados ao vivo ----
+function get(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
+var lat=KEYS.map(function(k){return L[k].lat}).join(','),lon=KEYS.map(function(k){return L[k].lon}).join(',');
+get('https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum&forecast_days=16&timezone=auto').then(function(res){
+ if(!Array.isArray(res))res=[res];
+ res.forEach(function(r,i){var k=KEYS[i];if(!r)return;
+  if(r.current)CUR[k]={t:r.current.temperature_2m,code:r.current.weather_code};
+  if(r.daily&&r.daily.time){FC[k]=FC[k]||{};r.daily.time.forEach(function(d,j){if(d.slice(0,4)==String(Y)&&r.daily.temperature_2m_max[j]!=null)FC[k][d]={hi:r.daily.temperature_2m_max[j],lo:r.daily.temperature_2m_min[j],pp:r.daily.precipitation_probability_max[j]||0,mm:r.daily.precipitation_sum[j]||0,code:r.daily.weather_code[j]}});if(!Object.keys(FC[k]).length)delete FC[k]}});
+ render()}).catch(function(){render()});
+var yE=new Date().getFullYear()-1,TTL=30*864e5;
+KEYS.forEach(function(k){var ck='balcas-clima-h-'+k+'-'+yE,c=lsGet(ck);
+ if(c&&c.t&&Date.now()-c.t<TTL){HIST[k]=c.v;render();return}
+ get('https://archive-api.open-meteo.com/v1/archive?latitude='+L[k].lat+'&longitude='+L[k].lon+'&start_date='+H0+'-05-10&end_date='+yE+'-06-10&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto').then(function(d){
+  var a=agg_loc(d,k);HIST[k]=a;lsSet(ck,{t:Date.now(),v:a});render()}).catch(function(){})});
+function agg_loc(d,k){var pl=CID.filter(function(c){return c.loc===k});var save=CID;CID=pl;var r=agg(d);CID=save;return r}
+})();
+</script>
+<script src="nav.js?v=65"></script><script type="module" src="fb.js?v=65"></script>

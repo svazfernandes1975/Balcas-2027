@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=61"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=65"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Checklist de mala · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -94,11 +94,24 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 .ml-l label{cursor:pointer}.ml-l li.ok label{color:var(--muted);text-decoration:line-through}
 .ml-w{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:8px;padding:1px 8px;color:var(--muted);white-space:nowrap}
 .ml-clr{margin-top:20px;font:inherit;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+
+.ml-mode{display:flex;gap:8px;margin:14px 0 0}
+.ml-mode button{flex:1;font:inherit;font-weight:600;padding:10px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ml-mode button[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.mc-g{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.mc-gh,.mc-i{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+.mc-i{margin-top:6px;grid-template-columns:minmax(0,1fr) 128px auto}
+.mc-g input[type=text],.mc-g select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-width:0;width:100%}
+.mc-gh input{font-weight:700}
+.mc-b{display:flex;gap:4px}.mc-b button,.mc-add,.mc-top button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer}
+.mc-b button.dg{color:var(--c-warn)}
+.mc-add{margin-top:8px}.mc-top{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+@media(max-width:520px){.mc-i{grid-template-columns:minmax(0,1fr) 128px}.mc-i .mc-b{grid-column:1/-1}}
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="mala.html" aria-current="page">Checklist de mala</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><div id="gx-sync" class="fbstrip" style="margin-top:10px"></div>
 <section class="day"><div class="day-h"><span class="date">antes de ir</span><h2>Checklist de mala</h2></div>
 <p class="prose">Uma mala de mão de até 12 kg e uma mochila pequena sob o assento, por pessoa. As marcações ficam salvas na base e aparecem iguais em qualquer aparelho.</p>
 <div class="ml-lim"><div><b>Mala de mão · M</b>até 12 kg, 55×35×25 cm</div><div><b>Mochila sob o assento · B</b>até 10 kg, 45×35×20 cm. Leve aqui documentos, eletrônicos, power bank e remédios</div><div><b>No corpo · U</b>jaqueta e tênis vão vestidos no voo, e não pesam na mala</div></div>
-<div class="ml-tabs" role="tablist"><button type="button" role="tab" id="tS" aria-selected="true">Sergio</button><button type="button" role="tab" id="tA" aria-selected="false">Andréa</button></div>
+<div class="ml-mode" role="tablist"><button type="button" role="tab" id="mV" aria-selected="true">Checklist</button><button type="button" role="tab" id="mC" aria-selected="false">Configurar itens</button></div><div class="ml-tabs" role="tablist"><button type="button" role="tab" id="tS" aria-selected="true">Sergio</button><button type="button" role="tab" id="tA" aria-selected="false">Andréa</button></div>
 <div id="ml-prog"></div><div id="ml-root"></div>
 <button type="button" class="ml-clr" id="ml-clr">Desmarcar tudo desta lista</button></section></div>
 <script>
@@ -150,37 +163,79 @@ A:{nome:'Andréa',grupos:[
   ['a44','Saco para roupa suja','M'],['a45','Pesar a mala de mão (máx. 12 kg, 55×35×25 cm) e a mochila (máx. 10 kg, 45×35×20 cm)','M'],['a46','Fotografar passaporte, cartões e voucher do carro e guardar na nuvem','B']]}
 ]}};
 
-(function(){var K='balcas2027-mala',s={},cur='S';try{s=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
-var L={M:'mala',B:'mochila',U:'no corpo'};
+(function(){var K='balcas2027-mala',KC='balcas2027-malacfg',s={},cur='S',mode='V',cfg=null;
+try{s=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+function defCfg(){var o={ts:0};['S','A'].forEach(function(k){o[k]=DATA[k].grupos.map(function(g){return{g:g.g,it:g.it.map(function(i){return{id:i[0],t:i[1],w:i[2]}})}})});return o}
+try{cfg=JSON.parse(localStorage.getItem(KC)||'null')}catch(e){}
+if(!cfg||!cfg.S||!cfg.A)cfg=defCfg();
+var L={M:'mala',B:'mochila',U:'no corpo'},NOME={S:'Sergio',A:'Andréa'};
 function keep(){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
-function esc(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
-function render(){var p=DATA[cur],tot=0,ok=0,h='';
- p.grupos.forEach(function(g){h+='<div class="ml-g"><h3>'+esc(g.g)+'</h3><ul class="ml-l">';
-  g.it.forEach(function(i){tot++;var c=!!s[i[0]];if(c)ok++;
-   h+='<li class="'+(c?'ok':'')+'"><input type="checkbox" id="m_'+i[0]+'" data-i="'+i[0]+'"'+(c?' checked':'')+'><label for="m_'+i[0]+'">'+esc(i[1])+'</label><span class="ml-w" title="'+L[i[2]]+'">'+i[2]+'</span></li>'});
-  h+='</ul></div>'});
- document.getElementById('ml-root').innerHTML=h;
- document.getElementById('ml-prog').innerHTML='<b>'+esc(p.nome)+'</b>: '+ok+' de '+tot+' itens ('+Math.round(ok*100/tot)+'%)<div class="ml-bar"><i style="width:'+(ok*100/tot)+'%"></i></div>';
- document.getElementById('tS').setAttribute('aria-selected',cur==='S');document.getElementById('tA').setAttribute('aria-selected',cur==='A')}
-var ready=false;
+function keepC(){try{localStorage.setItem(KC,JSON.stringify(cfg))}catch(e){}}
+function esc(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+var ready=false,readyC=false;
+function pushC(){cfg.ts=Date.now();keepC();if(readyC&&window.FB)FB.set('data/malacfg',{json:JSON.stringify({S:cfg.S,A:cfg.A}),ts:cfg.ts})}
 function push(o){if(ready&&window.FB)FB.set('data/mala',{done:o},true)}
-document.getElementById('ml-root').addEventListener('change',function(e){var c=e.target;if(!c.dataset.i)return;
- s[c.dataset.i]=c.checked;keep();var o={};o[c.dataset.i]=c.checked;push(o);render()});
+function viewH(){var gs=cfg[cur],tot=0,ok=0,h='';
+ gs.forEach(function(g){if(!g.it.length)return;h+='<div class="ml-g"><h3>'+esc(g.g)+'</h3><ul class="ml-l">';
+  g.it.forEach(function(i){tot++;var c=!!s[i.id];if(c)ok++;
+   h+='<li class="'+(c?'ok':'')+'"><input type="checkbox" id="m_'+i.id+'" data-i="'+i.id+'"'+(c?' checked':'')+'><label for="m_'+i.id+'">'+esc(i.t)+'</label><span class="ml-w" title="'+L[i.w]+'">'+i.w+'</span></li>'});
+  h+='</ul></div>'});
+ if(!tot)h='<p class="prose">Lista vazia. Use "Configurar itens" para adicionar.</p>';
+ return{h:h,tot:tot,ok:ok}}
+function cfgH(){var gs=cfg[cur],h='<p class="prose">Edite os itens da lista de '+NOME[cur]+'. As mudanças são salvas na base e valem nos dois aparelhos.</p>';
+ gs.forEach(function(g,gi){h+='<div class="mc-g"><div class="mc-gh"><input type="text" data-gn="'+gi+'" value="'+esc(g.g)+'" aria-label="Nome do grupo"><div class="mc-b"><button data-gu="'+gi+'" title="subir">↑</button><button data-gd="'+gi+'" title="descer">↓</button><button class="dg" data-gx="'+gi+'" title="remover grupo">✕</button></div></div>';
+  g.it.forEach(function(i,ii){h+='<div class="mc-i"><input type="text" data-in="'+gi+'.'+ii+'" value="'+esc(i.t)+'" aria-label="Item"><select data-iw="'+gi+'.'+ii+'" aria-label="Onde vai">'+['M','B','U'].map(function(w){return'<option value="'+w+'"'+(i.w===w?' selected':'')+'>'+w+' · '+L[w]+'</option>'}).join('')+'</select><div class="mc-b"><button data-iu="'+gi+'.'+ii+'" title="subir">↑</button><button data-id="'+gi+'.'+ii+'" title="descer">↓</button><button class="dg" data-ix="'+gi+'.'+ii+'" title="remover item">✕</button></div></div>'});
+  h+='<button class="mc-add" data-ia="'+gi+'">+ Item</button></div>'});
+ h+='<div class="mc-top"><button data-ga="1">+ Novo grupo</button><button data-rs="1">Restaurar lista padrão de '+NOME[cur]+'</button></div>';return h}
+function render(){var root=document.getElementById('ml-root'),pr=document.getElementById('ml-prog'),clr=document.getElementById('ml-clr');
+ document.getElementById('tS').setAttribute('aria-selected',cur==='S');document.getElementById('tA').setAttribute('aria-selected',cur==='A');
+ document.getElementById('mV').setAttribute('aria-selected',mode==='V');document.getElementById('mC').setAttribute('aria-selected',mode==='C');
+ if(mode==='V'){var v=viewH();root.innerHTML=v.h;clr.hidden=false;
+  pr.innerHTML='<b>'+esc(NOME[cur])+'</b>: '+v.ok+' de '+v.tot+' itens ('+(v.tot?Math.round(v.ok*100/v.tot):0)+'%)<div class="ml-bar"><i style="width:'+(v.tot?v.ok*100/v.tot:0)+'%"></i></div>'}
+ else{root.innerHTML=cfgH();clr.hidden=true;pr.innerHTML=''}}
+var root=document.getElementById('ml-root');
+root.addEventListener('change',function(e){var c=e.target,d=c.dataset;
+ if(mode==='V'){if(!d.i)return;s[d.i]=c.checked;keep();var o={};o[d.i]=c.checked;push(o);render();return}
+ var gs=cfg[cur],p;
+ if(d.gn!=null){gs[+d.gn].g=c.value.trim()||'Sem nome'}
+ else if(d.in){p=d.in.split('.');gs[p[0]].it[p[1]].t=c.value.trim()||'Item'}
+ else if(d.iw){p=d.iw.split('.');gs[p[0]].it[p[1]].w=c.value}
+ else return;pushC();render()});
+function mv(a,i,j){if(j<0||j>=a.length)return;var x=a.splice(i,1)[0];a.splice(j,0,x)}
+root.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||mode!=='C')return;var d=b.dataset,gs=cfg[cur],p;
+ if(d.gu!=null)mv(gs,+d.gu,+d.gu-1);else if(d.gd!=null)mv(gs,+d.gd,+d.gd+1);
+ else if(d.gx!=null){if(!confirm('Remover o grupo "'+gs[+d.gx].g+'" e seus itens?'))return;gs.splice(+d.gx,1)}
+ else if(d.iu){p=d.iu.split('.');mv(gs[p[0]].it,+p[1],+p[1]-1)}
+ else if(d.id){p=d.id.split('.');mv(gs[p[0]].it,+p[1],+p[1]+1)}
+ else if(d.ix){p=d.ix.split('.');gs[p[0]].it.splice(+p[1],1)}
+ else if(d.ia!=null){gs[+d.ia].it.push({id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),t:'Novo item',w:'M'})}
+ else if(d.ga){gs.push({g:'Novo grupo',it:[]})}
+ else if(d.rs){if(!confirm('Voltar à lista padrão de '+NOME[cur]+'? Seus ajustes nesta lista serão perdidos.'))return;cfg[cur]=defCfg()[cur]}
+ else return;
+ pushC();render();
+ if(d.ia!=null||d.ga){var ins=root.querySelectorAll('input[type=text]');var l=ins[ins.length-1];if(d.ia!=null){var gi=root.querySelectorAll('.mc-g')[+d.ia].querySelectorAll('.mc-i input[type=text]');l=gi[gi.length-1]}if(l){l.focus();l.select()}}});
 document.getElementById('tS').onclick=function(){cur='S';render()};
 document.getElementById('tA').onclick=function(){cur='A';render()};
-document.getElementById('ml-clr').onclick=function(){if(!confirm('Desmarcar todos os itens de '+DATA[cur].nome+'?'))return;
- var o={};DATA[cur].grupos.forEach(function(g){g.it.forEach(function(i){if(s[i[0]]){s[i[0]]=false;o[i[0]]=false}})});keep();push(o);render()};
+document.getElementById('mV').onclick=function(){mode='V';render()};
+document.getElementById('mC').onclick=function(){mode='C';render()};
+document.getElementById('ml-clr').onclick=function(){if(!confirm('Desmarcar todos os itens de '+NOME[cur]+'?'))return;
+ var o={};cfg[cur].forEach(function(g){g.it.forEach(function(i){if(s[i.id]){s[i.id]=false;o[i.id]=false}})});keep();push(o);render()};
 render();
 function bind(){if(!window.FB)return;
  var el=document.getElementById('gx-sync');if(el)FB.strip(el);
- var unsub=null;
- FB.onAuth(function(u){if(unsub){unsub();unsub=null}ready=false;if(!u)return;
-  unsub=FB.watchDoc('mala','data/mala',function(d,meta){
+ var u1=null,u2=null;
+ FB.onAuth(function(u){if(u1){u1();u1=null}if(u2){u2();u2=null}ready=false;readyC=false;if(!u)return;
+  u1=FB.watchDoc('mala','data/mala',function(d,meta){
    var r=(d&&d.done)||{},miss={},n=0;
    Object.keys(r).forEach(function(k){s[k]=!!r[k]});
    Object.keys(s).forEach(function(k){if(!(k in r)&&s[k]){miss[k]=s[k];n++}});
-   keep();render();ready=true;
-   if(n&&!meta.fromCache)FB.set('data/mala',{done:miss},true)})})}
+   keep();if(mode==='V')render();ready=true;
+   if(n&&!meta.fromCache)FB.set('data/mala',{done:miss},true)});
+  u2=FB.watchDoc('malacfg','data/malacfg',function(d,meta){
+   var rt=d&&d.ts||0;
+   if(d&&d.json&&rt>(cfg.ts||0)){try{var o=JSON.parse(d.json);if(o.S&&o.A){cfg={S:o.S,A:o.A,ts:rt};keepC();if(!(mode==='C'&&root.contains(document.activeElement)))render()}}catch(e){}}
+   else if(!meta.fromCache&&(cfg.ts||0)>rt&&window.FB){FB.set('data/malacfg',{json:JSON.stringify({S:cfg.S,A:cfg.A}),ts:cfg.ts})}
+   readyC=true})})}
 if(window.FB)bind();else{document.addEventListener('fb-ready',bind);setTimeout(function(){var el=document.getElementById('gx-sync');if(!window.FB&&el)el.textContent='☁ Salvo só neste aparelho (Firebase indisponível)'},4000)}})();
 </script>
-<script src="nav.js?v=61"></script><script type="module" src="fb.js?v=61"></script>
+<script src="nav.js?v=65"></script><script type="module" src="fb.js?v=65"></script>
