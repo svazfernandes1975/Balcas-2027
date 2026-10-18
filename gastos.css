@@ -314,3 +314,9 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .bar.mini{height:5px;margin-top:3px}
 /* v70: linhas do orçamento com gasto e resta */
 .gx .otbl tr.ol td.cr{font-weight:600}.gx .otbl tr.ol td.cg{font-weight:500}
+/* v72: itens 100% pagos em verde */
+.gx .otbl tr.paid td,.gx .otbl tr.paid td.cp,.gx .otbl tr.paid td.cg{color:var(--c-tip)}
+.gx .otbl tr.paid td small,.gx .otbl tr.paid td .pd{color:color-mix(in srgb,var(--c-tip) 70%,var(--muted))}
+.gx .otbl tr.paid td:first-child::before{content:"✓ ";font-weight:800}
+.gx .otbl td.okp{color:var(--c-tip);font-weight:800;background:color-mix(in srgb,var(--c-tip) 12%,transparent)}
+.gx .otbl tr.ol.paid td.okp{font-weight:700}

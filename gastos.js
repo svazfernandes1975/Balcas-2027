@@ -688,13 +688,15 @@ function rOrcTab(){
     var planB=0,spB=0,mix={};ls.forEach(function(l){planB+=conv(l.val,l.cur,'BRL');mix[l.cur]=1});S.entries.forEach(function(e){if(e.t==='g'&&e.cat===c.id)spB+=entryBrl(e)});
     var nm=Object.keys(mix).length;
     function cb(v,b,cls){return '<td class="'+cls+'">'+ms(v)+'<small class="rb">'+money(b,'BRL')+'</small></td>'}
-    h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+'" data-goc="'+c.id+'"><td>'+ci(c)+esc(c.name)+(plan>0?'<small class="pd">previsto '+money(plan/st.total)+'/dia · '+money(planB/st.total,'BRL')+'/dia'+(((st.bT[c.id]||0)>0&&Math.abs((st.bT[c.id]||0)-plan)>0.005)?'<br>só durante a viagem '+money(st.bT[c.id]/st.total)+'/dia':'')+'</small>':'')+(nm>1?' <em class="tag" title="Linhas em moedas diferentes: cada uma é convertida pela cotação">'+Object.keys(mix).join(' + ')+'</em>':'')+'</td>'+cb(plan,planB,'cp')+cb(sp,spB,'cg')+cb(rest,planB-spB,rest<-0.005?'neg cr':(rest>0.005?'cr':'cz'))+'</tr>';
+    var paidC=plan>0.005&&Math.abs(rest)<=0.005;
+    h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+(paidC?' paid':'')+'" data-goc="'+c.id+'"><td>'+ci(c)+esc(c.name)+(plan>0?'<small class="pd">previsto '+money(plan/st.total)+'/dia · '+money(planB/st.total,'BRL')+'/dia'+(((st.bT[c.id]||0)>0&&Math.abs((st.bT[c.id]||0)-plan)>0.005)?'<br>só durante a viagem '+money(st.bT[c.id]/st.total)+'/dia':'')+'</small>':'')+(nm>1?' <em class="tag" title="Linhas em moedas diferentes: cada uma é convertida pela cotação">'+Object.keys(mix).join(' + ')+'</em>':'')+'</td>'+cb(plan,planB,'cp')+cb(sp,spB,'cg')+cb(rest,planB-spB,rest<-0.005?'neg cr':(rest>0.005?'cr':(paidC?'cz okp':'cz')))+'</tr>';
     var showLines=ls.length>1||(ls[0]&&(ls[0].label||ls[0].cur!=='EUR'||ls[0].when==='pre'));
     if(showLines){var sumL=0,sumLB=0;
       ls.forEach(function(l){
         var sL=0,sLB=0;S.entries.forEach(function(e){if(e.t!=='g'||e.cat!==c.id)return;var mine=e.ln?e.ln===l.id:ls.length===1;if(mine){sL+=e.eur;sLB+=entryBrl(e)}});sumL+=sL;sumLB+=sLB;
         var pl=lEur(l),plB=conv(l.val,l.cur,'BRL'),rL=pl-sL;
-        h+='<tr class="ol"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':(l.when==='post'?'depois':'durante'))+'</em></td><td class="cp">'+ms(pl)+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td>'+cb(sL,sLB,'cg')+cb(rL,plB-sLB,rL<-0.005?'neg cr':(rL>0.005?'cr':'cz'))+'</tr>'});
+        var paidL=pl>0.005&&Math.abs(rL)<=0.005;
+        h+='<tr class="ol'+(paidL?' paid':'')+'"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':(l.when==='post'?'depois':'durante'))+'</em></td><td class="cp">'+ms(pl)+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td>'+cb(sL,sLB,'cg')+cb(rL,plB-sLB,rL<-0.005?'neg cr':(rL>0.005?'cr':(paidL?'cz okp':'cz')))+'</tr>'});
       var un=sp-sumL;
       if(ls.length>1&&Math.abs(un)>0.005){var unB=spB-sumLB;h+='<tr class="ol"><td>Lançamentos sem subcategoria</td><td></td>'+cb(un,unB,'cg')+'<td></td></tr>'}}});
   var tp=B.br.planned+B.out.planned+st.budT+st.budO,ts=B.br.spent+B.out.spent+st.spentT+st.spentO;
