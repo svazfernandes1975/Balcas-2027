@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=66"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=63"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Checklist de mala · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -80,6 +80,25 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 .bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
 
+.pd-mode{display:flex;gap:8px;margin:14px 0}
+.pd-mode button{flex:1;font:inherit;font-weight:600;padding:10px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.pd-mode button[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.pd-prog{margin:4px 0 10px}.pd-bar{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:6px 0 4px}.pd-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+#todo li.ok label{color:var(--muted)!important;text-decoration:line-through}
+#todo input[type=checkbox]{width:20px;height:20px;margin-top:2px;accent-color:var(--accent)}
+.pc-i{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;display:grid;gap:8px}
+.pc-i textarea,.pc-i select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;min-width:0}
+.pc-i textarea{min-height:76px;resize:vertical}
+.pc-r{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.pc-r select{width:auto}
+.pc-b{display:flex;gap:4px}.pc-b button,.pc-top button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer}
+.pc-b button.dg{color:var(--c-warn)}
+.pc-top{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pd-m{display:inline-block;font:700 11px/1.4 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted);margin-left:8px;white-space:nowrap}.pd-m.now{border-color:var(--accent);color:var(--accent)}.pd-m.late{border-color:var(--c-warn);color:var(--c-warn);border-width:2px}.pd-m.ok{opacity:.6}
+.pd-sort{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer;margin:0 0 10px}
+.pc-r label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}.pc-r input[type=month]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.pc-h{font-size:13px;color:var(--muted);margin:0}
+
 .ml-tabs{display:flex;gap:8px;margin:14px 0}
 .ml-tabs button{flex:1;font:inherit;font-weight:600;padding:10px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 .ml-tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
@@ -92,6 +111,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 .ml-l li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
 .ml-l input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent)}
 .ml-l label{cursor:pointer}.ml-l li.ok label{color:var(--muted);text-decoration:line-through}
+.ml-ic{display:inline-flex;vertical-align:-4px;margin-right:8px;color:var(--accent)}.ml-ic svg{width:22px;height:22px}.ml-w svg{width:18px;height:18px;display:block}
 .ml-w{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:8px;padding:1px 8px;color:var(--muted);white-space:nowrap}
 .ml-clr{margin-top:20px;font:inherit;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 
@@ -110,7 +130,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="mala.html" aria-current="page">Checklist de mala</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><div id="gx-sync" class="fbstrip" style="margin-top:10px"></div>
 <section class="day"><div class="day-h"><span class="date">antes de ir</span><h2>Checklist de mala</h2></div>
 <p class="prose">Uma mala de mão de até 12 kg e uma mochila pequena sob o assento, por pessoa. As marcações ficam salvas na base e aparecem iguais em qualquer aparelho.</p>
-<div class="ml-lim"><div><b>Mala de mão · M</b>até 12 kg, 55×35×25 cm</div><div><b>Mochila sob o assento · B</b>até 10 kg, 45×35×20 cm. Leve aqui documentos, eletrônicos, power bank e remédios</div><div><b>No corpo · U</b>jaqueta e tênis vão vestidos no voo, e não pesam na mala</div></div>
+<div class="ml-lim"><div><b><span class="ml-ic" data-w="M"></span>Mala de mão</b>até 12 kg, 55×35×25 cm</div><div><b><span class="ml-ic" data-w="B"></span>Mochila sob o assento</b>até 10 kg, 45×35×20 cm. Leve aqui documentos, eletrônicos, power bank e remédios</div><div><b><span class="ml-ic" data-w="U"></span>No corpo</b>jaqueta e tênis vão vestidos no voo, e não pesam na mala</div></div>
 <div class="ml-mode" role="tablist"><button type="button" role="tab" id="mV" aria-selected="true">Checklist</button><button type="button" role="tab" id="mC" aria-selected="false">Configurar itens</button></div><div class="ml-tabs" role="tablist"><button type="button" role="tab" id="tS" aria-selected="true">Sergio</button><button type="button" role="tab" id="tA" aria-selected="false">Andréa</button></div>
 <div id="ml-prog"></div><div id="ml-root"></div>
 <button type="button" class="ml-clr" id="ml-clr">Desmarcar tudo desta lista</button></section></div>
@@ -168,7 +188,9 @@ try{s=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
 function defCfg(){var o={ts:0};['S','A'].forEach(function(k){o[k]=DATA[k].grupos.map(function(g){return{g:g.g,it:g.it.map(function(i){return{id:i[0],t:i[1],w:i[2]}})}})});return o}
 try{cfg=JSON.parse(localStorage.getItem(KC)||'null')}catch(e){}
 if(!cfg||!cfg.S||!cfg.A)cfg=defCfg();
-var L={M:'mala',B:'mochila',U:'no corpo'},NOME={S:'Sergio',A:'Andréa'};
+var L={M:'Mala de mão',B:'Mochila',U:'No corpo'},NOME={S:'Sergio',A:'Andréa'};
+var IC={M:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="7" width="12" height="14" rx="2"/><path d="M9 7V4h6v3M10 11v6M14 11v6"/></svg>',B:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6a4 4 0 0 1 8 0"/><rect x="5" y="6" width="14" height="15" rx="4"/><rect x="8.5" y="13" width="7" height="5" rx="1.5"/><path d="M9 10h6"/></svg>',U:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 7l2.500 4L8 10v10h8V10l2.500 1L21 7l-6-3a3 3 0 0 1-6 0z"/></svg>'};
+[].forEach.call(document.querySelectorAll('.ml-ic'),function(e){e.innerHTML=IC[e.dataset.w]});
 function keep(){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
 function keepC(){try{localStorage.setItem(KC,JSON.stringify(cfg))}catch(e){}}
 function esc(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
@@ -178,13 +200,13 @@ function push(o){if(ready&&window.FB)FB.set('data/mala',{done:o},true)}
 function viewH(){var gs=cfg[cur],tot=0,ok=0,h='';
  gs.forEach(function(g){if(!g.it.length)return;h+='<div class="ml-g"><h3>'+esc(g.g)+'</h3><ul class="ml-l">';
   g.it.forEach(function(i){tot++;var c=!!s[i.id];if(c)ok++;
-   h+='<li class="'+(c?'ok':'')+'"><input type="checkbox" id="m_'+i.id+'" data-i="'+i.id+'"'+(c?' checked':'')+'><label for="m_'+i.id+'">'+esc(i.t)+'</label><span class="ml-w" title="'+L[i.w]+'">'+i.w+'</span></li>'});
+   h+='<li class="'+(c?'ok':'')+'"><input type="checkbox" id="m_'+i.id+'" data-i="'+i.id+'"'+(c?' checked':'')+'><label for="m_'+i.id+'">'+esc(i.t)+'</label><span class="ml-w" title="'+L[i.w]+'" role="img" aria-label="'+L[i.w]+'">'+IC[i.w]+'</span></li>'});
   h+='</ul></div>'});
  if(!tot)h='<p class="prose">Lista vazia. Use "Configurar itens" para adicionar.</p>';
  return{h:h,tot:tot,ok:ok}}
 function cfgH(){var gs=cfg[cur],h='<p class="prose">Edite os itens da lista de '+NOME[cur]+'. As mudanças são salvas na base e valem nos dois aparelhos.</p>';
  gs.forEach(function(g,gi){h+='<div class="mc-g"><div class="mc-gh"><input type="text" data-gn="'+gi+'" value="'+esc(g.g)+'" aria-label="Nome do grupo"><div class="mc-b"><button data-gu="'+gi+'" title="subir">↑</button><button data-gd="'+gi+'" title="descer">↓</button><button class="dg" data-gx="'+gi+'" title="remover grupo">✕</button></div></div>';
-  g.it.forEach(function(i,ii){h+='<div class="mc-i"><input type="text" data-in="'+gi+'.'+ii+'" value="'+esc(i.t)+'" aria-label="Item"><select data-iw="'+gi+'.'+ii+'" aria-label="Onde vai">'+['M','B','U'].map(function(w){return'<option value="'+w+'"'+(i.w===w?' selected':'')+'>'+w+' · '+L[w]+'</option>'}).join('')+'</select><div class="mc-b"><button data-iu="'+gi+'.'+ii+'" title="subir">↑</button><button data-id="'+gi+'.'+ii+'" title="descer">↓</button><button class="dg" data-ix="'+gi+'.'+ii+'" title="remover item">✕</button></div></div>'});
+  g.it.forEach(function(i,ii){h+='<div class="mc-i"><input type="text" data-in="'+gi+'.'+ii+'" value="'+esc(i.t)+'" aria-label="Item"><select data-iw="'+gi+'.'+ii+'" aria-label="Onde vai">'+['M','B','U'].map(function(w){return'<option value="'+w+'"'+(i.w===w?' selected':'')+'>'+L[w]+'</option>'}).join('')+'</select><div class="mc-b"><button data-iu="'+gi+'.'+ii+'" title="subir">↑</button><button data-id="'+gi+'.'+ii+'" title="descer">↓</button><button class="dg" data-ix="'+gi+'.'+ii+'" title="remover item">✕</button></div></div>'});
   h+='<button class="mc-add" data-ia="'+gi+'">+ Item</button></div>'});
  h+='<div class="mc-top"><button data-ga="1">+ Novo grupo</button><button data-rs="1">Restaurar lista padrão de '+NOME[cur]+'</button></div>';return h}
 function render(){var root=document.getElementById('ml-root'),pr=document.getElementById('ml-prog'),clr=document.getElementById('ml-clr');
@@ -238,4 +260,4 @@ function bind(){if(!window.FB)return;
    readyC=true})})}
 if(window.FB)bind();else{document.addEventListener('fb-ready',bind);setTimeout(function(){var el=document.getElementById('gx-sync');if(!window.FB&&el)el.textContent='☁ Salvo só neste aparelho (Firebase indisponível)'},4000)}})();
 </script>
-<script src="nav.js?v=66"></script><script type="module" src="fb.js?v=66"></script>
+<script src="nav.js?v=68"></script><script type="module" src="fb.js?v=61"></script>
