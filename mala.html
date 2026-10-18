@@ -1,0 +1,186 @@
+<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=60"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Checklist de mala · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+:root{
+ /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
+ --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
+ --accent:#0B7285;--accent-ink:#FFFFFF;--sea:#CDE5EB;--land:#F6F8F4;--route:#0B7285;
+ --c-drive:#0B7285;--c-see:#4B5FA8;--c-eat:#A15A12;--c-tip:#2F7D4F;--c-warn:#B3341F;--c-stay:#6B5A8E;
+ --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--f-body:'Public Sans','Segoe UI',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+nav.pills{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.pills a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 14px;font-size:14px;white-space:nowrap}
+nav.pills a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+.hero{padding-block:32px 24px;display:grid;gap:12px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{max-width:62ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:800;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:8px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+.cdown{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;display:grid;gap:8px}.cd-n{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:flex-end}.cd-n b{display:block;font-family:var(--f-display);font-size:clamp(2.6rem,12vw,4rem);line-height:1;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}.cd-n span{font-size:13px;color:var(--muted)}.cd-msg{font-family:var(--f-display);font-size:1.6rem;font-weight:700;color:var(--accent)}
+section.day{margin-top:36px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;border-top:2px solid var(--ink);padding-top:12px}
+.day-h .date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.day-h h2{font-size:1.5rem;font-weight:700}
+ol.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.tl li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.time{font-family:var(--f-mono);font-size:14px;font-weight:600;padding-top:2px}
+.time.none{color:var(--muted)}
+.k{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.k-drive .k,.k-drive .time{color:var(--c-drive)}.k-see .k{color:var(--c-see)}.k-eat .k{color:var(--c-eat)}.k-tip .k{color:var(--c-tip)}.k-warn .k{color:var(--c-warn)}.k-stay .k{color:var(--c-stay)}
+.k-warn{border-left:4px solid var(--c-warn)}.k-tip{border-left:4px solid var(--c-tip)}.k-drive{border-left:4px solid var(--c-drive)}
+ol.tl h3{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+ol.tl p{margin:0;color:var(--muted);font-size:15px}
+.gm{display:inline-block;margin-top:10px;font-size:14px;font-weight:600}
+.x{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:10px 0 0;font-size:14px}.x dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}.x dd{margin:0;overflow-wrap:anywhere}
+ul.bul{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}.prose{max-width:70ch;margin:0 0 10px}
+a.tag{text-decoration:none;color:var(--accent)}
+.num td.n,.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.num td:first-child{white-space:nowrap}
+.tot td{font-weight:700;border-top:2px solid var(--ink)}
+table.wide{font-size:13px}table.wide th,table.wide td{padding:6px 8px}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px}
+.pn a{font-weight:600;text-decoration:none}
+table.opt{width:100%;border-collapse:collapse;font-size:15px}
+table.opt th,table.opt td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+.att{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ac{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.ac.I{border-color:var(--c-warn);border-width:2px}
+.ac h3{font-size:1.1rem;margin:0}
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:6px;width:max-content}
+.bd.I{background:var(--c-warn);color:#fff}.bd.V{background:var(--c-see);color:#fff}.bd.O{background:var(--line);color:var(--ink)}
+.st{font-size:18px;letter-spacing:2px;color:#D98A00}.st i{color:var(--line);font-style:normal}
+.ac .m{font-size:13px;color:var(--muted)}.ac p{margin:0;font-size:14px}
+.ac .lk{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal a{text-decoration:none;color:inherit}
+/*rt*/.rt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px}.rt .st{font-size:15px}.rt .m{color:var(--muted)}.rt .lk{display:flex;gap:10px;font-weight:600}
+@media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
+
+.ml-tabs{display:flex;gap:8px;margin:14px 0}
+.ml-tabs button{flex:1;font:inherit;font-weight:600;padding:10px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ml-tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.ml-lim{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:8px 0 14px}
+.ml-lim div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--muted)}
+.ml-lim b{display:block;color:var(--ink);font-family:var(--f-display);font-size:1.05rem}
+.ml-bar{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:6px 0 4px}.ml-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.ml-g{margin-top:22px}.ml-g h3{font-size:1.1rem;margin-bottom:8px}
+.ml-l{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.ml-l li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.ml-l input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent)}
+.ml-l label{cursor:pointer}.ml-l li.ok label{color:var(--muted);text-decoration:line-through}
+.ml-w{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:8px;padding:1px 8px;color:var(--muted);white-space:nowrap}
+.ml-clr{margin-top:20px;font:inherit;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+</style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="mala.html" aria-current="page">Checklist de mala</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><div id="gx-sync" class="fbstrip" style="margin-top:10px"></div>
+<section class="day"><div class="day-h"><span class="date">antes de ir</span><h2>Checklist de mala</h2></div>
+<p class="prose">Uma mala de mão de até 12 kg e uma mochila pequena sob o assento, por pessoa. As marcações ficam salvas na base e aparecem iguais em qualquer aparelho.</p>
+<div class="ml-lim"><div><b>Mala de mão · M</b>até 12 kg, 55×35×25 cm</div><div><b>Mochila sob o assento · B</b>até 10 kg, 45×35×20 cm. Leve aqui documentos, eletrônicos, power bank e remédios</div><div><b>No corpo · U</b>jaqueta e tênis vão vestidos no voo, e não pesam na mala</div></div>
+<div class="ml-tabs" role="tablist"><button type="button" role="tab" id="tS" aria-selected="true">Sergio</button><button type="button" role="tab" id="tA" aria-selected="false">Andréa</button></div>
+<div id="ml-prog"></div><div id="ml-root"></div>
+<button type="button" class="ml-clr" id="ml-clr">Desmarcar tudo desta lista</button></section></div>
+<script>
+var DATA={
+S:{nome:'Sergio',grupos:[
+ {g:'Documentos e dinheiro',it:[
+  ['s01','Passaporte português (entrada na UE)','B'],['s02','Passaporte brasileiro (reserva)','B'],['s03','CNH e PID (Permissão Internacional para Dirigir)','B'],
+  ['s04','Dossiê de imigração impresso e cópias dos passaportes','B'],['s05','Passagens (e-tickets LATAM e Lufthansa), impressas e no celular','B'],
+  ['s06','Vouchers dos 9 hotéis e contrato da Nova Rent a Car, impressos','B'],['s07','Apólice do seguro viagem e telefone de assistência 24 h','B'],
+  ['s08','Cartões de crédito e débito (avisar o banco) e um cartão reserva guardado à parte','B'],['s09','Euros em espécie (estacionamento, fortalezas, gorjetas)','B']]},
+ {g:'Eletrônicos',it:[
+  ['s10','Celular e carregador','B'],['s11','Power bank (só na cabine, nunca despachado)','B'],['s12','Adaptador de tomada tipo C/F','B'],
+  ['s13','Suporte de celular e carregador USB para o carro (GPS)','B'],['s14','Fones de ouvido','B'],['s15','eSIM ou chip europeu ativado (em Montenegro o roaming da UE não vale)','B']]},
+ {g:'Saúde e higiene (líquidos até 100 ml, em saco transparente)',it:[
+  ['s16','Escova e pasta de dente','B'],['s17','Desodorante e shampoo em tamanho mini','B'],['s18','Barbeador e creme de barbear','B'],['s19','Protetor solar (até 100 ml)','B'],
+  ['s20','Remédios de uso contínuo, com receita','B'],['s21','Kit básico: analgésico, antidiarreico, antialérgico, curativos','B'],['s22','Lenços umedecidos e álcool gel pequeno','B']]},
+ {g:'Roupas',it:[
+  ['s23','5 camisetas ou polos','M'],['s24','2 camisas leves (jantares e igrejas, com ombros cobertos)','M'],['s25','2 bermudas','M'],['s26','2 calças (uma jeans e uma leve)','M'],
+  ['s27','Jaqueta corta-vento impermeável (Plitvice e serpentinas)','U'],['s28','1 suéter ou moletom fino','M'],['s29','7 cuecas','M'],['s30','7 pares de meias (2 de caminhada)','M'],
+  ['s31','Pijama','M'],['s32','Sunga ou bermuda de banho (Lokrum e piscina do Olympia)','M'],['s33','Boné ou chapéu e óculos de sol (muralhas sem sombra)','B'],['s34','Cinto','M']]},
+ {g:'Calçados',it:[
+  ['s35','Tênis de caminhada com sola boa (Plitvice molhado, 1.350 degraus), usar no avião','U'],['s36','Chinelo ou sandália','M'],['s37','Sapato leve para os jantares','M']]},
+ {g:'Passeios e carro',it:[
+  ['s38','Garrafa de água reutilizável (vazia no aeroporto)','B'],['s39','Guarda-chuva dobrável','B'],['s40','Toalha de microfibra','M'],['s41','Pochete ou bolsa para usar à frente','B'],['s42','Sacos zip e sacolas plásticas','M']]},
+ {g:'Volta e antes de sair',it:[
+  ['s43','Mala dobrável vazia para as compras da volta (divide com a Andréa)','M'],['s44','Saco para roupa suja','M'],
+  ['s45','Pesar a mala de mão (máx. 12 kg, 55×35×25 cm) e a mochila (máx. 10 kg, 45×35×20 cm)','M'],['s46','Fotografar passaporte, cartões e voucher do carro e guardar na nuvem','B']]}
+]},
+A:{nome:'Andréa',grupos:[
+ {g:'Documentos e dinheiro',it:[
+  ['a01','Passaporte brasileiro','B'],['a02','ETIAS, se já estiver em vigor na data da viagem','B'],['a03','CNH e PID, se for dirigir','B'],
+  ['a04','Dossiê de imigração impresso e cópia do passaporte','B'],['a05','Passagens (e-tickets LATAM e Lufthansa), impressas e no celular','B'],
+  ['a06','Vouchers dos 9 hotéis e contrato do carro, impressos','B'],['a07','Apólice do seguro viagem e telefone de assistência 24 h','B'],
+  ['a08','Cartões de crédito e débito e um cartão reserva guardado à parte','B'],['a09','Euros em espécie','B']]},
+ {g:'Eletrônicos',it:[
+  ['a10','Celular e carregador','B'],['a11','Power bank (só na cabine, nunca despachado)','B'],['a12','Adaptador de tomada tipo C/F','B'],['a13','Fones de ouvido','B'],['a14','Câmera ou carregador extra, se levar','B']]},
+ {g:'Saúde e higiene (líquidos até 100 ml, em saco transparente)',it:[
+  ['a15','Escova e pasta de dente','B'],['a16','Desodorante, shampoo e condicionador em tamanho mini','B'],['a17','Skincare e protetor solar (até 100 ml cada)','B'],['a18','Maquiagem básica','B'],
+  ['a19','Escova ou pente e produtos de cabelo mini','B'],['a20','Remédios de uso contínuo, com receita','B'],['a21','Kit básico: analgésico, antidiarreico, antialérgico, curativos','B'],['a22','Itens de higiene íntima','B'],['a23','Lenços umedecidos e álcool gel pequeno','B']]},
+ {g:'Roupas',it:[
+  ['a24','5 camisetas ou blusas','M'],['a25','2 vestidos ou conjuntos leves para os jantares','M'],['a26','2 shorts ou saias','M'],['a27','2 calças (uma jeans e uma leve)','M'],
+  ['a28','Jaqueta corta-vento impermeável (Plitvice e serpentinas)','U'],['a29','Cardigã ou suéter fino','M'],['a30','Lenço ou echarpe (igrejas: ombros e joelhos cobertos)','B'],['a31','7 calcinhas e sutiãs necessários','M'],
+  ['a32','7 pares de meias (2 de caminhada)','M'],['a33','Pijama','M'],['a34','Maiô ou biquíni (Lokrum e piscina do Olympia)','M'],['a35','Chapéu e óculos de sol (muralhas sem sombra)','B']]},
+ {g:'Calçados',it:[
+  ['a36','Tênis de caminhada com sola boa (Plitvice molhado), usar no avião','U'],['a37','Sandália rasteira confortável','M'],['a38','Calçado leve para os jantares','M']]},
+ {g:'Passeios e carro',it:[
+  ['a39','Garrafa de água reutilizável (vazia no aeroporto)','B'],['a40','Guarda-chuva dobrável','B'],['a41','Toalha de microfibra','M'],['a42','Bolsa transversal para usar à frente','B'],['a43','Sacos zip e sacolas plásticas','M']]},
+ {g:'Volta e antes de sair',it:[
+  ['a44','Saco para roupa suja','M'],['a45','Pesar a mala de mão (máx. 12 kg, 55×35×25 cm) e a mochila (máx. 10 kg, 45×35×20 cm)','M'],['a46','Fotografar passaporte, cartões e voucher do carro e guardar na nuvem','B']]}
+]}};
+
+(function(){var K='balcas2027-mala',s={},cur='S';try{s=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+var L={M:'mala',B:'mochila',U:'no corpo'};
+function keep(){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
+function esc(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function render(){var p=DATA[cur],tot=0,ok=0,h='';
+ p.grupos.forEach(function(g){h+='<div class="ml-g"><h3>'+esc(g.g)+'</h3><ul class="ml-l">';
+  g.it.forEach(function(i){tot++;var c=!!s[i[0]];if(c)ok++;
+   h+='<li class="'+(c?'ok':'')+'"><input type="checkbox" id="m_'+i[0]+'" data-i="'+i[0]+'"'+(c?' checked':'')+'><label for="m_'+i[0]+'">'+esc(i[1])+'</label><span class="ml-w" title="'+L[i[2]]+'">'+i[2]+'</span></li>'});
+  h+='</ul></div>'});
+ document.getElementById('ml-root').innerHTML=h;
+ document.getElementById('ml-prog').innerHTML='<b>'+esc(p.nome)+'</b>: '+ok+' de '+tot+' itens ('+Math.round(ok*100/tot)+'%)<div class="ml-bar"><i style="width:'+(ok*100/tot)+'%"></i></div>';
+ document.getElementById('tS').setAttribute('aria-selected',cur==='S');document.getElementById('tA').setAttribute('aria-selected',cur==='A')}
+var ready=false;
+function push(o){if(ready&&window.FB)FB.set('data/mala',{done:o},true)}
+document.getElementById('ml-root').addEventListener('change',function(e){var c=e.target;if(!c.dataset.i)return;
+ s[c.dataset.i]=c.checked;keep();var o={};o[c.dataset.i]=c.checked;push(o);render()});
+document.getElementById('tS').onclick=function(){cur='S';render()};
+document.getElementById('tA').onclick=function(){cur='A';render()};
+document.getElementById('ml-clr').onclick=function(){if(!confirm('Desmarcar todos os itens de '+DATA[cur].nome+'?'))return;
+ var o={};DATA[cur].grupos.forEach(function(g){g.it.forEach(function(i){if(s[i[0]]){s[i[0]]=false;o[i[0]]=false}})});keep();push(o);render()};
+render();
+function bind(){if(!window.FB)return;
+ var el=document.getElementById('gx-sync');if(el)FB.strip(el);
+ var unsub=null;
+ FB.onAuth(function(u){if(unsub){unsub();unsub=null}ready=false;if(!u)return;
+  unsub=FB.watchDoc('mala','data/mala',function(d,meta){
+   var r=(d&&d.done)||{},miss={},n=0;
+   Object.keys(r).forEach(function(k){s[k]=!!r[k]});
+   Object.keys(s).forEach(function(k){if(!(k in r)&&s[k]){miss[k]=s[k];n++}});
+   keep();render();ready=true;
+   if(n&&!meta.fromCache)FB.set('data/mala',{done:miss},true)})})}
+if(window.FB)bind();else{document.addEventListener('fb-ready',bind);setTimeout(function(){var el=document.getElementById('gx-sync');if(!window.FB&&el)el.textContent='☁ Salvo só neste aparelho (Firebase indisponível)'},4000)}})();
+</script>
+<script src="nav.js?v=60"></script><script type="module" src="fb.js?v=60"></script>

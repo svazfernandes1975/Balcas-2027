@@ -1,0 +1,366 @@
+/* Controle de gastos — protótipo v2 (dados só neste aparelho, em localStorage) */
+(function(){
+'use strict';
+var KEY='balcas2027-gastos-v1';
+var root=document.getElementById('gx');
+if(!root)return;
+function $(s,r){return (r||root).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||root).querySelectorAll(s))}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+var CURS=['EUR','USD','BRL'];
+function curOpts(sel){return CURS.map(function(c){return '<option'+(c===sel?' selected':'')+'>'+c+'</option>'}).join('')}
+
+/* ---------- padrões ---------- */
+function defBudget(){return[
+  {id:'hosp',name:'Hospedagem',val:2778,cur:'EUR',when:'trip',bal:true},
+  {id:'cafe',name:'Café da manhã',val:160,cur:'EUR',when:'trip',bal:true},
+  {id:'almoco',name:'Almoço',val:780,cur:'EUR',when:'trip',bal:true},
+  {id:'jantar',name:'Jantar',val:1218,cur:'EUR',when:'trip',bal:true},
+  {id:'comb',name:'Combustível',val:350,cur:'EUR',when:'trip',bal:true},
+  {id:'pedagio',name:'Pedágio e vinheta',val:150,cur:'EUR',when:'trip',bal:true},
+  {id:'estac',name:'Estacionamento',val:115,cur:'EUR',when:'trip',bal:true},
+  {id:'transp',name:'Transporte local',val:100,cur:'EUR',when:'trip',bal:true},
+  {id:'ingr',name:'Ingressos e passeios',val:708,cur:'EUR',when:'trip',bal:true},
+  {id:'extras',name:'Extras',val:400,cur:'EUR',when:'trip',bal:true},
+  {id:'taxas',name:'Taxas e outros',val:70,cur:'EUR',when:'trip',bal:true},
+  {id:'carro',name:'Aluguel do carro',val:927,cur:'EUR',when:'trip',bal:true},
+  {id:'voo',name:'Passagens (taxas)',val:1400,cur:'BRL',when:'pre',bal:false}
+]}
+function defaults(){return{
+  v:2,
+  rates:{usdEur:0.88,eurBrl:6.0},
+  trip:{start:'2027-05-15',end:'2027-06-05'},
+  refDate:'',
+  methods:[
+    {id:'cash',name:'Cash EUR',cur:'EUR',dcur:'EUR',init:350,cnt:true},
+    {id:'wiseusd',name:'Wise USD',cur:'USD',dcur:'EUR',init:1026.05,cnt:true},
+    {id:'wiseeur',name:'Wise EUR',cur:'EUR',dcur:'EUR',init:1047.71,cnt:true},
+    {id:'c6eur',name:'C6 EUR',cur:'EUR',dcur:'EUR',init:27.51,cnt:true},
+    {id:'nomad',name:'Nomad USD',cur:'USD',dcur:'EUR',init:1047,cnt:true},
+    {id:'c6usd',name:'C6 USD',cur:'USD',dcur:'EUR',init:253.2,cnt:true},
+    {id:'brcard',name:'Cartão BR (R$)',cur:'BRL',dcur:'BRL',init:0,cnt:false}
+  ],
+  budget:defBudget(),
+  entries:[],
+  last:{method:'cash',cat:'almoco',cur:'EUR'}
+}}
+function migrate(o){
+  if(o.v===1){
+    o.budget.forEach(function(b){b.when=b.pre?'pre':'trip';b.bal=!b.pre;b.cur=b.cur||'EUR';delete b.pre});
+    o.entries.forEach(function(e){if(e.t==='g'){var m=o.methods.filter(function(x){return x.id===e.m})[0];e.cur=m?m.cur:'EUR';e.debit=e.amt}});
+    if(!o.methods.some(function(m){return m.id==='brcard'}))o.methods.push({id:'brcard',name:'Cartão BR (R$)',cur:'BRL',init:0,cnt:false});
+    o.last=o.last||{};o.last.cur='EUR';o.v=2;
+  }
+  o.methods.forEach(function(m){if(!m.dcur)m.dcur=m.cur==='USD'?'EUR':m.cur});
+  return o}
+function load(){try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);if(o&&(o.v===1||o.v===2))return migrate(o)}}catch(e){}return defaults()}
+var S=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* ---------- formatação e conversão ---------- */
+var nf={};CURS.forEach(function(c){nf[c]=new Intl.NumberFormat('pt-BR',{style:'currency',currency:c})});
+function money(v,c){return nf[c||'EUR'].format(v||0)}
+function num(s){s=String(s==null?'':s).trim().replace(/\s/g,'');if(!s)return NaN;if(s.indexOf(',')>-1)s=s.replace(/\./g,'').replace(',','.');return parseFloat(s)}
+function toEUR(v,c){return c==='EUR'?v:c==='USD'?v*S.rates.usdEur:v/S.rates.eurBrl}
+function fromEUR(v,c){return c==='EUR'?v:c==='USD'?v/S.rates.usdEur:v*S.rates.eurBrl}
+function conv(v,from,to){return from===to?v:fromEUR(toEUR(v,from),to)}
+function r2(v){return Math.round(v*100)/100}
+function fin(v){return String(r2(v)).replace('.',',')}
+function brl(eur){return money(eur*S.rates.eurBrl,'BRL')}
+function both(eur){return money(eur)+' · '+brl(eur)}
+function dnum(s){var p=String(s).split('-');return Date.UTC(+p[0],+p[1]-1,+p[2])/864e5}
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+function fmtDate(s){var p=s.split('-');var d=new Date(Date.UTC(+p[0],+p[1]-1,+p[2]));return new Intl.DateTimeFormat('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',year:'2-digit',timeZone:'UTC'}).format(d).replace('.','')}
+function mById(id){return S.methods.filter(function(m){return m.id===id})[0]}
+function bById(id){return S.budget.filter(function(b){return b.id===id})[0]}
+function bEur(b){return toEUR(b.val,b.cur)}
+function debited(e){return e.debit!=null?e.debit:e.amt}
+
+/* ---------- cálculos ---------- */
+function balance(m){var b=m.init;S.entries.forEach(function(e){
+  if(e.t==='g'&&e.m===m.id)b-=debited(e);
+  else if(e.t==='t'){if(e.from===m.id)b-=e.out;if(e.to===m.id)b+=e.in}
+  else if(e.t==='a'&&e.m===m.id)b+=e.delta});return b}
+function stats(){
+  var by={},spentT=0,spentP=0;
+  S.entries.forEach(function(e){if(e.t!=='g')return;by[e.cat]=(by[e.cat]||0)+e.eur;var b=bById(e.cat);if(b&&b.when==='pre')spentP+=e.eur;else spentT+=e.eur});
+  var budT=0,budP=0,need=0;
+  S.budget.forEach(function(b){var v=bEur(b);if(b.when==='pre')budP+=v;else{budT+=v;if(b.bal)need+=Math.max(0,v-(by[b.id]||0))}});
+  var total=dnum(S.trip.end)-dnum(S.trip.start)+1;
+  var last='';S.entries.forEach(function(e){if(e.t==='g'&&e.date>last){var b=bById(e.cat);if(!(b&&b.when==='pre'))last=e.date}});
+  var t=todayStr(),auto=(t>=S.trip.start&&t<=S.trip.end)?t:(last||S.trip.start);
+  var ref=S.refDate||auto;
+  var idx=Math.max(0,Math.min(total,dnum(ref)-dnum(S.trip.start)+1));
+  var left=idx===0?total:Math.max(1,total-idx+1);
+  var avail=0;S.methods.forEach(function(m){if(m.cnt)avail+=toEUR(balance(m),m.cur)});
+  var rem=budT-spentT;
+  return{by:by,spentT:spentT,spentP:spentP,budT:budT,budP:budP,need:need,rem:rem,total:total,ref:ref,idx:idx,left:left,avail:avail,
+    perDay:rem/left,avg:idx>0?spentT/idx:0,proj:idx>0?spentT/idx*total:0,started:t>=S.trip.start||!!S.refDate||last!==''}
+}
+
+/* ---------- estado do formulário ---------- */
+var F={mode:'g',cat:null,meth:null,ecur:'EUR',edit:null,tIn:false,debTouched:false,dateTouched:false,curTouched:false};
+F.ecur=(mById(S.last.method)&&mById(S.last.method).dcur)||S.last.cur||'EUR';
+var tab='lancar';try{tab=sessionStorage.getItem('gx-tab')||'lancar'}catch(e){}
+var undoSnap=null,toastT=null;
+function toast(msg,undo){
+  var t=$('#gx-toast',document);if(!t)return;
+  t.innerHTML='<span>'+esc(msg)+'</span>'+(undo?'<button type="button" id="gx-undo">Desfazer</button>':'');
+  t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true},6000);
+  var u=$('#gx-undo',document);if(u)u.onclick=function(){if(undoSnap){S.entries=JSON.parse(undoSnap);save();render()}t.hidden=true}
+}
+function snap(){undoSnap=JSON.stringify(S.entries)}
+function setTab(t){tab=t;try{sessionStorage.setItem('gx-tab',t)}catch(e){}render();window.scrollTo(0,0);if(t==='lancar'&&F.mode==='g'){try{$('#g-amt').focus()}catch(e){}}}
+$$('.gx-tabs button').forEach(function(b){b.addEventListener('click',function(){setTab(b.dataset.tab)})});
+
+/* ---------- LANÇAR ---------- */
+function dateDefault(cat){var b=bById(cat||F.cat);if(b&&b.when==='pre')return todayStr();var t=todayStr();return(t>=S.trip.start&&t<=S.trip.end)?t:stats().ref}
+function chipsMeth(){
+  var h='';S.methods.forEach(function(m){h+='<button type="button" class="chip" data-id="'+m.id+'" aria-pressed="'+(F.meth===m.id)+'">'+esc(m.name)+'<small>'+money(balance(m),m.cur)+'</small></button>'});
+  var el=$('#g-meths');el.innerHTML=h;$$('.chip',el).forEach(function(c){c.onclick=function(){F.meth=c.dataset.id;S.last.method=F.meth;F.debTouched=false;if(!F.curTouched){var dm=mById(F.meth);if(dm&&dm.dcur)F.ecur=dm.dcur}save();rLancar();$('#g-amt').focus()}})
+}
+function rLancar(){
+  if(!mById(F.meth))F.meth=mById(S.last.method)?S.last.method:(S.methods[0]&&S.methods[0].id);
+  if(!bById(F.cat))F.cat=bById(S.last.cat)?S.last.cat:(S.budget[0]&&S.budget[0].id);
+  ['g','t','a'].forEach(function(k){$('#p-'+k).hidden=F.mode!==k});
+  var st=stats();
+  $('#k-saldo').innerHTML='<b>'+money(st.avail)+'</b><span>saldo</span>';
+  $('#k-gasto').innerHTML='<b>'+money(st.spentT)+'</b><span>gasto</span>';
+  var k=$('#k-dia');k.className='kpi '+(st.idx===0||st.perDay>=st.avg?'ok':'warn');
+  k.innerHTML='<b>'+money(Math.max(0,st.perDay))+'</b><span>por dia ('+st.left+' d)</span>';
+  if(F.mode==='g'){
+    var h='';S.budget.forEach(function(b){h+='<button type="button" class="chip" data-id="'+b.id+'" aria-pressed="'+(F.cat===b.id)+'">'+esc(b.name)+(b.when==='pre'?'<small>antes da viagem</small>':'')+'</button>'});
+    var ce=$('#g-cats');ce.innerHTML=h;$$('.chip',ce).forEach(function(c){c.onclick=function(){
+      F.cat=c.dataset.id;S.last.cat=F.cat;var b=bById(F.cat);
+      var cm=mById(F.meth);if(!F.curTouched&&b&&b.cur&&!(cm&&cm.dcur))F.ecur=b.cur;
+      if(!F.dateTouched)$('#g-date').value=dateDefault(F.cat);
+      save();rLancar();$('#g-amt').focus()}});
+    chipsMeth();
+    $$('#g-ecur button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.c===F.ecur))});
+    var m=mById(F.meth),a=num($('#g-amt').value),diff=!!m&&m.cur!==F.ecur;
+    $('#g-deb').hidden=!diff;
+    if(diff){$('#g-debcur').textContent=m.cur;if(!F.debTouched)$('#g-debit').value=a>0?fin(conv(a,F.ecur,m.cur)):''}
+    $('#g-conv').textContent=a>0?('≈ '+both(toEUR(a,F.ecur))):'';
+    var cb=bById(F.cat),go=$('#g-go');
+    go.textContent=F.edit?'Salvar alteração':(a>0?('Lançar '+money(a,F.ecur)+(cb?' · '+cb.name:'')):'Digite o valor');
+    go.disabled=!(a>0);
+    $('#g-cancel').hidden=!F.edit;
+  }
+  if(F.mode==='t'){
+    var opts=S.methods.map(function(m){return '<option value="'+m.id+'">'+esc(m.name)+' ('+m.cur+')</option>'}).join('');
+    var tf=$('#t-from'),tt=$('#t-to'),pf=tf.value,pt=tt.value;
+    tf.innerHTML=opts;tt.innerHTML=opts;
+    tf.value=mById(pf)?pf:(S.methods[0]&&S.methods[0].id);
+    tt.value=mById(pt)?pt:(S.methods[1]?S.methods[1].id:tf.value);
+    tUpdate();
+  }
+  if(F.mode==='a'){
+    var am=$('#a-m'),pv=am.value;
+    am.innerHTML=S.methods.map(function(m){return '<option value="'+m.id+'">'+esc(m.name)+' ('+m.cur+')</option>'}).join('');
+    am.value=mById(pv)?pv:(S.methods[0]&&S.methods[0].id);
+    aUpdate();
+  }
+}
+function tUpdate(){
+  var f=mById($('#t-from').value),t=mById($('#t-to').value);if(!f||!t)return;
+  $('#t-out-cur').textContent=f.cur;$('#t-in-cur').textContent=t.cur;
+  var out=num($('#t-out').value);
+  if(!F.tIn)$('#t-in').value=out>0?fin(conv(out,f.cur,t.cur)):'';
+}
+function aUpdate(){
+  var m=mById($('#a-m').value);if(!m)return;
+  var cur=balance(m);$('#a-cur').textContent=m.cur;
+  $('#a-now').textContent='Saldo calculado agora: '+money(cur,m.cur)+(m.cur!=='EUR'?' · '+money(toEUR(cur,m.cur)):'');
+  var real=num($('#a-real').value);
+  $('#a-diff').textContent=isFinite(real)?('Ajuste de '+(real-cur>=0?'+':'')+money(real-cur,m.cur)):'';
+}
+function resetForm(){F.edit=null;F.debTouched=false;F.dateTouched=false;F.curTouched=false;$('#g-amt').value='';$('#g-debit').value='';$('#g-desc').value='';$('#g-date').value=dateDefault(F.cat)}
+function submitG(){
+  var m=mById(F.meth),a=num($('#g-amt').value);
+  if(!m||!(a>0)){toast('Informe um valor maior que zero');$('#g-amt').focus();return}
+  if(!F.cat){toast('Escolha uma categoria');return}
+  var diff=m.cur!==F.ecur,deb=diff?num($('#g-debit').value):a;
+  if(!(deb>0))deb=conv(a,F.ecur,m.cur);
+  snap();
+  var e={id:F.edit||uid(),t:'g',date:$('#g-date').value||dateDefault(F.cat),m:m.id,cur:F.ecur,amt:r2(a),debit:r2(deb),cat:F.cat,desc:$('#g-desc').value.trim(),eur:Math.round(toEUR(a,F.ecur)*10000)/10000};
+  if(F.edit){S.entries=S.entries.map(function(x){return x.id===F.edit?e:x})}else S.entries.push(e);
+  S.last.cur=F.ecur;save();var was=F.edit;resetForm();render();
+  toast((was?'Alterado: ':'Lançado: ')+money(a,e.cur)+(diff?' · debitado '+money(deb,m.cur):'')+' · '+(bById(e.cat)?bById(e.cat).name:''),true);
+  $('#g-amt').focus();
+}
+function submitT(){
+  var f=mById($('#t-from').value),t=mById($('#t-to').value),o=num($('#t-out').value),i=num($('#t-in').value);
+  if(!f||!t||f.id===t.id){toast('Escolha meios diferentes');return}
+  if(!(o>0)||!(i>0)){toast('Informe o valor que sai e o que entra');return}
+  snap();S.entries.push({id:uid(),t:'t',date:dateDefault(),from:f.id,to:t.id,out:r2(o),in:r2(i),desc:$('#t-desc').value.trim()});
+  save();$('#t-out').value='';$('#t-in').value='';$('#t-desc').value='';F.tIn=false;render();
+  toast('Transferido: '+money(o,f.cur)+' → '+money(i,t.cur),true);
+}
+function submitA(){
+  var m=mById($('#a-m').value),real=num($('#a-real').value);
+  if(!m||!isFinite(real)){toast('Informe o saldo real');return}
+  var d=r2(real-balance(m));if(d===0){toast('Saldo já confere');return}
+  snap();S.entries.push({id:uid(),t:'a',date:dateDefault(),m:m.id,delta:d,desc:$('#a-desc').value.trim()||'Acerto de saldo'});
+  save();$('#a-real').value='';$('#a-desc').value='';render();
+  toast('Saldo de '+m.name+' acertado ('+(d>=0?'+':'')+money(d,m.cur)+')',true);
+}
+
+/* ---------- RESUMO ---------- */
+function rResumo(){
+  var st=stats(),h='';
+  var okSaldo=st.avail>=st.need;
+  var cls,msg;
+  if(!st.started||st.idx===0){
+    cls='';msg='<b>A viagem ainda não começou.</b> Orçamento de '+both(st.budT)+' para '+st.total+' dias ('+money(st.budT/st.total)+' por dia). '+(okSaldo?'O saldo dos meios cobre o previsto.':'O saldo dos meios não cobre tudo: faltam '+money(st.need-st.avail)+'.');
+  }else{
+    var over=st.proj-st.budT;
+    if(st.rem<0){cls='bad';msg='<b>Orçamento estourado</b> em '+money(-st.rem)+'. Já gastou '+money(st.spentT)+' de '+money(st.budT)+'.'}
+    else if(over<=0){cls='ok';msg='<b>No ritmo certo.</b> Gastando '+money(st.avg)+' por dia, você fecha em cerca de '+money(st.proj)+', abaixo dos '+money(st.budT)+' previstos.'}
+    else if(over<=st.budT*0.1){cls='warn';msg='<b>Atenção ao ritmo.</b> Gastando '+money(st.avg)+' por dia, você fecha em cerca de '+money(st.proj)+', '+money(over)+' acima do previsto. Para ficar dentro, gaste até '+money(Math.max(0,st.perDay))+' por dia daqui em diante.'}
+    else{cls='bad';msg='<b>Ritmo acima do orçamento.</b> Gastando '+money(st.avg)+' por dia, você fecha em cerca de '+money(st.proj)+', '+money(over)+' acima do previsto. Para ficar dentro, só '+money(Math.max(0,st.perDay))+' por dia daqui em diante.'}
+    msg+=' '+(okSaldo?'O saldo dos meios cobre o que falta.':'<b>Atenção:</b> o saldo dos meios não cobre o que falta ('+money(st.need-st.avail)+' a menos).');
+  }
+  h+='<div class="banner '+cls+'">'+msg+'</div>';
+  var pct=st.budT>0?st.spentT/st.budT:0;
+  h+='<div class="kpis">';
+  h+='<div class="kpi"><span>Gasto na viagem</span><b>'+money(st.spentT)+'</b><span>'+brl(st.spentT)+' · '+Math.round(pct*100)+'% do orçamento</span><div class="bar '+(pct>1?'bad':'')+'" style="margin-top:6px"><i style="width:'+Math.min(100,pct*100)+'%"></i></div></div>';
+  h+='<div class="kpi '+(st.rem<0?'bad':'')+'"><span>Ainda posso gastar</span><b>'+money(st.rem)+'</b><span>'+brl(st.rem)+' · '+money(Math.max(0,st.perDay))+' por dia (' +st.left+' d)</span></div>';
+  h+='<div class="kpi '+(okSaldo?'ok':'bad')+'"><span>Saldo nos meios</span><b>'+money(st.avail)+'</b><span>'+brl(st.avail)+' · '+(okSaldo?'cobre o que falta':'faltam '+money(st.need-st.avail))+'</span></div>';
+  h+='</div>';
+  if(st.budP>0||st.spentP>0){
+    h+='<div class="card"><h3>Antes da viagem (pagos no Brasil)</h3><p class="gs">Gasto <b>'+money(st.spentP)+'</b> ('+brl(st.spentP)+') de <b>'+money(st.budP)+'</b> ('+brl(st.budP)+') previstos. '+(st.spentP>st.budP?'<b class="bad">Acima em '+money(st.spentP-st.budP)+'.</b>':'')+'</p><p class="hint">Não entram no ritmo diário nem no saldo da viagem.</p></div>';
+  }
+  var rows=S.budget.map(function(b){var g=st.by[b.id]||0,v=bEur(b);return{b:b,g:g,v:v,p:v>0?g/v:(g>0?9:0)}}).sort(function(x,y){return y.p-x.p});
+  h+='<div class="card"><h3>Onde estou gastando</h3><p class="hint">Ordenado do mais consumido para o menos.</p>';
+  rows.forEach(function(r){var b=r.b;var cl=r.p>1?'bad':(r.p>0.85?'warn':'');
+    h+='<div class="cat"><div class="l"><span>'+esc(b.name)+(b.when==='pre'?' <em class="tag">antes</em>':'')+'</span><span>'+Math.round(r.p*100)+'%</span></div><div class="bar '+cl+'"><i style="width:'+Math.min(100,r.p*100)+'%"></i></div><div class="m">'+money(r.g)+' de '+money(r.v)+' · resta '+money(r.v-r.g)+'</div></div>'});
+  h+='</div>';
+  h+='<div class="card"><h3>Saldo por meio</h3><div class="list">';
+  S.methods.forEach(function(m){var b=balance(m),e=toEUR(b,m.cur);
+    h+='<div class="it"><div>'+esc(m.name)+'<div class="m">inicial '+money(m.init,m.cur)+(m.cnt?'':' · fora do saldo disponível')+'</div></div><div class="v">'+money(b,m.cur)+'<small>'+[m.cur!=='EUR'?money(e):'',m.cur!=='BRL'?brl(e):''].filter(Boolean).join(' · ')+'</small></div></div>'});
+  h+='<div class="it"><div><b>Total (meios que contam)</b></div><div class="v">'+money(st.avail)+'<small>'+brl(st.avail)+'</small></div></div></div></div>';
+  h+='<details class="card"><summary>Como o cálculo funciona e dia de referência</summary><div style="display:grid;gap:8px;margin-top:8px">';
+  h+='<p class="gs">Dia de referência: <b>'+fmtDate(st.ref)+'</b> (dia '+st.idx+' de '+st.total+'). Deixe vazio para usar a data de hoje durante a viagem, ou o último gasto lançado. Para simular, escolha um dia:</p>';
+  h+='<label class="f" style="max-width:220px"><input type="date" id="r-ref" value="'+esc(S.refDate)+'" aria-label="Dia de referência"></label>';
+  h+='<p class="hint">Ritmo = gasto da viagem ÷ dias decorridos. Por dia até o fim = o que ainda resta do orçamento ÷ dias que faltam (contando o de referência). O saldo "cobre" quando os meios marcados somam pelo menos o que falta gastar nos itens marcados como "sai do saldo". Itens "antes da viagem" ficam de fora desses cálculos.</p></div></details>';
+  $('#v-resumo').innerHTML=h;
+  var rr=$('#r-ref');if(rr)rr.onchange=function(){S.refDate=this.value;save();render()};
+}
+
+/* ---------- EXTRATO ---------- */
+function rExtrato(){
+  var es=S.entries.slice().sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1)});
+  if(!es.length){$('#v-extrato').innerHTML='<div class="card"><p class="hint">Nenhum lançamento ainda. Use a aba Lançar.</p></div>';return}
+  var h='<div class="card">',cur='',dayTot={};
+  es.forEach(function(e){if(e.t==='g'){var b=bById(e.cat);if(!(b&&b.when==='pre'))dayTot[e.date]=(dayTot[e.date]||0)+e.eur}});
+  es.forEach(function(e){
+    if(e.date!==cur){cur=e.date;h+='<div class="dh"><span>'+fmtDate(cur)+'</span><span>'+(dayTot[cur]?money(dayTot[cur]):'')+'</span></div>'}
+    if(e.t==='g'){var m=mById(e.m),b=bById(e.cat),c=e.cur||(m?m.cur:'EUR');
+      var sub=[];if(m&&m.cur!==c)sub.push('debitado '+money(debited(e),m.cur));if(c!=='EUR')sub.push('≈ '+money(e.eur));
+      h+='<div class="it"><div>'+esc(b?b.name:'Sem categoria')+(e.desc?' · '+esc(e.desc):'')+'<div class="m">'+esc(m?m.name:'?')+'</div></div><div class="v">'+money(e.amt,c)+(sub.length?'<small>'+sub.join(' · ')+'</small>':'')+'</div><div class="acts"><button class="btn sec sm" data-edit="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
+    else if(e.t==='t'){var f=mById(e.from),t=mById(e.to);
+      h+='<div class="it"><div>Transferência'+(e.desc?' · '+esc(e.desc):'')+'<div class="m">'+esc(f?f.name:'?')+' → '+esc(t?t.name:'?')+'</div></div><div class="v">'+money(e.out,f?f.cur:'EUR')+'<small>→ '+money(e.in,t?t.cur:'EUR')+'</small></div><div class="acts"><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
+    else{var mm=mById(e.m);
+      h+='<div class="it"><div>Ajuste · '+esc(e.desc)+'<div class="m">'+esc(mm?mm.name:'?')+'</div></div><div class="v">'+(e.delta>=0?'+':'')+money(e.delta,mm?mm.cur:'EUR')+'</div><div class="acts"><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
+  });
+  h+='</div>';$('#v-extrato').innerHTML=h;
+  $$('[data-del]',$('#v-extrato')).forEach(function(b){b.onclick=function(){snap();S.entries=S.entries.filter(function(x){return x.id!==b.dataset.del});save();render();toast('Lançamento apagado',true)}});
+  $$('[data-edit]',$('#v-extrato')).forEach(function(b){b.onclick=function(){
+    var e=S.entries.filter(function(x){return x.id===b.dataset.edit})[0];if(!e)return;
+    F.mode='g';F.edit=e.id;F.cat=e.cat;F.meth=e.m;F.ecur=e.cur||'EUR';F.debTouched=true;F.dateTouched=true;F.curTouched=true;
+    setTab('lancar');$('#g-amt').value=fin(e.amt);$('#g-date').value=e.date;$('#g-desc').value=e.desc||'';
+    var m=mById(e.m);$('#g-debit').value=fin(debited(e));rLancar()}});
+}
+
+/* ---------- MEIOS ---------- */
+function rMeios(){
+  var h='<div class="card"><h3>Meios de pagamento</h3><p class="hint">Edite nome, moeda e saldo inicial antes da viagem. O saldo atual muda a cada lançamento e aparece nas três moedas.</p>';
+  S.methods.forEach(function(m){
+    var used=S.entries.some(function(e){return e.m===m.id||e.from===m.id||e.to===m.id});
+    var b=balance(m),e=toEUR(b,m.cur);
+    h+='<div class="mrow" data-m="'+m.id+'"><label class="f">Nome<input type="text" data-f="name" value="'+esc(m.name)+'"></label>'+
+    '<label class="f">Moeda<select data-f="cur"'+(used?' disabled title="Já tem lançamentos"':'')+'>'+curOpts(m.cur)+'</select></label>'+
+    '<label class="f">Saldo inicial<input type="text" inputmode="decimal" data-f="init" value="'+fin(m.init)+'"></label>'+
+    '<button type="button" class="btn sec sm danger" data-rm="'+m.id+'">Remover</button>'+
+    '<label class="f" style="grid-column:1/-1">Moeda padrão dos gastos neste meio<select data-f="dcur">'+curOpts(m.dcur)+'</select></label>'+
+    '<div class="hint" style="grid-column:1/-1">Saldo atual: <b>'+money(b,m.cur)+'</b>'+(m.cur!=='EUR'?' · '+money(e):'')+(m.cur!=='BRL'?' · '+brl(e):'')+'</div>'+
+    '<label class="chk" style="grid-column:1/-1"><input type="checkbox" data-f="cnt"'+(m.cnt?' checked':'')+'> Conta no saldo disponível da viagem</label></div>'});
+  h+='</div><div class="card"><h3>Novo meio</h3><div class="mrow"><label class="f">Nome<input type="text" id="n-name" placeholder="Ex.: Cartão de crédito A"></label><label class="f">Moeda<select id="n-cur">'+curOpts('EUR')+'</select></label><label class="f">Saldo inicial<input type="text" inputmode="decimal" id="n-init" placeholder="0,00"></label><button type="button" class="btn sm" id="n-add">Adicionar</button><label class="f" style="grid-column:1/-1">Moeda padrão dos gastos neste meio<select id="n-dcur">'+curOpts('EUR')+'</select></label></div></div>';
+  h+='<div class="card"><h3>Câmbio</h3><div class="row2"><label class="f">1 USD = ? EUR<input type="text" inputmode="decimal" id="c-usd" value="'+fin(S.rates.usdEur)+'"></label><label class="f">1 EUR = ? R$<input type="text" inputmode="decimal" id="c-brl" value="'+fin(S.rates.eurBrl)+'"></label></div><p class="hint">Cada gasto guarda o valor em euro da hora em que foi lançado. Mudar o câmbio depois não altera os já lançados, mas os saldos e o orçamento passam a usar o novo valor.</p></div>';
+  h+='<div class="card"><h3>Dados do protótipo</h3><p class="hint">Hoje os dados ficam só neste aparelho e navegador. Exporte para guardar uma cópia.</p><div class="acts"><button type="button" class="btn sec sm" id="d-exp">Exportar JSON</button><label class="btn sec sm" style="display:inline-flex;align-items:center;cursor:pointer">Importar JSON<input type="file" id="d-imp" accept="application/json" hidden></label><button type="button" class="btn sec sm danger" id="d-clr">Apagar lançamentos</button><button type="button" class="btn sec sm danger" id="d-rst">Restaurar tudo ao padrão</button></div></div>';
+  $('#v-meios').innerHTML=h;
+  $$('.mrow[data-m]').forEach(function(row){var m=mById(row.dataset.m);
+    $$('[data-f]',row).forEach(function(i){i.onchange=function(){
+      var f=i.dataset.f;if(f==='name')m.name=i.value.trim()||m.name;
+      else if(f==='cur')m.cur=i.value;
+      else if(f==='dcur')m.dcur=i.value;
+      else if(f==='init'){var v=num(i.value);if(isFinite(v))m.init=r2(v)}
+      else if(f==='cnt')m.cnt=i.checked;
+      save();render()}});
+    $('[data-rm]',row).onclick=function(){
+      var used=S.entries.some(function(e){return e.m===m.id||e.from===m.id||e.to===m.id});
+      if(used){alert('Este meio já tem lançamentos. Apague-os antes ou apenas desmarque "Conta no saldo".');return}
+      if(confirm('Remover '+m.name+'?')){S.methods=S.methods.filter(function(x){return x.id!==m.id});save();render()}}});
+  $('#n-add').onclick=function(){var n=$('#n-name').value.trim();if(!n){toast('Dê um nome ao meio');return}
+    var v=num($('#n-init').value);S.methods.push({id:uid(),name:n,cur:$('#n-cur').value,dcur:$('#n-dcur').value,init:isFinite(v)?r2(v):0,cnt:true});save();render()};
+  $('#c-usd').onchange=function(){var v=num(this.value);if(v>0){S.rates.usdEur=v;save();render()}};
+  $('#c-brl').onchange=function(){var v=num(this.value);if(v>0){S.rates.eurBrl=v;save();render()}};
+  $('#d-exp').onclick=function(){var b=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='gastos-balcas-2027.json';document.body.appendChild(a);a.click();a.remove()};
+  $('#d-imp').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(o&&(o.v===1||o.v===2)&&o.methods&&o.budget&&o.entries){S=migrate(o);save();render();toast('Dados importados')}else toast('Arquivo inválido')}catch(e){toast('Arquivo inválido')}};r.readAsText(f)};
+  $('#d-clr').onclick=function(){if(confirm('Apagar todos os lançamentos? Meios e orçamento ficam.')){S.entries=[];save();render()}};
+  $('#d-rst').onclick=function(){if(confirm('Restaurar meios, orçamento e lançamentos ao padrão?')){S=defaults();save();render()}};
+}
+
+/* ---------- ORÇAMENTO ---------- */
+function whenOpts(sel){return '<option value="trip"'+(sel==='trip'?' selected':'')+'>Durante a viagem</option><option value="pre"'+(sel==='pre'?' selected':'')+'>Antes da viagem</option>'}
+function rOrc(){
+  var st=stats();
+  var h='<div class="card"><h3>+ Novo item de orçamento</h3><p class="hint">Cada item vira uma categoria na hora de lançar. Escolha a moeda em que o valor será pago e se é antes ou durante a viagem.</p><div class="brow"><label class="f nm">Item<input type="text" id="b-name" placeholder="Ex.: Souvenirs"></label><label class="f">Valor<input type="text" inputmode="decimal" id="b-val" placeholder="0,00"></label><label class="f">Moeda<select id="b-cur">'+curOpts('EUR')+'</select></label><label class="f">Quando paga<select id="b-when">'+whenOpts('trip')+'</select></label><label class="chk"><input type="checkbox" id="b-bal" checked> sai do saldo dos meios</label><button type="button" class="btn sm" id="b-add">Adicionar item</button></div></div>';
+  h+='<div class="card"><h3>Itens do orçamento</h3><p class="gs">Durante a viagem: <b>'+both(st.budT)+'</b>'+(st.budP?' · antes da viagem: <b>'+both(st.budP)+'</b>':'')+'</p>';
+  S.budget.forEach(function(b){
+    h+='<div class="brow" data-b="'+b.id+'"><label class="f nm">Item<input type="text" data-f="name" value="'+esc(b.name)+'"></label><label class="f">Valor<input type="text" inputmode="decimal" data-f="val" value="'+fin(b.val)+'"></label><label class="f">Moeda<select data-f="cur">'+curOpts(b.cur)+'</select></label><label class="f">Quando paga<select data-f="when">'+whenOpts(b.when)+'</select></label>'+
+    '<label class="chk"><input type="checkbox" data-f="bal"'+(b.bal?' checked':'')+'> sai do saldo dos meios</label><button type="button" class="btn sec sm danger" data-rm="'+b.id+'">Remover</button>'+(b.cur!=='EUR'?'<div class="hint" style="grid-column:1/-1">≈ '+both(bEur(b))+'</div>':'')+'</div>'});
+  h+='</div><div class="acts"><button type="button" class="btn sec sm" id="b-rst">Restaurar orçamento padrão</button></div>';
+  $('#v-orc').innerHTML=h;
+  $$('.brow[data-b]').forEach(function(row){var b=bById(row.dataset.b);
+    $$('[data-f]',row).forEach(function(i){i.onchange=function(){var f=i.dataset.f;
+      if(f==='name')b.name=i.value.trim()||b.name;
+      else if(f==='val'){var v=num(i.value);if(isFinite(v)&&v>=0)b.val=r2(v)}
+      else if(f==='cur')b.cur=i.value;
+      else if(f==='when')b.when=i.value;
+      else b.bal=i.checked;
+      save();render()}});
+    $('[data-rm]',row).onclick=function(){
+      if(S.entries.some(function(e){return e.cat===b.id})){alert('Há lançamentos nesta categoria. Apague-os antes.');return}
+      if(confirm('Remover '+b.name+'?')){S.budget=S.budget.filter(function(x){return x.id!==b.id});save();render()}}});
+  $('#b-add').onclick=function(){var n=$('#b-name').value.trim(),v=num($('#b-val').value);if(!n){toast('Dê um nome ao item');$('#b-name').focus();return}
+    S.budget.push({id:uid(),name:n,val:isFinite(v)&&v>=0?r2(v):0,cur:$('#b-cur').value,when:$('#b-when').value,bal:$('#b-bal').checked});save();render();toast('Item adicionado: '+n)};
+  $('#b-rst').onclick=function(){if(confirm('Restaurar o orçamento padrão? Os lançamentos ficam, mas os itens criados saem.')){S.budget=defBudget();save();render()}};
+}
+
+/* ---------- render ---------- */
+function render(){
+  $$('.gx-tabs button').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.tab===tab))});
+  $$('.view').forEach(function(v){v.hidden=v.id!=='v-'+tab});
+  if(tab==='lancar')rLancar();else if(tab==='resumo')rResumo();else if(tab==='extrato')rExtrato();else if(tab==='meios')rMeios();else if(tab==='orc')rOrc();
+}
+
+/* ---------- ligações do formulário ---------- */
+$$('[data-mode]').forEach(function(b){b.onclick=function(){F.mode=b.dataset.mode;render();if(F.mode==='g'){$('#g-amt').focus()}else{window.scrollTo(0,0)}}});
+$$('#g-ecur button').forEach(function(b){b.onclick=function(){F.ecur=b.dataset.c;F.curTouched=true;F.debTouched=false;rLancar();$('#g-amt').focus()}});
+$('#g-amt').addEventListener('input',function(){rLancar()});
+$('#g-debit').addEventListener('input',function(){F.debTouched=true});
+$('#g-date').addEventListener('change',function(){F.dateTouched=true});
+$('#g-form').addEventListener('submit',function(e){e.preventDefault();submitG()});
+$('#g-cancel').onclick=function(){resetForm();render()};
+$('#t-form').addEventListener('submit',function(e){e.preventDefault();submitT()});
+$('#a-form').addEventListener('submit',function(e){e.preventDefault();submitA()});
+$('#t-from').onchange=$('#t-to').onchange=function(){F.tIn=false;tUpdate()};
+$('#t-out').addEventListener('input',function(){F.tIn=false;tUpdate()});
+$('#t-in').addEventListener('input',function(){F.tIn=true});
+$('#a-m').onchange=aUpdate;$('#a-real').addEventListener('input',aUpdate);
+$('#g-date').value=dateDefault(null);
+render();
+if(tab==='lancar'&&F.mode==='g'){try{$('#g-amt').focus({preventScroll:true})}catch(e){}}
+})();
