@@ -31,3 +31,9 @@
 #pt td:nth-child(3){min-width:280px}
 #pt td:nth-child(5){min-width:130px}
 #pt td.n{white-space:nowrap}
+
+/* v54: cartões dos imperdíveis alinhados */
+.gal{align-items:stretch}.gal>a{display:flex}.gal .ac{flex:1;align-content:start;grid-template-rows:auto minmax(2.5em,auto) auto auto}.gal .ac h3{display:flex;align-items:flex-start}.gal .ac .m{align-self:end}
+
+/* v55: cabeçalho congelado em Passeios pagos */
+.scroll.sv{max-height:min(75vh,680px);overflow:auto}#pt thead th{position:sticky;top:0;z-index:2;background:var(--surface);box-shadow:0 1px 0 var(--line)}
