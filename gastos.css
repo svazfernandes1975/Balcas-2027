@@ -312,3 +312,5 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .subs-r{margin:10px 0 2px 10px;padding-left:10px;border-left:2px solid var(--line);display:grid;gap:8px}
 .gx .sub .sl{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--ink)}.gx .sub .sl span:last-child{color:var(--muted);font-variant-numeric:tabular-nums}
 .gx .bar.mini{height:5px;margin-top:3px}
+/* v70: linhas do orçamento com gasto e resta */
+.gx .otbl tr.ol td.cr{font-weight:600}.gx .otbl tr.ol td.cg{font-weight:500}

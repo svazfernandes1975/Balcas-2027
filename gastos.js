@@ -675,6 +675,7 @@ function lineRow(l,n){
   '<button type="button" class="btn sec sm danger" data-rml="'+l.id+'">Remover linha</button></div>'}
 var orcView='tab';try{orcView=sessionStorage.getItem('gx-orc')||'tab'}catch(e){}
 try{if(/[?&]aba=orcamento/.test(location.search)){tab='orc';orcView='tab';sessionStorage.setItem('gx-tab','orc');sessionStorage.setItem('gx-orc','tab');history.replaceState(null,'',location.pathname)}}catch(e){}
+try{if(/[?&]aba=lancar/.test(location.search)){tab='lancar';F.mode='g';F.step=1;F.edit=null;F.editT=null;F.editA=null;sessionStorage.setItem('gx-tab','lancar');history.replaceState(null,'',location.pathname)}}catch(e){}
 function orcSeg(){return '<div class="seg orcseg" role="group" aria-label="Visão do orçamento"><button type="button" data-ov="tab" aria-pressed="'+(orcView==='tab')+'">Ver tabela</button><button type="button" data-ov="edit" aria-pressed="'+(orcView==='edit')+'">Configurar orçamento</button></div>'}
 function bindSeg(){$$('[data-ov]',$('#v-orc')).forEach(function(b){b.onclick=function(){orcView=b.dataset.ov;try{sessionStorage.setItem('gx-orc',orcView)}catch(e){}rOrc();window.scrollTo(0,0)}})}
 function ms(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(v||0)}
@@ -689,8 +690,13 @@ function rOrcTab(){
     function cb(v,b,cls){return '<td class="'+cls+'">'+ms(v)+'<small class="rb">'+money(b,'BRL')+'</small></td>'}
     h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+'" data-goc="'+c.id+'"><td>'+ci(c)+esc(c.name)+(plan>0?'<small class="pd">previsto '+money(plan/st.total)+'/dia · '+money(planB/st.total,'BRL')+'/dia'+(((st.bT[c.id]||0)>0&&Math.abs((st.bT[c.id]||0)-plan)>0.005)?'<br>só durante a viagem '+money(st.bT[c.id]/st.total)+'/dia':'')+'</small>':'')+(nm>1?' <em class="tag" title="Linhas em moedas diferentes: cada uma é convertida pela cotação">'+Object.keys(mix).join(' + ')+'</em>':'')+'</td>'+cb(plan,planB,'cp')+cb(sp,spB,'cg')+cb(rest,planB-spB,rest<-0.005?'neg cr':(rest>0.005?'cr':'cz'))+'</tr>';
     var showLines=ls.length>1||(ls[0]&&(ls[0].label||ls[0].cur!=='EUR'||ls[0].when==='pre'));
-    if(showLines)ls.forEach(function(l){
-      h+='<tr class="ol"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':(l.when==='post'?'depois':'durante'))+'</em></td><td>'+ms(lEur(l))+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td><td></td><td></td></tr>'})});
+    if(showLines){var sumL=0,sumLB=0;
+      ls.forEach(function(l){
+        var sL=0,sLB=0;S.entries.forEach(function(e){if(e.t!=='g'||e.cat!==c.id)return;var mine=e.ln?e.ln===l.id:ls.length===1;if(mine){sL+=e.eur;sLB+=entryBrl(e)}});sumL+=sL;sumLB+=sLB;
+        var pl=lEur(l),plB=conv(l.val,l.cur,'BRL'),rL=pl-sL;
+        h+='<tr class="ol"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':(l.when==='post'?'depois':'durante'))+'</em></td><td class="cp">'+ms(pl)+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td>'+cb(sL,sLB,'cg')+cb(rL,plB-sLB,rL<-0.005?'neg cr':(rL>0.005?'cr':'cz'))+'</tr>'});
+      var un=sp-sumL;
+      if(ls.length>1&&Math.abs(un)>0.005){var unB=spB-sumLB;h+='<tr class="ol"><td>Lançamentos sem subcategoria</td><td></td>'+cb(un,unB,'cg')+'<td></td></tr>'}}});
   var tp=B.br.planned+B.out.planned+st.budT+st.budO,ts=B.br.spent+B.out.spent+st.spentT+st.spentO;
   function pB(f){var t=0;S.budget.forEach(function(l){if(f(l))t+=conv(l.val,l.cur,'BRL')});return t}
   function cellB(v,b,cls){return '<td class="'+(cls||'')+'">'+ms(v)+'<small class="rb">'+money(b,'BRL')+'</small></td>'}
