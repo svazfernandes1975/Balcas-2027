@@ -674,6 +674,7 @@ function lineRow(l,n){
   (l.when==='trip'?'<label class="chk"><input type="checkbox" data-f="bal"'+(l.bal?' checked':'')+'> sai do dinheiro dos meios</label>':(l.when==='post'?'<span class="hint">paga depois da viagem; não sai do dinheiro dos meios na viagem</span>':'<span class="hint">paga daqui'+(l.cur==='BRL'?', em reais':', em '+l.cur)+'</span>'))+
   '<button type="button" class="btn sec sm danger" data-rml="'+l.id+'">Remover linha</button></div>'}
 var orcView='tab';try{orcView=sessionStorage.getItem('gx-orc')||'tab'}catch(e){}
+try{if(/[?&]aba=orcamento/.test(location.search)){tab='orc';orcView='tab';sessionStorage.setItem('gx-tab','orc');sessionStorage.setItem('gx-orc','tab');history.replaceState(null,'',location.pathname)}}catch(e){}
 function orcSeg(){return '<div class="seg orcseg" role="group" aria-label="Visão do orçamento"><button type="button" data-ov="tab" aria-pressed="'+(orcView==='tab')+'">Ver tabela</button><button type="button" data-ov="edit" aria-pressed="'+(orcView==='edit')+'">Configurar orçamento</button></div>'}
 function bindSeg(){$$('[data-ov]',$('#v-orc')).forEach(function(b){b.onclick=function(){orcView=b.dataset.ov;try{sessionStorage.setItem('gx-orc',orcView)}catch(e){}rOrc();window.scrollTo(0,0)}})}
 function ms(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(v||0)}
