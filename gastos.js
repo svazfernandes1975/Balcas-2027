@@ -38,7 +38,7 @@ function defaults(){return{
   ],
   cats:defCats(),budget:defLines(),
   countries:defCountries(),route:defRoute(),
-  entries:[],
+  entries:[],mc:[],
   last:{method:'cash',cat:'almoco',cur:'EUR'}
 }}
 function migrate(o){
@@ -53,6 +53,7 @@ function migrate(o){
     [['compras','Compras'],['outros','Outros']].forEach(function(x){if(!o.budget.some(function(b){return b.id===x[0]})){o.budget.splice(at,0,{id:x[0],name:x[1],val:0,cur:'EUR',when:'trip',bal:true});at++}})})();
   if(o.v<3){o.cats=o.budget.map(function(b){return{id:b.id,name:b.name}});o.budget=o.budget.map(function(b){return{id:'l_'+b.id,cat:b.id,label:'',val:b.val,cur:b.cur||'EUR',when:b.when||'trip',bal:!!b.bal}});o.v=3}
   if(!o.extra)o.extra=[];
+  if(!o.mc)o.mc=[];
   o.budget.forEach(function(l){if(l.qty===undefined){l.qty=1;l.unit=l.val}});
   if(o.rates.usdBrl===undefined)o.rates.usdBrl=Math.round((o.rates.usdEur||0.88)*o.rates.eurBrl*10000)/10000;
   o.extra.forEach(function(x){if(x.brl===undefined)x.brl=Math.round(o.rates.eurBrl/(x.perEur||1)*10000)/10000});
@@ -66,7 +67,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}try{pu
    config: documento data/config; lançamentos: um documento por lançamento em entries/{id}.
    O localStorage continua sendo o cache local; o Firestore guarda a cópia compartilhada. */
 var SYNC={on:false,ready:false,uid:null,unsubs:[],pushed:{},cfgPushed:'',cfg:null,ent:[],cfgSeen:false,entSeen:false,cfgServer:false,entServer:false,cfgSig:null,entSig:null,bound:false};
-var CFGK=['v','cats','budget','methods','rates','extra','countries','route','trip','refDate','ratesAt'];
+var CFGK=['v','cats','budget','methods','rates','extra','countries','route','trip','refDate','ratesAt','mc'];
 var SKEY='balcas2027-synced';
 function cfgOf(o){var c={};CFGK.forEach(function(k){if(o[k]!==undefined)c[k]=o[k]});return c}
 function jclean(o){return JSON.parse(JSON.stringify(o))}
@@ -75,6 +76,7 @@ function refreshUI(){
   if(root){
     var busy=false;
     if(tab==='lancar'){var a=document.activeElement;busy=!!((a&&a.closest&&a.closest('#g-form,#t-form,#a-form'))||F.edit||F.editT||F.editA||($('#g-amt')&&$('#g-amt').value))}
+    if(tab==='moeda'){var a2=document.activeElement;busy=!!((a2&&a2.closest&&a2.closest('#mc-form'))||MC.edit||MC.brl||MC.amt)}
     if(!busy){try{render()}catch(e){}}
   }
   try{document.dispatchEvent(new Event('gx-sync'))}catch(e){}
@@ -569,6 +571,90 @@ function drawList(){
     var m=mById(e.m);$('#g-debit').value=fin(debited(e));F.brlTouched=true;$('#g-brlv').value=fin(entryBrl(e));rLancar()}});
 }
 
+/* ---------- COMPRA DE MOEDA ---------- */
+var MC={edit:null,cur:'EUR',m:'',date:'',brl:'',amt:''};
+function mcCurs(){return curList().filter(function(c){return c!=='BRL'})}
+function mcMeths(cur){var a=S.methods.filter(function(m){return m.cur===cur});return a.length?a:S.methods.filter(function(m){return m.cur!=='BRL'})}
+function qfmt(v){return 'R$ '+(Math.round(v*10000)/10000).toFixed(4).replace('.',',')}
+function mcStats(){
+  var per={},meth={},tb=0,te=0,eE=0,eO=0;
+  (S.mc||[]).forEach(function(p){
+    var x=per[p.cur]||(per[p.cur]={amt:0,brl:0,n:0});x.amt+=p.amt;x.brl+=p.brl;x.n++;
+    var eq=toEUR(p.amt,p.cur);
+    var y=meth[p.m]||(meth[p.m]={amt:0,brl:0,eq:0,n:0,cur:p.cur,mix:false});if(y.cur!==p.cur)y.mix=true;y.amt+=p.amt;y.brl+=p.brl;y.eq+=eq;y.n++;
+    tb+=p.brl;te+=eq;if(p.cur==='EUR')eE+=p.amt;else eO+=eq});
+  return{per:per,meth:meth,brl:tb,eq:te,eurDirect:eE,eurConv:eO}}
+function mcPct(v){return (v>0?'+':'')+(Math.round(v*10)/10).toString().replace('.',',')+'%'}
+function mcCalc(){
+  var el=$('#mc-calc');if(!el)return;
+  var b=num(MC.brl),a=num(MC.amt);
+  if(!(b>0)||!(a>0)){el.innerHTML='Digite o valor pago em R$ e o valor recebido na moeda para ver a cotação.';return}
+  var q=b/a,site=brlPer(MC.cur),d=(q/site-1)*100;
+  el.innerHTML='Cotação desta compra: <b>'+qfmt(q)+'</b> por '+esc(curSym(MC.cur))+' <small>· site hoje '+qfmt(site)+' ('+mcPct(d)+')</small>'}
+function mcReset(){MC.edit=null;MC.brl='';MC.amt='';MC.date=todayStr()}
+function rMoeda(){
+  var el=$('#v-moeda'),st=mcStats(),list=(S.mc||[]).slice().sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1)});
+  if(!MC.date)MC.date=todayStr();
+  if(mcCurs().indexOf(MC.cur)<0)MC.cur='EUR';
+  var ms_=mcMeths(MC.cur);if(!ms_.some(function(m){return m.id===MC.m}))MC.m=ms_[0]?ms_[0].id:'';
+  var hist='';
+  var h='<div class="card"><h3>'+(MC.edit?'Editar compra de moeda':'Registrar compra de moeda')+'</h3><p class="hint">Informe quanto pagou em reais, qual moeda comprou, quanto recebeu e para qual meio o dinheiro foi. O site registra a data e calcula a cotação.</p>'+
+   '<form id="mc-form" autocomplete="off"><div class="row2"><label class="f">Data<input type="date" id="mc-date" value="'+esc(MC.date)+'"></label><label class="f">Valor pago (R$)<input type="text" id="mc-brl" inputmode="decimal" placeholder="0,00" value="'+esc(MC.brl)+'"></label></div>'+
+   '<div class="lbl" style="margin-top:10px">Moeda comprada</div><div class="cs" id="mc-cur" role="group" aria-label="Moeda comprada">'+mcCurs().map(function(c){return '<button type="button" data-c="'+c+'" aria-pressed="'+(c===MC.cur)+'">'+c+'</button>'}).join('')+'</div>'+
+   '<div class="row2" style="margin-top:10px"><label class="f">Valor recebido ('+esc(curSym(MC.cur))+')<input type="text" id="mc-amt" inputmode="decimal" placeholder="0,00" value="'+esc(MC.amt)+'"></label><label class="f">Para qual meio vai<select id="mc-m">'+ms_.map(function(m){return '<option value="'+m.id+'"'+(m.id===MC.m?' selected':'')+'>'+esc(m.name)+'</option>'}).join('')+'</select></label></div>'+
+   '<p class="hint" id="mc-calc" style="margin:10px 0 0"></p>'+
+   '<div class="sticky-go"><button type="submit" class="btn" id="mc-go">'+(MC.edit?'Salvar alterações':'Registrar compra')+'</button>'+(MC.edit?'<button type="button" class="btn sec" id="mc-cancel">Cancelar</button>':'')+'</div></form></div>';
+  /* resumo por moeda */
+  var curs=['EUR','USD'];mcCurs().forEach(function(c){if(curs.indexOf(c)<0&&st.per[c])curs.push(c)});
+  h+='<div class="card"><h3>O que já comprei</h3>';
+  if(!list.length){h+='<p class="hint">Nenhuma compra registrada ainda.</p></div>'}
+  else{
+    h+='<div class="split3"><div class="sp gg"><span>Total pago</span><b>'+money(st.brl,'BRL')+'</b><small>'+list.length+' compra'+(list.length>1?'s':'')+'</small></div>'+
+     '<div class="sp gp"><span>Total em euro</span><b>'+money(st.eq)+'</b><small>'+money(st.eurDirect)+' em euro + '+money(st.eurConv)+' em outras moedas</small></div>'+
+     '<div class="sp gr ok"><span>Cotação média do euro total</span><b>'+qfmt(st.brl/st.eq)+'</b><small>por € · site hoje '+qfmt(S.rates.eurBrl)+'</small></div></div>'+
+     '<div class="tblw"><table class="otbl mct"><thead><tr><th>Moeda</th><th>Comprado</th><th>R$ pago</th><th>Cotação média</th></tr></thead><tbody>';
+    curs.forEach(function(c){var x=st.per[c];
+      h+='<tr><td>'+esc(c)+(x?'<small class="pd">'+x.n+' compra'+(x.n>1?'s':'')+'</small>':'')+'</td><td>'+(x?money(x.amt,c):'—')+(x&&c!=='EUR'?'<small>≈ '+money(toEUR(x.amt,c))+'</small>':'')+'</td><td>'+(x?money(x.brl,'BRL'):'—')+'</td><td>'+(x?'<b>'+qfmt(x.brl/x.amt)+'</b><small>site: '+qfmt(brlPer(c))+'</small>':'—')+'</td></tr>'});
+    h+='<tr class="oc"><td>Euro total<small class="pd">€ + outras moedas convertidas em €</small></td><td>'+money(st.eq)+'</td><td>'+money(st.brl,'BRL')+'</td><td><b>'+qfmt(st.brl/st.eq)+'</b><small>site: '+qfmt(S.rates.eurBrl)+'</small></td></tr></tbody></table></div>'+
+     '<p class="hint">As outras moedas viram euro pela cotação da seção Câmbio, mais abaixo (US$ 1 = '+money(toEUR(1,'USD'))+' hoje). A cotação média é o total pago em R$ dividido pelo total recebido.</p></div>';
+    /* por meio */
+    var ids=Object.keys(st.meth),rows=ids.map(function(id){var y=st.meth[id];return{id:id,m:mById(id),y:y,q:y.brl/y.eq,qn:y.mix?null:y.brl/y.amt}}).sort(function(a,b){return a.q-b.q});
+    var best=rows.length>1?rows[0].id:null;
+    h+='<div class="card"><h3>Cotação média por meio</h3><p class="hint">Quanto custou, em média, cada € que foi parar em cada meio. Quanto menor, melhor.'+(best?' O melhor meio fica em destaque.':'')+'</p><div class="tblw"><table class="otbl mct"><thead><tr><th>Meio</th><th>Recebido</th><th>Cotação média</th><th>R$ por €</th></tr></thead><tbody>';
+    rows.forEach(function(r){var isB=r.id===best,y=r.y,cm=r.m?r.m.cur:y.cur;
+      h+='<tr class="'+(isB?'best':'')+'"><td>'+(isB?'<span class="mcb">★ Melhor</span> ':'')+esc(r.m?r.m.name:'(meio removido)')+'<small class="pd">'+y.n+' compra'+(y.n>1?'s':'')+'</small></td><td>'+money(y.amt,cm)+(cm!=='EUR'?'<small>≈ '+money(y.eq)+'</small>':'')+'<small>pago '+money(y.brl,'BRL')+'</small></td><td>'+(r.qn!=null?qfmt(r.qn)+'<small>por '+esc(curSym(cm))+'</small>':'—')+'</td><td><b>'+qfmt(r.q)+'</b>'+(best&&!isB?'<small>'+mcPct((r.q/rows[0].q-1)*100)+' vs melhor</small>':'')+'</td></tr>'});
+    h+='</tbody></table></div>'+(rows.some(function(r){return r.m&&r.m.cur!=='EUR'})?'<p class="hint">Para comparar meios de moedas diferentes, o dólar é convertido em euro pela cotação do site; a comparação é uma aproximação.</p>':'')+'</div>';
+    /* histórico */
+    hist='<div class="card"><h3>Histórico de compras</h3>';var cur='';
+    list.forEach(function(p){var m=mById(p.m);
+      if(p.date!==cur){cur=p.date;hist+='<div class="dh"><span>'+fmtDate(cur)+'</span><span></span></div>'}
+      hist+='<div class="it"><div>Compra de '+esc(p.cur)+'<div class="m">'+esc(m?m.name:'?')+' · cotação '+qfmt(p.brl/p.amt)+'</div></div><div class="v">'+money(p.amt,p.cur)+'<small>pago '+money(p.brl,'BRL')+'</small></div><div class="acts"><button class="btn sec sm" data-mce="'+p.id+'">Editar</button><button class="btn sec sm danger" data-mcd="'+p.id+'">Apagar</button></div></div>'});
+    hist+='</div>'}
+  h+=cambioHtml()+hist;
+  el.innerHTML=h;
+  var f=$('#mc-form');
+  $('#mc-date').onchange=function(){MC.date=this.value};
+  $('#mc-brl').addEventListener('input',function(){MC.brl=this.value;mcCalc()});
+  $('#mc-amt').addEventListener('input',function(){MC.amt=this.value;mcCalc()});
+  $('#mc-m').onchange=function(){MC.m=this.value};
+  $$('#mc-cur button').forEach(function(b){b.onclick=function(){MC.cur=b.dataset.c;rMoeda();try{$('#mc-amt').focus()}catch(e){}}});
+  if($('#mc-cancel'))$('#mc-cancel').onclick=function(){mcReset();rMoeda()};
+  $$('[data-mcd]',el).forEach(function(b){b.onclick=function(){if(!confirm('Apagar esta compra de moeda?'))return;S.mc=S.mc.filter(function(x){return x.id!==b.dataset.mcd});if(MC.edit===b.dataset.mcd)mcReset();save();rMoeda();toast('Compra apagada')}});
+  $$('[data-mce]',el).forEach(function(b){b.onclick=function(){var p=S.mc.filter(function(x){return x.id===b.dataset.mce})[0];if(!p)return;
+    MC.edit=p.id;MC.cur=p.cur;MC.m=p.m;MC.date=p.date;MC.brl=fin(p.brl);MC.amt=fin(p.amt);rMoeda();window.scrollTo(0,0)}});
+  f.addEventListener('submit',function(ev){ev.preventDefault();
+    var b=num(MC.brl),a=num(MC.amt);
+    if(!MC.date){toast('Informe a data');return}
+    if(!(b>0)){toast('Informe o valor pago em R$');return}
+    if(!(a>0)){toast('Informe o valor recebido na moeda');return}
+    if(!mById(MC.m)){toast('Escolha o meio que recebeu o dinheiro');return}
+    var rec={id:MC.edit||uid(),date:MC.date,brl:r2(b),cur:MC.cur,amt:r2(a),m:MC.m};
+    if(MC.edit)S.mc=S.mc.map(function(x){return x.id===MC.edit?rec:x});else S.mc.push(rec);
+    var was=MC.edit;mcReset();save();rMoeda();toast(was?'Compra atualizada':'Compra registrada: cotação '+qfmt(rec.brl/rec.amt))});
+  cambioBind();
+  mcCalc();
+}
+
 /* ---------- MEIOS ---------- */
 var CV={a:'100',from:'EUR'};
 function curUsed(code){return S.methods.some(function(m){return m.cur===code})||S.countries.some(function(c){return c.cur===code})||S.budget.some(function(l){return l.cur===code})||S.entries.some(function(e){return e.cur===code})}
@@ -577,12 +663,49 @@ function drawConv(){
   if(!(a>=0)){out.innerHTML='<p class="hint">Digite um valor.</p>';return}
   out.innerHTML='<div class="cvs cvw">'+curList().map(function(c){return '<span class="cv'+(c===CV.from?' on':'')+'"><small>'+c+'</small><b>'+money(conv(a,CV.from,c),c)+'</b></span>'}).join('')+'</div>'+
    '<p class="hint" style="margin:6px 0 0">Cotações usadas (em R$): '+curList().filter(function(c){return c!=='BRL'}).map(function(c){return money(1,c)+' = '+money(brlPer(c),'BRL')}).join(' · ')+'</p>'}
-function rMeios(){
+function cambioHtml(){
   var h='<div class="card"><h3>Conversor de moedas</h3><p class="hint">Usa as cotações da seção Câmbio, logo abaixo. Euro, dólar e real ficam sempre disponíveis; as outras moedas você adiciona lá.</p><div class="amt" style="margin-top:4px"><input type="text" id="cv-amt" inputmode="decimal" value="'+esc(CV.a)+'" aria-label="Valor a converter" style="font-size:1.5rem;min-height:52px"><select id="cv-from" style="max-width:110px" aria-label="Moeda de origem">'+curOpts(CV.from)+'</select></div><div id="cv-out"></div></div>';
   h+='<div class="card"><h3>Câmbio</h3><div class="row2"><label class="f">1 US$ = quantos R$?<input type="text" inputmode="decimal" id="c-usd" value="'+fin4(S.rates.usdBrl)+'"></label><label class="f">1 € = quantos R$?<input type="text" inputmode="decimal" id="c-brl" value="'+fin4(S.rates.eurBrl)+'"></label></div><div class="acts" style="margin-top:10px"><button type="button" class="btn sec sm" id="fx-upd">↻ Atualizar cotações</button></div><div id="fx-prop"></div><p class="hint" id="fx-when">'+(S.ratesAt?'Cotações aplicadas em '+esc(S.ratesAt)+'.':'Cotações digitadas à mão.')+'</p><h3 style="margin-top:12px">Outras moedas</h3><p class="hint">Informe sempre quanto vale <b>1 unidade em R$</b>. As conversões entre dólar, euro e as outras moedas são calculadas a partir daí. Use para um país com moeda diferente de euro, dólar e real.</p>'+
   S.extra.map(function(x,i){return '<div class="xrow crow" data-x="'+i+'"><label class="f">1 '+esc(x.code)+' = quantos R$?<input type="text" inputmode="decimal" data-f="brl" value="'+fin4(x.brl)+'"></label><button type="button" class="btn sec sm danger" data-rm>Remover '+esc(x.code)+'</button></div>'}).join('')+
   '<div class="crow"><label class="f">Código (3 letras)<input type="text" id="x-code" maxlength="3" placeholder="GBP" style="text-transform:uppercase"></label><label class="f">1 unidade = quantos R$?<input type="text" id="x-rate" inputmode="decimal" placeholder="7,20"></label><button type="button" class="btn sm" id="x-add">Salvar moeda</button></div>'+
   '<p class="hint">Cada gasto guarda o valor em euro e em reais da hora em que foi lançado. Mudar o câmbio depois não altera os já lançados, mas os saldos e o orçamento passam a usar o novo valor.</p></div>';
+  return h}
+function cambioBind(){
+  $('#cv-amt').addEventListener('input',function(){CV.a=this.value;drawConv()});
+  $('#cv-from').onchange=function(){CV.from=this.value;drawConv()};
+  drawConv();
+  $$('.xrow[data-x]').forEach(function(row){var i=+row.dataset.x,x=S.extra[i];
+    $('[data-f=brl]',row).onchange=function(){var v=num(this.value);if(v>0){x.brl=v;save();render()}};
+    $('[data-rm]',row).onclick=function(){if(curUsed(x.code)){alert('A moeda '+x.code+' está em uso (meio, país, orçamento ou lançamento). Troque antes de remover.');return}S.extra.splice(i,1);save();render()}});
+  $('#x-add').onclick=function(){var c=($('#x-code').value||'').trim().toUpperCase(),v=num($('#x-rate').value);
+    if(!/^[A-Z]{3}$/.test(c)){toast('Use o código de 3 letras, como GBP');return}
+    if(curList().indexOf(c)>-1){toast('Essa moeda já existe');return}
+    if(!(v>0)){toast('Informe quantos R$ vale 1 '+c);return}
+    S.extra.push({code:c,brl:v});save();render();toast('Moeda adicionada: '+c)};
+  $('#fx-upd').onclick=function(){
+    var btn=this,box=$('#fx-prop');btn.disabled=true;box.innerHTML='<p class="hint">Buscando a cotação média do dia…</p>';
+    var syms=['USD','BRL'].concat(S.extra.map(function(x){return x.code}));
+    function tm(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},8000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('http '+r.status);return r.json()})}
+    tm('https://api.frankfurter.dev/v1/latest?base=EUR&symbols='+syms.join(',')).then(function(j){return{rates:j.rates,date:j.date,src:'Banco Central Europeu (frankfurter.dev)'}})
+    .catch(function(){return tm('https://open.er-api.com/v6/latest/EUR').then(function(j){return{rates:j.rates,date:(j.time_last_update_utc||'').slice(5,16),src:'open.er-api.com'}})})
+    .then(function(o){
+      var r=o.rates||{};if(!(r.USD>0)||!(r.BRL>0))throw new Error('sem dados');
+      var R4=function(v){return Math.round(v*10000)/10000},P={usdBrl:R4(r.BRL/r.USD),eurBrl:R4(r.BRL),extra:{}};
+      S.extra.forEach(function(x){if(r[x.code]>0)P.extra[x.code]=R4(r.BRL/r[x.code])});
+      var ln=['1 US$ = R$ '+fin4(P.usdBrl),'1 € = R$ '+fin4(P.eurBrl)].concat(Object.keys(P.extra).map(function(c){return '1 '+c+' = R$ '+fin4(P.extra[c])}));
+      box.innerHTML='<div class="alert" style="margin-top:8px"><b>Cotação média do dia</b> ('+esc(o.src)+', '+esc(o.date||'hoje')+')<br>'+ln.map(esc).join(' · ')+'<br><span class="hint">É a cotação média de mercado; o cartão da Wise cobra uma taxa pequena por cima. Depois de aplicar, você ainda pode ajustar à mão.</span><div class="acts" style="margin-top:8px"><button type="button" class="btn sm" id="fx-ok">Aplicar</button><button type="button" class="btn sec sm" id="fx-no">Cancelar</button></div></div>';
+      $('#fx-no').onclick=function(){box.innerHTML=''};
+      $('#fx-ok').onclick=function(){S.rates.usdBrl=P.usdBrl;S.rates.eurBrl=P.eurBrl;S.extra.forEach(function(x){if(P.extra[x.code])x.brl=P.extra[x.code]});
+        var d=new Date();S.ratesAt=('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear()+' ('+(o.src.indexOf('frankfurter')>-1?'BCE':'open.er-api')+')';save();render();toast('Cotações atualizadas')};
+    }).catch(function(){box.innerHTML='<p class="hint" style="color:var(--c-warn)">Não consegui buscar a cotação agora (sem internet?). Os valores atuais continuam; você pode digitar à mão.</p>'})
+    .then(function(){btn.disabled=false});
+  };
+  $('#c-usd').onchange=function(){var v=num(this.value);if(v>0){S.rates.usdBrl=v;save();render()}};
+  $('#c-brl').onchange=function(){var v=num(this.value);if(v>0){S.rates.eurBrl=v;save();render()}};
+  addCancels([['x-add']]);
+}
+function rMeios(){
+  var h='';
   h+='<div class="card"><h3>Meios de pagamento</h3><p class="hint">Edite nome, moeda e saldo inicial antes da viagem. O saldo atual muda a cada lançamento e aparece nas três moedas.</p>';
   S.methods.forEach(function(m){
     var used=S.entries.some(function(e){return e.m===m.id||e.from===m.id||e.to===m.id});
@@ -627,42 +750,11 @@ function rMeios(){
   $('#cn-add').onclick=function(){var n=$('#cn-name').value.trim();if(!n||countryByName(n)){toast('Informe um nome novo');return}S.countries.push({name:n,cur:$('#cn-cur').value});save();render()};
   if($('#r-add'))$('#r-add').onclick=function(){D.route=true;render()};
   if($('#r-save')){$('#r-cancel').onclick=function(){D.route=false;render()};$('#r-save').onclick=function(){S.route.push({from:$('#r-from').value||S.trip.start,c:$('#r-c').value});S.route.sort(function(a,b){return a.from<b.from?-1:1});D.route=false;save();render()}}
-  addCancels([['n-add'],['x-add'],['cn-add']]);
-  $('#cv-amt').addEventListener('input',function(){CV.a=this.value;drawConv()});
-  $('#cv-from').onchange=function(){CV.from=this.value;drawConv()};
-  drawConv();
-  $$('.xrow[data-x]').forEach(function(row){var i=+row.dataset.x,x=S.extra[i];
-    $('[data-f=brl]',row).onchange=function(){var v=num(this.value);if(v>0){x.brl=v;save();render()}};
-    $('[data-rm]',row).onclick=function(){if(curUsed(x.code)){alert('A moeda '+x.code+' está em uso (meio, país, orçamento ou lançamento). Troque antes de remover.');return}S.extra.splice(i,1);save();render()}});
-  $('#x-add').onclick=function(){var c=($('#x-code').value||'').trim().toUpperCase(),v=num($('#x-rate').value);
-    if(!/^[A-Z]{3}$/.test(c)){toast('Use o código de 3 letras, como GBP');return}
-    if(curList().indexOf(c)>-1){toast('Essa moeda já existe');return}
-    if(!(v>0)){toast('Informe quantos R$ vale 1 '+c);return}
-    S.extra.push({code:c,brl:v});save();render();toast('Moeda adicionada: '+c)};
-  $('#fx-upd').onclick=function(){
-    var btn=this,box=$('#fx-prop');btn.disabled=true;box.innerHTML='<p class="hint">Buscando a cotação média do dia…</p>';
-    var syms=['USD','BRL'].concat(S.extra.map(function(x){return x.code}));
-    function tm(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},8000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('http '+r.status);return r.json()})}
-    tm('https://api.frankfurter.dev/v1/latest?base=EUR&symbols='+syms.join(',')).then(function(j){return{rates:j.rates,date:j.date,src:'Banco Central Europeu (frankfurter.dev)'}})
-    .catch(function(){return tm('https://open.er-api.com/v6/latest/EUR').then(function(j){return{rates:j.rates,date:(j.time_last_update_utc||'').slice(5,16),src:'open.er-api.com'}})})
-    .then(function(o){
-      var r=o.rates||{};if(!(r.USD>0)||!(r.BRL>0))throw new Error('sem dados');
-      var R4=function(v){return Math.round(v*10000)/10000},P={usdBrl:R4(r.BRL/r.USD),eurBrl:R4(r.BRL),extra:{}};
-      S.extra.forEach(function(x){if(r[x.code]>0)P.extra[x.code]=R4(r.BRL/r[x.code])});
-      var ln=['1 US$ = R$ '+fin4(P.usdBrl),'1 € = R$ '+fin4(P.eurBrl)].concat(Object.keys(P.extra).map(function(c){return '1 '+c+' = R$ '+fin4(P.extra[c])}));
-      box.innerHTML='<div class="alert" style="margin-top:8px"><b>Cotação média do dia</b> ('+esc(o.src)+', '+esc(o.date||'hoje')+')<br>'+ln.map(esc).join(' · ')+'<br><span class="hint">É a cotação média de mercado; o cartão da Wise cobra uma taxa pequena por cima. Depois de aplicar, você ainda pode ajustar à mão.</span><div class="acts" style="margin-top:8px"><button type="button" class="btn sm" id="fx-ok">Aplicar</button><button type="button" class="btn sec sm" id="fx-no">Cancelar</button></div></div>';
-      $('#fx-no').onclick=function(){box.innerHTML=''};
-      $('#fx-ok').onclick=function(){S.rates.usdBrl=P.usdBrl;S.rates.eurBrl=P.eurBrl;S.extra.forEach(function(x){if(P.extra[x.code])x.brl=P.extra[x.code]});
-        var d=new Date();S.ratesAt=('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear()+' ('+(o.src.indexOf('frankfurter')>-1?'BCE':'open.er-api')+')';save();render();toast('Cotações atualizadas')};
-    }).catch(function(){box.innerHTML='<p class="hint" style="color:var(--c-warn)">Não consegui buscar a cotação agora (sem internet?). Os valores atuais continuam; você pode digitar à mão.</p>'})
-    .then(function(){btn.disabled=false});
-  };
-  $('#c-usd').onchange=function(){var v=num(this.value);if(v>0){S.rates.usdBrl=v;save();render()}};
-  $('#c-brl').onchange=function(){var v=num(this.value);if(v>0){S.rates.eurBrl=v;save();render()}};
+  addCancels([['n-add'],['cn-add']]);
   $('#d-exp').onclick=function(){var b=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='gastos-balcas-2027.json';document.body.appendChild(a);a.click();a.remove()};
   $('#d-imp').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(o&&(o.v===1||o.v===2||o.v===3)&&o.methods&&o.budget&&o.entries){S=migrate(o);save();render();toast('Dados importados')}else toast('Arquivo inválido')}catch(e){toast('Arquivo inválido')}};r.readAsText(f)};
   $('#d-clr').onclick=function(){if(confirm('Apagar todos os lançamentos? Meios e orçamento ficam. Vale também para a nuvem e para os outros aparelhos.')){S.entries=[];save();render()}};
-  $('#d-rst').onclick=function(){if(confirm('Restaurar meios, orçamento e lançamentos ao padrão? Vale também para a nuvem e para os outros aparelhos.')){S=defaults();save();render()}};
+  $('#d-rst').onclick=function(){if(confirm('Restaurar meios, orçamento e lançamentos ao padrão? O histórico de compra de moeda é mantido. Vale também para a nuvem e para os outros aparelhos.')){var keepMc=S.mc;S=defaults();S.mc=keepMc||[];save();render()}};
 }
 
 /* ---------- ORÇAMENTO ---------- */
@@ -789,7 +881,7 @@ function pillify(root){
         sel.dispatchEvent(new Event('change',{bubbles:true}))};
       g.appendChild(b)});
     sel.parentNode.insertBefore(g,sel.nextSibling)})}
-(function(){['#v-meios','#v-orc'].forEach(function(id){var el=$(id);if(!el||!window.MutationObserver)return;new MutationObserver(function(){pillify(el)}).observe(el,{childList:true,subtree:true})})})();
+(function(){['#v-meios','#v-orc','#v-moeda'].forEach(function(id){var el=$(id);if(!el||!window.MutationObserver)return;new MutationObserver(function(){pillify(el)}).observe(el,{childList:true,subtree:true})})})();
 /* máscara de dinheiro: digita só números e a vírgula já fica nas 2 últimas casas */
 var MASK='#g-amt,#g-brlv,#g-debit,#t-out,#t-in,#a-real,#dl-unit,#b-unit,#n-init,[data-f=unit],[data-f=init]';
 function maskVal(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';while(d.length<3)d='0'+d;return d.slice(0,-2)+','+d.slice(-2)}
@@ -797,7 +889,7 @@ document.addEventListener('input',function(e){var t=e.target;if(!t||!t.matches||
 document.addEventListener('focusin',function(e){var t=e.target;if(t&&t.matches&&t.matches(MASK)&&t.value)setTimeout(function(){try{t.select()}catch(x){}},0)},true);
 var NAV={v:null,i:0,t:0};
 function navList(v){return $$('input:not([type=hidden]):not([disabled]),select:not([disabled]),button:not([disabled]),textarea',v).filter(function(x){return x.offsetParent!==null})}
-function navMark(e,d){var t=e.target;if(!t||!t.closest)return;var v=t.closest('#v-orc,#v-meios');if(!v)return;var i=navList(v).indexOf(t);if(i<0)return;NAV={v:v.id,i:i+d,t:Date.now()}}
+function navMark(e,d){var t=e.target;if(!t||!t.closest)return;var v=t.closest('#v-orc,#v-meios,#v-moeda');if(!v)return;var i=navList(v).indexOf(t);if(i<0)return;NAV={v:v.id,i:i+d,t:Date.now()}}
 document.addEventListener('keydown',function(e){if(e.key==='Tab'&&!e.ctrlKey&&!e.altKey)navMark(e,e.shiftKey?-1:1)},true);
 document.addEventListener('pointerdown',function(e){var t=e.target;if(t&&t.matches&&t.matches('input[type=text],input[type=date]'))navMark(e,0)},true);
 function navRestore(){if(!NAV.v||Date.now()-NAV.t>600){NAV.v=null;return}var n=NAV;NAV={v:null,i:0,t:0};
@@ -805,7 +897,7 @@ function navRestore(){if(!NAV.v||Date.now()-NAV.t>600){NAV.v=null;return}var n=N
 function render(){
   $$('.gx-tabs button').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.tab===tab))});
   $$('.view').forEach(function(v){v.hidden=v.id!=='v-'+tab});
-  if(tab==='lancar')rLancar();else if(tab==='resumo')rResumo();else if(tab==='extrato')rExtrato();else if(tab==='meios')rMeios();else if(tab==='orc')rOrc();
+  if(tab==='lancar')rLancar();else if(tab==='resumo')rResumo();else if(tab==='extrato')rExtrato();else if(tab==='meios')rMeios();else if(tab==='orc')rOrc();else if(tab==='moeda')rMoeda();
   navRestore();
 }
 
