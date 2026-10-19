@@ -127,6 +127,20 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 .mc-b button.dg{color:var(--c-warn)}
 .mc-add{margin-top:8px}.mc-top{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 @media(max-width:520px){.mc-i{grid-template-columns:minmax(0,1fr) 128px}.mc-i .mc-b{grid-column:1/-1}}
+.ml-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin:12px 0}
+.ml-s{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.ml-sh{display:flex;align-items:center;gap:6px}.ml-sh .ml-ic{margin-right:2px}.ml-sh strong{margin-left:auto;font-family:var(--f-display);font-size:1.3rem;color:var(--c-tip)}
+.ml-s.warn .ml-sh strong{color:var(--c-eat)}.ml-s.bad .ml-sh strong{color:var(--c-warn)}
+.ml-bar2{position:relative;height:10px;border-radius:8px;background:var(--line);margin:9px 0 7px}.ml-bar2 i{display:block;height:100%;border-radius:8px;background:var(--c-tip)}
+.ml-s.warn .ml-bar2 i{background:var(--c-eat)}.ml-s.bad .ml-bar2 i{background:var(--c-warn)}
+.ml-tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.75;text-decoration:none}
+.ml-s small{display:block;font-size:12.5px;color:var(--muted);line-height:1.35}
+.ml-kg{color:var(--muted);font-size:12px;margin-left:4px;white-space:nowrap}
+.mc-i{grid-template-columns:minmax(0,1fr) 128px 80px auto}
+.mc-i .kgw{display:flex;gap:4px;align-items:center}.mc-i .kgw input{text-align:right}.mc-i .kgw span{font-size:12px;color:var(--muted)}
+.mc-tare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.mc-tare label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+@media(max-width:520px){.mc-i{grid-template-columns:minmax(0,1fr) 112px 76px}.mc-i .mc-b{grid-column:1/-1}}
+.ml-al{border-radius:10px;padding:10px 14px;margin:10px 0 0;font-size:14px;border:1px solid var(--c-eat);background:color-mix(in srgb,var(--c-eat) 12%,transparent);color:var(--ink);font-weight:600}.ml-al.bad{border-color:var(--c-warn);background:color-mix(in srgb,var(--c-warn) 13%,transparent);color:var(--c-warn)}
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="mala.html" aria-current="page">Checklist de mala</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><div id="gx-sync" class="fbstrip" style="margin-top:10px"></div>
 <section class="day"><div class="day-h"><span class="date">antes de ir</span><h2>Checklist de mala</h2></div>
 <p class="prose">Uma mala de mão de até 12 kg e uma mochila pequena sob o assento, por pessoa. As marcações ficam salvas na base e aparecem iguais em qualquer aparelho.</p>
@@ -183,38 +197,56 @@ A:{nome:'Andréa',grupos:[
   ['a44','Saco para roupa suja','M'],['a45','Pesar a mala de mão (máx. 12 kg, 55×35×25 cm) e a mochila (máx. 10 kg, 45×35×20 cm)','M'],['a46','Fotografar passaporte, cartões e voucher do carro e guardar na nuvem','B']]}
 ]}};
 
+var WK={s01:0.05,s02:0.05,s03:0.03,s04:0.2,s05:0.05,s06:0.15,s07:0.02,s08:0.04,s09:0.02,s10:0.35,s11:0.3,s12:0.08,s13:0.25,s14:0.1,s15:0,s16:0.15,s17:0.2,s18:0.2,s19:0.1,s20:0.15,s21:0.25,s22:0.15,s23:1.0,s24:0.5,s25:0.7,s26:1.1,s27:0.5,s28:0.45,s29:0.49,s30:0.43,s31:0.3,s32:0.2,s33:0.2,s34:0.15,s35:1.0,s36:0.45,s37:0.8,s38:0.25,s39:0.25,s40:0.25,s41:0.15,s42:0.1,s43:0.5,s44:0.05,s45:0,s46:0,a01:0.05,a02:0,a03:0.03,a04:0.15,a05:0.05,a06:0.15,a07:0.02,a08:0.04,a09:0.02,a10:0.35,a11:0.3,a12:0.08,a13:0.1,a14:0.3,a15:0.15,a16:0.3,a17:0.6,a18:0.4,a19:0.35,a20:0.15,a21:0.25,a22:0.15,a23:0.15,a24:0.9,a25:0.6,a26:0.5,a27:1.1,a28:0.5,a29:0.4,a30:0.15,a31:0.52,a32:0.43,a33:0.3,a34:0.15,a35:0.25,a36:1.0,a37:0.4,a38:0.5,a39:0.25,a40:0.25,a41:0.25,a42:0.3,a43:0.1,a44:0.05,a45:0,a46:0};
 (function(){var K='balcas2027-mala',KC='balcas2027-malacfg',s={},cur='S',mode='V',cfg=null;
 try{s=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
-function defCfg(){var o={ts:0};['S','A'].forEach(function(k){o[k]=DATA[k].grupos.map(function(g){return{g:g.g,it:g.it.map(function(i){return{id:i[0],t:i[1],w:i[2]}})}})});return o}
+function defCfg(){var o={ts:0,tare:{S:{M:2.8,B:0.7},A:{M:2.8,B:0.7}},lim:{S:{M:12,B:10,L:8},A:{M:12,B:10,L:8}}};['S','A'].forEach(function(k){o[k]=DATA[k].grupos.map(function(g){return{g:g.g,it:g.it.map(function(i){return{id:i[0],t:i[1],w:i[2],kg:WK[i[0]]}})}})});return o}
 try{cfg=JSON.parse(localStorage.getItem(KC)||'null')}catch(e){}
 if(!cfg||!cfg.S||!cfg.A)cfg=defCfg();
 var L={M:'Mala de mão',B:'Mochila',U:'No corpo'},NOME={S:'Sergio',A:'Andréa'};
 var IC={M:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7V3.500h6V7"/><rect x="4.500" y="7" width="15" height="11" rx="2"/><path d="M9.500 10.500v4M14.500 10.500v4"/><circle cx="8" cy="20.500" r="1"/><circle cx="16" cy="20.500" r="1"/></svg>',B:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.500v2"/><path d="M5.500 21V12a6.500 6.500 0 0 1 13 0v9z"/><path d="M8.500 21v-6h7v6"/><path d="M8.500 17.500h7"/><path d="M3.500 14v5M20.500 14v5"/></svg>',U:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 7l2.500 4L8 10v10h8V10l2.500 1L21 7l-6-3a3 3 0 0 1-6 0z"/></svg>'};
 [].forEach.call(document.querySelectorAll('.ml-ic'),function(e){e.innerHTML=IC[e.dataset.w]});
+
+function fixKg(c){['S','A'].forEach(function(k){c[k].forEach(function(g){g.it.forEach(function(i){if(i.kg==null&&WK[i.id]!==undefined)i.kg=WK[i.id]})})});if(!c.tare)c.tare={S:{M:2.8,B:0.7},A:{M:2.8,B:0.7}};if(!c.lim)c.lim={S:{M:12,B:10,L:8},A:{M:12,B:10,L:8}};return c}
+fixKg(cfg);
+function fk(v){return (Math.round(v*100)/100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:2})}
+function pk(x){x=String(x).trim().replace(',','.');return x===''?NaN:parseFloat(x)}
+var EST=[[/mala dobr[aá]vel/,.5],[/power ?bank|carregador port/,.3],[/notebook|laptop/,1.5],[/tablet|kindle/,.5],[/c[aâ]mera/,.6],[/celular|smartphone/,.2],[/fone/,.1],[/adaptador/,.08],[/carregador|cabo/,.15],[/passaporte/,.05],[/c[ée]dula|euros|dinheiro|cart[aã]o|cartões/,.03],[/impress|c[oó]pia|dossi|voucher|passagem|ap[oó]lice|cnh/,.15],
+ [/tênis|tenis|sapato|bota/,.9],[/chinelo|sand[aá]lia|cal[cç]ado/,.4],[/jaqueta|corta-vento|casaco/,.5],[/su[eé]ter|moletom|cardig[aã]/,.45],[/jeans/,.7],[/cal[cç]a/,.55],[/bermuda|short|saia/,.3],[/vestido|conjunto/,.3],[/camisa/,.25],[/camiseta|polo|blusa/,.2],[/cueca|calcinha|sutiã|sutia/,.06],[/meia/,.05],[/pijama/,.3],[/sunga|biqu[ií]ni|maiô|maio/,.15],[/cinto/,.15],[/bon[eé]|chap[eé]u/,.15],[/[oó]culos/,.05],[/echarpe|len[cç]o/,.15],
+ [/toalha/,.25],[/guarda-chuva/,.25],[/garrafa/,.25],[/pochete|bolsa/,.3],[/saco|sacola/,.05],[/maquiagem/,.4],[/skincare|protetor/,.3],[/shampoo|condicionador|desodorante|creme|perfume|escova|pasta|pente|cabelo/,.15],[/rem[eé]dio|medicamento|kit|analg/,.2],[/lenços|len[cç]os umedecidos|[aá]lcool gel/,.15],[/livro/,.4],[/secador/,.5]];
+function est(t){var x=String(t).toLowerCase(),m=x.match(/^\s*(\d+)\s/),n=m?Math.min(+m[1],30):1;for(var k=0;k<EST.length;k++){if(EST[k][0].test(x))return{kg:Math.round(EST[k][1]*n*100)/100,g:false}}return{kg:0.2,g:true}}
+function sums(){var r={M:0,B:0,U:0,miss:0};cfg[cur].forEach(function(g){g.it.forEach(function(i){if(i.kg==null)r.miss++;else r[i.w]+=i.kg})});return r}
+function sumH(){var r=sums(),t=(cfg.tare&&cfg.tare[cur])||{M:2.8,B:0.7},q=(cfg.lim&&cfg.lim[cur])||{M:12,B:10,L:8},al='';
+ function row(ic,nm,it,ta,lim,lh){var tot=it+ta,pct=Math.min(100,tot/lim*100),cl=tot>lim?'bad':(lh&&tot>lh?'warn':'ok');
+  if(tot>lim)al+='<div class="ml-al bad" role="alert">⚠ '+nm+' passa do limite de '+fk(lim)+' kg em '+fk(tot-lim)+' kg. Tire pelo menos esse peso ou mude itens de lugar.</div>';
+  else if(lh&&tot>lh)al+='<div class="ml-al warn" role="alert">⚠ '+nm+' está '+fk(tot-lh)+' kg acima do limite menor de '+fk(lh)+' kg (Lufthansa), embora dentro do limite de '+fk(lim)+' kg.</div>';
+  return '<div class="ml-s '+cl+'"><div class="ml-sh"><span class="ml-ic">'+IC[ic]+'</span><b>'+nm+'</b><strong>'+fk(tot)+' kg</strong></div><div class="ml-bar2"><i style="width:'+pct+'%"></i>'+(lh&&lh<lim?'<u class="ml-tick" style="left:'+(lh/lim*100)+'%" title="Limite menor"></u>':'')+'</div><small>itens '+fk(it)+' kg + vazia '+fk(ta)+' kg. Limite '+fk(lim)+' kg'+(tot>lim?' (acima em '+fk(tot-lim)+' kg)':' (folga de '+fk(lim-tot)+' kg)')+'.'+(lh?' Limite menor '+fk(lh)+' kg'+(tot>lh?': acima em '+fk(tot-lh)+' kg.':': dentro.'):'')+'</small></div>'}
+ var rows='<div class="ml-sum">'+row('M','Mala de mão',r.M,t.M,q.M,q.L>0&&q.L<q.M?q.L:0)+row('B','Mochila',r.B,t.B,q.B,0)+'</div>';
+ return al+rows+'<p class="prose" style="font-size:13px;margin:0 0 6px">No corpo (jaqueta e tênis): '+fk(r.U)+' kg, não conta na mala.'+(r.miss?' <b>'+r.miss+' item'+(r.miss>1?'s':'')+' sem peso</b> fora da soma.':'')+' Pesos são estimativas; ajuste em "Configurar itens" depois de pesar.</p>'}
 function keep(){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
 function keepC(){try{localStorage.setItem(KC,JSON.stringify(cfg))}catch(e){}}
 function esc(x){return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
 var ready=false,readyC=false;
-function pushC(){cfg.ts=Date.now();keepC();if(readyC&&window.FB)FB.set('data/malacfg',{json:JSON.stringify({S:cfg.S,A:cfg.A}),ts:cfg.ts})}
+function pushC(){cfg.ts=Date.now();keepC();if(readyC&&window.FB)FB.set('data/malacfg',{json:JSON.stringify({S:cfg.S,A:cfg.A,tare:cfg.tare,lim:cfg.lim}),ts:cfg.ts})}
 function push(o){if(ready&&window.FB)FB.set('data/mala',{done:o},true)}
 function viewH(){var gs=cfg[cur],tot=0,ok=0,h='';
  gs.forEach(function(g){if(!g.it.length)return;h+='<div class="ml-g"><h3>'+esc(g.g)+'</h3><ul class="ml-l">';
   g.it.forEach(function(i){tot++;var c=!!s[i.id];if(c)ok++;
-   h+='<li class="'+(c?'ok':'')+'"><input type="checkbox" id="m_'+i.id+'" data-i="'+i.id+'"'+(c?' checked':'')+'><label for="m_'+i.id+'">'+esc(i.t)+'</label><span class="ml-w" title="'+L[i.w]+'" role="img" aria-label="'+L[i.w]+'">'+IC[i.w]+'</span></li>'});
+   h+='<li class="'+(c?'ok':'')+'"><input type="checkbox" id="m_'+i.id+'" data-i="'+i.id+'"'+(c?' checked':'')+'><label for="m_'+i.id+'">'+esc(i.t)+(i.kg!=null&&i.kg>0?'<small class="ml-kg">'+fk(i.kg)+' kg</small>':'')+'</label><span class="ml-w" title="'+L[i.w]+'" role="img" aria-label="'+L[i.w]+'">'+IC[i.w]+'</span></li>'});
   h+='</ul></div>'});
  if(!tot)h='<p class="prose">Lista vazia. Use "Configurar itens" para adicionar.</p>';
  return{h:h,tot:tot,ok:ok}}
-function cfgH(){var gs=cfg[cur],h='<p class="prose">Edite os itens da lista de '+NOME[cur]+'. As mudanças são salvas na base e valem nos dois aparelhos.</p>';
+function cfgH(){var gs=cfg[cur],h='<p class="prose">Edite os itens da lista de '+NOME[cur]+'. As mudanças são salvas na base e valem nos dois aparelhos. O botão ≈ estima o peso do item por palavras-chave, e o peso total aparece no topo.</p><div class="mc-g"><b>Peso da mala vazia e da mochila vazia</b><div class="mc-tare"><label>Mala de mão vazia (kg)<input type="text" inputmode="decimal" data-tr="M" value="'+String(cfg.tare[cur].M).replace('.',',')+'"></label><label>Mochila vazia (kg)<input type="text" inputmode="decimal" data-tr="B" value="'+String(cfg.tare[cur].B).replace('.',',')+'"></label></div><b style="display:block;margin-top:12px">Pesos máximos (o site alerta se a soma passar)</b><div class="mc-tare"><label>Mala de mão, máximo (kg)<input type="text" inputmode="decimal" data-lm="M" value="'+String(cfg.lim[cur].M).replace('.',',')+'"></label><label>Mochila, máximo (kg)<input type="text" inputmode="decimal" data-lm="B" value="'+String(cfg.lim[cur].B).replace('.',',')+'"></label><label>Mala de mão, limite menor opcional (ex.: Lufthansa)<input type="text" inputmode="decimal" data-lm="L" placeholder="sem limite menor" value="'+(cfg.lim[cur].L>0?String(cfg.lim[cur].L).replace('.',','):'')+'"></label></div><div class="mc-top"><button data-ea="1">Estimar os itens sem peso</button></div></div>';
  gs.forEach(function(g,gi){h+='<div class="mc-g"><div class="mc-gh"><input type="text" data-gn="'+gi+'" value="'+esc(g.g)+'" aria-label="Nome do grupo"><div class="mc-b"><button data-gu="'+gi+'" title="subir">↑</button><button data-gd="'+gi+'" title="descer">↓</button><button class="dg" data-gx="'+gi+'" title="remover grupo">✕</button></div></div>';
-  g.it.forEach(function(i,ii){h+='<div class="mc-i"><input type="text" data-in="'+gi+'.'+ii+'" value="'+esc(i.t)+'" aria-label="Item"><select data-iw="'+gi+'.'+ii+'" aria-label="Onde vai">'+['M','B','U'].map(function(w){return'<option value="'+w+'"'+(i.w===w?' selected':'')+'>'+L[w]+'</option>'}).join('')+'</select><div class="mc-b"><button data-iu="'+gi+'.'+ii+'" title="subir">↑</button><button data-id="'+gi+'.'+ii+'" title="descer">↓</button><button class="dg" data-ix="'+gi+'.'+ii+'" title="remover item">✕</button></div></div>'});
+  g.it.forEach(function(i,ii){h+='<div class="mc-i"><input type="text" data-in="'+gi+'.'+ii+'" value="'+esc(i.t)+'" aria-label="Item"><select data-iw="'+gi+'.'+ii+'" aria-label="Onde vai">'+['M','B','U'].map(function(w){return'<option value="'+w+'"'+(i.w===w?' selected':'')+'>'+L[w]+'</option>'}).join('')+'</select><div class="kgw"><input type="text" inputmode="decimal" data-ik="'+gi+'.'+ii+'" value="'+(i.kg!=null?String(i.kg).replace('.',','):'')+'" placeholder="kg" aria-label="Peso em kg"><span>kg</span></div><div class="mc-b"><button data-ie="'+gi+'.'+ii+'" title="Estimar o peso deste item">≈</button><button data-iu="'+gi+'.'+ii+'" title="subir">↑</button><button data-id="'+gi+'.'+ii+'" title="descer">↓</button><button class="dg" data-ix="'+gi+'.'+ii+'" title="remover item">✕</button></div></div>'});
   h+='<button class="mc-add" data-ia="'+gi+'">+ Item</button></div>'});
  h+='<div class="mc-top"><button data-ga="1">+ Novo grupo</button><button data-rs="1">Restaurar lista padrão de '+NOME[cur]+'</button></div>';return h}
 function render(){var root=document.getElementById('ml-root'),pr=document.getElementById('ml-prog'),clr=document.getElementById('ml-clr');
  document.getElementById('tS').setAttribute('aria-selected',cur==='S');document.getElementById('tA').setAttribute('aria-selected',cur==='A');
  document.getElementById('mV').setAttribute('aria-selected',mode==='V');document.getElementById('mC').setAttribute('aria-selected',mode==='C');
  if(mode==='V'){var v=viewH();root.innerHTML=v.h;clr.hidden=false;
-  pr.innerHTML='<b>'+esc(NOME[cur])+'</b>: '+v.ok+' de '+v.tot+' itens ('+(v.tot?Math.round(v.ok*100/v.tot):0)+'%)<div class="ml-bar"><i style="width:'+(v.tot?v.ok*100/v.tot:0)+'%"></i></div>'}
- else{root.innerHTML=cfgH();clr.hidden=true;pr.innerHTML=''}}
+  pr.innerHTML='<b>'+esc(NOME[cur])+'</b>: '+v.ok+' de '+v.tot+' itens ('+(v.tot?Math.round(v.ok*100/v.tot):0)+'%)<div class="ml-bar"><i style="width:'+(v.tot?v.ok*100/v.tot:0)+'%"></i></div>'+sumH()}
+ else{root.innerHTML=cfgH();clr.hidden=true;pr.innerHTML=sumH()}}
 var root=document.getElementById('ml-root');
 root.addEventListener('change',function(e){var c=e.target,d=c.dataset;
  if(mode==='V'){if(!d.i)return;s[d.i]=c.checked;keep();var o={};o[d.i]=c.checked;push(o);render();return}
@@ -222,6 +254,9 @@ root.addEventListener('change',function(e){var c=e.target,d=c.dataset;
  if(d.gn!=null){gs[+d.gn].g=c.value.trim()||'Sem nome'}
  else if(d.in){p=d.in.split('.');gs[p[0]].it[p[1]].t=c.value.trim()||'Item'}
  else if(d.iw){p=d.iw.split('.');gs[p[0]].it[p[1]].w=c.value}
+ else if(d.ik){p=d.ik.split('.');var v=pk(c.value);gs[p[0]].it[p[1]].kg=isFinite(v)&&v>=0?Math.round(v*1000)/1000:undefined}
+ else if(d.lm){var v3=pk(c.value);if(d.lm==='L')cfg.lim[cur].L=isFinite(v3)&&v3>0?Math.round(v3*100)/100:0;else if(isFinite(v3)&&v3>0)cfg.lim[cur][d.lm]=Math.round(v3*100)/100}
+ else if(d.tr){var v2=pk(c.value);if(isFinite(v2)&&v2>=0)cfg.tare[cur][d.tr]=Math.round(v2*100)/100}
  else return;pushC();render()});
 function mv(a,i,j){if(j<0||j>=a.length)return;var x=a.splice(i,1)[0];a.splice(j,0,x)}
 root.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||mode!=='C')return;var d=b.dataset,gs=cfg[cur],p;
@@ -232,6 +267,8 @@ root.addEventListener('click',function(e){var b=e.target.closest('button');if(!b
  else if(d.ix){p=d.ix.split('.');gs[p[0]].it.splice(+p[1],1)}
  else if(d.ia!=null){gs[+d.ia].it.push({id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),t:'Novo item',w:'M'})}
  else if(d.ga){gs.push({g:'Novo grupo',it:[]})}
+ else if(d.ie){p=d.ie.split('.');var it0=gs[p[0]].it[p[1]];it0.kg=est(it0.t).kg}
+ else if(d.ea){gs.forEach(function(g){g.it.forEach(function(i){if(i.kg==null)i.kg=est(i.t).kg})})}
  else if(d.rs){if(!confirm('Voltar à lista padrão de '+NOME[cur]+'? Seus ajustes nesta lista serão perdidos.'))return;cfg[cur]=defCfg()[cur]}
  else return;
  pushC();render();
@@ -255,9 +292,9 @@ function bind(){if(!window.FB)return;
    if(n&&!meta.fromCache)FB.set('data/mala',{done:miss},true)});
   u2=FB.watchDoc('malacfg','data/malacfg',function(d,meta){
    var rt=d&&d.ts||0;
-   if(d&&d.json&&rt>(cfg.ts||0)){try{var o=JSON.parse(d.json);if(o.S&&o.A){cfg={S:o.S,A:o.A,ts:rt};keepC();if(!(mode==='C'&&root.contains(document.activeElement)))render()}}catch(e){}}
-   else if(!meta.fromCache&&(cfg.ts||0)>rt&&window.FB){FB.set('data/malacfg',{json:JSON.stringify({S:cfg.S,A:cfg.A}),ts:cfg.ts})}
+   if(d&&d.json&&rt>(cfg.ts||0)){try{var o=JSON.parse(d.json);if(o.S&&o.A){cfg=fixKg({S:o.S,A:o.A,tare:o.tare,lim:o.lim,ts:rt});keepC();if(!(mode==='C'&&root.contains(document.activeElement)))render()}}catch(e){}}
+   else if(!meta.fromCache&&(cfg.ts||0)>rt&&window.FB){FB.set('data/malacfg',{json:JSON.stringify({S:cfg.S,A:cfg.A,tare:cfg.tare,lim:cfg.lim}),ts:cfg.ts})}
    readyC=true})})}
 if(window.FB)bind();else{document.addEventListener('fb-ready',bind);setTimeout(function(){var el=document.getElementById('gx-sync');if(!window.FB&&el)el.textContent='☁ Salvo só neste aparelho (Firebase indisponível)'},4000)}})();
 </script>
-<script src="nav.js?v=81"></script><script type="module" src="fb.js?v=61"></script>
+<script src="nav.js?v=83"></script><script type="module" src="fb.js?v=61"></script>
