@@ -1,0 +1,278 @@
+<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=84"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Dirigir · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+:root{
+ /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
+ --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
+ --accent:#0B7285;--accent-ink:#FFFFFF;--sea:#CDE5EB;--land:#F6F8F4;--route:#0B7285;
+ --c-drive:#0B7285;--c-see:#4B5FA8;--c-eat:#A15A12;--c-tip:#2F7D4F;--c-warn:#B3341F;--c-stay:#6B5A8E;
+ --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--f-body:'Public Sans','Segoe UI',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+nav.pills{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.pills a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 14px;font-size:14px;white-space:nowrap}
+nav.pills a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+.hero{padding-block:32px 24px;display:grid;gap:12px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{max-width:62ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:800;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:8px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+.cdown{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 18px;display:grid;gap:8px}.cd-n{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:flex-end}.cd-n b{display:block;font-family:var(--f-display);font-size:clamp(2.6rem,12vw,4rem);line-height:1;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}.cd-n span{font-size:13px;color:var(--muted)}.cd-msg{font-family:var(--f-display);font-size:1.6rem;font-weight:700;color:var(--accent)}
+section.day{margin-top:36px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;border-top:2px solid var(--ink);padding-top:12px}
+.day-h .date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.day-h h2{font-size:1.5rem;font-weight:700}
+ol.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.tl li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.time{font-family:var(--f-mono);font-size:14px;font-weight:600;padding-top:2px}
+.time.none{color:var(--muted)}
+.k{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.k-drive .k,.k-drive .time{color:var(--c-drive)}.k-see .k{color:var(--c-see)}.k-eat .k{color:var(--c-eat)}.k-tip .k{color:var(--c-tip)}.k-warn .k{color:var(--c-warn)}.k-stay .k{color:var(--c-stay)}
+.k-warn{border-left:4px solid var(--c-warn)}.k-tip{border-left:4px solid var(--c-tip)}.k-drive{border-left:4px solid var(--c-drive)}
+ol.tl h3{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+ol.tl p{margin:0;color:var(--muted);font-size:15px}
+.gm{display:inline-block;margin-top:10px;font-size:14px;font-weight:600}
+.x{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:10px 0 0;font-size:14px}.x dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}.x dd{margin:0;overflow-wrap:anywhere}
+ul.bul{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}.prose{max-width:70ch;margin:0 0 10px}
+a.tag{text-decoration:none;color:var(--accent)}
+.num td.n,.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.num td:first-child{white-space:nowrap}
+.tot td{font-weight:700;border-top:2px solid var(--ink)}
+table.wide{font-size:13px}table.wide th,table.wide td{padding:6px 8px}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px}
+.pn a{font-weight:600;text-decoration:none}
+table.opt{width:100%;border-collapse:collapse;font-size:15px}
+table.opt th,table.opt td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+.att{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ac{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.ac.I{border-color:var(--c-warn);border-width:2px}
+.ac h3{font-size:1.1rem;margin:0}
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:6px;width:max-content}
+.bd.I{background:var(--c-warn);color:#fff}.bd.V{background:var(--c-see);color:#fff}.bd.O{background:var(--line);color:var(--ink)}
+.st{font-size:18px;letter-spacing:2px;color:#D98A00}.st i{color:var(--line);font-style:normal}
+.ac .m{font-size:13px;color:var(--muted)}.ac p{margin:0;font-size:14px}
+.ac .lk{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal a{text-decoration:none;color:inherit}
+/*rt*/.rt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px}.rt .st{font-size:15px}.rt .m{color:var(--muted)}.rt .lk{display:flex;gap:10px;font-weight:600}
+@media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
+
+.cl-now{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:10px 0 4px}
+.cl-n{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:2px}
+.cl-n b{font-family:var(--f-display);font-size:1.7rem;line-height:1;color:var(--accent)}
+.cl-n span{font-size:13px;color:var(--muted)}
+.cl-c{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.cl-h{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;justify-content:space-between}
+.cl-h h3{font-size:1.25rem}.cl-h a{text-decoration:none}
+.cl-d{font:600 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.cl-s{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0}
+.cl-s div{font-size:13px;color:var(--muted)}.cl-s b{display:block;font-family:var(--f-display);font-size:1.3rem;color:var(--ink);line-height:1.1}
+.cl-t{margin:0 0 10px;font-size:15px}
+.cl-w{overflow-x:auto}
+.cl-tb{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}
+.cl-tb th,.cl-tb td{text-align:left;padding:6px 8px;border-top:1px solid var(--line);white-space:nowrap}
+.cl-tb th{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:0}
+.cl-g{display:inline-block;font:700 10px/1.4 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:1px 7px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
+.cl-g.pv{border-color:var(--accent);color:var(--accent)}
+.cl-g.hs{border-color:var(--c-see);color:var(--c-see)}
+.cl-r{display:inline-block;min-width:44px}
+.cl-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+.cl-st{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:12px 14px;font-size:14px;margin:8px 0 0}
+
+.dr-k{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c-warn);border-radius:10px;padding:12px 14px;margin:10px 0;font-size:15px}
+.dr-k b.t{display:block;font:700 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--c-warn);margin-bottom:4px}
+.dr-k.ok{border-left-color:var(--c-tip)}.dr-k.ok b.t{color:var(--c-tip)}
+.dr-k.in{border-left-color:var(--accent)}.dr-k.in b.t{color:var(--accent)}
+.dr-k p{margin:4px 0}
+.dr-w{overflow-x:auto;margin:8px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.dr-tb{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+.dr-tb th,.dr-tb td{text-align:left;vertical-align:top;padding:8px 10px;border-top:1px solid var(--line)}
+.dr-tb th{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:0;white-space:nowrap}
+.dr-tb td{font:400 14px/1.45 'Public Sans',sans-serif;letter-spacing:0;text-transform:none;color:var(--ink)}
+.dr-tb td:first-child{font-weight:600;white-space:nowrap}
+.dr-b{display:inline-block;font:700 10px/1.5 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;padding:1px 8px;border-radius:6px;border:1px solid currentColor;white-space:nowrap}
+.dr-b.no{color:var(--c-warn)}.dr-b.rs{color:var(--c-eat)}.dr-b.ok{color:var(--c-tip)}
+.dr-sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:10px 0}
+.dr-s{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;display:grid;gap:6px;justify-items:center;text-align:center;font-size:13px;color:var(--muted)}
+.dr-s svg{width:64px;height:64px}
+.dr-s b{color:var(--ink);font-size:13px}
+.dr-ch{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.dr-ch a{font:600 12px var(--f-mono);letter-spacing:.04em;text-transform:uppercase;text-decoration:none;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.dr-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+.dr-ck{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}
+.dr-ck li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.dr-ck input{margin-top:4px;flex:none}
+@media(max-width:640px){.dr-tb.st{min-width:0}.dr-tb.st thead{display:none}.dr-tb.st tr{display:block;padding:8px 10px;border-top:1px solid var(--line)}.dr-tb.st tr:first-child{border-top:0}.dr-tb.st td{display:block;border:0;padding:2px 0;white-space:normal}}
+h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
+</style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="dirigir.html" aria-current="page">Dirigir</a><a href="seguranca.html">Segurança</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
+
+<section class="day"><div class="day-h"><span class="date">planejamento</span><h2>Como dirigir nos 4 países</h2></div>
+<p class="prose">Croácia, Eslovênia, Itália (só Trieste) e Montenegro. A direção é do mesmo lado do Brasil (mão direita, volante à esquerda), mas há regras, placas e multas que pegam brasileiro desprevenido. Leia esta página antes de buscar o carro.</p>
+<div class="dr-ch"><a href="#moveover">Move Over</a><a href="#regras">Regras</a><a href="#difer">Diferenças</a><a href="#placas">Placas</a><a href="#entrar">Onde entrar</a><a href="#estac">Estacionar</a><a href="#rota">Rota</a><a href="#multas">Multas</a><a href="#sos">Emergência</a></div>
+</section>
+
+<section class="day" id="moveover"><div class="day-h"><span class="date">o que te multou nos EUA</span><h2>E o "Move Over"?</h2></div>
+<div class="dr-k in"><b class="t">Resposta curta</b><p>Não encontrei, nesses 4 países, uma lei idêntica à americana (trocar de faixa ao passar por veículo parado com pisca-alerta). Mas existem regras parecidas, e a conduta esperada é a mesma.</p></div>
+<ul class="bul">
+<li><b>Ambulância, bombeiro ou polícia com sirene e luz:</b> abra caminho sempre, encostando à direita e parando se preciso. Vale nos 4 países. Não passe sinal vermelho para abrir passagem, a menos que o agente mande.</li>
+<li><b>Corredor de emergência no congestionamento:</b> em autoestrada parada, quem está na faixa da esquerda vai para a esquerda e todos os outros vão para a direita, deixando um corredor no meio. Obrigatório na Croácia, na Eslovênia e na Itália. Faça isso assim que o trânsito começar a frear, não depois que a sirene aparecer. (Informação confirmada em fontes de clubes automobilísticos de 2018; a prática é a mesma hoje.)</li>
+<li><b>Veículo parado no acostamento:</b> reduza e, se der, afaste-se para a faixa ao lado. Não é obrigatório como nos EUA, mas é o que a polícia espera e evita acidente.</li>
+<li><b>Ao parar numa emergência:</b> pisca-alerta, colete refletivo antes de sair, triângulo a cerca de 50 m (em autoestrada, 100 m) e todos atrás do guard-rail.</li>
+<li><b>Fila na autoestrada:</b> ligue o pisca-alerta ao ver o fim da fila e frear forte. É costume e evita colisão traseira.</li>
+</ul></section>
+
+<section class="day" id="regras"><div class="day-h"><span class="date">comparativo</span><h2>Regras rápidas por país</h2></div>
+<div class="dr-w"><table class="dr-tb"><thead><tr><th>Item</th><th>Croácia</th><th>Eslovênia</th><th>Itália</th><th>Montenegro</th></tr></thead><tbody>
+<tr><td>Cidade</td><td>50 km/h</td><td>50 km/h</td><td>50 km/h</td><td>50 km/h</td></tr>
+<tr><td>Estrada comum</td><td>90 km/h</td><td>90 km/h</td><td>90 km/h (principais 110)</td><td>80 km/h</td></tr>
+<tr><td>Via rápida</td><td>110 km/h</td><td>110 km/h</td><td>110 km/h</td><td>não comum</td></tr>
+<tr><td>Autoestrada</td><td>130 km/h</td><td>130 km/h</td><td>130 km/h (110 na chuva)</td><td>fontes divergem (100 a 120): siga a placa</td></tr>
+<tr><td>Álcool no sangue</td><td>0,5 ‰ (0,0 até 24 anos)</td><td>0,5 ‰</td><td>0,5 ‰</td><td>0,3 ‰</td></tr>
+<tr><td>Farol baixo</td><td>obrigatório só de fim de out. a fim de mar; em maio não é, mas é bom ligar</td><td>sempre, dia e noite</td><td>obrigatório fora da cidade, também de dia</td><td>sempre, dia e noite</td></tr>
+<tr><td>Cinto</td><td>todos os bancos</td><td>todos os bancos</td><td>todos os bancos</td><td>todos os bancos</td></tr>
+<tr><td>Celular</td><td colspan="4">proibido na mão nos quatro países; só viva-voz</td></tr>
+<tr><td>Triângulo e colete</td><td colspan="4">obrigatórios no carro. A locadora costuma entregar; confira na retirada</td></tr>
+<tr><td>Pedágio</td><td>ticket na A1, paga na saída (dinheiro ou cartão)</td><td>vinheta digital (e-vinjeta), sem cabine</td><td>ticket na autoestrada</td><td>poucos; túnel Sozina é pago</td></tr>
+<tr><td>Socorro</td><td>HAK 1987</td><td>AMZS 1987</td><td>ACI 803 116</td><td>AMSCG 19807</td></tr>
+</tbody></table></div>
+<p class="dr-note">Limites mudam por trecho: o que vale é a placa. Os números de socorro vêm de clubes automobilísticos; ligue primeiro para o telefone da locadora, que costuma ter seguro de assistência. Emergência geral: <b>112</b> em todos.</p>
+</section>
+
+<section class="day" id="difer"><div class="day-h"><span class="date">atenção</span><h2>O que é diferente do Brasil</h2></div>
+<ul class="bul">
+<li><b>Faixa da esquerda é só para ultrapassar.</b> Na Itália e na Croácia você é multado por rodar nela sem ultrapassar. Volte para a direita assim que passar.</li>
+<li><b>Losango amarelo.</b> Mostra que a sua via é preferencial. Ao encontrar o losango riscado, volta a regra comum (preferência para quem vem da direita, se não houver placa).</li>
+<li><b>Radar é por toda parte.</b> Há radar fixo, móvel e câmeras de trecho (Tutor, na Itália). Tolerância é pequena. Detector de radar é proibido em vários desses países; não leve.</li>
+<li><b>Pedestre na faixa tem preferência de fato.</b> Pare antes da faixa se alguém se aproxima. Na Eslovênia isso é levado muito a sério.</li>
+<li><b>Bondes em Zagreb.</b> Bonde tem preferência. Não ultrapasse bonde parado com portas abertas; espere fechar. Não pare sobre os trilhos.</li>
+<li><b>Rotatórias.</b> Quem já está dentro tem preferência e roda no sentido anti-horário. Sinalize na saída. Ao chegar, dê a preferência mesmo que a rotatória esteja vazia à sua frente: olhe à esquerda.</li>
+<li><b>Combustível.</b> Itália: "benzina" é gasolina e "gasolio" é diesel; confirme o que o carro usa. No posto italiano, "fai da te" (self-service) é mais barato que "servito". Croácia: "eurosuper 95" é gasolina e "eurodizel" é diesel.</li>
+<li><b>Semáforo amarelo fixo</b> significa parar, se der para frear com segurança. Amarelo piscando é cuidado. Cruzamentos têm câmeras de sinal vermelho, principalmente na Itália.</li>
+<li><b>Vento "bura".</b> Na costa croata, rajadas fecham pontes e trechos (Maslenica, Pelješac, ilhas). Placas eletrônicas avisam. Respeite o fechamento.</li>
+<li><b>Fauna.</b> Em Plitvice, Rastoke e nos Alpes eslovenos há placas de cervo e javali. Crepúsculo e noite são os piores horários.</li>
+<li><b>Estradas costeiras.</b> A Magistrala (D8) é estreita, curvilínea e cheia de moto e ônibus. Não pare na pista para foto, use os mirantes.</li>
+<li><b>Câmbio manual.</b> A frota barata é manual. Se você pediu automático, confirme na retirada.</li>
+</ul></section>
+
+<section class="day" id="placas"><div class="day-h"><span class="date">sinais</span><h2>Placas que você vai ver</h2></div>
+<p class="prose">As placas seguem a convenção europeia. Muitas são iguais às do Brasil; estas são as diferentes ou as que mais geram multa.</p>
+<div class="dr-sg"><div class="dr-s"><svg viewBox="0 0 64 64"><polygon points="32,5 59,32 32,59 5,32" fill="#fff" stroke="#111" stroke-width="3"/><polygon points="32,12 52,32 32,52 12,32" fill="#f7c600"/></svg><b>Via com preferência</b><span>Losango amarelo: você tem prioridade nas interseções até ver o sinal de fim. Não existe no Brasil.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><polygon points="32,5 59,32 32,59 5,32" fill="#fff" stroke="#111" stroke-width="3"/><polygon points="32,12 52,32 32,52 12,32" fill="#f7c600"/><path d="M8 56L56 8" stroke="#111" stroke-width="5"/></svg><b>Fim da preferência</b><span>Losango riscado: a partir daqui vale a regra comum (dê preferência a quem vem da direita, se não houver placa).</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><polygon points="4,8 60,8 32,58" fill="#fff" stroke="#c4271b" stroke-width="7" stroke-linejoin="round"/></svg><b>Dê a preferência</b><span>Triângulo invertido, igual ao Brasil. Em rotatória, quem está dentro passa primeiro.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff" stroke="#c4271b" stroke-width="7"/><rect x="14" y="27" width="36" height="10" fill="#c4271b"/></svg><b>Entrada proibida</b><span>Círculo vermelho com barra: contramão ou rua só de saída.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff" stroke="#c4271b" stroke-width="7"/></svg><b>Proibido veículos</b><span>Círculo vermelho vazio: nenhum veículo motorizado passa. Típico de cidade velha e zona de pedestres.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff" stroke="#c4271b" stroke-width="7"/><text x="32" y="41" font-size="26" font-weight="700" text-anchor="middle" fill="#111" font-family="Arial">50</text></svg><b>Limite de velocidade</b><span>Número em km/h. Igual ao Brasil. Na entrada da cidade vale 50 mesmo sem placa redonda.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff" stroke="#777" stroke-width="3"/><path d="M14 50L50 14M20 54L54 20M10 44L44 10" stroke="#777" stroke-width="3"/></svg><b>Fim de restrição</b><span>Círculo cinza com listras: acabou o limite anterior. Volta o limite padrão da via.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="16" width="58" height="32" rx="3" fill="#fff" stroke="#111" stroke-width="3"/><text x="32" y="38" font-size="13" font-weight="700" text-anchor="middle" fill="#111" font-family="Arial">SPLIT</text></svg><b>Entrada de localidade</b><span>Retângulo branco com o nome: começa a área urbana (50 km/h, salvo placa).</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="16" width="58" height="32" rx="3" fill="#fff" stroke="#111" stroke-width="3"/><text x="32" y="38" font-size="13" font-weight="700" text-anchor="middle" fill="#111" font-family="Arial">SPLIT</text><path d="M6 46L58 18" stroke="#c4271b" stroke-width="4"/></svg><b>Saída de localidade</b><span>Mesmo nome com risco vermelho: acabou o limite urbano, vale o da estrada.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="6" fill="#1a5fb4"/><text x="32" y="46" font-size="40" font-weight="700" text-anchor="middle" fill="#fff" font-family="Arial">P</text></svg><b>Estacionamento</b><span>Quadrado azul com P. Veja sempre as placas complementares (horário, pago, disco).</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#1a5fb4" stroke="#c4271b" stroke-width="7"/><path d="M14 50L50 14" stroke="#c4271b" stroke-width="7"/></svg><b>Proibido estacionar</b><span>Fundo azul, uma barra vermelha. Pode parar rapidamente; não pode ficar.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#1a5fb4" stroke="#c4271b" stroke-width="7"/><path d="M16 16L48 48M48 16L16 48" stroke="#c4271b" stroke-width="7"/></svg><b>Proibido parar</b><span>Fundo azul com X: nem parar. É onde o guincho age mais rápido.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="12" width="58" height="40" rx="3" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="32" cy="32" r="14" fill="#fff" stroke="#c4271b" stroke-width="5"/><text x="32" y="38" font-size="12" font-weight="700" text-anchor="middle" fill="#111" font-family="Arial">ZTL</text></svg><b>ZTL (Itália)</b><span>Zona a Traffico Limitato. Câmeras multam na hora quem entra sem autorização. Veja "varco attivo".</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#1a5fb4"/><path d="M32 14a18 18 0 1 1-17 12" fill="none" stroke="#fff" stroke-width="5"/><polygon points="8,24 22,22 17,35" fill="#fff"/></svg><b>Rotatória</b><span>Circular, sentido anti-horário, quem está dentro tem preferência. Sinalize só ao sair.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="6" fill="#1a7f3c"/><path d="M12 54L28 10h8l16 44" fill="none" stroke="#fff" stroke-width="4"/><path d="M32 14v8M32 30v8M32 46v8" stroke="#fff" stroke-width="4"/></svg><b>Autoestrada</b><span>Placa verde: pedágio (Croácia e Itália). Na Eslovênia exige vinheta digital.</span></div></div>
+<h3 class="dr-h">Palavras úteis nas placas</h3>
+<div class="dr-w"><table class="dr-tb"><thead><tr><th>Português</th><th>Croata / montenegrino</th><th>Esloveno</th><th>Italiano</th></tr></thead><tbody>
+<tr><td>Proibido estacionar</td><td>Zabranjeno parkiranje</td><td>Parkiranje prepovedano</td><td>Divieto di sosta</td></tr>
+<tr><td>Estacionamento</td><td>Parkiralište / Parking</td><td>Parkirišče</td><td>Parcheggio</td></tr>
+<tr><td>Saída</td><td>Izlaz</td><td>Izvoz</td><td>Uscita</td></tr>
+<tr><td>Pedágio</td><td>Naplata cestarine</td><td>Cestnina</td><td>Pedaggio</td></tr>
+<tr><td>Estrada fechada</td><td>Cesta zatvorena</td><td>Cesta zaprta</td><td>Strada chiusa</td></tr>
+<tr><td>Zona de pedestres</td><td>Pješačka zona</td><td>Peš cona</td><td>Area pedonale</td></tr>
+<tr><td>Tráfego limitado</td><td>Zabrana prometa</td><td>Promet prepovedan</td><td>Zona a traffico limitato (ZTL)</td></tr>
+<tr><td>Remoção (guincho)</td><td>Pauk (odvoz vozila)</td><td>Odvoz vozil</td><td>Rimozione forzata</td></tr>
+<tr><td>Desvio</td><td>Obilaznica / Obilazak</td><td>Obvoz</td><td>Deviazione</td></tr>
+<tr><td>Atenção</td><td>Oprez</td><td>Previdno</td><td>Attenzione</td></tr>
+</tbody></table></div></section>
+
+<section class="day" id="entrar"><div class="day-h"><span class="date">onde posso entrar</span><h2>Posso ir de carro?</h2></div>
+<p class="prose">Regra geral: <b>centro histórico murado ou de pedestres, assim como ilha-cidade, não é lugar de carro</b>. Estacione na borda e entre a pé. Onde a entrada é controlada, a multa vem por câmera meses depois, pela locadora.</p>
+<div class="dr-w"><table class="dr-tb st"><thead><tr><th>Lugar</th><th>Carro</th><th>O que saber</th></tr></thead><tbody>
+<tr><td>Zagreb, centro</td><td><span class="dr-b rs">cuidado</span></td><td>Cidade Alta (Gornji Grad) é quase toda de pedestres e bondes. Pare em garagem pública na Cidade Baixa e caminhe.</td></tr>
+<tr><td>Ljubljana, centro</td><td><span class="dr-b no">restrito</span></td><td>O núcleo é sem carro. Hotel dentro da zona libera acesso (peça ao hotel). Para visitar, use a garagem ou os P+R: o ticket já inclui 2 passagens de ônibus por 24 h.</td></tr>
+<tr><td>Trieste, centro</td><td><span class="dr-b no">ZTL</span></td><td>Câmeras na entrada. Multa citada como cerca de €80, mais taxa da locadora. Use a Garagem Silos e vá a pé. O GPS ignora a ZTL.</td></tr>
+<tr><td>Plitvice</td><td><span class="dr-b ok">livre</span></td><td>Dentro do parque não se entra de carro. Estacionamento pago por hora nas entradas (P1/P2); pague no caixa antes de sair.</td></tr>
+<tr><td>Rastoke (Slunj)</td><td><span class="dr-b ok">livre</span></td><td>Vila pequena; estacione na entrada e caminhe.</td></tr>
+<tr><td>Split, Palácio de Diocleciano</td><td><span class="dr-b no">proibido</span></td><td>Núcleo de pedestres. Use estacionamento nas margens (zona paga) ou a garagem do hotel. Fonte de preços é de novembro de 2024: confira.</td></tr>
+<tr><td>Trogir</td><td><span class="dr-b no">proibido</span></td><td>Cidade antiga fica em ilha; estacione no continente e atravesse a ponte a pé.</td></tr>
+<tr><td>Šibenik, cidade velha</td><td><span class="dr-b no">proibido</span></td><td>Ruas só de pedestres. Estacione na orla ou nas zonas pagas.</td></tr>
+<tr><td>Dubrovnik, cidade velha e entorno</td><td><span class="dr-b no">restrito</span></td><td>De 1.º mar a 30 nov. o acesso de veículos ao entorno da cidade velha é restrito. Entra só com acomodação que registre a placa, estacionamento reservado pelo app oficial (Pile e teleférico) ou ônibus. Procure registro pelo hotel antes de chegar. Multa citada em sites de turismo: €260, sem confirmação oficial.</td></tr>
+<tr><td>Kotor, cidade velha</td><td><span class="dr-b no">proibido</span></td><td>Estacione em estacionamento junto à muralha. Tarifas citadas: €0,80 a €1,20 por hora. Chegue cedo.</td></tr>
+<tr><td>Perast e a Baía</td><td><span class="dr-b rs">cuidado</span></td><td>Estrada estreita e sem acostamento. Pare só em baias demarcadas.</td></tr>
+<tr><td>Lovćen (25 curvas)</td><td><span class="dr-b rs">cuidado</span></td><td>Subida estreita; buzine antes de curva cega e dê preferência a quem sobe.</td></tr>
+</tbody></table></div></section>
+
+<section class="day" id="estac"><div class="day-h"><span class="date">parquímetros</span><h2>Estacionar sem tomar multa</h2></div>
+<h3 class="dr-h">Em todo lugar</h3>
+<ul class="bul">
+<li>Leia a <b>placa complementar</b> abaixo do "P": horário, "pago", disco, dias úteis.</li>
+<li>Muitos parquímetros <b>não dão troco</b> e só aceitam moedas. Leve moedas de €1 e €2 e cartão contactless.</li>
+<li>Deixe o tíquete visível no painel. Alguns pedem a placa digitada; guarde a placa em foto.</li>
+<li>Guarde o comprovante até devolver o carro. Em alguns lugares a multa chega por e-mail a locadora.</li>
+<li>Na dúvida, pare em <b>garagem</b>. Custa mais, mas não tem guincho nem bloqueio.</li>
+</ul>
+<h3 class="dr-h">Por país</h3>
+<div class="dr-w"><table class="dr-tb st"><thead><tr><th>País</th><th>Como funciona</th></tr></thead><tbody>
+<tr><td>Croácia</td><td>Zonas numeradas (1, 2, 3...), a 1 é a mais cara e de menor tempo. Pague no parkomat, por SMS ou aplicativo, e tenha o comprovante. Horário e tarifa variam por cidade e estação; confira a placa.</td></tr>
+<tr><td>Eslovênia</td><td>Zonas coloridas, com limite de 30 a 120 minutos no centro de Ljubljana. Pague em parquímetro, máquina Urbanomat ou SMS pelo serviço Urbana. Parquímetro sem troco. Carro estacionado errado pode ser guinchado.</td></tr>
+<tr><td>Itália</td><td>Faixas <b>azuis</b> são pagas (parcometro), <b>brancas</b> são livres (às vezes com disco horário) e <b>amarelas</b> são reservadas (não use). Em algumas cidades o parcometro pede a placa.</td></tr>
+<tr><td>Montenegro</td><td>Zonas verde, amarela e vermelha, com tarifas citadas de €0,40, €0,50 e €0,60 por hora. Parquímetros com moedas ou SMS com chip local. Estacionamentos com cancela cobram na saída, sem limite de tempo.</td></tr>
+</tbody></table></div>
+<p class="dr-note">Tarifas e horários são de sites de turismo e mudam. Servem como ordem de grandeza.</p>
+</section>
+
+<section class="day" id="rota"><div class="day-h"><span class="date">trecho a trecho</span><h2>Pontos de atenção na sua rota</h2></div>
+<ul class="bul">
+<li><b>Zagreb → Ljubljana:</b> compre a <b>e-vinheta</b> antes de cruzar (classe 2A, 7 dias, cerca de €16, em evinjeta.dars.si ou posto Petrol). Sem ela, a multa citada pelos sites oficiais vai de €300 a €800. Digite a placa certa. Não há cabine de pedágio na Eslovênia, então a câmera é o único fiscal.</li>
+<li><b>Ljubljana → Trieste:</b> é fronteira Schengen sem controle fixo. Atenção à ZTL de Trieste e à garagem Silos. Evite o Molo IV (estacionamento com guincho frequente).</li>
+<li><b>Trieste → Plitvice:</b> volta à Croácia. Pode haver controle de polícia móvel; tenha passaporte à mão.</li>
+<li><b>Plitvice → Split (A1):</b> pedágio por ticket; pague na saída. Tarifa citada de €25 a €30 no total da A1. Túnel Sveti Rok fecha com vento forte.</li>
+<li><b>Split → Dubrovnik:</b> a <b>ponte de Pelješac é gratuita</b> e evita a Bósnia. Confirme que o GPS não manda você por <b>Neum</b>: lá há duas fronteiras com a Bósnia e é preciso passaporte e carta verde.</li>
+<li><b>Dubrovnik → Kotor (fronteira Debeli Brijeg):</b> Montenegro não é UE nem Schengen. Leve passaporte, <b>carta verde</b> e a autorização da locadora para sair do país. No verão a fila pode passar de uma hora. Farol baixo ligado o dia todo lá.</li>
+<li><b>Em Montenegro:</b> álcool 0,3 ‰, estradas estreitas, ultrapassagens arriscadas, buzinas. Túnel Sozina é pago (cerca de €2,50). Moeda é o euro.</li>
+<li><b>Kotor → Zagreb final:</b> é a volta mais longa. Planeje parada, não dirija cansado e abasteça antes da fronteira.</li>
+</ul>
+<div class="dr-k ok"><b class="t">Documentos no carro</b><p>Passaporte, CNH, <b>Permissão Internacional para Dirigir (PID)</b>, contrato da locadora e a carta verde. A Itália costuma exigir a PID para CNH brasileira; confirme com a locadora. Mais detalhes em <a href="seguranca.html">Segurança e documentos</a>.</p></div>
+</section>
+
+<section class="day" id="multas"><div class="day-h"><span class="date">dinheiro</span><h2>Multas: como chegam e como pagar</h2></div>
+<ul class="bul">
+<li><b>Abordagem na hora:</b> a polícia pode multar na rua. Peça o recibo e pague como indicado. Não pague dinheiro a quem não der recibo.</li>
+<li><b>Por câmera (radar, ZTL, vinheta):</b> chega depois, para a locadora, que cobra de você no cartão <b>mais uma taxa administrativa</b>. Pode demorar meses.</li>
+<li><b>Montenegro:</b> multas de €15 a €150 em estacionamento; pagam-se nos correios quando o valor está no aviso. Sem valor, fale com a locadora. Reboque tem taxa de guincho e de depósito.</li>
+<li><b>Fotografe o carro</b> na retirada e na devolução, com estacionamento incluso, para contestar cobranças.</li>
+</ul></section>
+
+<section class="day" id="sos"><div class="day-h"><span class="date">se der errado</span><h2>Acidente, pane ou polícia</h2></div>
+<ul class="bul">
+<li><b>112</b> em qualquer país (polícia, ambulância, bombeiros).</li>
+<li>Pisque o alerta, coloque o colete, ponha o triângulo (50 m na estrada; 100 m na autoestrada) e fique atrás do guard-rail.</li>
+<li>Ligue para a locadora antes de qualquer reparo. Eles definem o guincho e a cobertura.</li>
+<li>Acidente sem feridos: preencha o <b>constat</b> (formulário europeu de acidente), fotografe tudo e peça os dados do outro motorista e do seguro. Com feridos ou desacordo, chame a polícia.</li>
+<li>Em blitz: pare, desligue o motor, mantenha as mãos visíveis e entregue passaporte, CNH, PID e o contrato.</li>
+</ul></section>
+
+<section class="day" id="chk"><div class="day-h"><span class="date">antes de sair</span><h2>Checklist rápido</h2></div>
+<ul class="dr-ck">
+<li><label><input type="checkbox"> Vistoria com fotos e vídeo de todo o carro</label></li>
+<li><label><input type="checkbox"> Combustível certo (gasolina ou diesel)</label></li>
+<li><label><input type="checkbox"> Triângulo, colete e roda estepe ou kit</label></li>
+<li><label><input type="checkbox"> Autorização da locadora para Montenegro e carta verde</label></li>
+<li><label><input type="checkbox"> E-vinheta da Eslovênia comprada com a placa correta</label></li>
+<li><label><input type="checkbox"> Moedas de €1 e €2 para parquímetro e pedágio</label></li>
+<li><label><input type="checkbox"> Hotel de Dubrovnik registrou a placa</label></li>
+<li><label><input type="checkbox"> GPS configurado para evitar ZTL e Neum</label></li>
+<li><label><input type="checkbox"> Telefone da locadora e do clube salvos offline</label></li>
+</ul>
+<p class="dr-note">Fontes: sites de clubes automobilísticos (AMZS, HAK, ACI, ANWB, ÖTC), turismo oficial de Ljubljana e Dubrovnik, <a href="https://visitljubljana.com/en/visitors/travel-information/getting-around/parking" target="_blank" rel="noopener">Visit Ljubljana</a>, <a href="https://montenegroguides.co/guides/parking-and-fines-montenegro" target="_blank" rel="noopener">Montenegro Guides</a> e <a href="https://www.htz.hr/en/node/12049" target="_blank" rel="noopener">HTZ (Dubrovnik)</a>. Algumas informações têm datas diferentes entre fontes e foram sinalizadas. Confirme as regras principais antes de viajar.</p>
+<p class="foot">Veja também <a href="seguranca.html">Segurança e documentos</a> e <a href="pendencias.html">Pendências</a>.</p></section></div>
+<script src="nav.js?v=84"></script><script type="module" src="fb.js?v=84"></script>
