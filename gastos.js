@@ -609,9 +609,10 @@ function rMoeda(){
   h+='<div class="card"><h3>O que já comprei</h3>';
   if(!list.length){h+='<p class="hint">Nenhuma compra registrada ainda.</p></div>'}
   else{
-    h+='<div class="split3"><div class="sp gg"><span>Total pago</span><b>'+money(st.brl,'BRL')+'</b><small>'+list.length+' compra'+(list.length>1?'s':'')+'</small></div>'+
-     '<div class="sp gp"><span>Total em euro</span><b>'+money(st.eq)+'</b><small>'+money(st.eurDirect)+' em euro + '+money(st.eurConv)+' em outras moedas</small></div>'+
-     '<div class="sp gr ok"><span>Cotação média do euro total</span><b>'+qfmt(st.brl/st.eq)+'</b><small>por € · site hoje '+qfmt(S.rates.eurBrl)+'</small></div></div>'+
+    var NM={EUR:'Euro',USD:'Dólar'};
+    h+='<div class="split3 mck"><div class="sp gg"><span>Total pago</span><b>'+money(st.brl,'BRL')+'</b><small>'+list.length+' compra'+(list.length>1?'s':'')+' · <a href="#mc-hist">ver histórico, editar ou cancelar</a></small></div>'+
+     curs.map(function(c){var x=st.per[c];return '<div class="sp'+(x?'':' off')+'"><span>'+esc(NM[c]||c)+' comprado</span><b>'+(x?money(x.amt,c):'—')+'</b><small>'+(x?'cotação média <b>'+qfmt(x.brl/x.amt)+'</b> · '+money(x.brl,'BRL'):'nenhuma compra')+'</small></div>'}).join('')+
+     '<div class="sp gr ok"><span>Euro total</span><b>'+money(st.eq)+'</b><small>cotação média <b>'+qfmt(st.brl/st.eq)+'</b> · '+money(st.eurDirect)+' em euro + '+money(st.eurConv)+' convertidos de outras moedas</small></div></div>'+
      '<div class="tblw"><table class="otbl mct"><thead><tr><th>Moeda</th><th>Comprado</th><th>R$ pago</th><th>Cotação média</th></tr></thead><tbody>';
     curs.forEach(function(c){var x=st.per[c];
       h+='<tr><td>'+esc(c)+(x?'<small class="pd">'+x.n+' compra'+(x.n>1?'s':'')+'</small>':'')+'</td><td>'+(x?money(x.amt,c):'—')+(x&&c!=='EUR'?'<small>≈ '+money(toEUR(x.amt,c))+'</small>':'')+'</td><td>'+(x?money(x.brl,'BRL'):'—')+'</td><td>'+(x?'<b>'+qfmt(x.brl/x.amt)+'</b><small>site: '+qfmt(brlPer(c))+'</small>':'—')+'</td></tr>'});
@@ -625,10 +626,10 @@ function rMoeda(){
       h+='<tr class="'+(isB?'best':'')+'"><td>'+(isB?'<span class="mcb">★ Melhor</span> ':'')+esc(r.m?r.m.name:'(meio removido)')+'<small class="pd">'+y.n+' compra'+(y.n>1?'s':'')+'</small></td><td>'+money(y.amt,cm)+(cm!=='EUR'?'<small>≈ '+money(y.eq)+'</small>':'')+'<small>pago '+money(y.brl,'BRL')+'</small></td><td>'+(r.qn!=null?qfmt(r.qn)+'<small>por '+esc(curSym(cm))+'</small>':'—')+'</td><td><b>'+qfmt(r.q)+'</b>'+(best&&!isB?'<small>'+mcPct((r.q/rows[0].q-1)*100)+' vs melhor</small>':'')+'</td></tr>'});
     h+='</tbody></table></div>'+(rows.some(function(r){return r.m&&r.m.cur!=='EUR'})?'<p class="hint">Para comparar meios de moedas diferentes, o dólar é convertido em euro pela cotação do site; a comparação é uma aproximação.</p>':'')+'</div>';
     /* histórico */
-    hist='<div class="card"><h3>Histórico de compras</h3>';var cur='';
+    hist='<div class="card" id="mc-hist"><h3>Histórico de compras</h3><p class="hint">Use Editar para corrigir uma compra ou Cancelar compra para removê-la.</p>';var cur='';
     list.forEach(function(p){var m=mById(p.m);
       if(p.date!==cur){cur=p.date;hist+='<div class="dh"><span>'+fmtDate(cur)+'</span><span></span></div>'}
-      hist+='<div class="it"><div>Compra de '+esc(p.cur)+'<div class="m">'+esc(m?m.name:'?')+' · cotação '+qfmt(p.brl/p.amt)+'</div></div><div class="v">'+money(p.amt,p.cur)+'<small>pago '+money(p.brl,'BRL')+'</small></div><div class="acts"><button class="btn sec sm" data-mce="'+p.id+'">Editar</button><button class="btn sec sm danger" data-mcd="'+p.id+'">Apagar</button></div></div>'});
+      hist+='<div class="it"><div>Compra de '+esc(p.cur)+'<div class="m">'+esc(m?m.name:'?')+' · cotação '+qfmt(p.brl/p.amt)+'</div></div><div class="v">'+money(p.amt,p.cur)+'<small>pago '+money(p.brl,'BRL')+'</small></div><div class="acts"><button class="btn sec sm" data-mce="'+p.id+'">Editar</button><button class="btn sec sm danger" data-mcd="'+p.id+'">Cancelar compra</button></div></div>'});
     hist+='</div>'}
   h+=cambioHtml()+hist;
   el.innerHTML=h;
@@ -639,7 +640,7 @@ function rMoeda(){
   $('#mc-m').onchange=function(){MC.m=this.value};
   $$('#mc-cur button').forEach(function(b){b.onclick=function(){MC.cur=b.dataset.c;rMoeda();try{$('#mc-amt').focus()}catch(e){}}});
   if($('#mc-cancel'))$('#mc-cancel').onclick=function(){mcReset();rMoeda()};
-  $$('[data-mcd]',el).forEach(function(b){b.onclick=function(){if(!confirm('Apagar esta compra de moeda?'))return;S.mc=S.mc.filter(function(x){return x.id!==b.dataset.mcd});if(MC.edit===b.dataset.mcd)mcReset();save();rMoeda();toast('Compra apagada')}});
+  $$('[data-mcd]',el).forEach(function(b){b.onclick=function(){if(!confirm('Cancelar esta compra de moeda? Ela sai do histórico e dos cálculos.'))return;S.mc=S.mc.filter(function(x){return x.id!==b.dataset.mcd});if(MC.edit===b.dataset.mcd)mcReset();save();rMoeda();toast('Compra cancelada')}});
   $$('[data-mce]',el).forEach(function(b){b.onclick=function(){var p=S.mc.filter(function(x){return x.id===b.dataset.mce})[0];if(!p)return;
     MC.edit=p.id;MC.cur=p.cur;MC.m=p.m;MC.date=p.date;MC.brl=fin(p.brl);MC.amt=fin(p.amt);rMoeda();window.scrollTo(0,0)}});
   f.addEventListener('submit',function(ev){ev.preventDefault();
@@ -656,7 +657,7 @@ function rMoeda(){
 }
 
 /* ---------- MEIOS ---------- */
-var CV={a:'100',from:'EUR'};
+var CV={a:'100,00',from:'EUR'};
 function curUsed(code){return S.methods.some(function(m){return m.cur===code})||S.countries.some(function(c){return c.cur===code})||S.budget.some(function(l){return l.cur===code})||S.entries.some(function(e){return e.cur===code})}
 function drawConv(){
   var a=num(CV.a),out=$('#cv-out');if(!out)return;
@@ -883,10 +884,12 @@ function pillify(root){
     sel.parentNode.insertBefore(g,sel.nextSibling)})}
 (function(){['#v-meios','#v-orc','#v-moeda'].forEach(function(id){var el=$(id);if(!el||!window.MutationObserver)return;new MutationObserver(function(){pillify(el)}).observe(el,{childList:true,subtree:true})})})();
 /* máscara de dinheiro: digita só números e a vírgula já fica nas 2 últimas casas */
-var MASK='#g-amt,#g-brlv,#g-debit,#t-out,#t-in,#a-real,#dl-unit,#b-unit,#n-init,[data-f=unit],[data-f=init]';
+var MASK='#g-amt,#g-brlv,#g-debit,#t-out,#t-in,#a-real,#dl-unit,#b-unit,#n-init,[data-f=unit],[data-f=init],#mc-brl,#mc-amt,#cv-amt';
+var MASK4='#c-usd,#c-brl,#x-rate,.xrow [data-f=brl]';
 function maskVal(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';while(d.length<3)d='0'+d;return d.slice(0,-2)+','+d.slice(-2)}
-document.addEventListener('input',function(e){var t=e.target;if(!t||!t.matches||!t.matches(MASK))return;var m=maskVal(t.value);if(m!==t.value)t.value=m},true);
-document.addEventListener('focusin',function(e){var t=e.target;if(t&&t.matches&&t.matches(MASK)&&t.value)setTimeout(function(){try{t.select()}catch(x){}},0)},true);
+function maskVal4(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';while(d.length<5)d='0'+d;return d.slice(0,-4)+','+d.slice(-4)}
+document.addEventListener('input',function(e){var t=e.target;if(!t||!t.matches)return;var m;if(t.matches(MASK))m=maskVal(t.value);else if(t.matches(MASK4))m=maskVal4(t.value);else return;if(m!==t.value)t.value=m},true);
+document.addEventListener('focusin',function(e){var t=e.target;if(t&&t.matches&&(t.matches(MASK)||t.matches(MASK4))&&t.value)setTimeout(function(){try{t.select()}catch(x){}},0)},true);
 var NAV={v:null,i:0,t:0};
 function navList(v){return $$('input:not([type=hidden]):not([disabled]),select:not([disabled]),button:not([disabled]),textarea',v).filter(function(x){return x.offsetParent!==null})}
 function navMark(e,d){var t=e.target;if(!t||!t.closest)return;var v=t.closest('#v-orc,#v-meios,#v-moeda');if(!v)return;var i=navList(v).indexOf(t);if(i<0)return;NAV={v:v.id,i:i+d,t:Date.now()}}

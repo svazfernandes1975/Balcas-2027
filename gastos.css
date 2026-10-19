@@ -333,3 +333,4 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .mct td:first-child{min-width:5.5em;max-width:8em}
 .gx .mct td:not(:first-child){white-space:nowrap}
 .gx .mct td b{white-space:nowrap}
+.gx .mck{grid-template-columns:repeat(2,minmax(0,1fr))}.gx .mck .sp.off{opacity:.6}.gx .mck .sp small b{color:var(--ink)}.gx .mck .sp:first-child,.gx .mck .sp:last-child{grid-column:1/-1}
