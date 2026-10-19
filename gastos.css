@@ -336,3 +336,6 @@ section#gastos.day{margin-top:8px}section#gastos .day-h{margin-bottom:8px;paddin
 .gx .mck{grid-template-columns:repeat(2,minmax(0,1fr))}.gx .mck .sp.off{opacity:.6}.gx .mck .sp small b{color:var(--ink)}.gx .mck .sp:first-child,.gx .mck .sp:last-child{grid-column:1/-1}
 .gx .split3.mck{display:flex;flex-wrap:wrap;gap:10px}.gx .mck .sp{flex:1 1 190px;grid-column:auto!important}
 .gx .it.mcre{display:block;padding:10px 0}.gx .mcrf{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.gx .mcto{color:var(--accent);white-space:nowrap}.gx .mcto b{font-weight:700}
+.gx .mct tr.mcl td:first-child{max-width:none;min-width:9em}.gx .mct tr.ol.mcl td{color:var(--ink);font-size:13px}.gx .mct tr.mcl .acts{margin-top:6px;gap:6px}.gx .mct tr.mcg td{border-top:2px solid var(--line)}
+.gx .mct tr.mca td{text-align:left;padding:0 3px 8px;white-space:normal}.gx .mct tr.mca .acts{margin:0}.gx .mct tr.ol.mcl td{border-bottom:0}.gx .mct tr.mcl td:first-child{min-width:0}@media(max-width:560px){.gx .mct td,.gx .mct th{font-size:12px}.gx .mct td:first-child{max-width:6.5em}}

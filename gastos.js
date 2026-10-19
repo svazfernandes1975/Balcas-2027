@@ -574,7 +574,7 @@ function drawList(){
 /* ---------- COMPRA DE MOEDA ---------- */
 var MC={rowEdit:null,edit:null,cur:'EUR',m:'',date:'',brl:'',amt:''};
 function mcCurs(){return curList().filter(function(c){return c!=='BRL'})}
-function mcMeths(cur){var a=S.methods.filter(function(m){return m.cur===cur});return a.length?a:S.methods.filter(function(m){return m.cur!=='BRL'})}
+function mcMeths(cur){return S.methods.filter(function(m){return m.cur===cur}).concat(S.methods.filter(function(m){return m.cur!==cur}))}
 function qfmt(v){return 'R$ '+(Math.round(v*10000)/10000).toFixed(4).replace('.',',')}
 function mcStats(){
   var per={},meth={},tb=0,te=0,eE=0,eO=0;
@@ -618,10 +618,14 @@ function rMoeda(){
      curs.filter(function(c){return st.per[c]}).map(function(c){var x=st.per[c];return '<div class="sp"><span>'+esc(NM[c]||c)+' comprado</span><b>'+(x?money(x.amt,c):'—')+'</b><small>'+(x?'cotação média <b>'+qfmt(x.brl/x.amt)+'</b> · '+money(x.brl,'BRL'):'nenhuma compra')+'</small></div>'}).join('')+
      '<div class="sp gr ok"><span>Euro total</span><b>'+money(st.eq)+'</b><small>cotação média <b>'+qfmt(st.brl/st.eq)+'</b> · '+money(st.eurDirect)+' em euro + '+money(st.eurConv)+' convertidos de outras moedas</small></div></div>'+
      '<div class="tblw"><table class="otbl mct"><thead><tr><th>Moeda</th><th>Comprado</th><th>R$ pago</th><th>Cotação média</th></tr></thead><tbody>';
-    curs.forEach(function(c){var x=st.per[c];
-      h+='<tr><td>'+esc(c)+(x?'<small class="pd">'+x.n+' compra'+(x.n>1?'s':'')+'</small>':'')+'</td><td>'+(x?money(x.amt,c):'—')+(x&&c!=='EUR'?'<small>≈ '+money(toEUR(x.amt,c))+'</small>':'')+'</td><td>'+(x?money(x.brl,'BRL'):'—')+'</td><td>'+(x?'<b>'+qfmt(x.brl/x.amt)+'</b><small>site: '+qfmt(brlPer(c))+'</small>':'—')+'</td></tr>'});
+    function sd(d){var q=d.split('-');return q[2]+'/'+q[1]+'/'+q[0].slice(2)}
+    curs.filter(function(c){return st.per[c]}).forEach(function(c){var x=st.per[c];
+      h+='<tr class="oc mcg"><td>'+esc(NM[c]||c)+' <small class="pd">'+x.n+' compra'+(x.n>1?'s':'')+'</small></td><td>'+money(x.amt,c)+(c!=='EUR'?'<small>≈ '+money(toEUR(x.amt,c))+'</small>':'')+'</td><td>'+money(x.brl,'BRL')+'</td><td><b>'+qfmt(x.brl/x.amt)+'</b><small>site: '+qfmt(brlPer(c))+'</small></td></tr>';
+      list.filter(function(p){return p.cur===c}).forEach(function(p){var m=mById(p.m);
+        if(MC.rowEdit===p.id){h+='<tr class="mcl"><td colspan="4">'+mcRowForm(p)+'</td></tr>';return}
+        h+='<tr class="ol mcl"><td>'+sd(p.date)+' <span class="mcto">→ <b>'+esc(m?m.name:'(meio removido)')+'</b></span></td><td>'+money(p.amt,p.cur)+'</td><td>'+money(p.brl,'BRL')+'</td><td>'+qfmt(p.brl/p.amt)+'</td></tr><tr class="mca"><td colspan="4"><div class="acts"><button type="button" class="btn sec sm" data-mce="'+p.id+'">Editar</button><button type="button" class="btn sec sm danger" data-mcd="'+p.id+'">Cancelar compra</button></div></td></tr>'})});
     h+='<tr class="oc"><td>Euro total<small class="pd">€ + outras moedas convertidas em €</small></td><td>'+money(st.eq)+'</td><td>'+money(st.brl,'BRL')+'</td><td><b>'+qfmt(st.brl/st.eq)+'</b><small>site: '+qfmt(S.rates.eurBrl)+'</small></td></tr></tbody></table></div>'+
-     '<p class="hint">As outras moedas viram euro pela cotação da seção Câmbio, mais abaixo (US$ 1 = '+money(toEUR(1,'USD'))+' hoje). A cotação média é o total pago em R$ dividido pelo total recebido.</p></div>';
+     '<p class="hint">Em cada compra: <b>Editar</b> corrige ali mesmo e <b>Cancelar compra</b> remove. As outras moedas viram euro pela cotação da seção Câmbio, mais abaixo (US$ 1 = '+money(toEUR(1,'USD'))+' hoje). A cotação média é o total pago em R$ dividido pelo total recebido.</p></div>';
     /* por meio */
     var ids=Object.keys(st.meth),rows=ids.map(function(id){var y=st.meth[id];return{id:id,m:mById(id),y:y,q:y.brl/y.eq,qn:y.mix?null:y.brl/y.amt}}).sort(function(a,b){return a.q-b.q});
     var best=rows.length>1?rows[0].id:null;
@@ -629,21 +633,15 @@ function rMoeda(){
     rows.forEach(function(r){var isB=r.id===best,y=r.y,cm=r.m?r.m.cur:y.cur;
       hm+='<tr class="'+(isB?'best':'')+'"><td>'+(isB?'<span class="mcb">★ Melhor</span> ':'')+esc(r.m?r.m.name:'(meio removido)')+'<small class="pd">'+y.n+' compra'+(y.n>1?'s':'')+'</small></td><td>'+money(y.amt,cm)+(cm!=='EUR'?'<small>≈ '+money(y.eq)+'</small>':'')+'<small>pago '+money(y.brl,'BRL')+'</small></td><td>'+(r.qn!=null?qfmt(r.qn)+'<small>por '+esc(curSym(cm))+'</small>':'—')+'</td><td><b>'+qfmt(r.q)+'</b>'+(best&&!isB?'<small>'+mcPct((r.q/rows[0].q-1)*100)+' vs melhor</small>':'')+'</td></tr>'});
     hm+='</tbody></table></div>'+(rows.some(function(r){return r.m&&r.m.cur!=='EUR'})?'<p class="hint">Para comparar meios de moedas diferentes, o dólar é convertido em euro pela cotação do site; a comparação é uma aproximação.</p>':'')+'</div>';
-    /* histórico */
-    hist='<div class="card" id="mc-hist"><h3>Histórico de compras</h3><p class="hint">Em cada linha: Editar corrige a compra ali mesmo; Cancelar compra remove.</p>';var cur='';
-    list.forEach(function(p){var m=mById(p.m);
-      if(p.date!==cur){cur=p.date;hist+='<div class="dh"><span>'+fmtDate(cur)+'</span><span></span></div>'}
-      if(MC.rowEdit===p.id){hist+=mcRowForm(p);return}
-      hist+='<div class="it"><div>Compra de '+esc(p.cur)+'<div class="m">'+esc(m?m.name:'?')+' · cotação '+qfmt(p.brl/p.amt)+'</div></div><div class="v">'+money(p.amt,p.cur)+'<small>pago '+money(p.brl,'BRL')+'</small></div><div class="acts"><button class="btn sec sm" data-mce="'+p.id+'">Editar</button><button class="btn sec sm danger" data-mcd="'+p.id+'">Cancelar compra</button></div></div>'});
-    hist+='</div>'}
-  h+=hist+hm+cambioHtml();
+  }
+  h+=hm+cambioHtml();
   el.innerHTML=h;
   var f=$('#mc-form');
   $('#mc-date').onchange=function(){MC.date=this.value};
   $('#mc-brl').addEventListener('input',function(){MC.brl=this.value;mcCalc()});
   $('#mc-amt').addEventListener('input',function(){MC.amt=this.value;mcCalc()});
   $('#mc-m').onchange=function(){MC.m=this.value};
-  $$('#mc-cur button').forEach(function(b){b.onclick=function(){MC.cur=b.dataset.c;rMoeda();try{$('#mc-amt').focus()}catch(e){}}});
+  $$('#mc-cur button').forEach(function(b){b.onclick=function(){MC.cur=b.dataset.c;var mm=S.methods.filter(function(m){return m.cur===MC.cur})[0];if(mm)MC.m=mm.id;rMoeda();try{$('#mc-amt').focus()}catch(e){}}});
   if($('#mc-cancel'))$('#mc-cancel').onclick=function(){mcReset();rMoeda()};
   $$('[data-mcd]',el).forEach(function(b){b.onclick=function(){if(!confirm('Cancelar esta compra de moeda? Ela sai do histórico e dos cálculos.'))return;S.mc=S.mc.filter(function(x){return x.id!==b.dataset.mcd});if(MC.edit===b.dataset.mcd)mcReset();save();rMoeda();toast('Compra cancelada')}});
   $$('[data-mce]',el).forEach(function(b){b.onclick=function(){MC.rowEdit=b.dataset.mce;rMoedas_()}});
@@ -651,7 +649,7 @@ function rMoeda(){
   $$('.mcre',el).forEach(function(row){var id=row.dataset.id;
     var cs=$('.mcr-c',row),ms=$('.mcr-m',row);
     function fill(){var cur=cs.value,keep=ms.value,a=mcMeths(cur);ms.innerHTML=a.map(function(m){return '<option value="'+m.id+'"'+(m.id===keep?' selected':'')+'>'+esc(m.name)+'</option>'}).join('');if(!a.some(function(m){return m.id===keep})&&a[0])ms.value=a[0].id}
-    cs.onchange=fill;
+    cs.onchange=function(){var mm=S.methods.filter(function(m){return m.cur===cs.value})[0];if(mm)ms.value=mm.id;fill()};
     $('[data-mcs]',row).onclick=function(){
       var d=$('.mcr-d',row).value,bb=num($('.mcr-brl',row).value),aa=num($('.mcr-amt',row).value);
       if(!d){toast('Informe a data');return}if(!(bb>0)){toast('Informe o valor pago em R$');return}if(!(aa>0)){toast('Informe o valor recebido');return}
