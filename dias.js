@@ -28,7 +28,7 @@ D('01/06','Ter','sibenik','Kotor → costa dálmata',430,[1,1,2,3,2,1,5,5],'Dia 
 D('02/06','Qua','sibenik','Šibenik e Krka',55,[3,3,3,5,4,4,2,3],'Šibenik de manhã e Krka à tarde, com piscina para fechar.','1h15'),
 D('03/06','Qui','rastoke','Vodice → Rastoke',258,[1,1,2,3,2,1,3,3],'Estrada até Rastoke e fim de tarde nas cascatas.','3h20'),
 D('04/06','Sex','zagreb-final','Rastoke → Zagreb',128,[1,1,3,2,2,1,2,2],'Volta a Zagreb, compras e a última noite.','1h45'),
-D('05/06','Sáb','zagreb-final','Zagreb → São Paulo',20,[0,0,0,0,1,1,1,5],'Devolução do carro e a maratona de volta: Zagreb, Frankfurt, Londres e São Paulo.','0h30')
+D('05/06','Sáb','zagreb-final','Zagreb → São Paulo',20,[0,0,0,0,1,1,1,5],'Devolução do carro e a volta: Zagreb, Frankfurt e São Paulo, em voo direto de Frankfurt.','0h30')
 ];
 var BY={};L.forEach(function(x,i){x.n=i+1;BY[x.d]=x;
  var c=x.c;x.m=(c.cheio+c.esf+c.estr+2*c.cans)/5;

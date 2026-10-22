@@ -66,7 +66,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}try{pu
 /* ---------- SYNC (Firebase: Firestore + login Google) ----------
    config: documento data/config; lançamentos: um documento por lançamento em entries/{id}.
    O localStorage continua sendo o cache local; o Firestore guarda a cópia compartilhada. */
-var SYNC={on:false,ready:false,uid:null,unsubs:[],pushed:{},cfgPushed:'',cfg:null,ent:[],cfgSeen:false,entSeen:false,cfgServer:false,entServer:false,cfgSig:null,entSig:null,bound:false};
+var SYNC={on:false,ready:false,uid:null,unsubs:[],pushed:{},cfgPushed:'',cfg:null,ent:[],cfgSeen:false,entSeen:false,cfgServer:false,entServer:false,cfgSig:null,entSig:null,bound:false,slow:false,slowT:0};
 var CFGK=['v','cats','budget','methods','rates','extra','countries','route','trip','refDate','ratesAt','mc'];
 var SKEY='balcas2027-synced';
 function cfgOf(o){var c={};CFGK.forEach(function(k){if(o[k]!==undefined)c[k]=o[k]});return c}
@@ -106,27 +106,53 @@ function step(changed){
     setBaseline(rem);
     if(SYNC.cfg&&SYNC.cfg.c){applyCfg(SYNC.cfg.c);SYNC.cfgPushed=JSON.stringify(cfgOf(S))}else SYNC.cfgPushed='';
     try{localStorage.setItem(SKEY,SYNC.uid)}catch(e){}
-    SYNC.ready=true;save();refreshUI();return;
+    SYNC.ready=true;save();refreshUI();applyLock();return;
   }
   S.entries=SYNC.ent.slice().sort(byId);setBaseline(S.entries);
   if(SYNC.cfg&&SYNC.cfg.c){applyCfg(SYNC.cfg.c);SYNC.cfgPushed=JSON.stringify(cfgOf(S))}
   try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
   refreshUI();
 }
-function syncStop(){SYNC.unsubs.forEach(function(f){try{f()}catch(e){}});SYNC.unsubs=[];SYNC.on=false;SYNC.ready=false;SYNC.cfgSeen=SYNC.entSeen=SYNC.cfgServer=SYNC.entServer=false;SYNC.cfgSig=SYNC.entSig=null}
+function syncStop(){clearTimeout(SYNC.slowT);SYNC.slow=false;SYNC.unsubs.forEach(function(f){try{f()}catch(e){}});SYNC.unsubs=[];SYNC.on=false;SYNC.ready=false;SYNC.cfgSeen=SYNC.entSeen=SYNC.cfgServer=SYNC.entServer=false;SYNC.cfgSig=SYNC.entSig=null}
 function syncStart(u){
-  syncStop();SYNC.uid=u.uid;SYNC.on=true;
+  syncStop();SYNC.uid=u.uid;SYNC.on=true;SYNC.slowT=setTimeout(function(){SYNC.slow=true;applyLock()},12000);
   SYNC.unsubs.push(FB.watchDoc('gx-cfg','data/config',function(d,meta){
     var sg=JSON.stringify(d);var ch=sg!==SYNC.cfgSig;SYNC.cfgSig=sg;SYNC.cfg=d;SYNC.cfgSeen=true;if(!meta.fromCache)SYNC.cfgServer=true;step(ch)}));
   SYNC.unsubs.push(FB.watchCol('gx-ent','entries',function(list,meta){
     var sg=JSON.stringify(list);var ch=sg!==SYNC.entSig;SYNC.entSig=sg;SYNC.ent=list;SYNC.entSeen=true;if(!meta.fromCache)SYNC.entServer=true;step(ch)}));
 }
+function cloudInfo(){
+  if(!window.FB||!FB.user)return{off:true};
+  var ts=SYNC.cfg&&SYNC.cfg.ts?new Date(SYNC.cfg.ts).toLocaleString('pt-BR'):'';
+  return{off:false,on:SYNC.on,ready:SYNC.ready,server:!!(SYNC.cfgServer&&SYNC.entServer),cfg:!!(SYNC.cfg&&SYNC.cfg.c),ts:ts,cent:SYNC.ent.length,lent:S.entries.length};
+}
+function forceUp(){
+  if(!SYNC.on||!window.FB)return false;
+  var ops=[{set:['data/config',{c:jclean(cfgOf(S)),ts:Date.now()}]}],cur={};
+  S.entries.forEach(function(e){if(e&&e.id){cur[e.id]=JSON.stringify(e);ops.push({set:['entries/'+e.id,jclean(e)]})}});
+  SYNC.ent.forEach(function(e){if(e&&e.id&&!(e.id in cur))ops.push({del:'entries/'+e.id})});
+  FB.batch(ops);
+  SYNC.pushed=cur;SYNC.cfgPushed=JSON.stringify(cfgOf(S));SYNC.ready=true;
+  try{localStorage.setItem(SKEY,SYNC.uid)}catch(e){}
+  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+  return true;
+}
+function forceDown(){
+  if(!SYNC.on||!window.FB)return false;
+  if(!(SYNC.cfg&&SYNC.cfg.c)&&!SYNC.ent.length)return false;
+  S.entries=SYNC.ent.slice().sort(byId);setBaseline(S.entries);
+  if(SYNC.cfg&&SYNC.cfg.c){applyCfg(SYNC.cfg.c);SYNC.cfgPushed=JSON.stringify(cfgOf(S))}
+  SYNC.ready=true;
+  try{localStorage.setItem(SKEY,SYNC.uid)}catch(e){}
+  save();return true;
+}
 function mountStrip(){var el=document.getElementById('gx-sync');if(!el)return;if(window.FB)FB.strip(el);else el.innerHTML='<span class="fbs">☁ Salvo só neste aparelho (Firebase indisponível)</span>'}
+function waitSync(){if(!window.FB||!FB.user||!SYNC.on||SYNC.ready)return false;var sb=false;try{sb=localStorage.getItem(SKEY)===SYNC.uid}catch(e){}return !sb}
 function canWrite(){return !!(window.FB&&FB.user&&FB.status&&FB.status.state!=='denied')}
 var lockWas=null,fbWait=true;
 function applyLock(){
   if(!root)return;
-  var lock=!canWrite(),g=$('#gx-gate');
+  var lock=!canWrite()||waitSync(),g=$('#gx-gate');
   root.classList.toggle('locked',lock);
   if(g){
     g.hidden=!lock;
@@ -134,9 +160,10 @@ function applyLock(){
       var stt=window.FB&&FB.status?FB.status.state:'nofb',msg,btn='';
       if(!window.FB){msg=fbWait?'<b>Carregando o login…</b>':'<b>Não foi possível carregar o login.</b> Sem internet, o Controle de Gastos não abre. Conecte-se e recarregue a página.'}
       else if(stt==='init'){msg='<b>Verificando o login…</b>'}
+      else if(waitSync()){msg=SYNC.slow?'<b>Não consegui baixar os dados da nuvem neste navegador.</b> A conta está certa, mas o servidor não respondeu. Causas comuns: bloqueador de anúncios ou de rastreamento, VPN, proxy ou rede da empresa, modo de navegação privada. Teste desativando o bloqueador para este site, ou use outra rede, e recarregue a página. Enquanto isso, nada é mostrado para não exibir dados errados.':'<b>Baixando seus dados da nuvem…</b> Na primeira visita neste aparelho isso leva alguns segundos.'}
       else if(stt==='denied'){msg='<b>Esta conta não tem acesso.</b> Entre com uma das contas Google autorizadas.';btn='<button type="button" class="btn" id="gate-out">Trocar de conta</button>'}
       else{msg='<b>Entre com o Google para usar o Controle de Gastos.</b> Só assim os lançamentos são salvos na nuvem e aparecem nos dois celulares. Você entra uma vez por aparelho.';btn='<button type="button" class="btn" id="gate-in">Entrar com Google</button>'}
-      g.innerHTML='<h3>🔒 Controle de Gastos bloqueado</h3><p style="margin:0;font-size:15px">'+msg+'</p>'+btn;
+      g.innerHTML='<h3>'+(waitSync()?'☁ Sincronizando os dados':'🔒 Controle de Gastos bloqueado')+'</h3><p style="margin:0;font-size:15px">'+msg+'</p>'+btn;
       var bi=$('#gate-in'),bo=$('#gate-out');
       if(bi)bi.onclick=function(){FB.login()};
       if(bo)bo.onclick=function(){FB.logout()};
@@ -737,6 +764,10 @@ function rMeios(){
   h+='<div class="card"><h3>Roteiro: país por data</h3><p class="hint">Cada linha vale a partir da data indicada, até a próxima. É daqui que o site tira o país de cada lançamento.</p>';
   S.route.forEach(function(r,i){h+='<div class="crow" data-ri="'+i+'"><label class="f">A partir de<input type="date" data-f="from" value="'+esc(r.from)+'"></label><label class="f">País<select data-f="c">'+S.countries.map(function(c){return '<option'+(c.name===r.c?' selected':'')+'>'+esc(c.name)+'</option>'}).join('')+'</select></label><button type="button" class="btn sec sm danger" data-rm>Remover</button></div>'});
   h+=''+(D.route?'<div class="crow draft"><label class="f">A partir de<input type="date" id="r-from" value="'+esc(S.trip.start)+'"></label><label class="f">País<select id="r-c">'+S.countries.map(function(c){return '<option>'+esc(c.name)+'</option>'}).join('')+'</select></label><button type="button" class="btn sm" id="r-save">Salvar</button><button type="button" class="btn sec sm" id="r-cancel">Cancelar</button></div>':'<div class="acts"><button type="button" class="btn sec sm" id="r-add">+ Nova mudança de país</button></div>')+'</div>';
+  var ci=cloudInfo(),cl;
+  if(ci.off)cl='<p class="hint">Sem login Google ativo: os dados ficam só neste aparelho.</p>';
+  else cl='<p class="hint"><b>Situação:</b> '+(ci.ready?'sincronização ativa':(ci.server?'aguardando conclusão da primeira troca':'<b>aguardando resposta do servidor</b> (este aparelho ainda não confirmou os dados da nuvem)'))+'.<br><b>Lançamentos:</b> '+ci.lent+' neste aparelho · '+ci.cent+' na nuvem.<br><b>Orçamento na nuvem:</b> '+(ci.cfg?'sim'+(ci.ts?' (gravado em '+ci.ts+')':''):'não encontrado')+'.</p><div class="acts"><button type="button" class="btn sec sm" id="d-up">Enviar deste aparelho para a nuvem</button><button type="button" class="btn sec sm" id="d-down">Baixar da nuvem para este aparelho</button></div>';
+  h+='<div class="card"><h3>Nuvem e sincronização</h3>'+cl+'<p class="hint">Use "Enviar" no aparelho que tem os dados certos. Depois use "Baixar" nos outros. Cada botão pede confirmação.</p></div>';
   h+='<div class="card"><h3>Dados e backup</h3><p class="hint">Com o login Google (faixa no topo), os dados sincronizam entre os seus aparelhos e ficam também neste. Exporte um JSON para ter uma cópia de segurança.</p><div class="acts"><button type="button" class="btn sec sm" id="d-exp">Exportar JSON</button><label class="btn sec sm" style="display:inline-flex;align-items:center;cursor:pointer">Importar JSON<input type="file" id="d-imp" accept="application/json" hidden></label><button type="button" class="btn sec sm danger" id="d-clr">Apagar lançamentos</button><button type="button" class="btn sec sm danger" id="d-rst">Restaurar tudo ao padrão</button></div></div>';
   $('#v-meios').innerHTML=h;
   $$('.mrow[data-m]').forEach(function(row){var m=mById(row.dataset.m);
@@ -765,6 +796,8 @@ function rMeios(){
   if($('#r-add'))$('#r-add').onclick=function(){D.route=true;render()};
   if($('#r-save')){$('#r-cancel').onclick=function(){D.route=false;render()};$('#r-save').onclick=function(){S.route.push({from:$('#r-from').value||S.trip.start,c:$('#r-c').value});S.route.sort(function(a,b){return a.from<b.from?-1:1});D.route=false;save();render()}}
   addCancels([['n-add'],['cn-add']]);
+  if($('#d-up'))$('#d-up').onclick=function(){if(confirm('Substituir a nuvem pelos dados DESTE aparelho (orçamento, meios, moedas e '+S.entries.length+' lançamentos)? Os outros aparelhos passam a ver estes dados.')){if(forceUp()){toast('Enviado para a nuvem');render()}else alert('Não foi possível: sem login ativo.')}};
+  if($('#d-down'))$('#d-down').onclick=function(){if(confirm('Substituir os dados DESTE aparelho pelos da nuvem ('+SYNC.ent.length+' lançamentos)?')){if(forceDown()){toast('Dados baixados da nuvem');render()}else alert('A nuvem está vazia ou ainda não respondeu. Nada foi alterado.')}};
   $('#d-exp').onclick=function(){var b=new Blob([JSON.stringify(S,null,1)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='gastos-balcas-2027.json';document.body.appendChild(a);a.click();a.remove()};
   $('#d-imp').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(o&&(o.v===1||o.v===2||o.v===3)&&o.methods&&o.budget&&o.entries){S=migrate(o);save();render();toast('Dados importados')}else toast('Arquivo inválido')}catch(e){toast('Arquivo inválido')}};r.readAsText(f)};
   $('#d-clr').onclick=function(){if(confirm('Apagar todos os lançamentos? Meios e orçamento ficam. Vale também para a nuvem e para os outros aparelhos.')){S.entries=[];save();render()}};

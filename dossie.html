@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=87"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=91"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Dossiê de imigração · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -147,19 +147,18 @@ function build(lang){
  o+='<h2>2. '+L('Purpose and length of stay','Motivo e duração da estadia')+'</h2><table border="1" cellspacing="0" cellpadding="4">';
  o+=row(L('Purpose','Motivo'),L('Tourism (leisure road trip). No work, study or paid activity.','Turismo (viagem de carro a lazer). Sem trabalho, estudo ou atividade remunerada.'));
  o+=row(L('Arrival in the Schengen area','Chegada ao espaço Schengen'),L('Sat 15 May 2027, Frankfurt (FRA), Germany, 16:25 · first Schengen entry','Sáb 15/05/2027, Frankfurt (FRA), Alemanha, 16:25 · primeira entrada no Schengen'));
- o+=row(L('Departure from the Schengen area','Saída do espaço Schengen'),L('Sat 5 June 2027, Frankfurt (FRA), flight LH 918 to London at 18:00, then to São Paulo','Sáb 05/06/2027, Frankfurt (FRA), voo LH 918 para Londres às 18:00 e depois São Paulo'));
+ o+=row(L('Departure from the Schengen area','Saída do espaço Schengen'),L('Sat 5 June 2027, Frankfurt (FRA), direct flight LA 8071 to São Paulo at 21:30','Sáb 05/06/2027, Frankfurt (FRA), voo direto LA 8071 para São Paulo às 21:30'));
  o+=row(L('Length of stay','Duração'),L('22 days in Europe (15 May – 5 June 2027), well within 90 days in any 180-day period','22 dias na Europa (15/05 a 05/06/2027), dentro do limite de 90 dias em 180'));
  o+=row(L('Countries','Países'),L('Croatia, Slovenia, Italy (day trip to Trieste), Montenegro (3 nights)','Croácia, Eslovênia, Itália (bate-volta a Trieste), Montenegro (3 noites)'));
  o+='</table>';
  /* 3 */
  o+='<h2>3. '+L('Flights (return tickets issued)','Voos (passagens de ida e volta emitidas)')+'</h2><table border="1" cellspacing="0" cellpadding="4"><tr><th>'+L('Flight','Voo')+'</th><th>'+L('Route','Trecho')+'</th><th>'+L('Departure','Saída')+'</th><th>'+L('Arrival','Chegada')+'</th></tr>';
  [['LA 8070','São Paulo (GRU) → Frankfurt (FRA)',L('Fri 14 May 2027, 23:40','Sex 14/05/2027, 23:40'),L('Sat 15 May, 16:25','Sáb 15/05, 16:25')],
-  ['LH 1406','Frankfurt (FRA) → Zagreb (ZAG)',L('Sat 15 May, 22:10','Sáb 15/05, 22:10'),L('Sat 15 May, 23:40','Sáb 15/05, 23:40')],
-  ['LH 1405','Zagreb (ZAG) → Frankfurt (FRA)',L('Sat 5 June, 15:00','Sáb 05/06, 15:00'),L('Sat 5 June, 16:35','Sáb 05/06, 16:35')],
-  ['LH 918','Frankfurt (FRA) → London (LHR)',L('Sat 5 June, 18:00','Sáb 05/06, 18:00'),L('Sat 5 June, 18:40','Sáb 05/06, 18:40')],
-  ['LA 8085','London (LHR) → '+L('São Paulo','São Paulo')+' (GRU)',L('Sat 5 June, 21:20','Sáb 05/06, 21:20'),L('Sun 6 June, 04:45','Dom 06/06, 04:45')]].forEach(function(r){o+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>'});
- o+='</table><p>'+L('Booking references: LATAM <b>LNDUTE</b> (LA 8070, LA 8085); Lufthansa <b>24RHZU</b> (LH 1406, LH 1405, LH 918). Fare: Economy Full, valid for up to 6 months.','Códigos de reserva: LATAM <b>LNDUTE</b> (LA 8070, LA 8085); Lufthansa <b>24RHZU</b> (LH 1406, LH 1405, LH 918). Tarifa Economy Full, válida por até 6 meses.')+'</p>';
- o+='<p class="note">'+L('London Heathrow is an airside connection only; we do not intend to enter the United Kingdom.','Londres (Heathrow) é apenas conexão dentro do aeroporto; não pretendemos entrar no Reino Unido.')+'</p>';
+  ['LH 1406','Frankfurt (FRA) → Zagreb (ZAG)',L('Sat 15 May, 22:15','Sáb 15/05, 22:15'),L('Sat 15 May, 23:40','Sáb 15/05, 23:40')],
+  ['LH 1405','Zagreb (ZAG) → Frankfurt (FRA)',L('Sat 5 June, 15:30','Sáb 05/06, 15:30'),L('Sat 5 June, 17:05','Sáb 05/06, 17:05')],
+  ['LA 8071','Frankfurt (FRA) → '+L('São Paulo','São Paulo')+' (GRU)',L('Sat 5 June, 21:30','Sáb 05/06, 21:30'),L('Sun 6 June, 04:35','Dom 06/06, 04:35')]].forEach(function(r){o+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>'});
+ o+='</table><p>'+L('Booking references: LATAM <b>LNDUTE</b> (LA 8070, LA 8071); Lufthansa <b>24RHZU</b> (LH 1406, LH 1405). Fare: Economy Full, valid for up to 6 months.','Códigos de reserva: LATAM <b>LNDUTE</b> (LA 8070, LA 8071); Lufthansa <b>24RHZU</b> (LH 1406, LH 1405). Tarifa Economy Full, válida por até 6 meses.')+'</p>';
+ o+='<p class="note">'+L('Frankfurt is the point of departure from the Schengen area; the return is a direct flight to São Paulo, with no stop in the United Kingdom.','Frankfurt é o ponto de saída do espaço Schengen; a volta é em voo direto para São Paulo, sem escala no Reino Unido.')+'</p>';
  /* 4 */
  o+='<h2>4. '+L('Accommodation (all booked, free cancellation, pay at the property)','Hospedagem (tudo reservado, cancelamento grátis, pagamento no local)')+'</h2><table border="1" cellspacing="0" cellpadding="4"><tr><th>'+L('Dates','Datas')+'</th><th>'+L('Hotel','Hotel')+'</th><th>'+L('Address','Endereço')+'</th></tr>';
  [['15–18 May','15–18/05','Best Western Premier Hotel Astoria','Petrinjska 71, 10000 Zagreb, Croatia'],
@@ -240,5 +239,5 @@ drawForm();paint();
 })();
 
 </script>
-<script src="nav.js?v=87"></script>
+<script src="nav.js?v=91"></script>
 </body></html>
