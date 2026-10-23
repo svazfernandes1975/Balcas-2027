@@ -8,8 +8,8 @@ function D(d,w,cid,loc,km,a,r,h){return {d:d,w:w,cid:cid,loc:loc,km:km,h:h||'',c
 /*          cult hist gastro nat cheio esf estr cans */
 var L=[
 D('15/05','Sáb','zagreb','Chegada a Zagreb',0,[0,0,0,0,1,0,0,4],'Voo longo, imigração em Frankfurt e pouso de madrugada em Zagreb; só o táxi até o hotel.',''),
-D('16/05','Dom','zagreb','Zagreb',0,[4,3,4,2,4,3,0,3],'Cidade Alta, Dolac e štrukli: o primeiro dia de turismo, tudo a pé.',''),
-D('17/05','Seg','zagreb','Zagreb',0,[3,2,3,3,3,2,0,2],'Mirogoj, Maksimir e a cena local: um dia mais solto.',''),
+D('16/05','Dom','zagreb','Zagreb',0,[4,3,3,2,3,3,0,2],'Cidade Alta toda de uma vez, canhão ao meio-dia e almoço: começa tarde, termina cedo.',''),
+D('17/05','Seg','zagreb','Zagreb',0,[3,2,3,1,2,3,0,2],'Dolac, catedral e Ilica: dia solto, sem subir à Cidade Alta.',''),
 D('18/05','Ter','ljubljana','Zagreb → Ljubljana',140,[2,1,2,1,3,1,2,3],'Retirada do carro, estrada até Ljubljana e passeio à beira do rio.','1h45'),
 D('19/05','Qua','ljubljana','Lago Bled',110,[3,3,3,5,4,3,2,3],'Lago Bled cedo: pletna, castelo e kremšnita.','1h40'),
 D('20/05','Qui','ljubljana','Postojna, Predjama e Trieste',258,[4,4,3,4,5,3,4,5],'O dia mais carregado: Postojna, Predjama e Trieste, com ~260 km e volta à noite.','3h45'),
