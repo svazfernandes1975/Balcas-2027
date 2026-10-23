@@ -50,3 +50,8 @@
 .brz{display:inline-block;font:700 11px/1.4 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:6px;white-space:nowrap;border:1px solid}
 .brz.ok{color:var(--c-tip)}.brz.cond{color:var(--c-eat)}.brz.no{color:var(--c-warn);border-width:2px}
 .cnote{font-size:13px;color:var(--muted);margin-top:10px}
+.walk{display:flex;gap:16px;align-items:center;background:color-mix(in srgb,var(--accent) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-left:6px solid var(--accent);border-radius:12px;padding:12px 16px;margin:0 0 14px}
+.walk .wk{flex:none;min-width:78px;text-align:center}.walk .wk b{display:block;font-family:var(--f-display);font-weight:800;font-size:1.75rem;line-height:1;font-variant-numeric:tabular-nums;color:var(--accent)}
+.walk .wk span{display:block;margin-top:3px;font:600 11px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.walk p{margin:0;font-size:14.5px;line-height:1.45}.walk small{display:block;margin-top:4px;font-size:12.5px;color:var(--muted)}
+@media(max-width:520px){.walk{gap:12px;padding:12px}.walk .wk{min-width:64px}.walk .wk b{font-size:1.5rem}}
