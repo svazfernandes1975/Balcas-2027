@@ -19,8 +19,8 @@ D('23/05','Dom','split','Plitvice → Split',290,[2,3,3,2,3,2,4,3],'Smiljan (des
 D('24/05','Seg','split','Split',0,[5,5,4,2,4,3,0,3],'Porões, catedral e campanário, Portão de Ouro e São Martinho; Marjan é opcional.',''),
 D('25/05','Ter','split','Trogir e Klis',75,[4,5,3,2,4,3,2,3],'Trogir (UNESCO) e a fortaleza de Klis, com estrada curta e jantar na Matejuška.','1h45'),
 D('26/05','Qua','dubrovnik','Split → Dubrovnik',230,[2,2,3,2,2,2,4,3],'Litoral até Dubrovnik, com parada opcional em Ston.','3h45'),
-D('27/05','Qui','dubrovnik','Dubrovnik',0,[5,5,4,3,5,5,0,5],'Muralhas às 8h e teleférico ao pôr do sol: o pico da viagem.',''),
-D('28/05','Sex','dubrovnik','Lokrum ou Cavtat',0,[3,2,4,4,3,3,0,2],'Lokrum de barco, com calma (Cavtat de carro soma 40 km) e jantar de despedida.',''),
+D('27/05','Qui','dubrovnik','Dubrovnik',0,[5,5,4,3,5,4,1,4],'Muralhas às 8h e o Monte Srđ de carro ao pôr do sol: o pico da viagem.',''),
+D('28/05','Sex','dubrovnik','Cavtat',0,[3,3,4,3,3,3,1,3],'Cavtat de ônibus na ida e de barco na volta, mausoléu Račić e jantar de despedida.',''),
 D('29/05','Sáb','kotor','Dubrovnik → Kotor',95,[4,4,3,3,3,2,3,3],'Fronteira com Montenegro e a Cidade Velha de Kotor.','2h30'),
 D('30/05','Dom','kotor','Fortaleza e Perast',24,[3,4,3,5,4,5,1,4],'1.350 degraus até São João e a ilha de Perast.','0h40'),
 D('31/05','Seg','kotor','Lovćen ou Budva',80,[3,3,4,5,3,2,3,3],'Serpentinas até Lovćen, presunto em Njeguši e Budva opcional.','2h15'),
@@ -35,7 +35,7 @@ var BY={};L.forEach(function(x,i){x.n=i+1;BY[x.d]=x;
  x.lv=x.m<1.5?1:x.m<2.5?2:x.m<3.25?3:x.m<4?4:5;
  x.lb=['','Leve','Tranquilo','Moderado','Intenso','Puxado'][x.lv]});
 function f1(n){return n.toFixed(1).replace('.',',')}
-var WK={'15/05':[0.5],'16/05':[4.5],'17/05':[4.5],'18/05':[4.5],'19/05':[2,'≈ 2 km (até 8 km com a trilha)','2–8'],'20/05':[6],'21/05':[4.5],'22/05':[9],'23/05':[2],'24/05':[3.5,'≈ 3,5 km (até 6,5 km com Marjan)','3,5–6,5'],'25/05':[6],'26/05':[3.5],'27/05':[6],'28/05':[5],'29/05':[3],'30/05':[6.5],'31/05':[2],'01/06':[1.5],'02/06':[6.5],'03/06':[2.5],'04/06':[4.5],'05/06':[0.5]};
+var WK={'15/05':[0.5],'16/05':[4.5],'17/05':[4.5],'18/05':[4.5],'19/05':[2,'≈ 2 km (até 8 km com a trilha)','2–8'],'20/05':[6],'21/05':[4.5],'22/05':[9],'23/05':[2],'24/05':[3.5,'≈ 3,5 km (até 6,5 km com Marjan)','3,5–6,5'],'25/05':[6],'26/05':[3],'27/05':[5.5],'28/05':[3.5],'29/05':[3],'30/05':[6.5],'31/05':[2],'01/06':[1.5],'02/06':[6.5],'03/06':[2.5],'04/06':[4.5],'05/06':[0.5]};
 function wkn(v){return f1(v).replace(/,0$/,'')}
 function wkc(x){var a=WK[x.d];if(!a)return '—';return a[2]||(a[0]<1?'<1':wkn(a[0]))}
 function wkl(x){var a=WK[x.d];if(!a)return '';return a[1]||(a[0]<1?'menos de 1 km':'≈ '+wkn(a[0])+' km')}
