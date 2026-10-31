@@ -21,9 +21,9 @@ D('25/05','Ter','split','Trogir e Klis',75,[4,5,3,2,4,3,2,3],'Trogir (UNESCO) e 
 D('26/05','Qua','dubrovnik','Split → Dubrovnik',230,[2,2,3,2,2,2,4,3],'Litoral até Dubrovnik, com parada opcional em Ston.','3h45'),
 D('27/05','Qui','dubrovnik','Dubrovnik',0,[5,5,4,3,5,4,1,4],'Muralhas às 8h e o Monte Srđ de carro ao pôr do sol: o pico da viagem.',''),
 D('28/05','Sex','dubrovnik','Cavtat',0,[3,3,4,3,3,3,1,3],'Cavtat de ônibus na ida e de barco na volta, mausoléu Račić e jantar de despedida.',''),
-D('29/05','Sáb','kotor','Dubrovnik → Kotor',95,[4,4,3,3,3,2,3,3],'Fronteira com Montenegro e a Cidade Velha de Kotor.','2h30'),
-D('30/05','Dom','kotor','Fortaleza e Perast',24,[3,4,3,5,4,5,1,4],'1.350 degraus até São João e a ilha de Perast.','0h40'),
-D('31/05','Seg','kotor','Lovćen ou Budva',80,[3,3,4,5,3,2,3,3],'Serpentinas até Lovćen, presunto em Njeguši e Budva opcional.','2h15'),
+D('29/05','Sáb','kotor','Dubrovnik → Kotor',95,[3,3,3,3,3,2,3,3],'Fronteira com Montenegro, a Cidade Velha de Kotor, a Catedral de São Trifão e o jantar no Galion.','2h30'),
+D('30/05','Dom','kotor','Perast e a baía',28,[3,4,3,4,3,2,2,3],'Perast cedo, barco e almoço à beira da baía; Risan e Lovćen são opcionais à tarde.','0h30'),
+D('31/05','Seg','kotor','Stari Grad e praia, sem carro',0,[3,3,3,2,2,3,0,3],'Dia a pé: miolo da cidade velha, Kotor Natural Beach e a fortaleza opcional; o carro fica no hotel.',''),
 D('01/06','Ter','sibenik','Kotor → costa dálmata',430,[1,1,2,3,2,1,5,5],'Dia de estrada: 430 km do Montenegro à costa dálmata.','7h00'),
 D('02/06','Qua','sibenik','Šibenik e Krka',55,[3,3,3,5,4,4,2,3],'Šibenik de manhã e Krka à tarde, com piscina para fechar.','1h15'),
 D('03/06','Qui','rastoke','Vodice → Rastoke',258,[1,1,2,3,2,1,3,3],'Estrada até Rastoke e fim de tarde nas cascatas.','3h20'),
@@ -35,7 +35,7 @@ var BY={};L.forEach(function(x,i){x.n=i+1;BY[x.d]=x;
  x.lv=x.m<1.5?1:x.m<2.5?2:x.m<3.25?3:x.m<4?4:5;
  x.lb=['','Leve','Tranquilo','Moderado','Intenso','Puxado'][x.lv]});
 function f1(n){return n.toFixed(1).replace('.',',')}
-var WK={'15/05':[0.5],'16/05':[4.5],'17/05':[4.5],'18/05':[4.5],'19/05':[2,'≈ 2 km (até 8 km com a trilha)','2–8'],'20/05':[6],'21/05':[4.5],'22/05':[9],'23/05':[2],'24/05':[3.5,'≈ 3,5 km (até 6,5 km com Marjan)','3,5–6,5'],'25/05':[6],'26/05':[3],'27/05':[5.5],'28/05':[3.5],'29/05':[3],'30/05':[6.5],'31/05':[2],'01/06':[1.5],'02/06':[6.5],'03/06':[2.5],'04/06':[4.5],'05/06':[0.5]};
+var WK={'15/05':[0.5],'16/05':[4.5],'17/05':[4.5],'18/05':[4.5],'19/05':[2,'≈ 2 km (até 8 km com a trilha)','2–8'],'20/05':[6],'21/05':[4.5],'22/05':[9],'23/05':[2],'24/05':[3.5,'≈ 3,5 km (até 6,5 km com Marjan)','3,5–6,5'],'25/05':[6],'26/05':[3],'27/05':[5.5],'28/05':[3.5],'29/05':[3],'30/05':[5,'≈ 5 km (até 6 km com o mausoléu)','5–6'],'31/05':[6,'≈ 6 km (até 9 km com a fortaleza)','6–9'],'01/06':[1.5],'02/06':[6.5],'03/06':[2.5],'04/06':[4.5],'05/06':[0.5]};
 function wkn(v){return f1(v).replace(/,0$/,'')}
 function wkc(x){var a=WK[x.d];if(!a)return '—';return a[2]||(a[0]<1?'<1':wkn(a[0]))}
 function wkl(x){var a=WK[x.d];if(!a)return '';return a[1]||(a[0]<1?'menos de 1 km':'≈ '+wkn(a[0])+' km')}
@@ -58,7 +58,7 @@ function heat(){
  return h+'</tbody></table></div><p class="hmn">Escala de 0 a 5. Em azul-petróleo, o que o dia entrega (quanto mais escuro, mais intenso). Do verde ao vermelho, o que o dia cobra (quanto mais quente, mais pesado). O ritmo combina dia cheio, esforço, estrada e cansaço (o cansaço pesa em dobro). <b>A pé km</b> é a caminhada estimada do dia (linha reta × 1,3); em destaque, os dias com 6 km ou mais.</p>'}
 var CSS='.dia{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 14px;display:grid;gap:12px}'
 +'.dia-h{display:flex;gap:14px;align-items:center}.dg{position:relative;width:84px;flex:none;height:56px}.dg svg{width:100%;height:auto;display:block;overflow:visible}.dg path{fill:none;stroke-width:7;stroke-linecap:round}.dg .gb{stroke:var(--line)}.dg .gf{stroke:var(--gc)}.dg b{position:absolute;left:0;right:0;bottom:-2px;text-align:center;font:800 1.15rem/1 var(--f-display);font-variant-numeric:tabular-nums}'
-+'.dt{display:grid;gap:3px;min-width:0}.dt p{margin:0;font-size:14.5px;line-height:1.4;color:var(--ink)}.dk{font:600 11.5px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}'
++'.dt{display:grid;gap:3px;min-width:0;flex:1 1 0;grid-template-columns:minmax(0,1fr)}.dt p{margin:0;font-size:14.5px;line-height:1.4;color:var(--ink)}.dk{font:600 11.5px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}'
 +'.dl{display:inline-block;width:max-content;font:700 11px/1.4 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:6px;color:#fff;background:var(--gc)}'
 +'.dcols{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px}@media(max-width:620px){.dcols{grid-template-columns:1fr}}'
 +'.dgrp{display:grid;gap:7px;align-content:start}.dgrp h4{margin:0 0 2px;font:600 11px/1.2 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}'
@@ -72,7 +72,7 @@ var CSS='.dia{background:var(--surface);border:1px solid var(--line);border-radi
 +'.hx0,.hl0{background:transparent;color:var(--muted)}.hx1{background:color-mix(in srgb,var(--accent) 14%,var(--surface))}.hx2{background:color-mix(in srgb,var(--accent) 30%,var(--surface))}.hx3{background:color-mix(in srgb,var(--accent) 50%,var(--surface))}.hx4{background:color-mix(in srgb,var(--accent) 72%,var(--surface));color:var(--accent-ink)}.hx5{background:var(--accent);color:var(--accent-ink)}'
 +'.hl1{background:color-mix(in srgb,var(--g1) 30%,var(--surface))}.hl2{background:color-mix(in srgb,var(--g2) 40%,var(--surface))}.hl3{background:color-mix(in srgb,var(--g3) 60%,var(--surface))}.hl4{background:color-mix(in srgb,var(--g4) 75%,var(--surface))}.hl5{background:var(--g5);color:#fff}'
 +'.hmn{font-size:12.5px;color:var(--muted);margin:8px 0 0;max-width:80ch}'
-+'.dw{display:inline-block;width:max-content;font:700 12.5px/1.4 var(--f-mono);letter-spacing:.04em;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 14%,var(--surface));color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line))}.dia.big .dw{font-size:14px}'
++'.dw{display:inline-block;width:max-content;max-width:100%;font:700 12.5px/1.4 var(--f-mono);letter-spacing:.04em;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 14%,var(--surface));color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line))}.dia.big .dw{font-size:14px}'
 +'.hm th.wkh{color:var(--accent)}.hm td.wkm{font:800 13px var(--f-mono);color:var(--accent)}.hm td.wkm.hi{background:color-mix(in srgb,var(--accent) 22%,var(--surface))}'
 +'.cd-n{gap:8px 22px!important}.cd-n b{font-size:clamp(2rem,9.5vw,3.6rem)!important}'
 +'.maplg{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;margin:8px 2px 0;font-size:13px;color:var(--muted)}.maplg i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;box-sizing:border-box}.maplg .ld{background:var(--c-tip)}.maplg .lc{background:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent)}.maplg .lf{border:2px solid var(--accent);background:var(--surface)}.maplg b{color:var(--ink)}'
