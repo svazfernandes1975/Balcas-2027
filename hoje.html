@@ -1,0 +1,134 @@
+<!doctype html><html lang="pt-BR"><head><link rel="stylesheet" href="temas.css?v=109"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Hoje · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+:root{
+ /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
+ --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
+ --accent:#0B7285;--accent-ink:#FFFFFF;--sea:#CDE5EB;--land:#F6F8F4;--route:#0B7285;
+ --c-drive:#0B7285;--c-see:#4B5FA8;--c-eat:#A15A12;--c-tip:#2F7D4F;--c-warn:#B3341F;--c-stay:#6B5A8E;
+ --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--f-body:'Public Sans','Segoe UI',system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0C1A1F;--surface:#132A31;--ink:#E6F1F2;--muted:#93AAB0;--line:#24424B;
+ --accent:#4FC3D4;--accent-ink:#06222A;--sea:#0F2F3A;--land:#183840;--route:#4FC3D4;
+ --c-drive:#4FC3D4;--c-see:#9DAEF0;--c-eat:#E5A25C;--c-tip:#6FCB98;--c-warn:#F08C79;--c-stay:#B9A6E0;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+nav.pills{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.pills a{flex:none;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 14px;font-size:14px;white-space:nowrap}
+nav.pills a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0}
+.hero{padding-block:32px 24px;display:grid;gap:12px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{max-width:62ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:4px}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;line-height:1;font-weight:800;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:8px;padding:2px 10px;color:var(--muted);background:var(--surface)}
+section.day{margin-top:36px}
+.day-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:14px;border-top:2px solid var(--ink);padding-top:12px}
+.day-h .date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.day-h h2{font-size:1.5rem;font-weight:700}
+ol.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+ol.tl li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.time{font-family:var(--f-mono);font-size:14px;font-weight:600;padding-top:2px}
+.time.none{color:var(--muted)}
+.k{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:2px}
+.k-drive .k,.k-drive .time{color:var(--c-drive)}.k-see .k{color:var(--c-see)}.k-eat .k{color:var(--c-eat)}.k-tip .k{color:var(--c-tip)}.k-warn .k{color:var(--c-warn)}.k-stay .k{color:var(--c-stay)}
+.k-warn{border-left:4px solid var(--c-warn)}.k-tip{border-left:4px solid var(--c-tip)}.k-drive{border-left:4px solid var(--c-drive)}
+ol.tl h3{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+ol.tl p{margin:0;color:var(--muted);font-size:15px}
+.gm{display:inline-block;margin-top:10px;font-size:14px;font-weight:600}
+.x{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 12px;margin:10px 0 0;font-size:14px}.x dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}.x dd{margin:0;overflow-wrap:anywhere}
+ul.bul{margin:0;padding-left:20px;display:grid;gap:8px;max-width:70ch}.prose{max-width:70ch;margin:0 0 10px}
+a.tag{text-decoration:none;color:var(--accent)}
+.num td.n,.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.num td:first-child{white-space:nowrap}
+.tot td{font-weight:700;border-top:2px solid var(--ink)}
+table.wide{font-size:13px}table.wide th,table.wide td{padding:6px 8px}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:32px}
+.pn a{font-weight:600;text-decoration:none}
+table.opt{width:100%;border-collapse:collapse;font-size:15px}
+table.opt th,table.opt td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+.att{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ac{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.ac.I{border-color:var(--c-warn);border-width:2px}
+.ac h3{font-size:1.1rem;margin:0}
+.bd{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:6px;width:max-content}
+.bd.I{background:var(--c-warn);color:#fff}.bd.V{background:var(--c-see);color:#fff}.bd.O{background:var(--line);color:var(--ink)}
+.st{font-size:18px;letter-spacing:2px;color:#D98A00}.st i{color:var(--line);font-style:normal}
+.ac .m{font-size:13px;color:var(--muted)}.ac p{margin:0;font-size:14px}
+.ac .lk{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.gal a{text-decoration:none;color:inherit}
+/*rt*/.rt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:13px}.rt .st{font-size:15px}.rt .m{color:var(--muted)}.rt .lk{display:flex;gap:10px;font-weight:600}
+@media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
+</style></head><body><link rel="stylesheet" href="atr.css?v=109"><div id="top"></div><nav class="pills" aria-label="Etapas"><a href="gastos.html?aba=lancar" style="background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600">＋ Lançar gasto</a><a href="hoje.html" aria-current="page">hoje</a><a href="index.html">início</a><a href="zagreb.html">1 · Zagreb</a><a href="ljubljana.html">2 · Ljubljana</a><a href="trieste.html">↳ Trieste</a><a href="plitvice.html">3 · Plitvice</a><a href="split.html">4 · Split</a><a href="dubrovnik.html">5 · Dubrovnik</a><a href="kotor.html">6 · Kotor</a><a href="sibenik.html">7 · Šibenik</a><a href="rastoke.html">8 · Rastoke</a><a href="zagreb-final.html">9 · Zagreb final</a></nav><div class="wrap"><style>
+.hj-h{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:18px 0 6px;flex-wrap:wrap}
+.hj-h h1{margin:0;font-size:1.7rem;line-height:1.15}.hj-h small{display:block;color:var(--muted);font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.hj-b{display:flex;gap:8px;align-items:center}.hj-b button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:1.4rem;line-height:1;cursor:pointer}.hj-b button:disabled{opacity:.35;cursor:default}
+.hj-b a{font-size:.85rem}
+.hj-chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}.hj-chips span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px;font-size:.8rem}
+.hj-note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:10px 14px;margin:8px 0 12px;font-size:.92rem}
+.hj-d{margin:8px 0 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.hj-d>summary{cursor:pointer;padding:10px 14px;font-weight:600}.hj-d>div{padding:0 14px 12px}
+.hj-x{margin-top:6px}.hj-x>summary{cursor:pointer;color:var(--accent);font-size:.85rem;font-weight:600}
+#hj-body .day{margin-top:0}#hj-body .day-h{display:none}
+.hj-sec{margin-top:20px}.hj-sec h2{font-size:1.05rem;margin:0 0 4px}
+</style><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
+<div class="hj-h"><div><small id="hj-sub">Hoje na viagem</small><h1 id="hj-t">Hoje</h1></div><div class="hj-b"><button type="button" id="hj-p" aria-label="Dia anterior">‹</button><button type="button" id="hj-n" aria-label="Próximo dia">›</button><a id="hj-c" href="index.html">Página da cidade →</a></div></div>
+<div id="hj-chips" class="hj-chips"></div><div id="hj-note"></div>
+<div id="hj-body" aria-live="polite"><p class="prose">Carregando o roteiro do dia…</p></div>
+<div id="hj-extra"></div>
+<p class="foot">O roteiro é o mesmo das páginas das cidades, só reunido por dia. Horários, preços e ingressos são estimativas para conferir antes.</p><div class="bk bk-end"><button type="button" class="back" data-back>← Voltar</button></div></div>
+<script src="nav.js?v=109"></script><script src="dias.js?v=109"></script>
+<script>
+(function(){
+var D=window.DIAS;if(!D)return;var L=D.list,BY=D.by,idx=0,mode='prev',today=-1;
+var q=(location.search.match(/[?&]dia=(\d\d)[\/-](\d\d)/)||[]);
+function pick(){if(q.length&&BY[q[1]+'/'+q[2]]){idx=BY[q[1]+'/'+q[2]].n-1;mode='ask';return}
+ var n=new Date(),c=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime(),t=new Date(2027,4,15).getTime(),e=new Date(2027,5,5).getTime();
+ if(c>=t&&c<=e){idx=Math.round((c-t)/864e5);mode='today';today=idx}else if(c>e){idx=L.length-1;mode='past'}else{idx=0;mode='prev'}}
+pick();
+var cache={};
+function load(cid){if(cache[cid])return cache[cid];return cache[cid]=fetch(cid+'.html',{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){return new DOMParser().parseFromString(t,'text/html')})}
+function sec(doc,id){var e=doc.getElementById(id);return e}
+function inner(e){var c=e.cloneNode(true);var h=c.querySelector('.day-h');if(h)h.remove();return c.innerHTML}
+function fold(root){[].forEach.call(root.querySelectorAll('dl.x'),function(dl){var d=document.createElement('details');d.className='hj-x';d.innerHTML='<summary>Detalhes</summary>';dl.parentNode.insertBefore(d,dl);d.appendChild(dl)})}
+function draw(){var x=L[idx];
+ document.getElementById('hj-sub').textContent=idx===today?'Hoje na viagem':(mode==='prev'?'Prévia · o primeiro dia':mode==='past'?'Último dia da viagem':'Dia '+x.n+' de '+L.length);
+ document.getElementById('hj-t').textContent=x.w+' '+x.d+' · '+x.loc;
+ document.getElementById('hj-c').href=x.cid+'.html#d-'+x.d.replace('/','-');
+ document.getElementById('hj-p').disabled=idx===0;document.getElementById('hj-n').disabled=idx===L.length-1;
+ document.getElementById('hj-chips').innerHTML='<span>Dia '+x.n+' de '+L.length+'</span><span>Ritmo: '+x.lb+'</span>'+(x.km?'<span>Carro ≈ '+x.km+' km'+(x.h?' · '+x.h:'')+'</span>':'<span>Sem carro</span>');
+ var note='';if(mode==='prev')note='A viagem começa em 14/05. Esta é a prévia do primeiro dia; no dia certo a página abre sozinha no dia corrente.';else if(mode==='past')note='A viagem terminou. Mostrando o último dia.';else if(mode==='ask'&&idx!==today)note='Você está vendo outro dia. <a href="hoje.html">Voltar para hoje</a>';
+ document.getElementById('hj-note').innerHTML=note?'<div class="hj-note">'+note+'</div>':'';
+ var body=document.getElementById('hj-body'),ex=document.getElementById('hj-extra');body.innerHTML='<p class="prose">Carregando o roteiro do dia…</p>';ex.innerHTML='';
+ var mine=idx;
+ load(x.cid).then(function(doc){if(mine!==idx)return;
+  var html='',found=false;
+  [].forEach.call(doc.querySelectorAll('section.day'),function(s){var sp=s.querySelector(':scope > .day-h .date');if(sp&&sp.textContent.indexOf(x.d)>-1){found=true;var c=s.cloneNode(true);[].forEach.call(c.querySelectorAll(':scope > .dia'),function(e){e.remove()});html+='<section class="day">'+c.innerHTML+'</section>'}});
+  if(!found)throw 0;
+  body.innerHTML=html;fold(body);
+  var more='';
+  [['seguranca','Dicas: cuidados e segurança'],['costumes','Dicas: gorjeta e etiqueta'],['compras','Compras: o que levar e onde comprar']].forEach(function(p){var e=sec(doc,p[0]);if(e)more+='<details class="hj-d"><summary>'+p[1]+'</summary><div>'+inner(e)+'</div></details>'});
+  if(more)ex.innerHTML='<div class="hj-sec"><h2>Mais para hoje</h2>'+more+'</div>';
+ }).catch(function(){body.innerHTML='<p class="prose">Não consegui carregar o roteiro agora (sem internet?). Abra a <a href="'+x.cid+'.html#d-'+x.d.replace('/','-')+'">página da cidade</a>.</p>'})}
+document.getElementById('hj-p').onclick=function(){if(idx>0){idx--;mode='ask';draw()}};
+document.getElementById('hj-n').onclick=function(){if(idx<L.length-1){idx++;mode='ask';draw()}};
+draw();
+})();
+</script></body></html>

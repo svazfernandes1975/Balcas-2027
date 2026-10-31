@@ -109,23 +109,9 @@ function paintMap(dayIdx){
 function dayIndex(){var q=(location.search.match(/[?&]dia=(\d\d)[\/-](\d\d)/)||[]);if(q.length&&BY[q[1]+'/'+q[2]])return BY[q[1]+'/'+q[2]].n-1;var n=new Date(),c=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime(),t=new Date(2027,4,15).getTime();return Math.floor((c-t)/86400000)}
 function home(){
  paintMap(dayIndex());
- var box=document.getElementById('home-dia'),hm=document.getElementById('home-dias');
+ var hm=document.getElementById('home-dias');
  if(hm)hm.innerHTML='<div class="day-h"><span class="date">dia a dia</span><h2>Como são os dias</h2></div>'+heat();
- if(!box)return;
- var now=new Date(),q=(location.search.match(/[?&]dia=(\d\d)[\/-](\d\d)/)||[]),idx=-1,mode='prev';
- if(q.length){var k=q[1]+'/'+q[2];if(BY[k]){idx=BY[k].n-1;mode='ask'}}
- if(idx<0){var y=now.getFullYear(),mo=now.getMonth()+1,dd=now.getDate();
-  var t=new Date(2027,4,15).getTime(),e=new Date(2027,5,5).getTime(),c=new Date(y,mo-1,dd).getTime();
-  if(c>=t&&c<=e){idx=Math.round((c-t)/86400000);mode='today'}else if(c>e){idx=L.length-1;mode='past'}else{idx=0;mode='prev'}}
- var today=mode==='today'?idx:-1;
- function draw(){var x=L[idx],lab=idx===today?'Hoje na viagem':(mode==='prev'||mode==='ask'&&today<0&&false?'Prévia do roteiro':'Dia da viagem');
-  if(mode==='past'&&idx===L.length-1)lab='Último dia da viagem';
-  if(mode==='prev')lab=idx===0?'Prévia · o primeiro dia':'Prévia do roteiro';
-  if(idx===today)lab='Hoje na viagem';
-  box.innerHTML='<div class="day-h"><span class="date">classificação do dia</span><h2>'+lab+'</h2></div><div class="hd-n"><div class="t"><small>Dia '+x.n+' de '+L.length+'</small>'+x.loc+'</div><div class="hd-b"><button type="button" id="hd-p" aria-label="Dia anterior"'+(idx===0?' disabled':'')+'>‹</button><button type="button" id="hd-n" aria-label="Próximo dia"'+(idx===L.length-1?' disabled':'')+'>›</button><a href="'+x.cid+'.html#d-'+key(x.d)+'">Ver o roteiro →</a></div></div>'+panel(x,{big:true});
-  document.getElementById('hd-p').onclick=function(){if(idx>0){idx--;draw()}};
-  document.getElementById('hd-n').onclick=function(){if(idx<L.length-1){idx++;draw()}}}
- draw()}
+ return}
 window.DIAS={list:L,by:BY,panel:panel,heat:heat};
 function go(){inject();home()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
