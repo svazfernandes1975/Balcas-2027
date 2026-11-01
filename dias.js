@@ -24,9 +24,9 @@ D('28/05','Sex','dubrovnik','Cavtat',0,[3,3,4,3,3,3,1,3],'Cavtat de ônibus na i
 D('29/05','Sáb','kotor','Dubrovnik → Kotor',95,[3,3,3,3,3,2,3,3],'Fronteira com Montenegro, a Cidade Velha de Kotor, a Catedral de São Trifão e o jantar no Galion.','2h30'),
 D('30/05','Dom','kotor','Perast e a baía',28,[3,4,3,4,3,2,2,3],'Perast cedo, barco e almoço à beira da baía; Risan e Lovćen são opcionais à tarde.','0h30'),
 D('31/05','Seg','kotor','Stari Grad e praia, sem carro',0,[3,3,3,2,2,3,0,3],'Dia a pé: miolo da cidade velha, Kotor Natural Beach e a fortaleza opcional; o carro fica no hotel.',''),
-D('01/06','Ter','sibenik','Kotor → costa dálmata',430,[1,1,2,3,2,1,5,5],'Dia de estrada: 430 km do Montenegro à costa dálmata.','7h00'),
-D('02/06','Qua','sibenik','Šibenik e Krka',55,[3,3,3,5,4,4,2,3],'Šibenik de manhã e Krka à tarde, com piscina para fechar.','1h15'),
-D('03/06','Qui','rastoke','Vodice → Rastoke',258,[1,1,2,3,2,1,3,3],'Estrada até Rastoke e fim de tarde nas cascatas.','3h20'),
+D('01/06','Ter','sibenik','Kotor → Vodice, direto',430,[0,0,2,2,2,0,5,4],'Dia de estrada: 430 km direto, sem paradas com bagagem, e a tarde livre no hotel.','7h00'),
+D('02/06','Qua','sibenik','Šibenik de manhã, hotel à tarde',24,[3,4,3,1,3,3,1,2],'Catedral e cidade velha de manhã, almoço e volta ao hotel no meio da tarde; fortalezas e Krka são opcionais.','0h30'),
+D('03/06','Qui','rastoke','Vodice → Rastoke',258,[1,0,2,2,2,1,3,3],'Orla de Vodice de manhã, estrada até Rastoke e fim de tarde nas cascatas.','3h20'),
 D('04/06','Sex','zagreb-final','Rastoke → Zagreb',128,[1,1,3,2,2,1,2,2],'Volta a Zagreb, compras e a última noite.','1h45'),
 D('05/06','Sáb','zagreb-final','Zagreb → São Paulo',20,[0,0,0,0,1,1,1,5],'Devolução do carro e a volta: Zagreb, Frankfurt e São Paulo, em voo direto de Frankfurt.','0h30')
 ];
@@ -35,7 +35,7 @@ var BY={};L.forEach(function(x,i){x.n=i+1;BY[x.d]=x;
  x.lv=x.m<1.5?1:x.m<2.5?2:x.m<3.25?3:x.m<4?4:5;
  x.lb=['','Leve','Tranquilo','Moderado','Intenso','Puxado'][x.lv]});
 function f1(n){return n.toFixed(1).replace('.',',')}
-var WK={'15/05':[0.5],'16/05':[4.5],'17/05':[4.5],'18/05':[4.5],'19/05':[2,'≈ 2 km (até 8 km com a trilha)','2–8'],'20/05':[6],'21/05':[4.5],'22/05':[9],'23/05':[2],'24/05':[3.5,'≈ 3,5 km (até 6,5 km com Marjan)','3,5–6,5'],'25/05':[6],'26/05':[3],'27/05':[5.5],'28/05':[3.5],'29/05':[3],'30/05':[5,'≈ 5 km (até 6 km com o mausoléu)','5–6'],'31/05':[6,'≈ 6 km (até 9 km com a fortaleza)','6–9'],'01/06':[1.5],'02/06':[6.5],'03/06':[2.5],'04/06':[4.5],'05/06':[0.5]};
+var WK={'15/05':[0.5],'16/05':[4.5],'17/05':[4.5],'18/05':[4.5],'19/05':[2,'≈ 2 km (até 8 km com a trilha)','2–8'],'20/05':[6],'21/05':[4.5],'22/05':[9],'23/05':[2],'24/05':[3.5,'≈ 3,5 km (até 6,5 km com Marjan)','3,5–6,5'],'25/05':[6],'26/05':[3],'27/05':[5.5],'28/05':[3.5],'29/05':[3],'30/05':[5,'≈ 5 km (até 6 km com o mausoléu)','5–6'],'31/05':[6,'≈ 6 km (até 9 km com a fortaleza)','6–9'],'01/06':[1],'02/06':[4,'≈ 4 km (até 7,5 km com o Krka)','4–7,5'],'03/06':[2],'04/06':[4.5],'05/06':[0.5]};
 function wkn(v){return f1(v).replace(/,0$/,'')}
 function wkc(x){var a=WK[x.d];if(!a)return '—';return a[2]||(a[0]<1?'<1':wkn(a[0]))}
 function wkl(x){var a=WK[x.d];if(!a)return '';return a[1]||(a[0]<1?'menos de 1 km':'≈ '+wkn(a[0])+' km')}

@@ -1,4 +1,4 @@
-<!doctype html><html lang="pt-BR"><head><link rel="stylesheet" href="temas.css?v=110"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Hoje · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+<!doctype html><html lang="pt-BR"><head><link rel="stylesheet" href="temas.css?v=111"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Hoje · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
  --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
@@ -77,7 +77,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 @media (max-width:480px){ol.tl li{grid-template-columns:1fr;gap:2px}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 .bk{padding-block:14px 0}.bk.bk-end{margin-top:32px;padding-bottom:12px}.back{font:inherit;font-weight:600;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 18px;min-height:44px;cursor:pointer}.back:hover{border-color:var(--accent);color:var(--accent)}[id]{scroll-margin-top:72px}
-</style></head><body><link rel="stylesheet" href="atr.css?v=110"><div id="top"></div><nav class="pills" aria-label="Etapas"><a href="gastos.html?aba=lancar" style="background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600">＋ Lançar gasto</a><a href="hoje.html" aria-current="page">hoje</a><a href="index.html">início</a><a href="zagreb.html">1 · Zagreb</a><a href="ljubljana.html">2 · Ljubljana</a><a href="trieste.html">↳ Trieste</a><a href="plitvice.html">3 · Plitvice</a><a href="split.html">4 · Split</a><a href="dubrovnik.html">5 · Dubrovnik</a><a href="kotor.html">6 · Kotor</a><a href="sibenik.html">7 · Šibenik</a><a href="rastoke.html">8 · Rastoke</a><a href="zagreb-final.html">9 · Zagreb final</a></nav><div class="wrap"><style>
+</style></head><body><link rel="stylesheet" href="atr.css?v=111"><div id="top"></div><nav class="pills" aria-label="Etapas"><a href="gastos.html?aba=lancar" style="background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600">＋ Lançar gasto</a><a href="hoje.html" aria-current="page">hoje</a><a href="index.html">início</a><a href="zagreb.html">1 · Zagreb</a><a href="ljubljana.html">2 · Ljubljana</a><a href="trieste.html">↳ Trieste</a><a href="plitvice.html">3 · Plitvice</a><a href="split.html">4 · Split</a><a href="dubrovnik.html">5 · Dubrovnik</a><a href="kotor.html">6 · Kotor</a><a href="sibenik.html">7 · Šibenik</a><a href="rastoke.html">8 · Rastoke</a><a href="zagreb-final.html">9 · Zagreb final</a></nav><div class="wrap"><style>
 .hj-h{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:18px 0 6px;flex-wrap:wrap}
 .hj-h h1{margin:0;font-size:1.7rem;line-height:1.15}.hj-h small{display:block;color:var(--muted);font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
 .hj-b{display:flex;gap:8px;align-items:center}.hj-b button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:1.4rem;line-height:1;cursor:pointer}.hj-b button:disabled{opacity:.35;cursor:default}
@@ -95,7 +95,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 <div id="hj-body" aria-live="polite"><p class="prose">Carregando o roteiro do dia…</p></div>
 <div id="hj-extra"></div>
 <p class="foot">O roteiro é o mesmo das páginas das cidades, só reunido por dia. Horários, preços e ingressos são estimativas para conferir antes.</p><div class="bk bk-end"><button type="button" class="back" data-back>← Voltar</button></div></div>
-<script src="nav.js?v=110"></script><script src="dias.js?v=110"></script>
+<script src="nav.js?v=111"></script><script src="dias.js?v=111"></script>
 <script>
 (function(){
 var D=window.DIAS;if(!D)return;var L=D.list,BY=D.by,idx=0,mode='prev',today=-1;
@@ -119,9 +119,9 @@ function draw(){var x=L[idx];
  document.getElementById('hj-panel').innerHTML=D.panel(x,{big:true});
  var body=document.getElementById('hj-body'),ex=document.getElementById('hj-extra');body.innerHTML='<p class="prose">Carregando o roteiro do dia…</p>';ex.innerHTML='';
  var mine=idx;
- load(x.cid).then(function(doc){if(mine!==idx)return;
+ var pages=x.d==='03/06'?['sibenik','rastoke']:[x.cid];Promise.all(pages.map(load)).then(function(docs){if(mine!==idx)return;var doc=docs[docs.length-1];
   var html='',found=false;
-  [].forEach.call(doc.querySelectorAll('section.day'),function(s){var sp=s.querySelector(':scope > .day-h .date');if(sp&&sp.textContent.indexOf(x.d)>-1){found=true;var c=s.cloneNode(true);[].forEach.call(c.querySelectorAll(':scope > .dia'),function(e){e.remove()});html+='<section class="day">'+c.innerHTML+'</section>'}});
+  docs.forEach(function(dc,di){[].forEach.call(dc.querySelectorAll('section.day'),function(s){var sp=s.querySelector(':scope > .day-h .date');if(sp&&sp.textContent.indexOf(x.d)>-1){found=true;var c=s.cloneNode(true);[].forEach.call(c.querySelectorAll(':scope > .dia'),function(e){e.remove()});html+='<section class="day">'+c.innerHTML+'</section>'}})});
   if(!found)throw 0;
   body.innerHTML=html;fold(body);
   var more='';
