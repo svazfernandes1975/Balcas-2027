@@ -76,7 +76,7 @@ function refreshUI(){
   if(root){
     var busy=false;
     if(tab==='lancar'){var a=document.activeElement;busy=!!((a&&a.closest&&a.closest('#g-form,#t-form,#a-form'))||F.edit||F.editT||F.editA||($('#g-amt')&&$('#g-amt').value))}
-    if(tab==='moeda'){var a2=document.activeElement;busy=!!((a2&&a2.closest&&a2.closest('#mc-form'))||MC.edit||MC.rowEdit||MC.brl||MC.amt)}
+    if(tab==='moeda'){var a2=document.activeElement;busy=!!((a2&&a2.closest&&a2.closest('#mc-form'))||MC.edit||MC.rowEdit||MC.brl||MC.amt||(a2&&(['c-usd','c-brl','x-code','x-rate','cv-amt'].indexOf(a2.id)>-1||(a2.dataset&&a2.dataset.f==='brl'))))}
     if(!busy){try{render()}catch(e){}}
   }
   try{document.dispatchEvent(new Event('gx-sync'))}catch(e){}
@@ -716,7 +716,7 @@ function cambioBind(){
   $('#cv-from').onchange=function(){CV.from=this.value;drawConv()};
   drawConv();
   $$('.xrow[data-x]').forEach(function(row){var i=+row.dataset.x,x=S.extra[i];
-    $('[data-f=brl]',row).onchange=function(){var v=num(this.value);if(v>0){x.brl=v;save();render()}};
+    $('[data-f=brl]',row).onchange=function(){var v=num(this.value);if(v>0){x.brl=v;S.ratesAt='';save();toast('Cotação salva');render()}else toast('Digite um valor maior que zero')};
     $('[data-rm]',row).onclick=function(){if(curUsed(x.code)){alert('A moeda '+x.code+' está em uso (meio, país, orçamento ou lançamento). Troque antes de remover.');return}S.extra.splice(i,1);save();render()}});
   $('#x-add').onclick=function(){var c=($('#x-code').value||'').trim().toUpperCase(),v=num($('#x-rate').value);
     if(!/^[A-Z]{3}$/.test(c)){toast('Use o código de 3 letras, como GBP');return}
@@ -741,8 +741,14 @@ function cambioBind(){
     }).catch(function(){box.innerHTML='<p class="hint" style="color:var(--c-warn)">Não consegui buscar a cotação agora (sem internet?). Os valores atuais continuam; você pode digitar à mão.</p>'})
     .then(function(){btn.disabled=false});
   };
-  $('#c-usd').onchange=function(){var v=num(this.value);if(v>0){S.rates.usdBrl=v;save();render()}};
-  $('#c-brl').onchange=function(){var v=num(this.value);if(v>0){S.rates.eurBrl=v;save();render()}};
+  function fxManual(el,set,quiet){var v=num(el.value);if(!(v>0)){if(!quiet)toast('Digite um valor maior que zero');return false}
+    if(v<1||v>20){if(!quiet)toast('Confira: 1 unidade deveria valer entre R$ 1 e R$ 20');return false}
+    set(v);S.ratesAt='';save();var w=$('#fx-when');if(w)w.textContent='Cotações digitadas à mão.';drawConv();if(!quiet)toast('Cotação salva');return true}
+  function fxBind(el,set){var t;
+    el.addEventListener('input',function(){clearTimeout(t);t=setTimeout(function(){fxManual(el,set,true)},700)});
+    el.onchange=function(){clearTimeout(t);fxManual(el,set,false);render()}}
+  fxBind($('#c-usd'),function(v){S.rates.usdBrl=v});
+  fxBind($('#c-brl'),function(v){S.rates.eurBrl=v});
   addCancels([['x-add']]);
 }
 function rMeios(){
@@ -934,7 +940,7 @@ var MASK='.mcr-brl,.mcr-amt,#g-amt,#g-brlv,#g-debit,#t-out,#t-in,#a-real,#dl-uni
 var MASK4='#c-usd,#c-brl,#x-rate,.xrow [data-f=brl]';
 function maskVal(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';while(d.length<3)d='0'+d;return d.slice(0,-2)+','+d.slice(-2)}
 function maskVal4(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';while(d.length<5)d='0'+d;return d.slice(0,-4)+','+d.slice(-4)}
-document.addEventListener('input',function(e){var t=e.target;if(!t||!t.matches)return;var m;if(t.matches(MASK))m=maskVal(t.value);else if(t.matches(MASK4))m=maskVal4(t.value);else return;if(m!==t.value)t.value=m},true);
+document.addEventListener('input',function(e){var t=e.target;if(!t||!t.matches)return;var m;if(t.matches(MASK))m=maskVal(t.value);else if(t.matches(MASK4))m=String(t.value).replace(/[^\d.,]/g,'');else return;if(m!==t.value)t.value=m},true);
 document.addEventListener('focusin',function(e){var t=e.target;if(t&&t.matches&&(t.matches(MASK)||t.matches(MASK4))&&t.value)setTimeout(function(){try{t.select()}catch(x){}},0)},true);
 var NAV={v:null,i:0,t:0};
 function navList(v){return $$('input:not([type=hidden]):not([disabled]),select:not([disabled]),button:not([disabled]),textarea',v).filter(function(x){return x.offsetParent!==null})}
