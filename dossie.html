@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=112"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="stylesheet" href="temas.css?v=113"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Dossiê de imigração · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -116,7 +116,7 @@ var DEF={n1:'Sergio Vaz Fernandes',nat1:'Portugal (EU citizen)',n2:'Andréa Bali
 var P1=[['n','Nome completo',''],['nat','Nacionalidade / passaporte',''],['pp','Nº do passaporte','AB123456'],['exp','Validade do passaporte','dd/mm/aaaa'],['dob','Data de nascimento','dd/mm/aaaa'],['job','Profissão','ex.: gerente de projetos'],['ph','Telefone','+55 11 ...'],['em','E-mail','']];
 var SH=[['rel','Relação entre os viajantes','ex.: marido e mulher / companheiros'],['addr','Endereço residencial (Brasil)','rua, nº, cidade, CEP'],['emn','Contato de emergência (nome e parentesco)',''],['emp','Telefone do contato de emergência','+55 ...'],
 ['ins','Seguradora','nome da seguradora'],['pol','Nº da apólice','apólice'],['insp','Telefone de assistência 24 h','+55 ... / +...'],['cov','Cobertura médica','ex.: EUR 60.000 por pessoa'],
-['funds','Recursos disponíveis / meios de pagamento','ex.: cartões de crédito + EUR em espécie'],['plate','Placa do carro alugado','preencher na retirada (18/05)'],['rent','Nº do contrato da Nova Rent a Car',''],['idp','Nº da PID (Permissão Internacional para Dirigir)','']];
+['funds','Recursos disponíveis / meios de pagamento','ex.: cartões de crédito + EUR em espécie'],['plate','Placa do carro alugado','preencher na retirada (18/05)'],['rent','Nº do contrato da Alamo (Rentcars)',''],['idp','Nº da PID (Permissão Internacional para Dirigir)','']];
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function val(k){return (F[k]!=null&&F[k]!=='')?F[k]:(DEF[k]||'')}
 function save(){try{localStorage.setItem(K,JSON.stringify(F))}catch(e){}}
@@ -180,11 +180,12 @@ function build(lang){
  o+='<li>'+L('Šibenik/Vodice (1–3 June), Rastoke (3–4 June), Zagreb (4–5 June)','Šibenik/Vodice (01–03/06), Rastoke (03–04/06), Zagreb (04–05/06)')+'</li></ul>';
  /* 6 */
  o+='<h2>6. '+L('Rental car','Carro alugado')+'</h2><table border="1" cellspacing="0" cellpadding="4">';
- o+=row(L('Company','Locadora'),'Nova Rent a Car');
- o+=row(L('Pick-up / return','Retirada / devolução'),L('Pick-up in Zagreb on 18 May 2027; return at Zagreb airport (ZAG) on 5 June 2027','Retirada em Zagreb em 18/05/2027; devolução no aeroporto de Zagreb (ZAG) em 05/06/2027'));
+ o+=row(L('Company','Locadora'),L('Alamo (operated by Enterprise Rent-A-Car), booked through Rentcars','Alamo (operada pela Enterprise), reservada pela Rentcars'));
+ o+=row(L('Pick-up / return','Retirada / devolução'),L('Pick-up at Zagreb airport (ZAG) on 18 May 2027; return at Zagreb airport (ZAG) on 5 June 2027','Retirada no aeroporto de Zagreb (ZAG) em 18/05/2027; devolução no mesmo aeroporto em 05/06/2027'));
  o+=row(L('Rental contract no.','Nº do contrato'),v('rent'));
  o+=row(L('Licence plate','Placa'),v('plate'));
- o+=row(L('Cross-border use','Uso em outros países'),L('Slovenia, Italy and Montenegro (cross-border authorisation and green card from the rental company)','Eslovênia, Itália e Montenegro (autorização de viagem internacional e carta verde da locadora)'));
+ o+=row(L('Cross-border use','Uso em outros países'),L('Slovenia, Italy and Montenegro, and Bosnia and Herzegovina if crossing at Neum (cross-border authorisation and green card from the rental company)','Eslovênia, Itália e Montenegro, e Bósnia e Herzegovina se passar por Neum (autorização de viagem internacional e carta verde da locadora)'));
+ o+=row(L('Insurance and deposit','Seguro e caução'),L('Rental company cover with excess; excess reimbursement policy (Rentalcover Full Protection); deposit of EUR 1,100 on credit card','Seguro da locadora com franquia; franquia zero por reembolso (Rentalcover Proteção Total); caução de EUR 1.100 no cartão de crédito'));
  o+=row(L('Driving documents','Documentos de condução'),L('Brazilian driving licence (CNH) and International Driving Permit no. ','CNH brasileira e PID (Permissão Internacional para Dirigir) nº ')+v('idp'));
  o+='</table>';
  /* 7 */
@@ -239,5 +240,5 @@ drawForm();paint();
 })();
 
 </script>
-<script src="nav.js?v=112"></script>
+<script src="nav.js?v=113"></script>
 </body></html>
