@@ -573,7 +573,7 @@ function drawList(){
   es.forEach(function(e){
     if(e.date!==cur){cur=e.date;h+='<div class="dh"><span>'+fmtDate(cur)+'</span><span>'+(dayTot[cur]?money(dayTot[cur]):'')+'</span></div>'}
     if(e.t==='g'){var m=mById(e.m),b=bById(e.cat),c=e.cur||(m?m.cur:'EUR');
-      var sub=[];if(m&&m.cur!==c)sub.push('debitado '+money(debited(e),m.cur));if(c!=='EUR')sub.push('≈ '+money(e.eur));if(c!=='BRL')sub.push(money(entryBrl(e),'BRL'));
+      var sub=[];if(m&&m.cur!==c)sub.push('debitado '+money(debited(e),m.cur));if(m&&m.cur==='BRL'&&c!=='BRL'&&e.amt>0&&debited(e)>0)sub.push('cotação '+qfmt(debited(e)/e.amt)+' por '+curSym(c));if(c!=='EUR')sub.push('≈ '+money(e.eur));if(c!=='BRL')sub.push(money(entryBrl(e),'BRL'));
       var cls=catLines(e.cat),lq=e.ln?lnById(e.ln):(cls.length===1?cls[0]:null),lt=lq&&cls.indexOf(lq)>-1?' › '+esc(lnName(lq,cls.indexOf(lq))):'';
       h+='<div class="it"><div>'+ci(b)+esc(b?b.name:'Sem categoria')+lt+(isPre(e)?' <em class="tag">antes</em>':(isPost(e)?' <em class="tag">depois</em>':''))+(e.desc?'<div class="dsc">'+esc(e.desc)+'</div>':'')+'<div class="m">'+esc(m?m.name:'?')+(e.ctry?' · '+esc(e.ctry):'')+'</div></div><div class="v">'+money(e.amt,c)+(sub.length?'<small>'+sub.join(' · ')+'</small>':'')+'</div><div class="acts"><button class="btn sec sm" data-edit="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
     else if(e.t==='t'){var f=mById(e.from),t=mById(e.to);
