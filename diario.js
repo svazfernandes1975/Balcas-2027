@@ -48,7 +48,7 @@ function nearby(lat,lon){
 function reverse(lat,lon){
  return timed('https://nominatim.openstreetmap.org/reverse?format=jsonv2&addressdetails=1&zoom=18&accept-language=pt-BR&lat='+lat+'&lon='+lon,{headers:{'Accept':'application/json'}},9000).then(function(j){
   var a=j.address||{},road=[a.road||a.pedestrian||a.footway||'',a.house_number||''].join(' ').trim(),city=a.city||a.town||a.village||a.municipality||a.county||'';
-  return {addr:[road,city,a.country||''].filter(Boolean).join(', '),name:j.name||''}})}
+  return {addr:[road,city,a.country||''].filter(Boolean).join(', '),name:j.name||'',city:city,country:a.country||''}})}
 /* foto: reduz no aparelho (≈ 60–90 KB) */
 function shrink(file){return new Promise(function(res,rej){var fr=new FileReader();fr.onerror=rej;fr.onload=function(){var im=new Image();im.onerror=rej;im.onload=function(){
  var M=760,w=im.width,h=im.height,k=Math.min(1,M/Math.max(w,h));w=Math.round(w*k);h=Math.round(h*k);var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);
@@ -68,7 +68,7 @@ function openEdit(id){var c=CK.get(id);if(!c)return;F.cur=c;F.pos=(c.lat!=null)?
 function setLoc(h){$('#ck-loc').innerHTML=h}
 function drawForm(c){
  $('#ck-title').textContent=F.cur?'Editar check-in':'Check-in';
- $('#ck-name').value=c.name||'';$('#ck-kind').value=c.kind||'';$('#ck-note').value=c.note||'';$('#ck-ts').value=(c.ts||nowLocal()).slice(0,16);
+ $('#ck-name').value=c.name||'';$('#ck-kind').value=c.kind||'';$('#ck-note').value=c.note||'';$('#ck-city').value=c.city||'';$('#ck-country').value=c.country||'';$('#ck-ts').value=(c.ts||nowLocal()).slice(0,16);
  drawStars();drawPhoto();$('#ck-sugs').innerHTML='';$('#ck-err').textContent=''}
 function drawStars(){var h='';for(var i=1;i<=5;i++){var on=F.rating>=i?'full':(F.rating===i-.5?'half':'');h+='<button type="button" class="stb '+on+'" data-s="'+i+'" aria-label="'+i+' estrelas">★</button>'}
  $('#ck-stars').innerHTML=h+'<small>'+(F.rating?F.rating.toString().replace('.',',')+' de 5':'sem nota')+'</small>';
@@ -86,7 +86,7 @@ function locate(){
   F.pos={lat:+p.coords.latitude.toFixed(6),lon:+p.coords.longitude.toFixed(6),acc:Math.round(p.coords.accuracy||0)};
   setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m). Buscando lugares próximos…');
   var gone=false;
-  reverse(F.pos.lat,F.pos.lon).then(function(r){F.addr=r.addr;F.rname=r.name;if(!gone)setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(r.addr?'<br><small>'+esc(r.addr)+'</small>':'')+'<br><span class="spin"></span> Buscando lugares próximos…')},function(){});
+  reverse(F.pos.lat,F.pos.lon).then(function(r){F.addr=r.addr;F.rname=r.name;if(!$('#ck-city').value)$('#ck-city').value=r.city||'';if(!$('#ck-country').value)$('#ck-country').value=r.country||'';if(!gone)setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(r.addr?'<br><small>'+esc(r.addr)+'</small>':'')+'<br><span class="spin"></span> Buscando lugares próximos…')},function(){});
   nearby(F.pos.lat,F.pos.lon).then(function(list){gone=true;F.sugs=list;
    if(list.length){setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(F.addr?'<br><small>'+esc(F.addr)+'</small>':''));if(!$('#ck-name').value){$('#ck-name').value=list[0].name;$('#ck-kind').value=list[0].kind;F.src='osm'}drawSugs()}
    else{noPlace()}},function(){gone=true;noPlace(true)});
@@ -101,7 +101,7 @@ function save(){
  var name=$('#ck-name').value.trim();if(!name){$('#ck-err').textContent='Digite o nome do lugar.';$('#ck-name').focus();return}
  var ts=$('#ck-ts').value||nowLocal();
  var o=F.cur?JSON.parse(JSON.stringify(F.cur)):{};
- o.name=name;o.kind=$('#ck-kind').value.trim();o.note=$('#ck-note').value.trim();o.rating=F.rating||0;o.ts=ts;o.date=ts.slice(0,10);
+ o.name=name;o.kind=$('#ck-kind').value.trim();o.city=$('#ck-city').value.trim();o.country=$('#ck-country').value.trim();o.note=$('#ck-note').value.trim();o.rating=F.rating||0;o.ts=ts;o.date=ts.slice(0,10);
  o.photo=F.photo||null;if(F.photo===null&&o.hasPhoto)delete o.hasPhoto;
  if(F.pos){o.lat=F.pos.lat;o.lon=F.pos.lon;o.acc=F.pos.acc;o.addr=F.addr||o.addr||''}
  o.src=o.src||(F.src||'manual');if(!F.cur&&F.src)o.src=F.src;
@@ -123,12 +123,13 @@ function drawMap(list){
   m.bindPopup('<b>'+esc(c.name)+'</b><br>'+esc(dayLabel(c.date))+' · '+timeOf(c.ts)+(c.rating?'<br>'+stars(c.rating):''));markers[c.id]=m;ll.push([c.lat,c.lon])});
  if(ll.length>1)L.polyline(ll,{color:'#0B7285',weight:3,opacity:.6,dashArray:'6 6'}).addTo(layer);
  setTimeout(function(){map.invalidateSize();if(ll.length===1)map.setView(ll[0],16);else map.fitBounds(ll,{padding:[30,30],maxZoom:17})},60)}
+function where(c){var a=c.city,b=c.country;if(!a&&!b&&c.addr){var p=c.addr.split(',').map(function(x){return x.trim()}).filter(Boolean);if(p.length>=2){b=p[p.length-1];a=p[p.length-2]}}return [a,b].filter(Boolean).join(', ')}
 function card(c){
  return '<article class="ckc" id="c-'+esc(c.id)+'">'+
  (c.photo?'<button type="button" class="ckph" data-zoom="'+esc(c.id)+'"><img loading="lazy" src="'+c.photo+'" alt="'+esc(c.name)+'"></button>':(c.hasPhoto?'<div class="ckph none">foto sincronizando…</div>':''))+
  '<div class="ckb"><div class="ckt"><h3>'+esc(c.name)+'</h3>'+stars(c.rating)+'</div>'+
  '<div class="ckm">'+timeOf(c.ts)+(c.kind?' · '+esc(c.kind):'')+(c.by?' · '+esc(String(c.by).split(' ')[0]):'')+'</div>'+
- (c.addr?'<div class="cka">'+esc(c.addr)+'</div>':'')+(c.note?'<p class="ckn">'+esc(c.note)+'</p>':'')+
+ (where(c)?'<div class="ckw">🌍 '+esc(where(c))+'</div>':'')+(c.addr?'<div class="cka">'+esc(c.addr)+'</div>':'')+(c.note?'<p class="ckn">'+esc(c.note)+'</p>':'')+
  '<div class="ckx">'+(c.lat!=null?'<button type="button" class="btn sec sm" data-map="'+esc(c.id)+'">Ver no mapa</button>':'')+'<button type="button" class="btn sec sm" data-edit="'+esc(c.id)+'">Editar</button><button type="button" class="btn sec sm danger" data-del="'+esc(c.id)+'">Apagar</button></div></div></article>'}
 function draw(){
  var all=CK.list(),days={};all.forEach(function(c){days[c.date]=(days[c.date]||0)+1});
