@@ -67,7 +67,8 @@ function openNew(){
 function openEdit(id){var c=CK.get(id);if(!c)return;F.cur=c;F.pos=(c.lat!=null)?{lat:c.lat,lon:c.lon,acc:c.acc}:null;F.photo=c.photo||null;F.rating=c.rating||0;F.sugs=[];F.addr=c.addr||'';
  drawForm(c);sheet(true);setLoc(F.pos?'<b>Local salvo.</b> '+(c.addr?esc(c.addr):'')+' <button type="button" class="lk" id="ck-relo">Atualizar posição</button>':'<b>Sem posição salva.</b> <button type="button" class="lk" id="ck-relo">Usar minha posição</button>');
  var r=$('#ck-relo');if(r)r.onclick=function(){locate()}}
-function setLoc(h){$('#ck-loc').innerHTML=h}
+function coords(la,lo){return la.toFixed(5)+', '+lo.toFixed(5)}
+function setLoc(h){$('#ck-loc').innerHTML=h+(F.pos?'<div class="ckco">📌 '+coords(F.pos.lat,F.pos.lon)+(F.pos.acc?' · ±'+F.pos.acc+' m':'')+'</div>':'')}
 function drawForm(c){
  $('#ck-title').textContent=F.cur?'Editar check-in':'Check-in';
  $('#ck-name').value=c.name||'';$('#ck-kind').value=c.kind||'';$('#ck-note').value=c.note||'';$('#ck-city').value=c.city||'';$('#ck-country').value=c.country||'';$('#ck-ts').value=(c.ts||nowLocal()).slice(0,16);
@@ -131,7 +132,7 @@ function card(c){
  (c.photo?'<button type="button" class="ckph" data-zoom="'+esc(c.id)+'"><img loading="lazy" src="'+c.photo+'" alt="'+esc(c.name)+'"></button>':(c.hasPhoto?'<div class="ckph none">foto sincronizando…</div>':''))+
  '<div class="ckb"><div class="ckt"><h3>'+esc(c.name)+'</h3>'+stars(c.rating)+'</div>'+
  '<div class="ckm">'+timeOf(c.ts)+(c.kind?' · '+esc(c.kind):'')+(c.by?' · '+esc(String(c.by).split(' ')[0]):'')+'</div>'+
- (where(c)?'<div class="ckw">🌍 '+esc(where(c))+'</div>':'')+(c.addr?'<div class="cka">'+esc(c.addr)+'</div>':'')+(c.note?'<p class="ckn">'+esc(c.note)+'</p>':'')+
+ (where(c)?'<div class="ckw">🌍 '+esc(where(c))+'</div>':'')+(c.lat!=null?'<div class="ckco">📌 '+coords(c.lat,c.lon)+'</div>':'')+(c.addr?'<div class="cka">'+esc(c.addr)+'</div>':'')+(c.note?'<p class="ckn">'+esc(c.note)+'</p>':'')+
  '<div class="ckx">'+(c.lat!=null?'<button type="button" class="btn sec sm" data-map="'+esc(c.id)+'">Ver no mapa</button>':'')+'<button type="button" class="btn sec sm" data-edit="'+esc(c.id)+'">Editar</button><button type="button" class="btn sec sm danger" data-del="'+esc(c.id)+'">Apagar</button></div></div></article>'}
 function draw(){
  var all=CK.list(),days={};all.forEach(function(c){days[c.date]=(days[c.date]||0)+1});
