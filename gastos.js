@@ -942,6 +942,14 @@ function maskVal(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)re
 function maskVal4(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';while(d.length<5)d='0'+d;return d.slice(0,-4)+','+d.slice(-4)}
 document.addEventListener('input',function(e){var t=e.target;if(!t||!t.matches)return;var m;if(t.matches(MASK))m=maskVal(t.value);else if(t.matches(MASK4))m=String(t.value).replace(/[^\d.,]/g,'');else return;if(m!==t.value)t.value=m},true);
 document.addEventListener('focusin',function(e){var t=e.target;if(t&&t.matches&&(t.matches(MASK)||t.matches(MASK4))&&t.value)setTimeout(function(){try{t.select()}catch(x){}},0)},true);
+/* sugestão de local a partir dos check-ins do dia */
+function ckSug(){var box=$('#g-ck');if(!box||!window.CK)return;var d=($('#g-date')&&$('#g-date').value)||todayStr();
+  var l=CK.list().filter(function(c){return c.date===d}).slice(0,4);
+  if(!l.length){box.hidden=true;box.innerHTML='';return}
+  box.hidden=false;box.innerHTML='<span class="hint">📍 Check-ins do dia:</span>'+l.map(function(c,i){return '<button type="button" class="chip" data-ck="'+i+'">'+esc(c.name)+'</button>'}).join('');
+  $$('[data-ck]',box).forEach(function(b){b.onclick=function(){var c=l[+b.dataset.ck],inp=$('#g-desc');inp.value=inp.value.trim()?inp.value.trim()+' · '+c.name:c.name;inp.dispatchEvent(new Event('input',{bubbles:true}))}})}
+var _rL=rLancar;rLancar=function(){_rL.apply(this,arguments);ckSug()};
+if(window.CK)CK.onChange(ckSug);
 var NAV={v:null,i:0,t:0};
 function navList(v){return $$('input:not([type=hidden]):not([disabled]),select:not([disabled]),button:not([disabled]),textarea',v).filter(function(x){return x.offsetParent!==null})}
 function navMark(e,d){var t=e.target;if(!t||!t.closest)return;var v=t.closest('#v-orc,#v-meios,#v-moeda');if(!v)return;var i=navList(v).indexOf(t);if(i<0)return;NAV={v:v.id,i:i+d,t:Date.now()}}

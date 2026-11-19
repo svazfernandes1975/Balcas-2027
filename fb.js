@@ -64,14 +64,14 @@ const FB={
       cb(s.exists()?s.data():null,s.metadata);calc();
     },e=>{W[key]={err:e.code||'error'};calc()});
   },
-  watchCol(key,path,cb){
+  watchCol(key,path,cb,eb){
     return onSnapshot(collection(db,BASE+'/'+path),{includeMetadataChanges:true},s=>{
-      W[key]={pending:s.metadata.hasPendingWrites};
+      if(!eb)W[key]={pending:s.metadata.hasPendingWrites};
       cb(s.docs.map(d=>d.data()),s.metadata);calc();
-    },e=>{W[key]={err:e.code||'error'};calc()});
+    },e=>{if(eb){try{eb(e.code||'error')}catch(x){}}else{W[key]={err:e.code||'error'};calc()}});
   },
-  set(path,data,merge){return setDoc(ref(path),data,{merge:!!merge}).catch(e=>{W.w={err:e.code||'error'};calc()})},
-  del(path){return deleteDoc(ref(path)).catch(e=>{W.w={err:e.code||'error'};calc()})},
+  set(path,data,merge,eb){return setDoc(ref(path),data,{merge:!!merge}).catch(e=>{if(eb){try{eb(e.code||'error')}catch(x){}}else{W.w={err:e.code||'error'};calc()}})},
+  del(path,eb){return deleteDoc(ref(path)).catch(e=>{if(eb){try{eb(e.code||'error')}catch(x){}}else{W.w={err:e.code||'error'};calc()}})},
   batch(ops){
     for(let i=0;i<ops.length;i+=400){
       const b=writeBatch(db);
