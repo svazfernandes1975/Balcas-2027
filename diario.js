@@ -26,21 +26,23 @@ function kindOf(t){
  for(var i=0;i<ks.length;i++){var k=ks[i];if(t[k]){var m=KIND[k]&&KIND[k][t[k]];if(m)return m;if(k==='tourism')return 'Atração';if(k==='historic')return 'Local histórico'}}
  if(t.shop)return 'Loja';return 'Lugar'}
 function overpassQ(lat,lon,R){var a='(around:'+R+','+lat+','+lon+')';
- return '[out:json][timeout:12];('+
+ return '[out:json][timeout:8];('+
  'nwr'+a+'["name"]["tourism"];nwr'+a+'["name"]["historic"];'+
  'nwr'+a+'["name"]["amenity"~"^(restaurant|cafe|bar|pub|fast_food|ice_cream|place_of_worship|theatre|cinema|marketplace|fountain|ferry_terminal|bus_station|townhall|library|university)$"];'+
  'nwr'+a+'["name"]["leisure"~"^(park|garden|marina|beach_resort|nature_reserve|playground)$"];'+
  'nwr'+a+'["name"]["natural"~"^(beach|peak|waterfall|cave_entrance|bay|spring)$"];'+
  'nwr'+a+'["name"]["man_made"~"^(tower|lighthouse|bridge)$"];'+
  'nwr'+a+'["name"]["building"~"^(church|cathedral|chapel|castle|fortress)$"];'+
- 'nwr'+a+'["name"]["shop"];);out center tags 80;'}
-var OVP=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter'];
+ 'nwr'+a+'["name"]["shop"];);out center tags 40;'}
+var OVP=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://overpass.private.coffee/api/interpreter'];
+function anyOf(ps){return new Promise(function(res,rej){var n=ps.length,done=false;ps.forEach(function(p){p.then(function(v){if(!done){done=true;res(v)}},function(e){if(--n===0&&!done)rej(e)})})})}
 function timed(url,opt,ms){var c=window.AbortController?new AbortController():null,t=setTimeout(function(){if(c)c.abort()},ms||12000);
  opt=opt||{};if(c)opt.signal=c.signal;return fetch(url,opt).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('http '+r.status);return r.json()},function(e){clearTimeout(t);throw e})}
-function nearby(lat,lon){
- function go(i){if(i>=OVP.length)return Promise.reject(new Error('sem resposta'));
-  return timed(OVP[i],{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(overpassQ(lat,lon,130))},13000).catch(function(){return go(i+1)})}
- return go(0).then(function(j){var seen={},out=[];
+function nearby(lat,lon){var ck='ckn:'+lat.toFixed(3)+','+lon.toFixed(3);try{var c=JSON.parse(sessionStorage.getItem(ck)||'null');if(c&&c.length)return Promise.resolve(c)}catch(e){}
+ return nearby0(lat,lon).then(function(l){try{sessionStorage.setItem(ck,JSON.stringify(l))}catch(e){}return l})}
+function nearby0(lat,lon){
+ function go(){return anyOf(OVP.map(function(u){return timed(u,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(overpassQ(lat,lon,120))},8000)}))}
+ return go().then(function(j){var seen={},out=[];
   (j.elements||[]).forEach(function(e){var t=e.tags||{};if(!t.name)return;var la=e.lat!=null?e.lat:(e.center&&e.center.lat),lo=e.lon!=null?e.lon:(e.center&&e.center.lon);if(la==null)return;
    var d=dist(lat,lon,la,lo),bonus=(t.tourism||t.historic)?45:0;var key=t.name.toLowerCase();
    if(seen[key]&&seen[key].d<=d)return;var o={name:t.name,kind:kindOf(t),d:d,score:d-bonus,lat:la,lon:lo};seen[key]=o});
@@ -93,7 +95,7 @@ function locate(){
  },function(e){
   var m=e&&e.code===1?'Permissão de localização negada. Libere nas configurações do navegador, ou digite o nome do lugar abaixo.':e&&e.code===3?'A localização demorou demais.':'Não foi possível obter a localização.';
   setLoc('<b>'+m+'</b> <button type="button" class="lk" id="ck-retry">Tentar de novo</button>');var r=$('#ck-retry');if(r)r.onclick=locate},
- {enableHighAccuracy:true,timeout:15000,maximumAge:20000})}
+ {enableHighAccuracy:false,timeout:9000,maximumAge:60000})}
 function noPlace(fail){var nm=F.rname||'';
  setLoc('<b>Posição encontrada</b> (precisão ≈ '+(F.pos?F.pos.acc:'?')+' m)'+(F.addr?'<br><small>'+esc(F.addr)+'</small>':'')+'<br>'+(fail?'Não consegui buscar os lugares próximos (sem internet?).':'Nenhum lugar com nome por perto.')+' Digite o nome abaixo.'+(nm?' <button type="button" class="lk" id="ck-usern">Usar “'+esc(nm)+'”</button>':''));
  var u=$('#ck-usern');if(u)u.onclick=function(){$('#ck-name').value=nm}}
