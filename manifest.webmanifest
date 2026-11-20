@@ -1,0 +1,16 @@
+{
+  "name": "Balcãs 2027",
+  "short_name": "Balcãs 2027",
+  "description": "Roteiro, gastos, check-ins e SOS da viagem aos Bálcãs, de 14/05 a 05/06/2027.",
+  "lang": "pt-BR",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EDF2F3",
+  "theme_color": "#0B7285",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}
