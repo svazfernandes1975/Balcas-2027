@@ -38,3 +38,19 @@ window.CK={
   state:state
 };
 })();
+
+/* link do álbum de fotos (iCloud/Google Fotos): guardado no aparelho e sincronizado em data/album */
+(function(){
+var KEY='balcas2027-album',subs=[],unsub=null,started=false,url='';
+try{url=localStorage.getItem(KEY)||''}catch(e){}
+function emit(){subs.forEach(function(f){try{f(url)}catch(e){}})}
+function ok(u){return /^https?:\/\/\S+$/i.test(u||'')}
+function start(){if(started||!window.FB)return;started=true;
+ FB.onAuth(function(u){if(unsub){try{unsub()}catch(e){}unsub=null}
+  if(u)unsub=FB.watchDoc('gx-alb','data/album',function(d){var r=d&&d.url||'';if(r&&r!==url&&ok(r)){url=r;try{localStorage.setItem(KEY,r)}catch(e){}emit()}},function(){})})}
+if(window.FB)start();else document.addEventListener('fb-ready',start);
+window.ALB={get:function(){return url},valid:ok,
+ set:function(u){u=(u||'').trim();if(u&&!ok(u))return false;url=u;try{if(u)localStorage.setItem(KEY,u);else localStorage.removeItem(KEY)}catch(e){}
+  if(window.FB&&FB.user)FB.set('data/album',{url:u,ts:Date.now()},true,function(){});emit();return true},
+ onChange:function(f){subs.push(f)}};
+})();
