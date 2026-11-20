@@ -54,18 +54,21 @@ function reverse(lat,lon){
 /* foto: reduz no aparelho (≈ 60–90 KB) */
 function shrink(file){return new Promise(function(res,rej){var fr=new FileReader();fr.onerror=rej;fr.onload=function(){var im=new Image();im.onerror=rej;im.onload=function(){
  var M=760,w=im.width,h=im.height,k=Math.min(1,M/Math.max(w,h));w=Math.round(w*k);h=Math.round(h*k);var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);
- var q=.68,u=c.toDataURL('image/jpeg',q);while(u.length>150000&&q>.35){q-=.1;u=c.toDataURL('image/jpeg',q)}res(u)};im.src=fr.result};fr.readAsDataURL(file)})}
+ var q=.68,u=c.toDataURL('image/jpeg',q);while(u.length>120000&&q>.3){q-=.1;u=c.toDataURL('image/jpeg',q)}res(u)};im.src=fr.result};fr.readAsDataURL(file)})}
 
-var CK=window.CK,F={cur:null,pos:null,photo:null,rating:0,sugs:[],busy:false};
+var MAXP=6,MAXCH=820000;
+function phs(c){return (c.photos&&c.photos.length)?c.photos:(c.photo?[c.photo]:[])}
+function nph(c){var p=phs(c).length;return p||(c.hasPhoto?(c.nph||1):0)}
+var CK=window.CK,F={cur:null,pos:null,photo:null,photos:[],rating:0,sugs:[],busy:false};
 var map=null,layer=null,markers={},dayFilter='',stFilter='';
 var STL={'0':'sem escada','1':'poucos degraus','2':'muita escada'};
 
 /* ---------- sheet ---------- */
 function sheet(on){var s=$('#ck-sheet');s.hidden=!on;document.body.style.overflow=on?'hidden':''}
 function openNew(){
- F.cur=null;F.pos=null;F.photo=null;F.rating=0;F.sugs=[];F.addr='';
+ F.cur=null;F.pos=null;F.photo=null;F.photos=[];F.rating=0;F.sugs=[];F.addr='';
  drawForm({name:'',kind:'',note:'',ts:nowLocal(),src:'manual'});sheet(true);locate()}
-function openEdit(id){var c=CK.get(id);if(!c)return;F.cur=c;F.pos=(c.lat!=null)?{lat:c.lat,lon:c.lon,acc:c.acc}:null;F.photo=c.photo||null;F.rating=c.rating||0;F.sugs=[];F.addr=c.addr||'';
+function openEdit(id){var c=CK.get(id);if(!c)return;F.cur=c;F.pos=(c.lat!=null)?{lat:c.lat,lon:c.lon,acc:c.acc}:null;F.photo=c.photo||null;F.photos=phs(c).slice();F.rating=c.rating||0;F.sugs=[];F.addr=c.addr||'';
  drawForm(c);sheet(true);setLoc(F.pos?'<b>Local salvo.</b> '+(c.addr?esc(c.addr):'')+' <button type="button" class="lk" id="ck-relo">Atualizar posição</button>':'<b>Sem posição salva.</b> <button type="button" class="lk" id="ck-relo">Usar minha posição</button>');
  var r=$('#ck-relo');if(r)r.onclick=function(){locate()}}
 function coords(la,lo){return la.toFixed(5)+', '+lo.toFixed(5)}
@@ -77,8 +80,10 @@ function drawForm(c){
 function drawStars(){var h='';for(var i=1;i<=5;i++){var on=F.rating>=i?'full':(F.rating===i-.5?'half':'');h+='<button type="button" class="stb '+on+'" data-s="'+i+'" aria-label="'+i+' estrelas">★</button>'}
  $('#ck-stars').innerHTML=h+'<small>'+(F.rating?F.rating.toString().replace('.',',')+' de 5':'sem nota')+'</small>';
  $$('#ck-stars .stb').forEach(function(b){b.onclick=function(){var i=+b.dataset.s;F.rating=F.rating===i?i-.5:(F.rating===i-.5?0:i);drawStars()}})}
-function drawPhoto(){var h=F.photo?'<img src="'+F.photo+'" alt="Foto do check-in"><button type="button" class="lk" id="ck-rmph">Remover foto</button>':'<span class="hint">Sem foto. Você pode tirar agora ou escolher da galeria.</span>';
- $('#ck-ph').innerHTML=h;var r=$('#ck-rmph');if(r)r.onclick=function(){F.photo=null;drawPhoto()}}
+function drawPhoto(){var n=F.photos.length,h='';
+ if(n){h='<div class="phg">'+F.photos.map(function(u,i){return '<div class="pht"><img src="'+u+'" alt="Foto '+(i+1)+'"><button type="button" class="phx" data-rm="'+i+'" aria-label="Remover a foto '+(i+1)+'">✕</button></div>'}).join('')+'</div><div class="hint">'+n+' foto'+(n>1?'s':'')+' (máx. '+MAXP+'). Toque no ✕ para remover uma.</div>'}
+ else h='<span class="hint">Sem foto. Você pode tirar agora ou escolher da galeria (uma ou várias).</span>';
+ $('#ck-ph').innerHTML=h;$$('#ck-ph [data-rm]').forEach(function(b){b.onclick=function(){F.photos.splice(+b.dataset.rm,1);F.photo=F.photos[0]||null;drawPhoto()}})}
 function drawSugs(){var el=$('#ck-sugs');if(!F.sugs.length){el.innerHTML='';return}
  el.innerHTML='<div class="lbl">Lugares perto de você (toque para usar)</div>'+F.sugs.map(function(s,i){return '<button type="button" class="chip sg" data-i="'+i+'"><b>'+esc(s.name)+'</b><small>'+esc(s.kind)+' · '+fmtD(s.d)+'</small></button>'}).join('');
  $$('#ck-sugs .sg').forEach(function(b){b.onclick=function(){var s=F.sugs[+b.dataset.i];$('#ck-name').value=s.name;$('#ck-kind').value=s.kind;F.src='osm';
@@ -106,7 +111,7 @@ function save(){
  var ts=$('#ck-ts').value||nowLocal();
  var o=F.cur?JSON.parse(JSON.stringify(F.cur)):{};
  o.name=name;o.kind=$('#ck-kind').value.trim();o.stairs=$('#ck-stairs').value===''?null:+$('#ck-stairs').value;o.city=$('#ck-city').value.trim();o.country=$('#ck-country').value.trim();o.note=$('#ck-note').value.trim();o.rating=F.rating||0;o.ts=ts;o.date=ts.slice(0,10);
- o.photo=F.photo||null;if(F.photo===null&&o.hasPhoto)delete o.hasPhoto;
+ o.photos=F.photos.slice();o.photo=F.photos[0]||null;if(!F.photos.length){delete o.hasPhoto;delete o.nph}
  if(F.pos){o.lat=F.pos.lat;o.lon=F.pos.lon;o.acc=F.pos.acc;o.addr=F.addr||o.addr||''}
  o.src=o.src||(F.src||'manual');if(!F.cur&&F.src)o.src=F.src;
  if(F.cur)CK.update(o);else CK.add(o);
@@ -130,7 +135,7 @@ function drawMap(list){
 function where(c){var a=c.city,b=c.country;if(!a&&!b&&c.addr){var p=c.addr.split(',').map(function(x){return x.trim()}).filter(Boolean);if(p.length>=2){b=p[p.length-1];a=p[p.length-2]}}return [a,b].filter(Boolean).join(', ')}
 function card(c){
  return '<article class="ckc" id="c-'+esc(c.id)+'">'+
- (c.photo?'<button type="button" class="ckph" data-zoom="'+esc(c.id)+'"><img loading="lazy" src="'+c.photo+'" alt="'+esc(c.name)+'"></button>':(c.hasPhoto?'<div class="ckph none">foto sincronizando…</div>':''))+
+ (phs(c).length?'<button type="button" class="ckph" data-zoom="'+esc(c.id)+'" data-zi="0"><img loading="lazy" src="'+phs(c)[0]+'" alt="'+esc(c.name)+'">'+(phs(c).length>1?'<span class="phn">1/'+phs(c).length+'</span>':'')+'</button>'+(phs(c).length>1?'<div class="phs">'+phs(c).map(function(u,i){return '<button type="button" data-zoom="'+esc(c.id)+'" data-zi="'+i+'"><img loading="lazy" src="'+u+'" alt="Foto '+(i+1)+'"></button>'}).join('')+'</div>':''):(c.hasPhoto?'<div class="ckph none">foto sincronizando…</div>':''))+
  '<div class="ckb"><div class="ckt"><h3>'+esc(c.name)+'</h3>'+stars(c.rating)+'</div>'+
  '<div class="ckm">'+timeOf(c.ts)+(c.kind?' · '+esc(c.kind):'')+(c.stairs!=null&&STL[c.stairs]?'<span class="ckst s'+c.stairs+'">'+(c.stairs===0?'♿ ':'🪜 ')+STL[c.stairs]+'</span>':'')+(c.by?' · '+esc(String(c.by).split(' ')[0]):'')+'</div>'+
  (where(c)?'<div class="ckw">🌍 '+esc(where(c))+'</div>':'')+(c.lat!=null?'<div class="ckco">📌 '+coords(c.lat,c.lon)+'</div>':'')+(c.addr?'<div class="cka">'+esc(c.addr)+'</div>':'')+(c.note?'<p class="ckn">'+esc(c.note)+'</p>':'')+
@@ -138,7 +143,7 @@ function card(c){
 function draw(){
  var all=CK.list(),days={};all.forEach(function(c){days[c.date]=(days[c.date]||0)+1});
  var ks=Object.keys(days).sort().reverse();
- $('#ck-stat').innerHTML=all.length?'<div class="stat"><b>'+all.length+'</b><span>lugares</span></div><div class="stat"><b>'+ks.length+'</b><span>dia'+(ks.length>1?'s':'')+'</span></div><div class="stat"><b>'+all.filter(function(c){return c.photo||c.hasPhoto}).length+'</b><span>fotos</span></div>':'';
+ $('#ck-stat').innerHTML=all.length?'<div class="stat"><b>'+all.length+'</b><span>lugares</span></div><div class="stat"><b>'+ks.length+'</b><span>dia'+(ks.length>1?'s':'')+'</span></div><div class="stat"><b>'+all.reduce(function(a,c){return a+nph(c)},0)+'</b><span>fotos</span></div>':'';
  $('#ck-days').innerHTML=ks.length>1?'<button type="button" class="chip" data-d="" aria-pressed="'+(!dayFilter)+'">Todos</button>'+ks.map(function(d){return '<button type="button" class="chip" data-d="'+d+'" aria-pressed="'+(dayFilter===d)+'">'+dayLabel(d)+' <small>'+days[d]+'</small></button>'}).join(''):'';
  $$('#ck-days .chip').forEach(function(b){b.onclick=function(){dayFilter=b.dataset.d;draw()}});
  var hasSt=all.some(function(c){return c.stairs!=null});
@@ -151,7 +156,11 @@ function draw(){
  $$('#ck-list [data-edit]').forEach(function(b){b.onclick=function(){openEdit(b.dataset.edit)}});
  $$('#ck-list [data-del]').forEach(function(b){b.onclick=function(){var c=CK.get(b.dataset.del);if(c&&confirm('Apagar o check-in “'+c.name+'”?')){CK.remove(c.id);draw()}}});
  $$('#ck-list [data-map]').forEach(function(b){b.onclick=function(){var m=markers[b.dataset.map];if(m&&map){$('#ck-mapbox').scrollIntoView({block:'start'});map.setView(m.getLatLng(),17);m.openPopup()}}});
- $$('#ck-list [data-zoom]').forEach(function(b){b.onclick=function(){var c=CK.get(b.dataset.zoom);if(!c||!c.photo)return;var z=$('#ck-zoom');z.innerHTML='<img src="'+c.photo+'" alt="'+esc(c.name)+'"><button type="button" class="back">Fechar</button>';z.hidden=false;z.onclick=function(){z.hidden=true}}});
+ $$('#ck-list [data-zoom]').forEach(function(b){b.onclick=function(){var c=CK.get(b.dataset.zoom),p=c?phs(c):[];if(!p.length)return;var i0=+b.dataset.zi||0,z=$('#ck-zoom');
+  z.innerHTML='<div class="zs">'+p.map(function(u,i){return '<img src="'+u+'" alt="'+esc(c.name)+' '+(i+1)+'">'}).join('')+'</div>'+(p.length>1?'<div class="zc">'+(i0+1)+' / '+p.length+' · deslize para o lado</div>':'')+'<button type="button" class="back">Fechar</button>';
+  z.hidden=false;var zs=z.querySelector('.zs');zs.scrollLeft=i0*zs.clientWidth;
+  zs.onscroll=function(){var k=Math.round(zs.scrollLeft/Math.max(1,zs.clientWidth)),zc=z.querySelector('.zc');if(zc)zc.textContent=(k+1)+' / '+p.length+' · deslize para o lado'};
+  z.onclick=function(e){if(e.target===z||e.target.classList.contains('back'))z.hidden=true}}});
  drawMap(list);
  var s=CK.state;$('#ck-warn').innerHTML=s.err==='permission-denied'?'<div class="hj-note warn"><b>O Firebase ainda não liberou a coleção “checkins”.</b> Seus check-ins ficam salvos neste aparelho, mas não aparecem para a Andréa até a regra ser ajustada.</div>':(s.err?'<div class="hj-note warn">Erro ao sincronizar os check-ins ('+esc(s.err)+'). Eles continuam salvos neste aparelho.</div>':'')}
 
@@ -160,8 +169,11 @@ function init(){
  $('#ck-new').onclick=openNew;$('#ck-close').onclick=function(){sheet(false)};$('#ck-cancel').onclick=function(){sheet(false)};
  $('#ck-save').onclick=save;
  $('#ck-name').addEventListener('input',function(){F.src='manual'});
- function onFile(inp){inp.onchange=function(){var f=inp.files&&inp.files[0];if(!f)return;$('#ck-ph').innerHTML='<span class="spin"></span> Preparando a foto…';
-  shrink(f).then(function(u){F.photo=u;drawPhoto()},function(){F.photo=null;drawPhoto();$('#ck-err').textContent='Não consegui ler a foto.'});inp.value=''}}
+ function onFile(inp){inp.onchange=function(){var fs=[].slice.call(inp.files||[]);inp.value='';if(!fs.length)return;
+  var room=MAXP-F.photos.length;if(room<=0){$('#ck-err').textContent='Limite de '+MAXP+' fotos por check-in. Remova uma para adicionar outra.';return}
+  if(fs.length>room){$('#ck-err').textContent='Só cabem mais '+room+' foto'+(room>1?'s':'')+'. As primeiras foram usadas.';fs=fs.slice(0,room)}else $('#ck-err').textContent='';
+  $('#ck-ph').innerHTML='<span class="spin"></span> Preparando '+(fs.length>1?fs.length+' fotos':'a foto')+'…';
+  fs.reduce(function(p,f){return p.then(function(){return shrink(f).then(function(u){var tot=F.photos.reduce(function(a,x){return a+x.length},0);if(tot+u.length>MAXCH){$('#ck-err').textContent='As fotos deste check-in já ocupam o limite de espaço. Remova uma foto.';return}F.photos.push(u);F.photo=F.photos[0]},function(){$('#ck-err').textContent='Não consegui ler uma das fotos.'})})},Promise.resolve()).then(drawPhoto)}}
  onFile($('#ck-cam'));onFile($('#ck-gal'));
  CK.onChange(draw);draw();
  if(window.FB&&FB.strip)FB.strip($('#ck-fb'));else document.addEventListener('fb-ready',function(){if(FB.strip)FB.strip($('#ck-fb'))});

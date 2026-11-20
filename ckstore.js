@@ -4,7 +4,7 @@ var KEY='balcas2027-checkins-v1',L=[],subs=[],unsub=null,fbUser=null,started=fal
 var state={err:'',online:false};
 function load(){try{var a=JSON.parse(localStorage.getItem(KEY)||'[]');L=Array.isArray(a)?a:[]}catch(e){L=[]}}
 function persist(){var s;try{s=JSON.stringify(L);localStorage.setItem(KEY,s);return}catch(e){}
-  try{localStorage.setItem(KEY,JSON.stringify(L.map(function(c){var o={};for(var k in c)o[k]=c[k];if(o.photo){o.photo=null;o.hasPhoto=true}return o})))}catch(e2){}}
+  try{localStorage.setItem(KEY,JSON.stringify(L.map(function(c){var o={};for(var k in c)o[k]=c[k];if(o.photo||(o.photos&&o.photos.length)){o.nph=(o.photos&&o.photos.length)||1;o.photo=null;o.photos=null;o.hasPhoto=true}return o})))}catch(e2){}}
 function emit(){subs.forEach(function(f){try{f(L)}catch(e){}})}
 function uid(){return 'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function eb(code){state.err=code||'error';emit()}
@@ -14,7 +14,7 @@ function mergeRemote(rem,meta){
   var rm={};rem.forEach(function(r){if(r&&r.id)rm[r.id]=r});
   var out=[],seen={};
   L.forEach(function(l){var r=rm[l.id];
-    if(r){seen[l.id]=1;var keep=(l.upd||0)>(r.upd||0)?l:r;if(keep===l&&l.upd!==r.upd)push(l);var o=clean(keep);if(!o.photo&&l.photo&&keep!==l)o.photo=l.photo;o.synced=true;out.push(o)}
+    if(r){seen[l.id]=1;var keep=(l.upd||0)>(r.upd||0)?l:r;if(keep===l&&l.upd!==r.upd)push(l);var o=clean(keep);if(!o.photo&&l.photo&&keep!==l)o.photo=l.photo;if(!(o.photos&&o.photos.length)&&l.photos&&l.photos.length&&keep!==l)o.photos=l.photos;o.synced=true;out.push(o)}
     else if(l.synced&&meta&&meta.fromCache===false){/* apagado em outro aparelho */}
     else{out.push(l);if(!l.synced)push(l)}});
   Object.keys(rm).forEach(function(id){if(!seen[id]){var o=clean(rm[id]);o.synced=true;out.push(o)}});
