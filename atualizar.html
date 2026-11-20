@@ -1,0 +1,12 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Atualizar o portal</title>
+<style>body{font:17px/1.5 system-ui,sans-serif;margin:0;padding:24px;max-width:480px}h1{font-size:1.3rem}.b{display:block;width:100%;padding:14px;border:0;border-radius:12px;background:#0B7285;color:#fff;font:600 1rem system-ui;margin:14px 0}#o{white-space:pre-wrap;color:#333}</style></head>
+<body><h1>Atualizar o portal</h1><p>Apaga só a cópia guardada do site neste aparelho (seus gastos e check-ins <b>não</b> são apagados) e carrega a versão mais nova.</p>
+<button class="b" id="go">Atualizar agora</button><div id="o"></div>
+<script>
+var o=document.getElementById('o');function log(t){o.textContent+=t+'\n'}
+document.getElementById('go').onclick=function(){
+ log('Limpando…');var p=[];
+ if(window.caches)p.push(caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k.indexOf('balcas-v')===0}).map(function(k){return caches.delete(k)}))}).then(function(){log('Cópias antigas apagadas.')}));
+ if(navigator.serviceWorker)p.push(navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))}).then(function(){log('Atualizador antigo removido.')}));
+ Promise.all(p).catch(function(e){log('Aviso: '+e)}).then(function(){log('Abrindo a versão nova…');setTimeout(function(){location.replace('index.html?r='+Date.now())},800)})};
+</script></body></html>
