@@ -34,7 +34,7 @@ function overpassQ(lat,lon,R){var a='(around:'+R+','+lat+','+lon+')';
  'nwr'+a+'["name"]["man_made"~"^(tower|lighthouse|bridge)$"];'+
  'nwr'+a+'["name"]["building"~"^(church|cathedral|chapel|castle|fortress)$"];'+
  'nwr'+a+'["name"]["shop"];);out center tags 40;'}
-var OVP=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://overpass.private.coffee/api/interpreter'];
+var OVP=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://overpass.private.coffee/api/interpreter','https://overpass.openstreetmap.fr/api/interpreter','https://maps.mail.ru/osm/tools/overpass/api/interpreter'];
 function anyOf(ps){return new Promise(function(res,rej){var n=ps.length,done=false;ps.forEach(function(p){p.then(function(v){if(!done){done=true;res(v)}},function(e){if(--n===0&&!done)rej(e)})})})}
 function timed(url,opt,ms){var c=window.AbortController?new AbortController():null,t=setTimeout(function(){if(c)c.abort()},ms||12000);
  opt=opt||{};if(c)opt.signal=c.signal;return fetch(url,opt).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('http '+r.status);return r.json()},function(e){clearTimeout(t);throw e})}
@@ -46,9 +46,9 @@ var BADK={highway:1,building:1,place:1,boundary:1,landuse:1,waterway:1,railway:0
 function phEls(j,lat,lon,maxD){var els=[];(j.features||[]).forEach(function(f){var p=f.properties||{},g=f.geometry&&f.geometry.coordinates;if(!p.name||!g)return;var k=p.osm_key,v=p.osm_value;if(!k||BADK[k]||v==='yes')return;
   if(maxD&&dist(lat,lon,g[1],g[0])>maxD)return;var t={name:p.name};t[k]=v;if(k==='amenity'&&/^(parking|bench|atm|toilets|waste_basket|bicycle_parking|fuel|post_box|recycling|charging_station)$/.test(v))return;els.push({lat:g[1],lon:g[0],tags:t})});
  if(!els.length)throw new Error('sem lugares');return {elements:els}}
-function photon(lat,lon){return timed('https://photon.komoot.io/reverse?lang=default&radius=0.4&limit=50&lat='+lat+'&lon='+lon,{},9000).then(function(j){return phEls(j,lat,lon,450)})}
+function photon(lat,lon){return timed('https://photon.komoot.io/reverse?lang=default&radius=0.4&limit=50&lat='+lat+'&lon='+lon,{},9000).then(function(j){return phEls(j,lat,lon,600)})}
 var PTERMS=['restaurante','café','padaria','mercado','farmácia','praça','parque','igreja','bar','loja','hotel','museu'];
-function photonQ(term,lat,lon){return timed('https://photon.komoot.io/api/?q='+encodeURIComponent(term)+'&lat='+lat+'&lon='+lon+'&location_bias_scale=0.9&limit=10&lang=default',{},9000).then(function(j){return phEls(j,lat,lon,450)})}
+function photonQ(term,lat,lon){return timed('https://photon.komoot.io/api/?q='+encodeURIComponent(term)+'&lat='+lat+'&lon='+lon+'&location_bias_scale=0.9&limit=10&lang=default',{},9000).then(function(j){return phEls(j,lat,lon,600)})}
 function nominatimNear(lat,lon){var dd=.003,vb=[lon-dd,lat+dd,lon+dd,lat-dd].join(',');
  return timed('https://nominatim.openstreetmap.org/search?format=jsonv2&accept-language=pt-BR&bounded=1&limit=15&viewbox='+vb+'&q=restaurant',{},10000).then(function(a){
   var els=[];(a||[]).forEach(function(x){if(x.name){var t={name:x.name};t[x.category||'amenity']=x.type;els.push({lat:+x.lat,lon:+x.lon,tags:t})}});
@@ -70,8 +70,7 @@ function nearbyLive(lat,lon,onPart){
  job('photon',0,function(){return photon(lat,lon)});
  PTERMS.forEach(function(t,i){job('photon '+t,i*120,function(){return photonQ(t,lat,lon)})});
  job('overpass',0,function(){return ov(OVP[0])});
- job('kumi',0,function(){return ov(OVP[1])});
- job('coffee',3000,function(){return ov(OVP[2])});
+ OVP.slice(1).forEach(function(u,i){job(u.split('/')[2].replace(/^(www\.|overpass[.-]?)/,'').slice(0,12),i<2?0:1500,function(){return ov(u)})});
  return Promise.all(jobs).then(function(){window.__ovErr=fails.filter(function(x,i){return fails.indexOf(x)===i});return Object.keys(all).length})}
 function nearby0(lat,lon){
  window.__ovErr=[];
@@ -88,6 +87,19 @@ function nearby0(lat,lon){
    var d=dist(lat,lon,la,lo),bonus=(t.tourism||t.historic)?45:0;var key=t.name.toLowerCase();
    if(seen[key]&&seen[key].d<=d)return;var o={name:t.name,kind:kindOf(t),d:d,score:d-bonus,lat:la,lon:lo};seen[key]=o});
   Object.keys(seen).forEach(function(k){out.push(seen[k])});out.sort(function(a,b){return a.score-b.score});return out.slice(0,7)})}
+
+var CTRY={Dubrovnik:'Croácia',Kotor:'Montenegro',Ljubljana:'Eslovênia',Trieste:'Itália',Plitvice:'Croácia',Rastoke:'Croácia','Šibenik':'Croácia',Split:'Croácia',Zagreb:'Croácia'};
+function offlineInfo(lat,lon){var best=null,bd=1e9;(window.LUGARES?LUGARES.all:[]).forEach(function(p){var d=dist(lat,lon,p.la,p.lo);if(d<bd){bd=d;best=p}});
+ if(best&&bd<60000)return {city:best.c,country:CTRY[best.c]||''};
+ if(lat<6&&lat>-34&&lon>-74&&lon<-34)return {city:'',country:'Brasil'};return {city:'',country:''}}
+/* cidade/país/endereço: três serviços ao mesmo tempo; o primeiro que responder vale; sem internet, estima pelo roteiro */
+function placeInfo(lat,lon,onPart){var got=false;
+ setTimeout(function(){if(!got){var o=offlineInfo(lat,lon);if(o.city||o.country)onPart({addr:'',name:'',city:o.city,country:o.country})}},3000);
+ function ok(r){if(r&&(r.city||r.country)){got=true;onPart(r);return r}throw new Error('vazio')}
+ var a=reverse(lat,lon).then(ok);
+ var b=timed('https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=pt&latitude='+lat+'&longitude='+lon,{},8000).then(function(j){return ok({addr:[j.locality,j.city,j.countryName].filter(Boolean).filter(function(x,i,ar){return ar.indexOf(x)===i}).join(', '),name:'',city:j.city||j.locality||j.principalSubdivision||'',country:j.countryName||''})});
+ var c=timed('https://photon.komoot.io/reverse?lang=pt&limit=1&lat='+lat+'&lon='+lon,{},8000).then(function(j){var p=(j.features&&j.features[0]&&j.features[0].properties)||{};return ok({addr:[p.street,p.city||p.county,p.country].filter(Boolean).join(', '),name:'',city:p.city||p.town||p.village||p.county||'',country:p.country||''})});
+ return anyOf([a,b,c]).catch(function(){var o=offlineInfo(lat,lon);if(o.city||o.country){onPart({addr:'',name:'',city:o.city,country:o.country});return o}throw new Error('sem local')})}
 function reverse(lat,lon){
  return timed('https://nominatim.openstreetmap.org/reverse?format=jsonv2&addressdetails=1&zoom=18&accept-language=pt-BR&lat='+lat+'&lon='+lon,{headers:{'Accept':'application/json'}},9000).then(function(j){
   var a=j.address||{},road=[a.road||a.pedestrian||a.footway||'',a.house_number||''].join(' ').trim(),city=a.city||a.town||a.village||a.municipality||a.county||'';
@@ -135,7 +147,8 @@ function locate(){
   F.pos={lat:+p.coords.latitude.toFixed(6),lon:+p.coords.longitude.toFixed(6),acc:Math.round(p.coords.accuracy||0)};
   setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m). Buscando lugares próximos…');
   var gone=false;F.failed=0;
-  reverse(F.pos.lat,F.pos.lon).then(function(r){F.addr=r.addr;F.rname=r.name;if(!$('#ck-city').value)$('#ck-city').value=r.city||'';if(!$('#ck-country').value)$('#ck-country').value=r.country||'';if(!gone)setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(r.addr?'<br><small>'+esc(r.addr)+'</small>':'')+'<br><span class="spin"></span> Buscando lugares próximos…')},function(){});
+  placeInfo(F.pos.lat,F.pos.lon,function(r){if(r.addr&&!F.addr)F.addr=r.addr;if(r.name&&!F.rname)F.rname=r.name;if(!$('#ck-city').value&&r.city)$('#ck-city').value=r.city;if(!$('#ck-country').value&&r.country)$('#ck-country').value=r.country;
+   if(!gone)setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(F.addr?'<br><small>'+esc(F.addr)+'</small>':'')+'<br><span class="spin"></span> Buscando lugares próximos…')}).catch(function(){});
   function mix(list){var r=window.LUGARES?LUGARES.near(F.pos.lat,F.pos.lon).slice(0,3):[],seen={};r.forEach(function(x){seen[x.name.toLowerCase()]=1});return r.concat((list||[]).filter(function(x){return !seen[x.name.toLowerCase()]})).slice(0,8)}
   var shown=0,first=true;
   function show(list){list=mix(list);F.sugs=list;if(!list.length)return;gone=true;
