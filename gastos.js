@@ -585,7 +585,7 @@ function fuelUI(){var box=$('#g-fuel'),tg=$('#g-fuel-t');if(!box)return;
   if(F.fuelFor!==(F.edit||'new')){F.fuelFor=F.edit||'new';var en=F.edit?S.entries.filter(function(x){return x.id===F.edit})[0]:null,f=(en&&en.fuel)||{};
     if(en&&en.fuel)F.fuelOpen=true;on=auto||!!F.fuelOpen;
     $('#g-fl').value=f.l!=null?String(f.l).replace('.',','):'';$('#g-fkm').value=f.km!=null?String(f.km):''}
-  box.hidden=!on;if(tg){tg.hidden=on;tg.onclick=function(){F.fuelOpen=true;fuelUI();$('#g-fl').focus()}}}
+  box.hidden=!on;if(tg)tg.hidden=true}
 function fuelCard(){
   var fs=S.entries.filter(function(e){return e.t==='g'&&e.fuel&&(e.fuel.l>0||e.fuel.km>0)});
   if(!fs.length)return '';
