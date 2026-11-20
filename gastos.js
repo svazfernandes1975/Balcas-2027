@@ -389,6 +389,7 @@ function submitG(){
   if(!(deb>0))deb=conv(a,F.ecur,m.cur);
   snap();
   var e={id:F.edit||uid(),t:'g',date:$('#g-date').value||dateDefault(F.cat),m:m.id,cur:F.ecur,amt:r2(a),debit:r2(deb),cat:F.cat,ln:F.ln||null,desc:$('#g-desc').value.trim(),eur:Math.round(toEUR(a,F.ecur)*10000)/10000,usd:r2(conv(a,F.ecur,'USD')),brl:r2(brlOf(a,m,diff)),ctry:curCountry($('#g-date').value||dateDefault(F.cat)).name};
+  if(F.cat==='comb'){var fl=num($('#g-fl').value),fk=num($('#g-fkm').value);if(fl>0||fk>0)e.fuel={l:fl>0?r2(fl):null,km:fk>0?Math.round(fk):null}}
   if(F.edit){S.entries=S.entries.map(function(x){return x.id===F.edit?e:x})}else S.entries.push(e);
   S.last.cur=F.ecur;save();var was=F.edit;resetForm();render();
   toast((was?'Alterado: ':'Lançado: ')+money(a,e.cur)+(diff?' · debitado '+money(deb,m.cur):'')+' · '+(bById(e.cat)?bById(e.cat).name:''),true);
@@ -540,7 +541,7 @@ function rExtrato(){
   var ctries={};all.forEach(function(e){if(e.ctry)ctries[e.ctry]=1});
   var used={};all.forEach(function(e){if(e.t==='g')used[e.cat]=1});
   var n=fxCount();
-  var h='<div class="card fxb"><div class="fxs"><span class="hint" id="fx-sum"></span><button type="button" class="btn sec sm" id="fx-clr">Limpar filtros</button></div><details id="fx-d"'+(fxOpen?' open':'')+'><summary><span><b>Filtros</b>'+(n?' <em class="tag">'+n+' ativo'+(n>1?'s':'')+'</em>':'')+'</span><span class="chev" aria-hidden="true"></span></summary><div class="fxbody">'+
+  var h=fuelCard()+'<div class="card fxb"><div class="fxs"><span class="hint" id="fx-sum"></span><button type="button" class="btn sec sm" id="fx-csv">Exportar CSV</button><button type="button" class="btn sec sm" id="fx-clr">Limpar filtros</button></div><details id="fx-d"'+(fxOpen?' open':'')+'><summary><span><b>Filtros</b>'+(n?' <em class="tag">'+n+' ativo'+(n>1?'s':'')+'</em>':'')+'</span><span class="chev" aria-hidden="true"></span></summary><div class="fxbody">'+
    '<label class="f">Buscar<input type="text" id="fx-q" value="'+esc(FX.q)+'" placeholder="descrição, categoria, meio, país"></label>'+
    '<div class="lbl">Tipo</div><div class="chips">'+chip('type','','Todos',!FX.type)+chip('type','g','Gastos',FX.type==='g')+chip('type','t','Saques',FX.type==='t')+chip('type','a','Correções de saldo',FX.type==='a')+'</div>'+
    '<div class="lbl">Quando</div><div class="chips">'+chip('when','','Qualquer época',!FX.when)+chip('when','pre','Antes da viagem',FX.when==='pre')+chip('when','trip','Durante a viagem',FX.when==='trip')+chip('when','post','Depois da viagem',FX.when==='post')+'</div>'+
@@ -559,7 +560,46 @@ function rExtrato(){
   $('#fx-d').addEventListener('toggle',function(){fxOpen=this.open});
   $('#fx-q').addEventListener('input',function(){FX.q=this.value.trim();drawList();$('#fx-clr').hidden=!fxCount()});
   $('#fx-clr').onclick=function(){fxReset();rExtrato()};
+  $('#fx-csv').onclick=exportCsv;
   drawList();
+}
+/* combustível: litros e km no lançamento, e resumo de consumo no extrato */
+function fuelUI(){var box=$('#g-fuel');if(!box)return;var on=F.cat==='comb'&&F.mode==='g';box.hidden=!on;
+  if(!on){F.fuelFor=null;return}
+  if(F.fuelFor!==(F.edit||'new')){F.fuelFor=F.edit||'new';var en=F.edit?S.entries.filter(function(x){return x.id===F.edit})[0]:null,f=(en&&en.fuel)||{};
+    $('#g-fl').value=f.l!=null?String(f.l).replace('.',','):'';$('#g-fkm').value=f.km!=null?String(f.km):''}}
+function fuelCard(){
+  var fs=S.entries.filter(function(e){return e.t==='g'&&e.cat==='comb'&&e.fuel&&(e.fuel.l>0||e.fuel.km>0)});
+  if(!fs.length)return '';
+  var L=0,E=0,B=0,n=0;fs.forEach(function(e){if(e.fuel.l>0){L+=e.fuel.l;n++}E+=e.eur;B+=entryBrl(e)});
+  var kms=fs.filter(function(e){return e.fuel.km>0}).map(function(e){return e.fuel.km}).sort(function(a,b){return a-b});
+  var dist=kms.length>1?kms[kms.length-1]-kms[0]:0,s=[];
+  s.push('<b>'+fs.length+'</b> abastecimento'+(fs.length>1?'s':'')+(L>0?' · <b>'+(Math.round(L*10)/10).toLocaleString('pt-BR')+' L</b>':'')+' · '+money(E)+' ('+money(B,'BRL')+')');
+  if(L>0&&E>0){var pl=0,pn=0;fs.forEach(function(e){if(e.fuel.l>0){pl+=e.fuel.l;pn+=e.eur}});s.push('preço médio <b>'+money(pn/pl)+'/L</b>')}
+  if(dist>0){
+    /* consumo: litros abastecidos depois do primeiro registro (supõe tanque cheio a cada parada) ÷ km rodados */
+    var withKm=fs.filter(function(e){return e.fuel.km>0&&e.fuel.l>0}).sort(function(a,b){return a.fuel.km-b.fuel.km});
+    if(withKm.length>1){var lit=0,eu=0;withKm.slice(1).forEach(function(e){lit+=e.fuel.l;eu+=e.eur});var d2=withKm[withKm.length-1].fuel.km-withKm[0].fuel.km;
+      if(d2>0&&lit>0)s.push('consumo <b>'+(Math.round(d2/lit*10)/10).toLocaleString('pt-BR')+' km/L</b> · custo <b>'+money(eu/d2*100)+' por 100 km</b>')}
+    s.push(dist.toLocaleString('pt-BR')+' km rodados entre o 1º e o último registro')}
+  return '<div class="card"><div class="hint" style="font-weight:600">⛽ Combustível</div><p style="margin:6px 0 0;line-height:1.7">'+s.join('<br>')+'</p><p class="hint" style="margin:6px 0 0">O consumo só fica certo se você encher o tanque a cada abastecimento e registrar o km do hodômetro.</p></div>'}
+/* exportar o extrato (com os filtros atuais) em CSV para planilha */
+function exportCsv(){
+  var es=S.entries.filter(fxMatch).sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:(a.id<b.id?-1:1)});
+  if(!es.length){toast('Nada para exportar com esses filtros');return}
+  function q(v){v=v==null?'':String(v);return /[";\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+  function n(v){return v==null||v===''||isNaN(v)?'':String(Math.round(v*100)/100).replace('.',',')}
+  var rows=[['Data','Tipo','Categoria','Descrição','País','Meio de pagamento','Moeda','Valor na moeda','Valor em EUR','Valor em BRL','Litros','Km']];
+  es.forEach(function(e){
+    if(e.t==='g'){var m=mById(e.m),b=bById(e.cat),c=e.cur||(m?m.cur:'EUR'),f=e.fuel||{};
+      rows.push([e.date,'Gasto',b?b.name:'',e.desc||'',e.ctry||'',m?m.name:'',c,n(e.amt),n(e.eur),n(entryBrl(e)),n(f.l),n(f.km)])}
+    else if(e.t==='t'){var a=mById(e.from),z=mById(e.to);
+      rows.push([e.date,'Transferência','',(e.desc||'')+' ('+(a?a.name:'?')+' → '+(z?z.name:'?')+')','','',a?a.cur:'',n(e.out),'','','',''])}
+    else{var mm=mById(e.m);rows.push([e.date,'Correção de saldo','',e.desc||'','',mm?mm.name:'',mm?mm.cur:'',n(e.delta),'','','',''])}});
+  var csv='\ufeff'+rows.map(function(r){return r.map(q).join(';')}).join('\r\n');
+  try{var bl=new Blob([csv],{type:'text/csv;charset=utf-8'}),u=URL.createObjectURL(bl),a=document.createElement('a');
+    a.href=u;a.download='gastos-balcas-2027-'+todayStr()+'.csv';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove()},1500);
+    toast(es.length+' lançamentos exportados')}catch(x){toast('Não foi possível exportar neste navegador')}
 }
 function drawList(){
   var es=S.entries.filter(fxMatch).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1)});
@@ -948,7 +988,7 @@ function ckSug(){var box=$('#g-ck');if(!box||!window.CK)return;var d=($('#g-date
   if(!l.length){box.hidden=true;box.innerHTML='';return}
   box.hidden=false;box.innerHTML='<span class="hint">📍 Check-ins do dia:</span>'+l.map(function(c,i){return '<button type="button" class="chip" data-ck="'+i+'">'+esc(c.name)+'</button>'}).join('');
   $$('[data-ck]',box).forEach(function(b){b.onclick=function(){var c=l[+b.dataset.ck],inp=$('#g-desc');inp.value=inp.value.trim()?inp.value.trim()+' · '+c.name:c.name;inp.dispatchEvent(new Event('input',{bubbles:true}))}})}
-var _rL=rLancar;rLancar=function(){_rL.apply(this,arguments);ckSug()};
+var _rL=rLancar;rLancar=function(){_rL.apply(this,arguments);ckSug();fuelUI()};
 if(window.CK)CK.onChange(ckSug);
 var NAV={v:null,i:0,t:0};
 function navList(v){return $$('input:not([type=hidden]):not([disabled]),select:not([disabled]),button:not([disabled]),textarea',v).filter(function(x){return x.offsetParent!==null})}

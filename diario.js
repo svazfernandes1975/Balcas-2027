@@ -57,7 +57,8 @@ function shrink(file){return new Promise(function(res,rej){var fr=new FileReader
  var q=.68,u=c.toDataURL('image/jpeg',q);while(u.length>150000&&q>.35){q-=.1;u=c.toDataURL('image/jpeg',q)}res(u)};im.src=fr.result};fr.readAsDataURL(file)})}
 
 var CK=window.CK,F={cur:null,pos:null,photo:null,rating:0,sugs:[],busy:false};
-var map=null,layer=null,markers={},dayFilter='';
+var map=null,layer=null,markers={},dayFilter='',stFilter='';
+var STL={'0':'sem escada','1':'poucos degraus','2':'muita escada'};
 
 /* ---------- sheet ---------- */
 function sheet(on){var s=$('#ck-sheet');s.hidden=!on;document.body.style.overflow=on?'hidden':''}
@@ -71,7 +72,7 @@ function coords(la,lo){return la.toFixed(5)+', '+lo.toFixed(5)}
 function setLoc(h){$('#ck-loc').innerHTML=h+(F.pos?'<div class="ckco">📌 '+coords(F.pos.lat,F.pos.lon)+(F.pos.acc?' · ±'+F.pos.acc+' m':'')+'</div>':'')}
 function drawForm(c){
  $('#ck-title').textContent=F.cur?'Editar check-in':'Check-in';
- $('#ck-name').value=c.name||'';$('#ck-kind').value=c.kind||'';$('#ck-note').value=c.note||'';$('#ck-city').value=c.city||'';$('#ck-country').value=c.country||'';$('#ck-ts').value=(c.ts||nowLocal()).slice(0,16);
+ $('#ck-name').value=c.name||'';$('#ck-kind').value=c.kind||'';$('#ck-note').value=c.note||'';$('#ck-city').value=c.city||'';$('#ck-stairs').value=c.stairs==null?'':String(c.stairs);$('#ck-country').value=c.country||'';$('#ck-ts').value=(c.ts||nowLocal()).slice(0,16);
  drawStars();drawPhoto();$('#ck-sugs').innerHTML='';$('#ck-err').textContent=''}
 function drawStars(){var h='';for(var i=1;i<=5;i++){var on=F.rating>=i?'full':(F.rating===i-.5?'half':'');h+='<button type="button" class="stb '+on+'" data-s="'+i+'" aria-label="'+i+' estrelas">★</button>'}
  $('#ck-stars').innerHTML=h+'<small>'+(F.rating?F.rating.toString().replace('.',',')+' de 5':'sem nota')+'</small>';
@@ -104,7 +105,7 @@ function save(){
  var name=$('#ck-name').value.trim();if(!name){$('#ck-err').textContent='Digite o nome do lugar.';$('#ck-name').focus();return}
  var ts=$('#ck-ts').value||nowLocal();
  var o=F.cur?JSON.parse(JSON.stringify(F.cur)):{};
- o.name=name;o.kind=$('#ck-kind').value.trim();o.city=$('#ck-city').value.trim();o.country=$('#ck-country').value.trim();o.note=$('#ck-note').value.trim();o.rating=F.rating||0;o.ts=ts;o.date=ts.slice(0,10);
+ o.name=name;o.kind=$('#ck-kind').value.trim();o.stairs=$('#ck-stairs').value===''?null:+$('#ck-stairs').value;o.city=$('#ck-city').value.trim();o.country=$('#ck-country').value.trim();o.note=$('#ck-note').value.trim();o.rating=F.rating||0;o.ts=ts;o.date=ts.slice(0,10);
  o.photo=F.photo||null;if(F.photo===null&&o.hasPhoto)delete o.hasPhoto;
  if(F.pos){o.lat=F.pos.lat;o.lon=F.pos.lon;o.acc=F.pos.acc;o.addr=F.addr||o.addr||''}
  o.src=o.src||(F.src||'manual');if(!F.cur&&F.src)o.src=F.src;
@@ -131,7 +132,7 @@ function card(c){
  return '<article class="ckc" id="c-'+esc(c.id)+'">'+
  (c.photo?'<button type="button" class="ckph" data-zoom="'+esc(c.id)+'"><img loading="lazy" src="'+c.photo+'" alt="'+esc(c.name)+'"></button>':(c.hasPhoto?'<div class="ckph none">foto sincronizando…</div>':''))+
  '<div class="ckb"><div class="ckt"><h3>'+esc(c.name)+'</h3>'+stars(c.rating)+'</div>'+
- '<div class="ckm">'+timeOf(c.ts)+(c.kind?' · '+esc(c.kind):'')+(c.by?' · '+esc(String(c.by).split(' ')[0]):'')+'</div>'+
+ '<div class="ckm">'+timeOf(c.ts)+(c.kind?' · '+esc(c.kind):'')+(c.stairs!=null&&STL[c.stairs]?'<span class="ckst s'+c.stairs+'">'+(c.stairs===0?'♿ ':'🪜 ')+STL[c.stairs]+'</span>':'')+(c.by?' · '+esc(String(c.by).split(' ')[0]):'')+'</div>'+
  (where(c)?'<div class="ckw">🌍 '+esc(where(c))+'</div>':'')+(c.lat!=null?'<div class="ckco">📌 '+coords(c.lat,c.lon)+'</div>':'')+(c.addr?'<div class="cka">'+esc(c.addr)+'</div>':'')+(c.note?'<p class="ckn">'+esc(c.note)+'</p>':'')+
  '<div class="ckx">'+(c.lat!=null?'<button type="button" class="btn sec sm" data-map="'+esc(c.id)+'">Ver no mapa</button>':'')+'<button type="button" class="btn sec sm" data-edit="'+esc(c.id)+'">Editar</button><button type="button" class="btn sec sm danger" data-del="'+esc(c.id)+'">Apagar</button></div></div></article>'}
 function draw(){
@@ -140,7 +141,10 @@ function draw(){
  $('#ck-stat').innerHTML=all.length?'<div class="stat"><b>'+all.length+'</b><span>lugares</span></div><div class="stat"><b>'+ks.length+'</b><span>dia'+(ks.length>1?'s':'')+'</span></div><div class="stat"><b>'+all.filter(function(c){return c.photo||c.hasPhoto}).length+'</b><span>fotos</span></div>':'';
  $('#ck-days').innerHTML=ks.length>1?'<button type="button" class="chip" data-d="" aria-pressed="'+(!dayFilter)+'">Todos</button>'+ks.map(function(d){return '<button type="button" class="chip" data-d="'+d+'" aria-pressed="'+(dayFilter===d)+'">'+dayLabel(d)+' <small>'+days[d]+'</small></button>'}).join(''):'';
  $$('#ck-days .chip').forEach(function(b){b.onclick=function(){dayFilter=b.dataset.d;draw()}});
- var list=dayFilter?all.filter(function(c){return c.date===dayFilter}):all;
+ var hasSt=all.some(function(c){return c.stairs!=null});
+ $('#ck-st').innerHTML=hasSt?'<button type="button" class="chip" data-s="" aria-pressed="'+(!stFilter)+'">Todas as escadas</button>'+['0','1','2'].map(function(k){return '<button type="button" class="chip" data-s="'+k+'" aria-pressed="'+(stFilter===k)+'">'+(k==='0'?'♿ ':'🪜 ')+STL[k]+'</button>'}).join(''):'';
+ $$('#ck-st .chip').forEach(function(b){b.onclick=function(){stFilter=b.dataset.s;draw()}});
+ var list=(dayFilter?all.filter(function(c){return c.date===dayFilter}):all).filter(function(c){return !stFilter||String(c.stairs)===stFilter});
  var h='';if(!list.length)h='<div class="ckempty"><b>Nenhum check-in ainda.</b><p>Toque em “Fazer check-in aqui” quando chegar a um lugar. O portal pega a localização, sugere o nome e você confirma.</p></div>';
  else{var cur='';list.forEach(function(c){if(c.date!==cur){cur=c.date;var n=list.filter(function(x){return x.date===cur}).length;h+='<h2 class="ckd">'+dayLabel(cur)+' <small>'+n+' lugar'+(n>1?'es':'')+'</small></h2>'}h+=card(c)})}
  $('#ck-list').innerHTML=h;
