@@ -126,11 +126,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 /* Versão do site: ATUALIZAR a cada nova publicação */
-var SITE_VERSION='v122';
+var SITE_VERSION='v123';
 (function(){
   function put(){var n=document.querySelector('nav.pills');if(!n||n.querySelector('.ver'))return;
     var v=document.createElement('span');v.className='ver';v.textContent=SITE_VERSION;v.title='Versão do site';
     v.style.cssText='flex:none;align-self:center;font:600 11px/1 var(--f-mono,monospace);letter-spacing:.06em;color:var(--muted);border:1px dashed var(--line);border-radius:5px;padding:5px 7px';
     n.appendChild(v)}
+  /* offline: registra o service worker e marca ✓ na versão quando o portal já está guardado no aparelho */
+  try{if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+    var mark=function(){Promise.all([caches.open('balcas-'+SITE_VERSION).then(function(c){return c.keys()}),caches.open('balcas-sdk').then(function(c){return c.keys()})]).then(function(a){
+      var k=a[0],s=a[1];var v=document.querySelector('.ver');if(v&&k.length>20&&(s.length>=3||!document.querySelector('script[src*="fb.js"]'))){v.textContent=SITE_VERSION+' ✓';v.title='Versão do site · pronto para abrir sem internet'}}).catch(function(){})};
+    window.addEventListener('load',function(){setTimeout(mark,2500);setTimeout(mark,9000)});
+  }}catch(e){}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',put);else put();
 })();
