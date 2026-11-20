@@ -51,6 +51,7 @@ document.addEventListener('click',function(e){
 var ITEMS=[
  ['','＋ Lançar gasto','gastos.html#top','act'],
  ['','📍 Check-in','diario.html?novo=1','act'],
+ ['','🆘 SOS','sos.html','act'],
  ['','Hoje','hoje.html'],
  ['','Diário de check-ins','diario.html'],
  ['','Início','index.html'],
@@ -126,7 +127,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 /* Versão do site: ATUALIZAR a cada nova publicação */
-var SITE_VERSION='v123';
+var SITE_VERSION='v124';
 (function(){
   function put(){var n=document.querySelector('nav.pills');if(!n||n.querySelector('.ver'))return;
     var v=document.createElement('span');v.className='ver';v.textContent=SITE_VERSION;v.title='Versão do site';
