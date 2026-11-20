@@ -232,7 +232,12 @@ function stats(){
     perDay:rem/left,avg:idx>0?spentT/idx:0,proj:idx>0?spentT/idx*total:0,started:t>=S.trip.start||!!S.refDate||last!==''}
 }
 
-if(!root){window.GX={stats:stats,money:money,brl:brl,both:both,S:function(){return S}};return}
+/* gasto de um dia x previsto por dia (o que sobrava do orçamento da viagem, dividido pelos dias que restavam) */
+function dayInfo(date){var st=stats(),sp=0,before=0,n=0;
+ S.entries.forEach(function(e){if(e.t!=='g'||isPre(e)||isPost(e))return;if(e.date===date){sp+=e.eur;n++}else if(e.date<date)before+=e.eur});
+ var di=dnum(date)-dnum(S.trip.start)+1,left=Math.max(1,st.total-di+1),plan=(st.budT-before)/left;
+ return{spent:sp,n:n,plan:Math.max(0,plan),inTrip:date>=S.trip.start&&date<=S.trip.end}}
+if(!root){window.GX={dayInfo:dayInfo,stats:stats,money:money,brl:brl,both:both,S:function(){return S}};return}
 
 /* ---------- estado do formulário ---------- */
 var CI={bed:'<path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/>',coffee:'<path d="M10 2v2M14 2v2M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/>',
@@ -293,6 +298,11 @@ function renderWhere(ct,dt){
   $('#w-chg').onclick=function(){F.whereOpen=!F.whereOpen;rLancar()};
   $$('[data-c]',w).forEach(function(b){b.onclick=function(){F.country=b.dataset.c;F.ctouched=true;F.curTouched=false;F.debTouched=false;F.whereOpen=false;rLancar();$('#g-amt').focus()}})
 }
+function rAlert(){var b=$('#k-alert');if(!b)return;var t=todayStr(),i=dayInfo(t);
+  if(!i.inTrip||!i.n||i.plan<=0){b.hidden=true;return}
+  var r=i.spent/i.plan;if(r<.8){b.hidden=true;return}
+  b.hidden=false;b.className='card galert '+(r>1?'bad':'warn');
+  b.innerHTML=r>1?'<b>Orçamento do dia estourado.</b> Hoje você gastou '+money(i.spent)+', '+money(i.spent-i.plan)+' acima dos '+money(i.plan)+' previstos por dia.':'<b>Perto do limite do dia.</b> Hoje: '+money(i.spent)+' de '+money(i.plan)+' previstos ('+Math.round(r*100)+'%).'}
 function rLancar(){
   if(!mById(F.meth))F.meth=null;
   if(!bById(F.cat))F.cat=null;
@@ -300,6 +310,7 @@ function rLancar(){
   var st=stats();
   $('#k-saldo').innerHTML='<b>'+money(st.avail)+'</b><span>saldo</span>';
   $('#k-gasto').innerHTML='<b>'+money(st.spentT)+'</b><span>gasto</span>';
+  rAlert();
   var k=$('#k-dia');k.className='kpi '+(st.idx===0||st.perDay>=st.avg?'ok':'warn');
   k.innerHTML='<b>'+money(Math.max(0,st.perDay))+'</b><span>por dia ('+st.left+' d)</span>';
   if(F.mode==='g'){

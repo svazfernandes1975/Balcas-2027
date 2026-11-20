@@ -26,7 +26,7 @@ function kindOf(t){
  for(var i=0;i<ks.length;i++){var k=ks[i];if(t[k]){var m=KIND[k]&&KIND[k][t[k]];if(m)return m;if(k==='tourism')return 'Atração';if(k==='historic')return 'Local histórico'}}
  if(t.shop)return 'Loja';return 'Lugar'}
 function overpassQ(lat,lon,R){var a='(around:'+R+','+lat+','+lon+')';
- return '[out:json][timeout:8];('+
+ return '[out:json][timeout:14];('+
  'nwr'+a+'["name"]["tourism"];nwr'+a+'["name"]["historic"];'+
  'nwr'+a+'["name"]["amenity"~"^(restaurant|cafe|bar|pub|fast_food|ice_cream|place_of_worship|theatre|cinema|marketplace|fountain|ferry_terminal|bus_station|townhall|library|university)$"];'+
  'nwr'+a+'["name"]["leisure"~"^(park|garden|marina|beach_resort|nature_reserve|playground)$"];'+
@@ -41,8 +41,13 @@ function timed(url,opt,ms){var c=window.AbortController?new AbortController():nu
 function nearby(lat,lon){var ck='ckn:'+lat.toFixed(3)+','+lon.toFixed(3);try{var c=JSON.parse(sessionStorage.getItem(ck)||'null');if(c&&c.length)return Promise.resolve(c)}catch(e){}
  return nearby0(lat,lon).then(function(l){try{sessionStorage.setItem(ck,JSON.stringify(l))}catch(e){}return l})}
 function nearby0(lat,lon){
- function go(){return anyOf(OVP.map(function(u){return timed(u,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(overpassQ(lat,lon,120))},8000)}))}
- return go().then(function(j){var seen={},out=[];
+ function one(u,R){return timed(u,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(overpassQ(lat,lon,R))},15000).then(function(j){
+  if(!j||!j.elements||j.remark&&/error|timed out|out of memory/i.test(j.remark)&&!j.elements.length)throw new Error('overpass remark');return j})}
+ function go(R){return anyOf(OVP.map(function(u){return one(u,R)}))}
+ function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
+ /* 1ª tentativa raio 120 m; se falhar, espera e tenta de novo; se vier vazio, tenta 300 m */
+ return go(120).catch(function(){return wait(1200).then(function(){return go(120)})}).then(function(j){
+  if(j.elements.length)return j;return go(300).catch(function(){return j})}).then(function(j){var seen={},out=[];
   (j.elements||[]).forEach(function(e){var t=e.tags||{};if(!t.name)return;var la=e.lat!=null?e.lat:(e.center&&e.center.lat),lo=e.lon!=null?e.lon:(e.center&&e.center.lon);if(la==null)return;
    var d=dist(lat,lon,la,lo),bonus=(t.tourism||t.historic)?45:0;var key=t.name.toLowerCase();
    if(seen[key]&&seen[key].d<=d)return;var o={name:t.name,kind:kindOf(t),d:d,score:d-bonus,lat:la,lon:lo};seen[key]=o});
@@ -93,18 +98,19 @@ function locate(){
  navigator.geolocation.getCurrentPosition(function(p){
   F.pos={lat:+p.coords.latitude.toFixed(6),lon:+p.coords.longitude.toFixed(6),acc:Math.round(p.coords.accuracy||0)};
   setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m). Buscando lugares próximos…');
-  var gone=false;
+  var gone=false;F.failed=0;
   reverse(F.pos.lat,F.pos.lon).then(function(r){F.addr=r.addr;F.rname=r.name;if(!$('#ck-city').value)$('#ck-city').value=r.city||'';if(!$('#ck-country').value)$('#ck-country').value=r.country||'';if(!gone)setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(r.addr?'<br><small>'+esc(r.addr)+'</small>':'')+'<br><span class="spin"></span> Buscando lugares próximos…')},function(){});
-  nearby(F.pos.lat,F.pos.lon).then(function(list){gone=true;F.sugs=list;
+  function mix(list){var r=window.LUGARES?LUGARES.near(F.pos.lat,F.pos.lon).slice(0,3):[],seen={};r.forEach(function(x){seen[x.name.toLowerCase()]=1});return r.concat((list||[]).filter(function(x){return !seen[x.name.toLowerCase()]})).slice(0,8)}
+  nearby(F.pos.lat,F.pos.lon).catch(function(){F.failed=1;return []}).then(function(list){list=mix(list);gone=true;F.sugs=list;
    if(list.length){setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(F.addr?'<br><small>'+esc(F.addr)+'</small>':''));if(!$('#ck-name').value){$('#ck-name').value=list[0].name;$('#ck-kind').value=list[0].kind;F.src='osm'}drawSugs()}
-   else{noPlace()}},function(){gone=true;noPlace(true)});
+   else{noPlace(F.failed)}});
  },function(e){
   var m=e&&e.code===1?'Permissão de localização negada. Libere nas configurações do navegador, ou digite o nome do lugar abaixo.':e&&e.code===3?'A localização demorou demais.':'Não foi possível obter a localização.';
   setLoc('<b>'+m+'</b> <button type="button" class="lk" id="ck-retry">Tentar de novo</button>');var r=$('#ck-retry');if(r)r.onclick=locate},
  {enableHighAccuracy:false,timeout:9000,maximumAge:60000})}
 function noPlace(fail){var nm=F.rname||'';
- setLoc('<b>Posição encontrada</b> (precisão ≈ '+(F.pos?F.pos.acc:'?')+' m)'+(F.addr?'<br><small>'+esc(F.addr)+'</small>':'')+'<br>'+(fail?'Não consegui buscar os lugares próximos (sem internet?).':'Nenhum lugar com nome por perto.')+' Digite o nome abaixo.'+(nm?' <button type="button" class="lk" id="ck-usern">Usar “'+esc(nm)+'”</button>':''));
- var u=$('#ck-usern');if(u)u.onclick=function(){$('#ck-name').value=nm}}
+ setLoc('<b>Posição encontrada</b> (precisão ≈ '+(F.pos?F.pos.acc:'?')+' m)'+(F.addr?'<br><small>'+esc(F.addr)+'</small>':'')+'<br>'+(fail?'Não consegui buscar os lugares próximos (sem internet?).':'Nenhum lugar com nome por perto.')+' Digite o nome abaixo. <button type="button" class="lk" id="ck-retry2">Buscar de novo</button>'+(nm?' <button type="button" class="lk" id="ck-usern">Usar “'+esc(nm)+'”</button>':''));
+ var u=$('#ck-usern');if(u)u.onclick=function(){$('#ck-name').value=nm};var r2=$('#ck-retry2');if(r2)r2.onclick=function(){try{sessionStorage.clear()}catch(e){}locate()}}
 function save(){
  var name=$('#ck-name').value.trim();if(!name){$('#ck-err').textContent='Digite o nome do lugar.';$('#ck-name').focus();return}
  var ts=$('#ck-ts').value||nowLocal();
@@ -173,6 +179,6 @@ function init(){
  onFile($('#ck-cam'));onFile($('#ck-gal'));
  CK.onChange(draw);draw();
  if(window.FB&&FB.strip)FB.strip($('#ck-fb'));else document.addEventListener('fb-ready',function(){if(FB.strip)FB.strip($('#ck-fb'))});
- if(/[?&]novo=1/.test(location.search)){history.replaceState(null,'','diario.html');openNew()}}
+ if(/[?&]novo=1/.test(location.search)){var mn=location.search.match(/[?&]nome=([^&]*)/),mc=location.search.match(/[?&]cidade=([^&]*)/);history.replaceState(null,'','diario.html');openNew();if(mn){try{$('#ck-name').value=decodeURIComponent(mn[1].replace(/\+/g,' '));F.src='roteiro'}catch(e){}if(mc){try{if(!$('#ck-city').value)$('#ck-city').value=decodeURIComponent(mc[1].replace(/\+/g,' '))}catch(e){}}}}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
