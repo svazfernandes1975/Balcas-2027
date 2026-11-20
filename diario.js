@@ -43,7 +43,7 @@ function nearby(lat,lon){var ck='ckn:'+lat.toFixed(3)+','+lon.toFixed(3);try{var
 function liteQ(lat,lon,R){var a='(around:'+R+','+lat+','+lon+')';
  return '[out:json][timeout:20];(nwr'+a+'["name"]["tourism"];nwr'+a+'["name"]["historic"];nwr'+a+'["name"]["amenity"~"^(restaurant|cafe|bar|pub|fast_food|place_of_worship|theatre|cinema|library|university)$"];nwr'+a+'["name"]["leisure"~"^(park|garden)$"];);out center tags 25;'}
 function photon(lat,lon){
- return timed('https://photon.komoot.io/reverse?lang=default&radius=0.35&limit=40&lat='+lat+'&lon='+lon,{},12000).then(function(j){
+ return timed('https://photon.komoot.io/reverse?lang=default&radius=0.35&limit=40&lat='+lat+'&lon='+lon,{},9000).then(function(j){
   var els=[];(j.features||[]).forEach(function(f){var p=f.properties||{},g=f.geometry&&f.geometry.coordinates;if(!p.name||!g)return;var k=p.osm_key,v=p.osm_value,t={name:p.name};
    if(k==='tourism'||k==='historic'||k==='amenity'||k==='leisure'||k==='shop'||k==='natural'||k==='man_made'){t[k]=v}else return;
    if(k==='amenity'&&!/^(restaurant|cafe|bar|pub|fast_food|ice_cream|place_of_worship|theatre|cinema|marketplace|fountain|library|university|bus_station|townhall)$/.test(v))return;
@@ -53,6 +53,25 @@ function nominatimNear(lat,lon){var dd=.003,vb=[lon-dd,lat+dd,lon+dd,lat-dd].joi
  return timed('https://nominatim.openstreetmap.org/search?format=jsonv2&accept-language=pt-BR&bounded=1&limit=15&viewbox='+vb+'&q=restaurant',{},10000).then(function(a){
   var els=[];(a||[]).forEach(function(x){if(x.name){var t={name:x.name};t[x.category||'amenity']=x.type;els.push({lat:+x.lat,lon:+x.lon,tags:t})}});
   if(!els.length)throw new Error('nominatim vazio');return {elements:els}})}
+function parseEls(j,lat,lon){var seen={};(j.elements||[]).forEach(function(e){var t=e.tags||{};if(!t.name)return;var la=e.lat!=null?e.lat:(e.center&&e.center.lat),lo=e.lon!=null?e.lon:(e.center&&e.center.lon);if(la==null)return;
+  var d=dist(lat,lon,la,lo),bonus=(t.tourism||t.historic)?45:0,key=t.name.toLowerCase();if(seen[key]&&seen[key].d<=d)return;seen[key]={name:t.name,kind:kindOf(t),d:d,score:d-bonus,lat:la,lon:lo}});
+ return Object.keys(seen).map(function(k){return seen[k]})}
+var LKEY='balcas2027-near-v1';
+function cacheGet(lat,lon){try{var a=JSON.parse(localStorage.getItem(LKEY)||'[]'),n=Date.now();for(var i=0;i<a.length;i++){if(n-a[i].t<6*3600e3&&dist(lat,lon,a[i].lat,a[i].lon)<120)return a[i].l}}catch(e){}return []}
+function cachePut(lat,lon,l){if(!l.length)return;try{var a=JSON.parse(localStorage.getItem(LKEY)||'[]');a.unshift({t:Date.now(),lat:lat,lon:lon,l:l});localStorage.setItem(LKEY,JSON.stringify(a.slice(0,12)))}catch(e){}}
+/* busca "ao vivo": todas as fontes ao mesmo tempo; cada resposta atualiza a lista na hora */
+function nearbyLive(lat,lon,onPart){
+ var all={},fails=[],jobs=[];
+ function add(l){l.forEach(function(x){var k=x.name.toLowerCase();if(!all[k]||all[k].d>x.d)all[k]=x});
+  var out=Object.keys(all).map(function(k){return all[k]}).sort(function(a,b){return a.score-b.score}).slice(0,10);onPart(out)}
+ function job(nm,delay,fn){jobs.push(new Promise(function(r){setTimeout(r,delay)}).then(fn).then(function(j){add(parseEls(j,lat,lon))}).catch(function(e){fails.push(nm+': '+(e&&e.name==='AbortError'?'demorou':(e&&e.message)||'falhou'))}))}
+ var q=liteQ(lat,lon,200);
+ function ov(u){return timed(u,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(q)},9000).then(function(j){if(!j||!j.elements)throw new Error('vazio');return j})}
+ job('photon',0,function(){return photon(lat,lon)});
+ job('overpass',0,function(){return ov(OVP[0])});
+ job('kumi',0,function(){return ov(OVP[1])});
+ job('coffee',3000,function(){return ov(OVP[2])});
+ return Promise.all(jobs).then(function(){window.__ovErr=fails;return Object.keys(all).length})}
 function nearby0(lat,lon){
  window.__ovErr=[];
  function lag(ms,fn,nm){return new Promise(function(r){setTimeout(r,ms)}).then(fn).catch(function(e){window.__ovErr.push(nm+': '+(e&&e.name==='AbortError'?'demorou':(e&&e.message)||'falhou'));throw e})}
@@ -117,9 +136,13 @@ function locate(){
   var gone=false;F.failed=0;
   reverse(F.pos.lat,F.pos.lon).then(function(r){F.addr=r.addr;F.rname=r.name;if(!$('#ck-city').value)$('#ck-city').value=r.city||'';if(!$('#ck-country').value)$('#ck-country').value=r.country||'';if(!gone)setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(r.addr?'<br><small>'+esc(r.addr)+'</small>':'')+'<br><span class="spin"></span> Buscando lugares próximos…')},function(){});
   function mix(list){var r=window.LUGARES?LUGARES.near(F.pos.lat,F.pos.lon).slice(0,3):[],seen={};r.forEach(function(x){seen[x.name.toLowerCase()]=1});return r.concat((list||[]).filter(function(x){return !seen[x.name.toLowerCase()]})).slice(0,8)}
-  nearby(F.pos.lat,F.pos.lon).catch(function(){F.failed=1;return []}).then(function(list){list=mix(list);gone=true;F.sugs=list;
-   if(list.length){setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(F.addr?'<br><small>'+esc(F.addr)+'</small>':''));if(!$('#ck-name').value){$('#ck-name').value=list[0].name;$('#ck-kind').value=list[0].kind;F.src='osm'}drawSugs()}
-   else{noPlace(F.failed)}});
+  var shown=0,first=true;
+  function show(list){list=mix(list);F.sugs=list;if(!list.length)return;gone=true;
+   setLoc('<b>Posição encontrada</b> (precisão ≈ '+F.pos.acc+' m)'+(F.addr?'<br><small>'+esc(F.addr)+'</small>':''));
+   if(!$('#ck-name').value&&first){$('#ck-name').value=list[0].name;$('#ck-kind').value=list[0].kind;F.src=list[0].rot?'roteiro':'osm'}first=false;drawSugs()}
+  show(cacheGet(F.pos.lat,F.pos.lon));
+  var lastL=[];
+  nearbyLive(F.pos.lat,F.pos.lon,function(l){lastL=l;show(l)}).then(function(n){cachePut(F.pos.lat,F.pos.lon,lastL);if(!F.sugs.length){gone=true;noPlace(window.__ovErr&&window.__ovErr.length>=3)}});
  },function(e){
   var m=e&&e.code===1?'Permissão de localização negada. Libere nas configurações do navegador, ou digite o nome do lugar abaixo.':e&&e.code===3?'A localização demorou demais.':'Não foi possível obter a localização.';
   setLoc('<b>'+m+'</b> <button type="button" class="lk" id="ck-retry">Tentar de novo</button>');var r=$('#ck-retry');if(r)r.onclick=locate},
