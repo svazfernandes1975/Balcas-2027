@@ -619,6 +619,20 @@ function exportCsv(){
     a.href=u;a.download='gastos-balcas-2027-'+todayStr()+'.csv';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove()},1500);
     toast(es.length+' lançamentos exportados')}catch(x){toast('Não foi possível exportar neste navegador')}
 }
+function ledger(){var bal={},after={},eod={},dayg={},ord=S.entries.map(function(e,i){return{e:e,i:i}}).sort(function(a,b){return a.e.date<b.e.date?-1:a.e.date>b.e.date?1:a.i-b.i});
+  S.methods.forEach(function(m){bal[m.id]=m.init});
+  function snap(){var o={};for(var k in bal)o[k]=bal[k];return o}
+  ord.forEach(function(x,j){var e=x.e,ch=[];
+    if(e.t==='g'&&bal[e.m]!==undefined){bal[e.m]-=debited(e);ch=[e.m];var d=dayg[e.date]||(dayg[e.date]={eur:0,brl:0,n:0});d.eur+=e.eur;d.brl+=entryBrl(e);d.n++}
+    else if(e.t==='t'){if(bal[e.from]!==undefined){bal[e.from]-=e.out;ch.push(e.from)}if(bal[e.to]!==undefined){bal[e.to]+=e.in;ch.push(e.to)}}
+    else if(e.t==='a'&&bal[e.m]!==undefined){bal[e.m]+=e.delta;ch=[e.m]}
+    var a={};ch.forEach(function(k){a[k]=bal[k]});after[e.id]=a;
+    if(j===ord.length-1||ord[j+1].e.date!==e.date)eod[e.date]=snap()});
+  return{after:after,eod:eod,dayg:dayg}}
+function balTxt(a){var r=[];S.methods.forEach(function(m){if(a&&a[m.id]!==undefined&&m.cnt!==false)r.push(esc(m.name)+': <b'+(a[m.id]<-0.005?' style="color:#B3341F"':'')+'>'+money(a[m.id],m.cur)+'</b>')});return r.length?'<div class="m">saldo após · '+r.join(' · ')+'</div>':''}
+function closing(date,LG){var d=LG.dayg[date],eo=LG.eod[date];if(!eo)return '';
+  var rows=S.methods.filter(function(m){return m.cnt}).map(function(m){return '<tr><td>'+esc(m.name)+'</td><td style="text-align:right"><b'+(eo[m.id]<-0.005?' style="color:#B3341F"':'')+'>'+money(eo[m.id],m.cur)+'</b></td></tr>'}).join('');
+  return '<details class="clo" style="margin:4px 0 12px;padding:8px 12px;border:1px dashed var(--bd,#b9c4c8);border-radius:10px"><summary style="cursor:pointer;font-weight:600">🌙 Fechamento de '+fmtDate(date)+'</summary><p style="margin:8px 0 4px">'+(d?'Gastos do dia: <b>'+money(d.eur)+'</b> ('+money(d.brl,'BRL')+') em '+d.n+' lançamento'+(d.n>1?'s':''):'Sem gastos neste dia.')+'</p><div class="lbl">Saldos ao fim do dia</div><table style="width:100%;border-collapse:collapse">'+rows+'</table></details>'}
 function drawList(){
   var es=S.entries.filter(fxMatch).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1)});
   var gsum=0,gb=0,gn=0;es.forEach(function(e){if(e.t==='g'){gsum+=e.eur;gb+=entryBrl(e);gn++}});
@@ -626,19 +640,20 @@ function drawList(){
   $('#fx-clr').hidden=!fxCount();
   var L=$('#fx-list');
   if(!es.length){L.innerHTML='<p class="hint">Nenhum lançamento com esses filtros.</p>';return}
-  var h='',cur='',dayTot={};
+  var LG=ledger(),h='',cur='',dayTot={};
   es.forEach(function(e){if(e.t==='g'&&wOf(e)==='trip')dayTot[e.date]=(dayTot[e.date]||0)+e.eur});
   es.forEach(function(e){
-    if(e.date!==cur){cur=e.date;h+='<div class="dh"><span>'+fmtDate(cur)+'</span><span>'+(dayTot[cur]?money(dayTot[cur]):'')+'</span></div>'}
+    if(e.date!==cur){if(cur)h+=closing(cur,LG);cur=e.date;h+='<div class="dh"><span>'+fmtDate(cur)+'</span><span>'+(dayTot[cur]?money(dayTot[cur]):'')+'</span></div>'}
     if(e.t==='g'){var m=mById(e.m),b=bById(e.cat),c=e.cur||(m?m.cur:'EUR');
       var sub=[];if(m&&m.cur!==c)sub.push('debitado '+money(debited(e),m.cur));if(m&&m.cur==='BRL'&&c!=='BRL'&&e.amt>0&&debited(e)>0)sub.push('cotação '+qfmt(debited(e)/e.amt)+' por '+curSym(c));if(c==='BRL'&&e.eur>0&&entryBrl(e)>0)sub.push('cotação '+qfmt(entryBrl(e)/e.eur)+' por €');if(c!=='EUR')sub.push('≈ '+money(e.eur));if(c!=='BRL')sub.push(money(entryBrl(e),'BRL'));
       var cls=catLines(e.cat),lq=e.ln?lnById(e.ln):(cls.length===1?cls[0]:null),lt=lq&&cls.indexOf(lq)>-1?' › '+esc(lnName(lq,cls.indexOf(lq))):'';
-      h+='<div class="it"><div>'+ci(b)+esc(b?b.name:'Sem categoria')+lt+(isPre(e)?' <em class="tag">antes</em>':(isPost(e)?' <em class="tag">depois</em>':''))+(e.desc?'<div class="dsc">'+esc(e.desc)+'</div>':'')+'<div class="m">'+esc(m?m.name:'?')+(e.ctry?' · '+esc(e.ctry):'')+'</div></div><div class="v">'+money(e.amt,c)+(sub.length?'<small>'+sub.join(' · ')+'</small>':'')+'</div><div class="acts"><button class="btn sec sm" data-edit="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
+      h+='<div class="it"><div>'+ci(b)+esc(b?b.name:'Sem categoria')+lt+(isPre(e)?' <em class="tag">antes</em>':(isPost(e)?' <em class="tag">depois</em>':''))+(e.desc?'<div class="dsc">'+esc(e.desc)+'</div>':'')+'<div class="m">'+esc(m?m.name:'?')+(e.ctry?' · '+esc(e.ctry):'')+'</div>'+balTxt(LG.after[e.id])+'</div><div class="v">'+money(e.amt,c)+(sub.length?'<small>'+sub.join(' · ')+'</small>':'')+'</div><div class="acts"><button class="btn sec sm" data-edit="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
     else if(e.t==='t'){var f=mById(e.from),t=mById(e.to);
-      h+='<div class="it"><div>Saque / saldo movido'+(e.desc?' · '+esc(e.desc):'')+'<div class="m">'+esc(f?f.name:'?')+' → '+esc(t?t.name:'?')+'</div></div><div class="v">'+money(e.out,f?f.cur:'EUR')+'<small>→ '+money(e.in,t?t.cur:'EUR')+'</small></div><div class="acts"><button class="btn sec sm" data-editt="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
+      h+='<div class="it"><div>Saque / saldo movido'+(e.desc?' · '+esc(e.desc):'')+'<div class="m">'+esc(f?f.name:'?')+' → '+esc(t?t.name:'?')+'</div>'+balTxt(LG.after[e.id])+'</div><div class="v">'+money(e.out,f?f.cur:'EUR')+'<small>→ '+money(e.in,t?t.cur:'EUR')+'</small></div><div class="acts"><button class="btn sec sm" data-editt="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
     else{var mm=mById(e.m);
-      h+='<div class="it"><div>Correção de saldo'+(e.desc&&e.desc!=='Correção de saldo'?' · '+esc(e.desc):'')+'<div class="m">'+esc(mm?mm.name:'?')+'</div></div><div class="v">'+(e.delta>=0?'+':'')+money(e.delta,mm?mm.cur:'EUR')+'</div><div class="acts"><button class="btn sec sm" data-edita="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
+      h+='<div class="it"><div>Correção de saldo'+(e.desc&&e.desc!=='Correção de saldo'?' · '+esc(e.desc):'')+'<div class="m">'+esc(mm?mm.name:'?')+'</div>'+balTxt(LG.after[e.id])+'</div><div class="v">'+(e.delta>=0?'+':'')+money(e.delta,mm?mm.cur:'EUR')+'</div><div class="acts"><button class="btn sec sm" data-edita="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
   });
+  if(cur)h+=closing(cur,LG);
   L.innerHTML=h;
   $$('[data-del]',L).forEach(function(b){b.onclick=function(){snap();S.entries=S.entries.filter(function(x){return x.id!==b.dataset.del});save();render();toast('Lançamento apagado',true)}});
   $$('[data-editt]',L).forEach(function(b){b.onclick=function(){
