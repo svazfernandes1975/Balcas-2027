@@ -1,5 +1,5 @@
-<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=148"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Livro da viagem · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
+<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=150"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Livro da viagem · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,500&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
  --bg:#EDF2F3;--surface:#FFFFFF;--ink:#10252C;--muted:#52676D;--line:#D2DDDF;
@@ -128,49 +128,122 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 @media(max-width:640px){.dr-tb.st{min-width:0}.dr-tb.st thead{display:none}.dr-tb.st tr{display:block;padding:8px 10px;border-top:1px solid var(--line)}.dr-tb.st tr:first-child{border-top:0}.dr-tb.st td{display:block;border:0;padding:2px 0;white-space:normal}}
 h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 
-.lv-bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
+
+/* ===== Livro: caderno de bordo do Adriático ===== */
+.lvx{--n0:#07182A;--n1:#0B2239;--n2:#12395A;--sea:#2FB5C4;--roof:#E2552F;--gold:#E9B44C;--paper:#F2F5F4;--card:#FFFFFF;--ink:#0E2233;--mut:#5B6F7C;--rule:#D3DCE0;
+ --serif:'Fraunces','Iowan Old Style',Georgia,serif;--sans:'Public Sans',system-ui,sans-serif;margin-inline:-16px;color:var(--ink);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .lvx{--paper:#0A1722;--card:#10283A;--ink:#E7F0F3;--mut:#93AAB6;--rule:#1F3A4B}}
+:root[data-theme="dark"] .lvx{--paper:#0A1722;--card:#10283A;--ink:#E7F0F3;--mut:#93AAB6;--rule:#1F3A4B}
+.lv-bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
 .lv-bar button,.lv-bar a{font:600 15px var(--f-body);padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--accent);text-decoration:none;cursor:pointer;min-height:44px}
 .lv-bar .pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.lv-cover{text-align:center;padding:36px 12px 28px;border:1px solid var(--line);border-radius:16px;background:var(--surface);margin-bottom:18px}
-.lv-cover h1{font:700 2.2rem/1.1 var(--f-display);margin:6px 0}.lv-cover p{margin:4px 0;color:var(--muted)}
-.lv-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:18px}.lv-stats b{display:block;font:700 1.6rem var(--f-display);color:var(--accent)}.lv-stats span{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.lv-day{border-top:2px solid var(--ink);padding-top:12px;margin-top:22px;break-inside:auto}
-.lv-day h2{margin:0;font:700 1.25rem var(--f-display)}.lv-day .lv-sub{font:600 12px var(--f-mono);color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
-.lv-plan{font-size:.92rem;color:var(--muted);margin:4px 0 8px}
-.lv-ck{display:grid;grid-template-columns:110px 1fr;gap:12px;margin:10px 0;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);break-inside:avoid}
-.lv-ck.nophoto{grid-template-columns:1fr}
-.lv-ck img{width:110px;height:110px;object-fit:cover;border-radius:8px;display:block}
-.lv-ck h3{margin:0;font:700 1.05rem var(--f-display)}.lv-ck .m{font:600 12px var(--f-mono);color:var(--accent)}.lv-ck .w{font-weight:700;font-size:.88rem;margin-top:2px}.lv-ck .n{margin:4px 0 0;font-size:.92rem}.lv-ck .co{font:12px var(--f-mono);color:var(--muted);margin-top:3px}
-.lv-st{color:#D9A400;letter-spacing:1px}
-.lv-gt{font-size:.9rem;margin:8px 0 0;padding:8px 10px;background:var(--surface);border:1px dashed var(--line);border-radius:10px;break-inside:avoid}
-.lv-tot{margin-top:26px;border-top:2px solid var(--ink);padding-top:12px;break-inside:avoid}
-.lv-tot table{width:100%;border-collapse:collapse;font-size:.92rem}.lv-tot td{padding:6px 4px;border-top:1px solid var(--line)}.lv-tot td:last-child{text-align:right;font-variant-numeric:tabular-nums}
-.lv-pro{margin:0 0 18px}.lv-pro h2{font:700 1.3rem var(--f-display);margin:0 0 6px}.lv-pro p{font-size:1.02rem;line-height:1.7}
-.lv-intro{font-size:.95rem;color:var(--muted);margin:2px 0 8px}
-.lv-tx{line-height:1.65}
-.lv-q{margin:8px 0 0;padding:6px 12px;border-left:3px solid var(--accent);font-style:italic;color:var(--ink)}
-.lv-wk{margin-top:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:10px;font-size:.9rem;line-height:1.6}.lv-wk .src{font-size:.75rem;color:var(--muted);margin-top:6px}
-.lv-fav{margin:0;padding-left:20px;line-height:1.8}.lv-fav small{color:var(--muted)}
-.lv-bars{display:grid;gap:6px}.lv-bars div{display:grid;grid-template-columns:44px 1fr 24px;align-items:center;gap:8px;font-size:.88rem}.lv-bars i{display:block;height:12px;border-radius:6px;background:var(--accent);min-width:2px}.lv-bars b{text-align:right}
-.lv-ph{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.lv-ph img{width:84px;height:84px;object-fit:cover;border-radius:8px}
-.lv-empty{padding:20px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
-@media (max-width:420px){.lv-ck{grid-template-columns:84px 1fr}.lv-ck img{width:84px;height:84px}}
+/* capa */
+.lvx .cv{position:relative;overflow:hidden;color:#EAF4F6;background:radial-gradient(120% 90% at 80% 0%,#17517A 0%,var(--n1) 45%,var(--n0) 100%);padding:34px 20px 0;isolation:isolate}
+.lvx .cv:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;background-image:repeating-radial-gradient(circle at 78% 18%,transparent 0 46px,rgba(120,200,220,.07) 47px 48px)}
+.lvx .cv:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.22;mix-blend-mode:overlay;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.lvx .cv-who{font:500 1.05rem/1.2 var(--serif);font-style:italic;opacity:.8;margin:0 0 4px}
+.lvx .cv h1{font:800 clamp(3.6rem,19vw,8rem)/.86 var(--serif);letter-spacing:-.035em;margin:0;font-variation-settings:"opsz" 144,"SOFT" 60;text-wrap:balance}
+.lvx .cv h1 em{display:block;font-style:normal;font-weight:500;font-size:.42em;letter-spacing:.02em;margin-top:.18em;color:var(--sea)}
+.lvx .cv-dt{margin:14px 0 0;opacity:.75;font-size:.95rem}
+.lvx .cv-map{display:block;width:100%;height:auto;margin:6px 0 0;overflow:visible}
+.lvx .cv-map .grat{stroke:rgba(150,210,225,.14);stroke-width:1;fill:none}
+.lvx .cv-map .rt{fill:none;stroke:var(--sea);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(47,181,196,.7));stroke-dasharray:1;stroke-dashoffset:1;animation:lvdraw 3.6s cubic-bezier(.5,0,.2,1) .4s forwards}
+.lvx .cv-map .rt0{fill:none;stroke:rgba(255,255,255,.18);stroke-width:1.5;stroke-dasharray:3 6}
+.lvx .cv-map .pt{fill:var(--roof);stroke:#fff;stroke-width:2;opacity:0;animation:lvpop .5s ease-out forwards}
+.lvx .cv-map .pt.last{fill:var(--gold)}
+.lvx .cv-map text{font:italic 500 27px var(--serif);fill:#EAF4F6;opacity:.92;paint-order:stroke;stroke:rgba(7,24,42,.75);stroke-width:6px}
+.lvx .cv-map .pulse{fill:none;stroke:var(--roof);stroke-width:2;animation:lvpulse 2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes lvdraw{to{stroke-dashoffset:0}}@keyframes lvpop{to{opacity:1}}@keyframes lvpulse{from{opacity:.9;transform:scale(.4)}to{opacity:0;transform:scale(2.4)}}
+/* bilhete com os números */
+.lvx .tk{position:relative;z-index:2;margin:-44px 16px 0;background:var(--card);color:var(--ink);border-radius:18px;display:grid;grid-template-columns:repeat(3,1fr);box-shadow:0 18px 40px -18px rgba(0,0,0,.55);overflow:hidden}
+.lvx .tk div{padding:16px 14px 14px;border-left:2px dashed var(--rule);position:relative}
+.lvx .tk div:nth-child(3n+1){border-left:0}.lvx .tk div:nth-child(n+4){border-top:2px dashed var(--rule)}
+.lvx .tk b{display:block;font:800 clamp(1.35rem,6vw,2rem)/1.05 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.02em}
+.lvx .tk span{display:block;margin-top:4px;font-size:.8rem;color:var(--mut)}
+/* corpo */
+.lvx .bdy{background:var(--paper);padding:56px 18px 40px;margin-top:-44px;padding-top:100px}
+.lvx .pro{max-width:34rem;margin:0 auto 12px}
+.lvx .pro h2{font:600 1.1rem var(--serif);font-style:italic;color:var(--roof);margin:0 0 8px}
+.lvx .pro p{font:400 1.18rem/1.75 var(--serif);margin:0}
+.lvx .pro p:first-of-type:first-letter{float:left;font:800 4.1rem/.82 var(--serif);padding:.08em .1em 0 0;color:var(--n2)}
+.lvx .pro b{font-weight:700}
+/* capítulo */
+.lvx .ch{max-width:40rem;margin:54px auto 0}
+.lvx .ch-h{display:grid;grid-template-columns:auto 1fr;gap:0 16px;align-items:end;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.lvx .ch-n{font:800 clamp(5rem,26vw,8.5rem)/.8 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:2px var(--n2);margin-left:-4px}
+:root[data-theme="dark"] .lvx .ch-n{-webkit-text-stroke-color:var(--sea)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .lvx .ch-n{-webkit-text-stroke-color:var(--sea)}}
+.lvx .ch-t{padding-bottom:4px}
+.lvx .ch-t b{display:block;font:700 1.45rem/1.1 var(--serif);}
+.lvx .ch-t span{display:block;color:var(--mut);font-size:.95rem;margin-top:4px}
+.lvx .ch-plan{margin:12px 0 0;color:var(--mut);font:italic 400 1rem/1.5 var(--serif)}
+.lvx .ch-in{margin:10px 0 0;font-size:.95rem;color:var(--mut)}.lvx .ch-in b{color:var(--ink)}
+/* linha do tempo */
+.lvx .tl{position:relative;margin:22px 0 0;padding-left:22px}
+.lvx .tl:before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:repeating-linear-gradient(to bottom,var(--sea) 0 6px,transparent 6px 12px)}
+.lvx .st-c{position:relative;margin:0 0 4px}
+.lvx .st-c:before{content:"";position:absolute;left:-23px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--roof);box-shadow:0 0 0 4px var(--paper),0 0 0 6px var(--roof)}
+.lvx .st-t{font:600 .88rem var(--sans);color:var(--roof);margin:0 0 8px;font-variant-numeric:tabular-nums}
+.lvx .leg{margin:10px 0 18px;font-size:.85rem;color:var(--mut);display:flex;align-items:center;gap:8px}
+.lvx .leg:before{content:"";flex:none;width:18px;height:18px;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232FB5C4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 17h14M7 17l-1-5h12l-1 5M8 12l1.5-4h5L16 12'/%3E%3Ccircle cx='8' cy='17.5' r='1'/%3E%3Ccircle cx='16' cy='17.5' r='1'/%3E%3C/svg%3E")}
+.lvx .card{background:var(--card);border-radius:20px;overflow:hidden;box-shadow:0 1px 0 var(--rule),0 18px 36px -24px rgba(7,24,42,.45);break-inside:avoid}
+.lvx .ph{position:relative;aspect-ratio:4/3;background:var(--n1)}
+.lvx .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.lvx .ph:after{content:"";position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(to top,rgba(7,24,42,.82),transparent)}
+.lvx .ph .ov{position:absolute;left:16px;right:16px;bottom:14px;z-index:1;color:#fff}
+.lvx .ph .ov h3{font:800 clamp(1.5rem,6.4vw,2.05rem)/1.04 var(--serif);margin:0;letter-spacing:-.015em;text-wrap:balance}
+.lvx .ph .ov span{display:block;font-size:.88rem;opacity:.9;margin-top:4px}
+.lvx .star{color:var(--gold);letter-spacing:2px;white-space:nowrap}
+.lvx .ph .star{position:absolute;right:14px;top:14px;z-index:1;background:rgba(7,24,42,.6);backdrop-filter:blur(6px);padding:5px 10px;border-radius:99px;font-size:.95rem}
+.lvx .cb{padding:16px 18px 18px}
+.lvx .cb.np h3{font:800 1.6rem/1.08 var(--serif);margin:0 0 4px;letter-spacing:-.015em}
+.lvx .cb .mt{font-size:.88rem;color:var(--mut);margin:0 0 10px}
+.lvx .cb p.tx{margin:0;font:400 1.04rem/1.7 var(--serif)}
+.lvx .cb p.tx b{font-weight:700}
+.lvx .q{position:relative;margin:16px 0 4px;padding:6px 0 0 34px;font:italic 500 1.2rem/1.5 var(--serif);color:var(--n2)}
+:root[data-theme="dark"] .lvx .q{color:#BFE9F0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .lvx .q{color:#BFE9F0}}
+.lvx .q:before{content:"“";position:absolute;left:0;top:-8px;font:800 4rem/1 var(--serif);color:var(--roof)}
+.lvx .strip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin:14px -18px 0;padding:0 18px;scrollbar-width:none}
+.lvx .strip img{flex:none;height:132px;width:auto;max-width:78%;border-radius:12px;scroll-snap-align:start;object-fit:cover}
+.lvx .wk{margin:16px 0 0;padding:12px 14px;border-left:3px solid var(--sea);background:color-mix(in srgb,var(--sea) 9%,transparent);border-radius:0 12px 12px 0;font:400 .95rem/1.6 var(--serif)}
+.lvx .wk b{font-family:var(--sans);font-size:.85rem;color:var(--sea);display:block;margin-bottom:2px}
+.lvx .wk .src{font:400 .75rem/1.4 var(--sans);color:var(--mut);margin-top:6px}
+.lvx .co{margin-top:12px;font:500 .75rem var(--f-mono);color:var(--mut)}
+.lvx .gt{margin:20px 0 0;padding:12px 16px;border-radius:14px;background:var(--n1);color:#EAF4F6;font-size:.92rem;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;break-inside:avoid}
+.lvx .gt b{font:800 1.3rem var(--serif)}.lvx .gt span{opacity:.75}
+/* números */
+.lvx .nm{max-width:40rem;margin:64px auto 0}
+.lvx .nm h2{font:800 clamp(2rem,9vw,3rem)/1 var(--serif);letter-spacing:-.025em;margin:0 0 18px}
+.lvx .nm h3{font:600 1.1rem var(--serif);font-style:italic;color:var(--roof);margin:26px 0 10px}
+.lvx .fx{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border-radius:16px;overflow:hidden}
+.lvx .fx div{background:var(--card);padding:14px}.lvx .fx b{display:block;font:800 1.5rem/1.1 var(--serif)}.lvx .fx span{font-size:.82rem;color:var(--mut)}
+.lvx .pod{display:grid;gap:10px;padding:0;margin:0;list-style:none}
+.lvx .pod li{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:var(--card);border-radius:16px;padding:12px 16px}
+.lvx .pod i{font:800 2.4rem/1 var(--serif);font-style:normal;color:var(--gold)}
+.lvx .pod b{display:block;font:700 1.12rem/1.2 var(--serif)}.lvx .pod small{color:var(--mut)}
+.lvx .bars{display:grid;gap:8px}
+.lvx .bars div{display:grid;grid-template-columns:34px 1fr 28px;gap:10px;align-items:center;font-size:.9rem}
+.lvx .bars i{display:block;height:14px;border-radius:7px;background:linear-gradient(90deg,var(--sea),var(--n2));min-width:4px}
+.lvx .bars b{text-align:right}
+.lvx .stk{display:flex;height:22px;border-radius:11px;overflow:hidden;margin:6px 0 12px;background:var(--rule)}
+.lvx .lg{display:grid;gap:6px;font-size:.92rem}.lvx .lg div{display:flex;align-items:center;gap:10px}.lvx .lg i{width:12px;height:12px;border-radius:4px;flex:none}.lvx .lg span{margin-left:auto;font-variant-numeric:tabular-nums}
+.lvx .big{font:800 clamp(2.4rem,11vw,3.6rem)/1 var(--serif);letter-spacing:-.03em}
+.lvx .ft{margin:56px auto 0;max-width:40rem;text-align:center;font:italic 500 1.15rem var(--serif);color:var(--mut)}
+.lvx .empty{max-width:34rem;margin:0 auto;padding:30px 4px;font:400 1.1rem/1.7 var(--serif)}
+.lvx{overflow:hidden}@media (min-width:700px){.lvx{margin-inline:0;border-radius:24px;overflow:hidden}.lvx .tk{margin-inline:40px}.lvx .cv{padding:48px 40px 0}.lvx .bdy{padding:64px 40px 48px}}
 @media print{
- :root{--bg:#fff;--surface:#fff;--ink:#000;--muted:#444;--line:#bbb}
- body{background:#fff!important}
- nav.pills,.bk,.lv-bar,.foot,#fbstrip,.fbstrip,.menu,#nvb,header.nav,[class*="sitemenu"]{display:none!important}
- .wrap{max-width:none;padding:0}
- .lv-cover{break-after:page;padding:60px 12px}
- .lv-day{break-before:auto}
- .lv-ck{break-inside:avoid}
- @page{margin:14mm}
+ nav.pills,.lv-bar,.foot,.hbg,.hbg-cov,.sdm,.sm-ov,.bk{display:none!important}
+ .lvx{margin:0;border-radius:0}.lvx .cv{break-after:page;min-height:96vh}.lvx .cv-map .rt{animation:none;stroke-dashoffset:0}.lvx .cv-map .pt{animation:none;opacity:1}
+ .lvx .ch{break-before:page}.lvx .card{box-shadow:none;border:1px solid var(--rule)}
 }
+@media (prefers-reduced-motion:reduce){.lvx .cv-map .rt{animation:none;stroke-dashoffset:0}.lvx .cv-map .pt{animation:none;opacity:1}.lvx .cv-map .pulse{animation:none}}
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="diario.html">Diário</a><a href="livro.html" aria-current="page">Livro da viagem</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
 <div class="lv-bar"><button type="button" class="pri" id="lv-print">🖨 Imprimir / salvar em PDF</button><a href="diario.html">Ver o Diário</a></div>
-<p class="foot" style="margin:0 0 12px;font-size:13px;color:var(--muted)">O livro junta os check-ins, as fotos e os gastos que estão neste aparelho. Para salvar em PDF, toque em Imprimir e escolha "Salvar como PDF". Os gastos aparecem se você já abriu o Controle de Gastos neste aparelho.</p>
+<p class="foot" style="margin:0 0 12px;font-size:13px;color:var(--muted)">Para salvar em PDF, toque em Imprimir e escolha "Salvar como PDF". Os gastos aparecem se você já abriu o Controle de Gastos neste aparelho.</p>
 <div id="lv"></div>
 </div>
-<script src="nav.js?v=148"></script><script src="ckstore.js?v=148"></script><script src="dias.js?v=148"></script><script type="module" src="fb.js?v=148"></script>
+<script src="nav.js?v=150"></script><script src="ckstore.js?v=150"></script><script src="dias.js?v=150"></script><script type="module" src="fb.js?v=150"></script>
 <script>
 (function(){
 var T0='2027-05-14',T1='2027-06-05',WK='balcas2027-wiki-v1';
@@ -210,9 +283,30 @@ var queue=[],busy=false;
 function pump(){if(busy||!queue.length)return;busy=true;var c=queue.shift();
  fetchWiki(c,'pt').then(function(r){return r||fetchWiki(c,'en')}).then(function(r){wiki[c.id]=r||{none:1,ts:Date.now()};saveWiki();paintWiki(c.id)},function(){/* sem internet: tenta de novo na próxima vez */}).then(function(){busy=false;pump()})}
 function wikiHtml(id){var w=wiki[id];if(!w||w.none)return '';
- return '<div class="lv-wk"><b>Você sabia?</b> '+esc(w.x)+'<div class="src">Perto dali, na Wikipédia'+(w.l==='en'?' (em inglês)':'')+': <a href="'+esc(w.u)+'" target="_blank" rel="noopener">'+esc(w.t)+'</a>'+(w.m?'':' · artigo mais próximo, pode não ser o mesmo lugar')+' · texto sob CC BY-SA</div></div>'}
+ return '<div class="wk"><b>Você sabia?</b> '+esc(w.x)+'<div class="src">Perto dali, na Wikipédia'+(w.l==='en'?' (em inglês)':'')+': <a href="'+esc(w.u)+'" target="_blank" rel="noopener">'+esc(w.t)+'</a>'+(w.m?'':' · artigo mais próximo, pode não ser o mesmo lugar')+' · texto sob CC BY-SA</div></div>'}
 function paintWiki(id){var el=document.querySelector('[data-wk="'+id+'"]');if(el)el.innerHTML=wikiHtml(id)}
 
+/* mapa da capa: a rota real dos check-ins, desenhada sozinha */
+function routeSvg(cks){var P=cks.filter(function(c){return c.lat!=null&&c.lon!=null});
+ var W=800,H=380,pad=54;if(!P.length)return '';
+ var _la=P.map(function(c){return c.lat}),_lo=P.map(function(c){return c.lon}),_k=Math.cos((Math.min.apply(null,_la)+Math.max.apply(null,_la))/2*Math.PI/180),_sw=Math.max((Math.max.apply(null,_lo)-Math.min.apply(null,_lo))*_k,.02),_sh=Math.max(Math.max.apply(null,_la)-Math.min.apply(null,_la),.02);H=Math.round(Math.min(620,Math.max(300,(W-2*pad)*_sh/_sw+2*pad)));
+ var la=P.map(function(c){return c.lat}),lo=P.map(function(c){return c.lon}),mid=(Math.min.apply(null,la)+Math.max.apply(null,la))/2,k=Math.cos(mid*Math.PI/180);
+ var x0=Math.min.apply(null,lo)*k,x1=Math.max.apply(null,lo)*k,y0=Math.min.apply(null,la),y1=Math.max.apply(null,la);
+ var sw=Math.max(x1-x0,.02),sh=Math.max(y1-y0,.02),sc=Math.min((W-2*pad)/sw,(H-2*pad)/sh),ox=(W-sw*sc)/2,oy=(H-sh*sc)/2;
+ var xy=P.map(function(c){return [ox+(c.lon*k-x0)*sc,H-(oy+(c.lat-y0)*sc)]});
+ var g='';for(var i=1;i<8;i++)g+='<path class="grat" d="M'+(W/8*i)+' 0V'+H+'"/>';for(var j=1;j<4;j++)g+='<path class="grat" d="M0 '+(H/4*j)+'H'+W+'"/>';
+ var d='',d0='';
+ if(xy.length>1){d='M'+xy[0][0].toFixed(1)+' '+xy[0][1].toFixed(1);
+  for(var n=0;n<xy.length-1;n++){var p0=xy[Math.max(0,n-1)],p1=xy[n],p2=xy[n+1],p3=xy[Math.min(xy.length-1,n+2)];
+   d+='C'+(p1[0]+(p2[0]-p0[0])/6).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])/6).toFixed(1)+' '+(p2[0]-(p3[0]-p1[0])/6).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])/6).toFixed(1)+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1)}}
+ var dots='',labs='',seen=[],cities={};
+ P.forEach(function(c,i){var q=xy[i],last=i===P.length-1;
+  dots+='<circle class="pt'+(last?' last':'')+'" cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="'+(last?11:8)+'" style="animation-delay:'+(.4+3.4*(i/Math.max(1,P.length-1))).toFixed(2)+'s"/>';
+  var w=where(c).city;if(w&&!cities[w]){var near=seen.some(function(s){return Math.abs(s[0]-q[0])<150&&Math.abs(s[1]-q[1])<34});
+   if(!near){cities[w]=1;seen.push(q);var right=q[0]<W-200;labs+='<text x="'+(q[0]+(right?12:-12)).toFixed(1)+'" y="'+(q[1]-10).toFixed(1)+'" text-anchor="'+(right?'start':'end')+'">'+esc(w)+'</text>'}}});
+ if(P.length===1)dots+='<circle class="pulse" cx="'+xy[0][0].toFixed(1)+'" cy="'+xy[0][1].toFixed(1)+'" r="14"/>';
+ return '<svg class="cv-map" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Mapa da rota percorrida">'+g+(d?'<path class="rt0" d="'+d+'"/><path class="rt" pathLength="1" d="'+d+'"/>':'')+dots+labs+'</svg>'}
+var PAL=['#2FB5C4','#E2552F','#E9B44C','#7C8CF0','#5BC48A','#C96FB5','#9AA9B3','#F08C79'];
 function render(){
  var el=document.getElementById('lv'),S=gastos(),cn={};(S.cats||[]).forEach(function(c){cn[c.id]=c.name});
  var cks=(window.CK?CK.list():[]).slice().sort(function(a,b){return String(a.ts)<String(b.ts)?-1:1});
@@ -221,7 +315,8 @@ function render(){
  cks.forEach(function(c){(days[c.date]=days[c.date]||{ck:[],g:[]}).ck.push(c)});
  gs.forEach(function(e){(days[e.date]=days[e.date]||{ck:[],g:[]}).g.push(e)});
  var ks=Object.keys(days).sort();
- if(!ks.length){el.innerHTML='<div class="lv-cover"><p>Viagem aos Bálcãs</p><h1>Livro da viagem</h1><p>14 de maio a 5 de junho de 2027</p></div><div class="lv-empty"><b>Ainda não há nada para mostrar.</b><p>Faça check-ins e lance gastos durante a viagem. O livro se monta sozinho com o que estiver neste aparelho: o texto de cada lugar, as estatísticas e as curiosidades.</p></div>';return}
+ var cover0='<header class="cv"><p class="cv-who">Sergio e Andréa</p><h1>Bálcãs<em>2027</em></h1><p class="cv-dt">14 de maio a 5 de junho de 2027 · uma viagem de carro pelo Adriático</p>';
+ if(!ks.length){el.innerHTML='<div class="lvx">'+cover0+'<div style="height:40px"></div></header><div class="bdy"><div class="empty"><b>Ainda não há nada para mostrar.</b><p>Faça check-ins e lance gastos durante a viagem. O livro se monta sozinho com o que estiver neste aparelho: a rota no mapa, um capítulo para cada dia, o texto de cada lugar, a sua nota, curiosidades e os números da viagem.</p></div></div></div>';return}
  /* ---- estatísticas gerais ---- */
  var rated=cks.filter(function(c){return c.rating>0}),avg=rated.length?rated.reduce(function(a,c){return a+c.rating},0)/rated.length:0;
  var order={};cks.forEach(function(c,i){order[c.id]=i});
@@ -231,41 +326,48 @@ function render(){
   if(i>0&&c.lat!=null&&cks[i-1].lat!=null){var k=hav(cks[i-1].lat,cks[i-1].lon,c.lat,c.lon);if(k<1500){totalKm+=k;legs.push(k)}}});
  function phs(c){return (c.photos&&c.photos.length)?c.photos:(c.photo?[c.photo]:[])}
  var photos=cks.reduce(function(a,c){return a+phs(c).length},0),tE=0,tB=0;gs.forEach(function(e){tE+=e.eur||0;tB+=(e.brl!=null?e.brl:0)});
- var h='<div class="lv-cover"><p>Sergio e Andréa</p><h1>Bálcãs 2027</h1><p>14 de maio a 5 de junho de 2027</p><div class="lv-stats">'+
-  '<div><b>'+ks.length+'</b><span>dias registrados</span></div>'+
-  (cks.length?'<div><b>'+cks.length+'</b><span>lugares</span></div>':'')+
-  (Object.keys(cities).length?'<div><b>'+Object.keys(cities).length+'</b><span>cidades</span></div>':'')+
-  (Object.keys(countries).length?'<div><b>'+Object.keys(countries).length+'</b><span>países</span></div>':'')+
-  (totalKm>=1?'<div><b>'+Math.round(totalKm)+' km</b><span>entre os lugares</span></div>':'')+
-  (photos?'<div><b>'+photos+'</b><span>fotos</span></div>':'')+
-  (gs.length?'<div><b>'+eur(tE)+'</b><span>gastos na viagem</span></div>':'')+'</div></div>';
+ var tk=[[ks.length,ks.length>1?'dias registrados':'dia registrado']];
+ if(cks.length)tk.push([cks.length,cks.length>1?'lugares':'lugar']);
+ if(Object.keys(cities).length)tk.push([Object.keys(cities).length,Object.keys(cities).length>1?'cidades':'cidade']);
+ if(Object.keys(countries).length)tk.push([Object.keys(countries).length,Object.keys(countries).length>1?'países':'país']);
+ if(totalKm>=1)tk.push([Math.round(totalKm)+' km','entre os lugares']);
+ if(photos)tk.push([photos,photos>1?'fotos':'foto']);
+ if(gs.length)tk.push([eur(tE),'gastos na viagem']);
+ var h='<div class="lvx">'+cover0+routeSvg(cks)+'<div style="height:44px"></div></header><div class="tk">'+tk.map(function(x){return '<div><b>'+esc(x[0])+'</b><span>'+esc(x[1])+'</span></div>'}).join('')+'</div><div class="bdy">';
  /* ---- prólogo ---- */
  if(cks.length){var ctr=Object.keys(countries);
-  h+='<section class="lv-pro"><h2>Prólogo</h2><p>Esta é a história de uma viagem de carro pelos Bálcãs, de 14 de maio a 5 de junho de 2027. '+
-   'Foram <b>'+cks.length+' lugares</b> registrados em <b>'+ks.length+' dia'+(ks.length>1?'s':'')+'</b>'+(ctr.length?', passando por '+ctr.length+' país'+(ctr.length>1?'es':'')+' ('+ctr.map(esc).join(', ')+')':'')+'.'+
+  h+='<section class="pro"><h2>Prólogo</h2><p>Esta é a história de uma viagem de carro pelos Bálcãs, de 14 de maio a 5 de junho de 2027. '+
+   'Foram <b>'+cks.length+' lugar'+(cks.length>1?'es':'')+'</b> registrado'+(cks.length>1?'s':'')+' em <b>'+ks.length+' dia'+(ks.length>1?'s':'')+'</b>'+(ctr.length?', passando por '+ctr.length+' país'+(ctr.length>1?'es':'')+' ('+ctr.map(esc).join(', ')+')':'')+'.'+
    (rated.length?' A nota média dos lugares foi <b>'+n1(avg)+'</b> de 5.':'')+
-   (rank.length?' O favorito foi <b>'+esc(rank[0].name)+'</b>'+(rank[0].rating?' ('+stars(rank[0].rating)+')':'')+'.':'')+'</p></section>'}
- var num=0;
+   (rank.length?' O favorito foi <b>'+esc(rank[0].name)+'</b>'+(rank[0].rating?' <span class="star">'+stars(rank[0].rating)+'</span>':'')+'.':'')+'</p></section>'}
  ks.forEach(function(d,di){var o=days[d],pl=window.DIAS&&DIAS.by?DIAS.by[d.slice(8)+'/'+d.slice(5,7)]:null;
   var dk=0,dr=o.ck.filter(function(c){return c.rating>0});for(var i=1;i<o.ck.length;i++){var a=o.ck[i-1],b=o.ck[i];if(a.lat!=null&&b.lat!=null){var k=hav(a.lat,a.lon,b.lat,b.lon);if(k<1500)dk+=k}}
   var dav=dr.length?dr.reduce(function(x,c){return x+c.rating},0)/dr.length:0;
-  h+='<section class="lv-day"><div class="lv-sub">Capítulo '+(di+1)+(pl?' · Dia '+pl.n+' de '+DIAS.list.length:'')+'</div><h2>'+esc(dl(d))+'</h2>'+(pl?'<p class="lv-plan">Roteiro do dia: '+esc(pl.loc)+'</p>':'');
-  if(o.ck.length){h+='<p class="lv-intro">'+(o.ck.length===1?'Um lugar registrado':o.ck.length+' lugares registrados')+(dk>=0.5?', com cerca de '+dist(dk)+' entre eles':'')+(dav?'. Nota média do dia: <b>'+n1(dav)+'</b>':'')+(o.ck.length>1&&o.ck[0].ts&&o.ck[o.ck.length-1].ts?'. Do primeiro ao último check-in, '+dur((ms(o.ck[o.ck.length-1].ts)-ms(o.ck[0].ts))/60000)+'.':'.')+'</p>'}
-  o.ck.forEach(function(c){var w=where(c),i=order[c.id];num++;
+  var dc={};o.ck.forEach(function(c){var w=where(c);if(w.city)dc[w.city]=1});var dcs=Object.keys(dc).join(' · ');
+  var dp=d.split('-'),mon=new Intl.DateTimeFormat('pt-BR',{month:'long',timeZone:'UTC'}).format(new Date(Date.UTC(+dp[0],+dp[1]-1,+dp[2])));
+  h+='<section class="ch"><div class="ch-h"><div class="ch-n" aria-hidden="true">'+(+dp[2])+'</div><div class="ch-t"><b>'+esc(wd(d))+'</b><span>'+esc(mon)+' de '+dp[0]+(dcs?' · '+esc(dcs):'')+'</span><span>Capítulo '+(di+1)+(pl?' · dia '+pl.n+' de '+DIAS.list.length+' da viagem':'')+'</span></div></div>'+(pl?'<p class="ch-plan">No roteiro: '+esc(pl.loc)+'</p>':'');
+  if(o.ck.length){h+='<p class="ch-in">'+(o.ck.length===1?'Um lugar registrado':'<b>'+o.ck.length+' lugares</b> registrados')+(dk>=0.5?', com cerca de '+dist(dk)+' entre eles':'')+(dav?'. Nota média do dia: <b>'+n1(dav)+'</b>':'')+(o.ck.length>1&&o.ck[0].ts&&o.ck[o.ck.length-1].ts?'. Do primeiro ao último check-in, '+dur((ms(o.ck[o.ck.length-1].ts)-ms(o.ck[0].ts))/60000):'')+'.</p><div class="tl">'}
+  o.ck.forEach(function(c,ci){var w=where(c),i=order[c.id],pp=phs(c);
    var p=[];p.push('Às <b>'+hm(c.ts)+'</b> de '+esc(wd(d))+', '+(w.txt?'em '+esc(w.txt)+', ':'')+'o check-in foi em <b>'+esc(c.name)+'</b>, o '+ord(i+1)+' lugar da viagem'+(c.kind?' ('+esc(String(c.kind).toLowerCase())+')':'')+'.');
    if(c.rating>0){var q='Sua nota foi <b>'+stars(c.rating)+'</b> ('+n1(c.rating)+'): '+label(c.rating);
     if(rated.length>2){var df=c.rating-avg;q+=', '+(Math.abs(df)<.3?'na média das suas notas ('+n1(avg)+')':df>0?'acima da média das suas notas ('+n1(avg)+')':'abaixo da média das suas notas ('+n1(avg)+')');
      q+='; é o '+ord(rk[c.id])+' mais bem avaliado de '+rated.length}
     p.push(q+'.')}
-   if(i>0){var pv=cks[i-1],t=(ms(c.ts)-ms(pv.ts))/60000;
-    if(c.lat!=null&&pv.lat!=null){var k=hav(pv.lat,pv.lon,c.lat,c.lon);if(k<1500&&t>0&&t<1440)p.push('Desde o lugar anterior ('+esc(pv.name)+'): '+dist(k)+' e '+dur(t)+' depois.')}
+   var leg='';
+   if(i>0){var pv=cks[i-1],t=(ms(c.ts)-ms(pv.ts))/60000,same=pv.date===c.date;
+    if(c.lat!=null&&pv.lat!=null){var k=hav(pv.lat,pv.lon,c.lat,c.lon);if(k<1500&&t>0&&t<1440){if(same)leg='<div class="leg">'+dist(k)+' desde '+esc(pv.name)+' · '+dur(t)+' depois</div>';else p.push('Desde o lugar anterior ('+esc(pv.name)+'): '+dist(k)+' e '+dur(t)+' depois.')}}
     else if(t>0&&t<1440)p.push('Foram '+dur(t)+' desde o check-in anterior.')}
-   var pp=phs(c);h+='<article class="lv-ck'+(pp.length?'':' nophoto')+'">'+(pp.length?'<img src="'+pp[0]+'" alt="'+esc(c.name)+'">':'')+'<div><div class="m">'+esc(hm(c.ts))+(c.kind?' · '+esc(c.kind):'')+'</div><h3>'+esc(c.name)+(c.rating?' <span class="lv-st">'+stars(c.rating)+'</span>':'')+'</h3>'+(w.txt?'<div class="w">🌍 '+esc(w.txt)+'</div>':'')+
-    '<p class="n lv-tx">'+p.join(' ')+'</p>'+(c.note?'<blockquote class="lv-q">“'+esc(c.note)+'”</blockquote>':'')+
-    (pp.length>1?'<div class="lv-ph">'+pp.slice(1).map(function(u){return '<img src="'+u+'" alt="'+esc(c.name)+'">'}).join('')+'</div>':'')+(c.lat!=null?'<div class="co">📌 '+c.lat.toFixed(5)+', '+c.lon.toFixed(5)+'</div><div data-wk="'+esc(c.id)+'">'+wikiHtml(c.id)+'</div>':'')+'</div></article>';
+   if(ci>0&&leg)h+=leg;
+   var meta=[c.kind,w.txt].filter(Boolean).map(esc).join(' · ');
+   h+='<article class="st-c"><div class="st-t">'+esc(hm(c.ts))+'</div><div class="card">'+
+    (pp.length?'<div class="ph"><img src="'+pp[0]+'" alt="'+esc(c.name)+'" loading="lazy">'+(c.rating?'<span class="star">'+stars(c.rating)+'</span>':'')+'<div class="ov"><h3>'+esc(c.name)+'</h3>'+(meta?'<span>'+meta+'</span>':'')+'</div></div><div class="cb">':'<div class="cb np"><h3>'+esc(c.name)+(c.rating?' <span class="star">'+stars(c.rating)+'</span>':'')+'</h3>'+(meta?'<p class="mt">'+meta+'</p>':''))+
+    '<p class="tx">'+p.join(' ')+'</p>'+(c.note?'<blockquote class="q" style="margin-inline:0">'+esc(c.note)+'</blockquote>':'')+
+    (pp.length>1?'<div class="strip">'+pp.slice(1).map(function(u){return '<img src="'+u+'" alt="'+esc(c.name)+'" loading="lazy">'}).join('')+'</div>':'')+
+    (c.lat!=null?'<div data-wk="'+esc(c.id)+'">'+wikiHtml(c.id)+'</div><div class="co">'+c.lat.toFixed(5)+', '+c.lon.toFixed(5)+'</div>':'')+'</div></div></article>';
    if(c.lat!=null&&!wiki[c.id])queue.push(c)});
+  if(o.ck.length)h+='</div>';
   if(o.g.length){var e1=0,by={};o.g.forEach(function(e){e1+=e.eur||0;var n=cn[e.cat]||'Outros';by[n]=(by[n]||0)+(e.eur||0)});
-   h+='<p class="lv-gt"><b>Gastos do dia: '+eur(e1)+'</b> · '+Object.keys(by).map(function(k){return esc(k)+' '+eur(by[k])}).join(' · ')+'</p>'}
+   h+='<p class="gt"><b>'+eur(e1)+'</b><span>gastos do dia · '+Object.keys(by).map(function(k){return esc(k)+' '+eur(by[k])}).join(' · ')+'</span></p>'}
   h+='</section>'});
  /* ---- a viagem em números ---- */
  if(cks.length){
@@ -274,20 +376,21 @@ function render(){
   var dist5=[5,4,3,2,1].map(function(s){return {s:s,n:rated.filter(function(c){return Math.round(c.rating)===s}).length}});var mx=Math.max.apply(null,dist5.map(function(x){return x.n}).concat([1]));
   var kk=Object.keys(kinds).sort(function(a,b){return kinds[b]-kinds[a]}).slice(0,5);
   var cc=Object.keys(cities).sort(function(a,b){return cities[b]-cities[a]}).slice(0,5);
-  h+='<section class="lv-tot"><h2 style="margin:0 0 8px;font:700 1.3rem var(--f-display)">A viagem em números</h2><table>'+
-   '<tr><td>Lugares registrados</td><td>'+cks.length+'</td></tr><tr><td>Dias com registro</td><td>'+ks.length+'</td></tr>'+
-   (bd?'<tr><td>Dia com mais lugares</td><td>'+esc(wd(bd))+', '+bd.slice(8)+'/'+bd.slice(5,7)+' · '+dayCount[bd]+'</td></tr>':'')+
-   (totalKm>=1?'<tr><td>Distância entre check-ins</td><td>'+Math.round(totalKm)+' km</td></tr>':'')+
-   (legs.length?'<tr><td>Maior salto entre dois lugares</td><td>'+dist(Math.max.apply(null,legs))+'</td></tr>':'')+
-   (rated.length?'<tr><td>Nota média</td><td>'+n1(avg)+' / 5</td></tr>':'')+
-   (cc.length?'<tr><td>Cidades com mais check-ins</td><td>'+cc.map(function(k){return esc(k)+' ('+cities[k]+')'}).join(', ')+'</td></tr>':'')+
-   (kk.length?'<tr><td>Tipos de lugar</td><td>'+kk.map(function(k){return esc(k)+' ('+kinds[k]+')'}).join(', ')+'</td></tr>':'')+
-   '</table>'+
-   (top.length?'<h3 style="margin:16px 0 6px;font:700 1.05rem var(--f-display)">Os favoritos</h3><ol class="lv-fav">'+top.map(function(c){return '<li><b>'+esc(c.name)+'</b> <span class="lv-st">'+stars(c.rating)+'</span> <small>'+esc(where(c).txt)+'</small></li>'}).join('')+'</ol>':'')+
-   (rated.length?'<h3 style="margin:16px 0 6px;font:700 1.05rem var(--f-display)">Como você avaliou</h3><div class="lv-bars">'+dist5.map(function(x){return '<div><span>'+x.s+' ★</span><i style="width:'+Math.round(x.n/mx*100)+'%"></i><b>'+x.n+'</b></div>'}).join('')+'</div>':'')+
-   '</section>'}
+  var fx=[];
+  if(bd)fx.push([dayCount[bd]+' lugares',esc(wd(bd))+', '+bd.slice(8)+'/'+bd.slice(5,7)+': o dia mais cheio']);
+  if(totalKm>=1)fx.push([Math.round(totalKm)+' km','entre um check-in e o seguinte']);
+  if(legs.length)fx.push([dist(Math.max.apply(null,legs)),'o maior salto entre dois lugares']);
+  if(rated.length)fx.push([n1(avg)+' de 5','nota média dos lugares']);
+  if(cc.length)fx.push([esc(cc[0]),'cidade com mais check-ins ('+cities[cc[0]]+')']);
+  if(kk.length)fx.push([esc(kk[0]),'tipo de lugar mais visitado ('+kinds[kk[0]]+')']);
+  h+='<section class="nm"><h2>A viagem em números</h2><div class="fx">'+fx.map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join('')+'</div>'+
+   (top.length?'<h3>Os favoritos</h3><ol class="pod">'+top.map(function(c,i){return '<li><i>'+(i+1)+'</i><div><b>'+esc(c.name)+'</b> <span class="star">'+stars(c.rating)+'</span><br><small>'+esc(where(c).txt)+'</small></div></li>'}).join('')+'</ol>':'')+
+   (rated.length?'<h3>Como você avaliou</h3><div class="bars">'+dist5.map(function(x){return '<div><span>'+x.s+' ★</span><i style="width:'+Math.max(2,Math.round(x.n/mx*100))+'%"></i><b>'+x.n+'</b></div>'}).join('')+'</div>':'')+'</section>'}
  if(gs.length){var byc={};gs.forEach(function(e){var n=cn[e.cat]||'Outros';byc[n]=(byc[n]||0)+(e.eur||0)});
-  h+='<section class="lv-tot"><h2 style="margin:0 0 6px;font:700 1.2rem var(--f-display)">Resumo dos gastos</h2><table>'+Object.keys(byc).sort(function(a,b){return byc[b]-byc[a]}).map(function(k){return '<tr><td>'+esc(k)+'</td><td>'+eur(byc[k])+'</td></tr>'}).join('')+'<tr><td><b>Total</b></td><td><b>'+eur(tE)+(tB?' · '+brl(tB):'')+'</b></td></tr></table></section>'}
+  var kc=Object.keys(byc).sort(function(a,b){return byc[b]-byc[a]});
+  h+='<section class="nm"><h2>Para onde foi o dinheiro</h2><div class="big">'+eur(tE)+'</div>'+(tB?'<p style="margin:4px 0 0;color:var(--mut)">'+brl(tB)+' no total</p>':'')+
+   '<div class="stk">'+kc.map(function(k,i){return '<i style="width:'+(byc[k]/tE*100).toFixed(2)+'%;background:'+PAL[i%PAL.length]+'"></i>'}).join('')+'</div><div class="lg">'+kc.map(function(k,i){return '<div><i style="background:'+PAL[i%PAL.length]+'"></i>'+esc(k)+'<span>'+eur(byc[k])+'</span></div>'}).join('')+'</div></section>'}
+ h+='<p class="ft">Fim do livro. Até a próxima viagem.</p></div></div>';
  el.innerHTML=h;pump()}
 document.getElementById('lv-print').onclick=function(){window.print()};
 if(window.CK)CK.onChange(render);render();
