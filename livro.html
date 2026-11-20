@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=150"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=151"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Livro da viagem · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,500&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -157,7 +157,7 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 /* bilhete com os números */
 .lvx .tk{position:relative;z-index:2;margin:-44px 16px 0;background:var(--card);color:var(--ink);border-radius:18px;display:grid;grid-template-columns:repeat(3,1fr);box-shadow:0 18px 40px -18px rgba(0,0,0,.55);overflow:hidden}
 .lvx .tk div{padding:16px 14px 14px;border-left:2px dashed var(--rule);position:relative}
-.lvx .tk div:nth-child(3n+1){border-left:0}.lvx .tk div:nth-child(n+4){border-top:2px dashed var(--rule)}
+.lvx .tk div:first-child{border-left:0}
 .lvx .tk b{display:block;font:800 clamp(1.35rem,6vw,2rem)/1.05 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.02em}
 .lvx .tk span{display:block;margin-top:4px;font-size:.8rem;color:var(--mut)}
 /* corpo */
@@ -237,13 +237,15 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
  .lvx{margin:0;border-radius:0}.lvx .cv{break-after:page;min-height:96vh}.lvx .cv-map .rt{animation:none;stroke-dashoffset:0}.lvx .cv-map .pt{animation:none;opacity:1}
  .lvx .ch{break-before:page}.lvx .card{box-shadow:none;border:1px solid var(--rule)}
 }
+@media print{.x{}}
+.pdfmode .cv-map .rt{animation:none!important;stroke-dashoffset:0!important}.pdfmode .cv-map .pt{animation:none!important;opacity:1!important}.pdfmode .cv-map .pulse{animation:none!important;opacity:.5}.lvx.pdfmode .pro p:first-of-type:first-letter{float:none;font:inherit;padding:0;color:inherit}
 @media (prefers-reduced-motion:reduce){.lvx .cv-map .rt{animation:none;stroke-dashoffset:0}.lvx .cv-map .pt{animation:none;opacity:1}.lvx .cv-map .pulse{animation:none}}
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="diario.html">Diário</a><a href="livro.html" aria-current="page">Livro da viagem</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
-<div class="lv-bar"><button type="button" class="pri" id="lv-print">🖨 Imprimir / salvar em PDF</button><a href="diario.html">Ver o Diário</a></div>
-<p class="foot" style="margin:0 0 12px;font-size:13px;color:var(--muted)">Para salvar em PDF, toque em Imprimir e escolha "Salvar como PDF". Os gastos aparecem se você já abriu o Controle de Gastos neste aparelho.</p>
+<div class="lv-bar"><button type="button" class="pri" id="lv-pdf">Baixar PDF</button><button type="button" id="lv-print">Imprimir</button><a href="diario.html">Ver o Diário</a></div><p id="lv-msg" style="margin:0 0 8px;font-size:14px;min-height:1.2em"></p>
+<p class="foot" style="margin:0 0 12px;font-size:13px;color:var(--muted)">"Baixar PDF" cria o arquivo no aparelho e abre a tela de compartilhar: escolha "Salvar em Arquivos". Os gastos aparecem se você já abriu o Controle de Gastos neste aparelho.</p>
 <div id="lv"></div>
 </div>
-<script src="nav.js?v=150"></script><script src="ckstore.js?v=150"></script><script src="dias.js?v=150"></script><script type="module" src="fb.js?v=150"></script>
+<script src="nav.js?v=151"></script><script src="ckstore.js?v=151"></script><script src="dias.js?v=151"></script><script type="module" src="fb.js?v=151"></script>
 <script>
 (function(){
 var T0='2027-05-14',T1='2027-06-05',WK='balcas2027-wiki-v1';
@@ -289,11 +291,12 @@ function paintWiki(id){var el=document.querySelector('[data-wk="'+id+'"]');if(el
 /* mapa da capa: a rota real dos check-ins, desenhada sozinha */
 function routeSvg(cks){var P=cks.filter(function(c){return c.lat!=null&&c.lon!=null});
  var W=800,H=380,pad=54;if(!P.length)return '';
- var _la=P.map(function(c){return c.lat}),_lo=P.map(function(c){return c.lon}),_k=Math.cos((Math.min.apply(null,_la)+Math.max.apply(null,_la))/2*Math.PI/180),_sw=Math.max((Math.max.apply(null,_lo)-Math.min.apply(null,_lo))*_k,.02),_sh=Math.max(Math.max.apply(null,_la)-Math.min.apply(null,_la),.02);H=Math.round(Math.min(620,Math.max(300,(W-2*pad)*_sh/_sw+2*pad)));
+ var _la=P.map(function(c){return c.lat}),_lo=P.map(function(c){return c.lon}),_k=Math.cos((Math.min.apply(null,_la)+Math.max.apply(null,_la))/2*Math.PI/180),_sw=Math.max((Math.max.apply(null,_lo)-Math.min.apply(null,_lo))*_k,.02),_sh=Math.max(Math.max.apply(null,_la)-Math.min.apply(null,_la),.02);H=Math.round(Math.min(620,Math.max(300,(W-2*pad)*_sh/_sw+2*pad)));if(P.length===1)H=300;
  var la=P.map(function(c){return c.lat}),lo=P.map(function(c){return c.lon}),mid=(Math.min.apply(null,la)+Math.max.apply(null,la))/2,k=Math.cos(mid*Math.PI/180);
  var x0=Math.min.apply(null,lo)*k,x1=Math.max.apply(null,lo)*k,y0=Math.min.apply(null,la),y1=Math.max.apply(null,la);
  var sw=Math.max(x1-x0,.02),sh=Math.max(y1-y0,.02),sc=Math.min((W-2*pad)/sw,(H-2*pad)/sh),ox=(W-sw*sc)/2,oy=(H-sh*sc)/2;
  var xy=P.map(function(c){return [ox+(c.lon*k-x0)*sc,H-(oy+(c.lat-y0)*sc)]});
+ if(P.length===1)xy=[[W/2,H/2]];
  var g='';for(var i=1;i<8;i++)g+='<path class="grat" d="M'+(W/8*i)+' 0V'+H+'"/>';for(var j=1;j<4;j++)g+='<path class="grat" d="M0 '+(H/4*j)+'H'+W+'"/>';
  var d='',d0='';
  if(xy.length>1){d='M'+xy[0][0].toFixed(1)+' '+xy[0][1].toFixed(1);
@@ -333,7 +336,7 @@ function render(){
  if(totalKm>=1)tk.push([Math.round(totalKm)+' km','entre os lugares']);
  if(photos)tk.push([photos,photos>1?'fotos':'foto']);
  if(gs.length)tk.push([eur(tE),'gastos na viagem']);
- var h='<div class="lvx">'+cover0+routeSvg(cks)+'<div style="height:44px"></div></header><div class="tk">'+tk.map(function(x){return '<div><b>'+esc(x[0])+'</b><span>'+esc(x[1])+'</span></div>'}).join('')+'</div><div class="bdy">';
+ var h='<div class="lvx">'+cover0+routeSvg(cks)+'<div style="height:44px"></div></header><div class="tk" style="grid-template-columns:repeat('+(tk.length<=4?tk.length:3)+',1fr)">'+tk.map(function(x,i){var cols=tk.length<=4?tk.length:3,last=i===tk.length-1&&tk.length%cols!==0;return '<div'+(last?' style="grid-column:span '+(cols-(tk.length%cols)+1)+'"':'')+'><b>'+esc(x[0])+'</b><span>'+esc(x[1])+'</span></div>'}).join('')+'</div><div class="bdy">';
  /* ---- prólogo ---- */
  if(cks.length){var ctr=Object.keys(countries);
   h+='<section class="pro"><h2>Prólogo</h2><p>Esta é a história de uma viagem de carro pelos Bálcãs, de 14 de maio a 5 de junho de 2027. '+
@@ -392,6 +395,36 @@ function render(){
    '<div class="stk">'+kc.map(function(k,i){return '<i style="width:'+(byc[k]/tE*100).toFixed(2)+'%;background:'+PAL[i%PAL.length]+'"></i>'}).join('')+'</div><div class="lg">'+kc.map(function(k,i){return '<div><i style="background:'+PAL[i%PAL.length]+'"></i>'+esc(k)+'<span>'+eur(byc[k])+'</span></div>'}).join('')+'</div></section>'}
  h+='<p class="ft">Fim do livro. Até a próxima viagem.</p></div></div>';
  el.innerHTML=h;pump()}
+/* PDF: gera no próprio aparelho (funciona no iPhone, onde "imprimir" não existe no app instalado) */
+function loadJs(u){return new Promise(function(ok,no){if(document.querySelector('script[data-l="'+u+'"]'))return ok();var e=document.createElement('script');e.src=u+'?v='+(window.SITE_VERSION||'0');e.dataset.l=u;e.onload=ok;e.onerror=function(){no(new Error('js'))};document.head.appendChild(e)})}
+function pdfMsg(t,err){var m=document.getElementById('lv-msg');if(m){m.textContent=t;m.style.color=err?'#B3341F':''}}
+function makePdf(){var btn=document.getElementById('lv-pdf');btn.disabled=true;pdfMsg('Preparando…');
+ var root=document.querySelector('.lvx');if(!root||!root.querySelector('.cv')){pdfMsg('Ainda não há nada no livro para salvar.',1);btn.disabled=false;return}
+ var cs=getComputedStyle(root),W=Math.min(root.offsetWidth,720);
+ var parts=[];var cv=root.querySelector('.cv'),tk=root.querySelector('.tk');parts.push([cv,tk]);
+ [].forEach.call(root.querySelectorAll('.bdy > section, .bdy > p.ft'),function(x){parts.push([x])});
+ var paper=getComputedStyle(root.querySelector('.bdy')||root).backgroundColor;
+ Promise.all([loadJs('h2c.min.js'),loadJs('jspdf.min.js')]).then(function(){
+  var J=window.jspdf.jsPDF,doc=null,pw=210,i=0;
+  function next(){if(i>=parts.length)return finish();pdfMsg('Gerando o PDF… '+(i+1)+' de '+parts.length);
+   var wrap=document.createElement('div');wrap.className='lvx pdfmode';wrap.style.cssText='position:fixed;left:-99999px;top:0;width:'+W+'px;margin:0;border-radius:0;background:'+paper;
+   var inner=document.createElement('div');if(i>0){inner.className='bdy';inner.style.cssText='padding:24px 18px 8px;margin:0'}
+   parts[i].forEach(function(n){inner.appendChild(n.cloneNode(true))});wrap.appendChild(inner);
+   if(i===0)inner.style.paddingBottom='24px';
+   document.body.appendChild(wrap);
+   return html2canvas(wrap,{scale:Math.min(2,Math.max(1.2,1400/W)),backgroundColor:null,useCORS:true,logging:false}).then(function(c){
+    document.body.removeChild(wrap);var ph=pw*c.height/c.width,MAXH=420;
+    var slices=Math.max(1,Math.ceil(ph/MAXH)),sh=c.height/slices;
+    for(var s=0;s<slices;s++){var cc=document.createElement('canvas');cc.width=c.width;cc.height=Math.ceil(sh);cc.getContext('2d').drawImage(c,0,s*sh,c.width,sh,0,0,c.width,sh);
+     var hh=pw*cc.height/cc.width;if(!doc)doc=new J({unit:'mm',format:[pw,hh],compress:true});else doc.addPage([pw,hh]);
+     doc.addImage(cc.toDataURL('image/jpeg',.86),'JPEG',0,0,pw,hh,undefined,'FAST')}
+    i++;return new Promise(function(r){setTimeout(r,30)}).then(next)})}
+  function finish(){var blob=doc.output('blob'),f=new File([blob],'Balcas-2027-livro.pdf',{type:'application/pdf'});
+   pdfMsg('Pronto.');btn.disabled=false;
+   if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'Livro da viagem · Bálcãs 2027'}).catch(function(){pdfMsg('Toque em "Baixar PDF" para tentar de novo.')});return}
+   var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Balcas-2027-livro.pdf';document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},3000)}
+  return next()}).catch(function(e){btn.disabled=false;pdfMsg('Não consegui gerar o PDF: '+(e&&e.message||e)+'. Sem internet na primeira vez? Tente de novo com sinal.',1)})}
+document.getElementById('lv-pdf').onclick=makePdf;
 document.getElementById('lv-print').onclick=function(){window.print()};
 if(window.CK)CK.onChange(render);render();
 })();
