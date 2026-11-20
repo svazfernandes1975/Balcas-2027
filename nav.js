@@ -77,7 +77,8 @@ function decorate(){
  var here=location.pathname.split('/').pop();var h=document.querySelector('.hero h1');if(h&&CI[here])h.insertAdjacentHTML('afterbegin',ico(here,'ci-h'));
  [].forEach.call(document.querySelectorAll('a[href$=".html#top"] article h3'),function(t){var f=t.closest('a').getAttribute('href').split('#')[0];if(CI[f])t.insertAdjacentHTML('afterbegin',ico(f,'ci-c'))});
 }
-var css='.hbg{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:16px;z-index:30;box-shadow:0 1px 4px rgba(0,0,0,.12);width:40px;height:36px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer;padding:0}.hbg:hover{border-color:var(--accent);color:var(--accent)}.hbg svg{width:20px;height:20px}'
+var css='.hbg .dot{position:absolute;right:-3px;top:-3px;width:11px;height:11px;border-radius:50%;border:2px solid var(--surface);background:#8a9a9f}.hbg .dot.ok{background:#1E9E5A}.hbg .dot.warn{background:#E0A200}.hbg .dot.bad{background:#C0392B}.hbg .dot.init{animation:dp 1.2s infinite}@keyframes dp{50%{opacity:.3}}.sm-acc{padding:10px 14px;border-bottom:1px solid var(--line);font-size:13.5px;display:flex;flex-direction:column;gap:6px}.sm-acc b{font-weight:700}.sm-acc button{align-self:flex-start;font:600 13px var(--f-body,sans-serif);padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--accent);cursor:pointer}.sm-acc i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:#8a9a9f}.sm-acc i.ok{background:#1E9E5A}.sm-acc i.warn{background:#E0A200}.sm-acc i.bad{background:#C0392B}'
++'.hbg{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:16px;z-index:30;box-shadow:0 1px 4px rgba(0,0,0,.12);width:40px;height:36px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);cursor:pointer;padding:0}.hbg:hover{border-color:var(--accent);color:var(--accent)}.hbg svg{width:20px;height:20px}'
 +'.sm-ov{position:fixed;inset:0;background:rgba(8,20,24,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}.sm-ov.open{opacity:1;pointer-events:auto}'
 +'.sdm{position:fixed;top:0;left:0;bottom:0;width:min(300px,86vw);background:var(--surface);color:var(--ink);border-right:1px solid var(--line);box-shadow:4px 0 24px rgba(0,0,0,.18);transform:translateX(-102%);transition:transform .22s ease;z-index:41;display:flex;flex-direction:column;visibility:hidden;padding-top:env(safe-area-inset-top,0px)}.sdm.open{transform:none;visibility:visible}'
 +'.sm-h{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line)}.sm-h b{font:800 1.2rem var(--f-display)}.sm-x{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;width:36px;height:36px;font-size:18px;cursor:pointer}'
@@ -121,13 +122,31 @@ function build(){
  ov.addEventListener('click',function(){open(false)});
  m.querySelector('.sm-x').addEventListener('click',function(){open(false)});
  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open'))open(false)});
+ /* conta: bolinha no hambúrguer + bloco no topo do menu; carrega fb.js nas páginas que não o têm */
+ var dot=document.createElement('span');dot.className='dot init';btn.style.position='fixed';btn.appendChild(dot);
+ var acc=document.createElement('div');acc.className='sm-acc';acc.innerHTML='<span><i class="init"></i>Verificando login…</span>';m.insertBefore(acc,m.querySelector('.sm-b'));
+ function esc2(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+ function paint(st){var s=st.state,c='init',t='Verificando login…',b='';
+  if(s==='out'){c='bad';t='<b>Desconectado.</b> Entre para sincronizar gastos e check-ins.';b='<button type="button" id="acc-in">Entrar com Google</button>'}
+  else if(s==='ok'){c='ok';t='<b>Conectado e sincronizado</b><br>'+esc2(st.email);b='<button type="button" id="acc-out">Sair</button>'}
+  else if(s==='pending'){c='warn';t='<b>Sincronizando…</b><br>'+esc2(st.email);b='<button type="button" id="acc-out">Sair</button>'}
+  else if(s==='offline'){c='warn';t='<b>Sem internet.</b> Tudo fica salvo no aparelho e sincroniza quando voltar.<br>'+esc2(st.email);}
+  else if(s==='denied'){c='bad';t='<b>Esta conta não tem permissão.</b><br>'+esc2(st.email);b='<button type="button" id="acc-out">Trocar de conta</button>'}
+  else if(s==='error'){c='warn';t='<b>Problema de sincronização.</b> Os dados continuam salvos no aparelho.<br>'+esc2(st.email)}
+  dot.className='dot '+c;acc.innerHTML='<span><i class="'+c+'"></i>'+t+'</span>'+b;
+  var i=acc.querySelector('#acc-in'),o=acc.querySelector('#acc-out');if(i)i.onclick=function(){window.FB&&FB.login()};if(o)o.onclick=function(){window.FB&&FB.logout()}}
+ function hook(){if(window.FB&&FB.onStatus){FB.onStatus(paint);return true}return false}
+ if(!hook()){document.addEventListener('fb-ready',hook);
+  if(!document.querySelector('script[src*="fb.js"]')){var fs=document.createElement('script');fs.type='module';fs.src='fb.js?v='+(typeof SITE_VERSION==='string'?SITE_VERSION:'0');document.head.appendChild(fs)}
+  setTimeout(function(){if(!window.FB){dot.className='dot warn';acc.innerHTML='<span><i class="warn"></i>Login indisponível agora (sem conexão com o Google). O portal funciona com os dados do aparelho.</span>'}},12000)}
+
  m.addEventListener('click',function(e){var a=e.target.closest('a');if(a&&a.getAttribute('href').split('#')[0]===here&&a.hash){open(false)}});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
 })();
 
 /* Versão do site: ATUALIZAR a cada nova publicação */
-var SITE_VERSION='v143';
+var SITE_VERSION='v144';
 (function(){
   function put(){var n=document.querySelector('nav.pills');if(!n||n.querySelector('.ver'))return;
     var v=document.createElement('span');v.className='ver';v.textContent=SITE_VERSION;v.title='Versão do site';
