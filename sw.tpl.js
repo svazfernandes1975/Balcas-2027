@@ -2,7 +2,7 @@
    Estratégia: rede primeiro (sempre a versão nova quando há sinal), cache como reserva. Só mexe em arquivos do próprio site e no SDK do Firebase.
    Nunca intercepta Firestore, login, mapas ou qualquer outra requisição. Gerado por mk-sw.py. */
 const V='__VERSION__',CACHE='balcas-'+V,SDK='balcas-sdk',FILES=__FILES__;
-const WAIT=3500;
+const WAIT=7000;
 
 self.addEventListener('install',e=>{
   e.waitUntil((async()=>{

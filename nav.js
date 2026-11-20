@@ -146,7 +146,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 /* Versão do site: ATUALIZAR a cada nova publicação */
-var SITE_VERSION='v146';
+var SITE_VERSION='v147';
 (function(){
   function put(){var n=document.querySelector('nav.pills');if(!n||n.querySelector('.ver'))return;
     var v=document.createElement('span');v.className='ver';v.textContent=SITE_VERSION;v.title='Versão do site';
@@ -159,5 +159,15 @@ var SITE_VERSION='v146';
       var k=a[0],s=a[1];var v=document.querySelector('.ver');if(v&&k.length>20&&(s.length>=3||!document.querySelector('script[src*="fb.js"]'))){v.textContent=SITE_VERSION+' ✓';v.title='Versão do site · pronto para abrir sem internet'}}).catch(function(){})};
     window.addEventListener('load',function(){setTimeout(mark,2500);setTimeout(mark,9000)});
   }}catch(e){}
+
+  /* aviso de versão nova: compara com o sw.js publicado; toque no chip limpa o cache e recarrega */
+  function upd(){var c=new AbortController(),t=setTimeout(function(){c.abort()},10000);
+    fetch('sw.js?x='+Date.now(),{cache:'no-store',signal:c.signal}).then(function(r){clearTimeout(t);return r.text()}).then(function(x){
+      var m=x.match(/const V='v(\d+)'/),cur=+String(SITE_VERSION).slice(1);if(!m||+m[1]<=cur)return;
+      var v=document.querySelector('.ver');if(!v)return;v.textContent='↻ v'+m[1]+' disponível';v.style.color='var(--accent,#0B7285)';v.style.borderColor='var(--accent,#0B7285)';v.style.cursor='pointer';v.title='Toque para atualizar';
+      v.onclick=function(){v.textContent='Atualizando…';var p=[];if(window.caches)p.push(caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k.indexOf('balcas-v')===0}).map(function(k){return caches.delete(k)}))}));
+        if(navigator.serviceWorker)p.push(navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister()}))}));
+        Promise.all(p).catch(function(){}).then(function(){location.reload()})}}).catch(function(){clearTimeout(t)})}
+  window.addEventListener('load',function(){setTimeout(upd,1500)});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',put);else put();
 })();
