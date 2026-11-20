@@ -389,7 +389,7 @@ function submitG(){
   if(!(deb>0))deb=conv(a,F.ecur,m.cur);
   snap();
   var e={id:F.edit||uid(),t:'g',date:$('#g-date').value||dateDefault(F.cat),m:m.id,cur:F.ecur,amt:r2(a),debit:r2(deb),cat:F.cat,ln:F.ln||null,desc:$('#g-desc').value.trim(),eur:Math.round(toEUR(a,F.ecur)*10000)/10000,usd:r2(conv(a,F.ecur,'USD')),brl:r2(brlOf(a,m,diff)),ctry:curCountry($('#g-date').value||dateDefault(F.cat)).name};
-  if(F.cat==='comb'){var fl=num($('#g-fl').value),fk=num($('#g-fkm').value);if(fl>0||fk>0)e.fuel={l:fl>0?r2(fl):null,km:fk>0?Math.round(fk):null}}
+  if(isFuel(F.cat,F.ln)||F.fuelOpen){var fl=num($('#g-fl').value),fk=num($('#g-fkm').value);if(fl>0||fk>0)e.fuel={l:fl>0?r2(fl):null,km:fk>0?Math.round(fk):null}}
   if(F.edit){S.entries=S.entries.map(function(x){return x.id===F.edit?e:x})}else S.entries.push(e);
   S.last.cur=F.ecur;save();var was=F.edit;resetForm();render();
   toast((was?'Alterado: ':'Lançado: ')+money(a,e.cur)+(diff?' · debitado '+money(deb,m.cur):'')+' · '+(bById(e.cat)?bById(e.cat).name:''),true);
@@ -564,12 +564,17 @@ function rExtrato(){
   drawList();
 }
 /* combustível: litros e km no lançamento, e resumo de consumo no extrato */
-function fuelUI(){var box=$('#g-fuel');if(!box)return;var on=F.cat==='comb'&&F.mode==='g';box.hidden=!on;
-  if(!on){F.fuelFor=null;return}
+var FUELRE=/combust|gasolin|diesel|abastec/i;
+function isFuel(catId,lnId){if(catId==='comb')return true;var b=bById(catId);if(b&&FUELRE.test(b.name||''))return true;var l=lnId?lnById(lnId):null;return !!(l&&FUELRE.test(l.label||''))}
+function fuelUI(){var box=$('#g-fuel'),tg=$('#g-fuel-t');if(!box)return;
+  if(!(F.mode==='g'&&F.cat)){F.fuelOpen=false;F.fuelFor=null;box.hidden=true;if(tg)tg.hidden=true;return}
+  var auto=isFuel(F.cat,F.ln),on=auto||!!F.fuelOpen;
   if(F.fuelFor!==(F.edit||'new')){F.fuelFor=F.edit||'new';var en=F.edit?S.entries.filter(function(x){return x.id===F.edit})[0]:null,f=(en&&en.fuel)||{};
-    $('#g-fl').value=f.l!=null?String(f.l).replace('.',','):'';$('#g-fkm').value=f.km!=null?String(f.km):''}}
+    if(en&&en.fuel)F.fuelOpen=true;on=auto||!!F.fuelOpen;
+    $('#g-fl').value=f.l!=null?String(f.l).replace('.',','):'';$('#g-fkm').value=f.km!=null?String(f.km):''}
+  box.hidden=!on;if(tg){tg.hidden=on;tg.onclick=function(){F.fuelOpen=true;fuelUI();$('#g-fl').focus()}}}
 function fuelCard(){
-  var fs=S.entries.filter(function(e){return e.t==='g'&&e.cat==='comb'&&e.fuel&&(e.fuel.l>0||e.fuel.km>0)});
+  var fs=S.entries.filter(function(e){return e.t==='g'&&e.fuel&&(e.fuel.l>0||e.fuel.km>0)});
   if(!fs.length)return '';
   var L=0,E=0,B=0,n=0;fs.forEach(function(e){if(e.fuel.l>0){L+=e.fuel.l;n++}E+=e.eur;B+=entryBrl(e)});
   var kms=fs.filter(function(e){return e.fuel.km>0}).map(function(e){return e.fuel.km}).sort(function(a,b){return a-b});
