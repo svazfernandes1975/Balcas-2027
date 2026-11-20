@@ -42,13 +42,27 @@ function nearby(lat,lon){var ck='ckn:'+lat.toFixed(3)+','+lon.toFixed(3);try{var
  return nearby0(lat,lon).then(function(l){try{sessionStorage.setItem(ck,JSON.stringify(l))}catch(e){}return l})}
 function liteQ(lat,lon,R){var a='(around:'+R+','+lat+','+lon+')';
  return '[out:json][timeout:20];(nwr'+a+'["name"]["tourism"];nwr'+a+'["name"]["historic"];nwr'+a+'["name"]["amenity"~"^(restaurant|cafe|bar|pub|fast_food|place_of_worship|theatre|cinema|library|university)$"];nwr'+a+'["name"]["leisure"~"^(park|garden)$"];);out center tags 25;'}
+function photon(lat,lon){
+ return timed('https://photon.komoot.io/reverse?lang=default&radius=0.35&limit=40&lat='+lat+'&lon='+lon,{},12000).then(function(j){
+  var els=[];(j.features||[]).forEach(function(f){var p=f.properties||{},g=f.geometry&&f.geometry.coordinates;if(!p.name||!g)return;var k=p.osm_key,v=p.osm_value,t={name:p.name};
+   if(k==='tourism'||k==='historic'||k==='amenity'||k==='leisure'||k==='shop'||k==='natural'||k==='man_made'){t[k]=v}else return;
+   if(k==='amenity'&&!/^(restaurant|cafe|bar|pub|fast_food|ice_cream|place_of_worship|theatre|cinema|marketplace|fountain|library|university|bus_station|townhall)$/.test(v))return;
+   els.push({lat:g[1],lon:g[0],tags:t})});
+  if(!els.length)throw new Error('photon vazio');return {elements:els}})}
+function nominatimNear(lat,lon){var dd=.003,vb=[lon-dd,lat+dd,lon+dd,lat-dd].join(',');
+ return timed('https://nominatim.openstreetmap.org/search?format=jsonv2&accept-language=pt-BR&bounded=1&limit=15&viewbox='+vb+'&q=restaurant',{},10000).then(function(a){
+  var els=[];(a||[]).forEach(function(x){if(x.name){var t={name:x.name};t[x.category||'amenity']=x.type;els.push({lat:+x.lat,lon:+x.lon,tags:t})}});
+  if(!els.length)throw new Error('nominatim vazio');return {elements:els}})}
 function nearby0(lat,lon){
  window.__ovErr=[];
- function one(u,i,q,ms){return new Promise(function(r){setTimeout(r,i*2500)}).then(function(){return timed(u,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(q)},ms)}).then(function(j){
-  if(!j||!j.elements||(j.remark&&!j.elements.length&&/error|timed out|memory/i.test(j.remark)))throw new Error('resposta vazia/erro do servidor');return j}).catch(function(e){window.__ovErr.push(u.split('/')[2]+': '+(e&&e.name==='AbortError'?'demorou':(e&&e.message)||'falhou'));throw e})}
+ function lag(ms,fn,nm){return new Promise(function(r){setTimeout(r,ms)}).then(fn).catch(function(e){window.__ovErr.push(nm+': '+(e&&e.name==='AbortError'?'demorou':(e&&e.message)||'falhou'));throw e})}
+ function one(u,i,q,ms){return lag(i*2500,function(){return timed(u,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(q)},ms)},u.split('/')[2]).then(function(j){
+  if(!j||!j.elements||(j.remark&&!j.elements.length&&/error|timed out|memory/i.test(j.remark)))throw new Error('resposta vazia/erro do servidor');return j})}
  function go(qf,R,ms){return anyOf(OVP.map(function(u,i){return one(u,i,qf(lat,lon,R),ms)}))}
- /* 1) consulta completa 120 m (servidores escalonados); 2) consulta leve 250 m com tempo maior */
- return go(overpassQ,120,15000).catch(function(){return go(liteQ,250,22000)}).then(function(j){
+ /* Overpass (completa, depois leve) corre junto com o Photon (1,5 s depois) e, por fim, o Nominatim */
+ var ov=go(overpassQ,120,15000).catch(function(){return go(liteQ,250,22000)});
+ var ph=lag(1500,function(){return photon(lat,lon)},'photon');
+ return anyOf([ov,ph]).catch(function(){return lag(0,function(){return nominatimNear(lat,lon)},'nominatim')}).then(function(j){
   if(j.elements.length)return j;return go(liteQ,400,22000).catch(function(){return j})}).then(function(j){var seen={},out=[];
   (j.elements||[]).forEach(function(e){var t=e.tags||{};if(!t.name)return;var la=e.lat!=null?e.lat:(e.center&&e.center.lat),lo=e.lon!=null?e.lon:(e.center&&e.center.lon);if(la==null)return;
    var d=dist(lat,lon,la,lo),bonus=(t.tourism||t.historic)?45:0;var key=t.name.toLowerCase();
