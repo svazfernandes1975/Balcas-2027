@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=136"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=137"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Livro da viagem · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -170,7 +170,7 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 <p class="foot" style="margin:0 0 12px;font-size:13px;color:var(--muted)">O livro junta os check-ins, as fotos e os gastos que estão neste aparelho. Para salvar em PDF, toque em Imprimir e escolha "Salvar como PDF". Os gastos aparecem se você já abriu o Controle de Gastos neste aparelho.</p>
 <div id="lv"></div>
 </div>
-<script src="nav.js?v=136"></script><script src="ckstore.js?v=136"></script><script src="dias.js?v=136"></script><script type="module" src="fb.js?v=136"></script>
+<script src="nav.js?v=137"></script><script src="ckstore.js?v=137"></script><script src="dias.js?v=137"></script><script type="module" src="fb.js?v=137"></script>
 <script>
 (function(){
 var T0='2027-05-14',T1='2027-06-05',WK='balcas2027-wiki-v1';
@@ -260,7 +260,6 @@ function render(){
    if(i>0){var pv=cks[i-1],t=(ms(c.ts)-ms(pv.ts))/60000;
     if(c.lat!=null&&pv.lat!=null){var k=hav(pv.lat,pv.lon,c.lat,c.lon);if(k<1500&&t>0&&t<1440)p.push('Desde o lugar anterior ('+esc(pv.name)+'): '+dist(k)+' e '+dur(t)+' depois.')}
     else if(t>0&&t<1440)p.push('Foram '+dur(t)+' desde o check-in anterior.')}
-   if(c.stairs===0)p.push('Sem escada: tranquilo para a Andréa.');else if(c.stairs===1)p.push('Tem poucos degraus.');else if(c.stairs===2)p.push('Atenção: muita escada.');
    var pp=phs(c);h+='<article class="lv-ck'+(pp.length?'':' nophoto')+'">'+(pp.length?'<img src="'+pp[0]+'" alt="'+esc(c.name)+'">':'')+'<div><div class="m">'+esc(hm(c.ts))+(c.kind?' · '+esc(c.kind):'')+'</div><h3>'+esc(c.name)+(c.rating?' <span class="lv-st">'+stars(c.rating)+'</span>':'')+'</h3>'+(w.txt?'<div class="w">🌍 '+esc(w.txt)+'</div>':'')+
     '<p class="n lv-tx">'+p.join(' ')+'</p>'+(c.note?'<blockquote class="lv-q">“'+esc(c.note)+'”</blockquote>':'')+
     (pp.length>1?'<div class="lv-ph">'+pp.slice(1).map(function(u){return '<img src="'+u+'" alt="'+esc(c.name)+'">'}).join('')+'</div>':'')+(c.lat!=null?'<div class="co">📌 '+c.lat.toFixed(5)+', '+c.lon.toFixed(5)+'</div><div data-wk="'+esc(c.id)+'">'+wikiHtml(c.id)+'</div>':'')+'</div></article>';
@@ -283,7 +282,6 @@ function render(){
    (rated.length?'<tr><td>Nota média</td><td>'+n1(avg)+' / 5</td></tr>':'')+
    (cc.length?'<tr><td>Cidades com mais check-ins</td><td>'+cc.map(function(k){return esc(k)+' ('+cities[k]+')'}).join(', ')+'</td></tr>':'')+
    (kk.length?'<tr><td>Tipos de lugar</td><td>'+kk.map(function(k){return esc(k)+' ('+kinds[k]+')'}).join(', ')+'</td></tr>':'')+
-   (cks.some(function(c){return c.stairs!=null})?'<tr><td>Acessibilidade (escada)</td><td>'+[['♿ sem escada',0],['🪜 poucos degraus',1],['🪜 muita escada',2]].map(function(p){var n=cks.filter(function(c){return c.stairs===p[1]}).length;return p[0]+' '+n}).join(' · ')+'</td></tr>':'')+
    '</table>'+
    (top.length?'<h3 style="margin:16px 0 6px;font:700 1.05rem var(--f-display)">Os favoritos</h3><ol class="lv-fav">'+top.map(function(c){return '<li><b>'+esc(c.name)+'</b> <span class="lv-st">'+stars(c.rating)+'</span> <small>'+esc(where(c).txt)+'</small></li>'}).join('')+'</ol>':'')+
    (rated.length?'<h3 style="margin:16px 0 6px;font:700 1.05rem var(--f-display)">Como você avaliou</h3><div class="lv-bars">'+dist5.map(function(x){return '<div><span>'+x.s+' ★</span><i style="width:'+Math.round(x.n/mx*100)+'%"></i><b>'+x.n+'</b></div>'}).join('')+'</div>':'')+
