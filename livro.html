@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=151"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=153"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Livro da viagem · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,500&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -238,14 +238,14 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
  .lvx .ch{break-before:page}.lvx .card{box-shadow:none;border:1px solid var(--rule)}
 }
 @media print{.x{}}
-.pdfmode .cv-map .rt{animation:none!important;stroke-dashoffset:0!important}.pdfmode .cv-map .pt{animation:none!important;opacity:1!important}.pdfmode .cv-map .pulse{animation:none!important;opacity:.5}.lvx.pdfmode .pro p:first-of-type:first-letter{float:none;font:inherit;padding:0;color:inherit}
+.pdfmode .cv-map .rt{animation:none!important;stroke-dashoffset:0!important}.pdfmode .cv-map .pt{animation:none!important;opacity:1!important}.pdfmode.lvx .cv:after,.pdfmode .leg:before{display:none!important}.pdfmode .cv-map .pulse{animation:none!important;opacity:.5}.lvx.pdfmode .pro p:first-of-type:first-letter{float:none;font:inherit;padding:0;color:inherit}
 @media (prefers-reduced-motion:reduce){.lvx .cv-map .rt{animation:none;stroke-dashoffset:0}.lvx .cv-map .pt{animation:none;opacity:1}.lvx .cv-map .pulse{animation:none}}
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="diario.html">Diário</a><a href="livro.html" aria-current="page">Livro da viagem</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
 <div class="lv-bar"><button type="button" class="pri" id="lv-pdf">Baixar PDF</button><button type="button" id="lv-print">Imprimir</button><a href="diario.html">Ver o Diário</a></div><p id="lv-msg" style="margin:0 0 8px;font-size:14px;min-height:1.2em"></p>
 <p class="foot" style="margin:0 0 12px;font-size:13px;color:var(--muted)">"Baixar PDF" cria o arquivo no aparelho e abre a tela de compartilhar: escolha "Salvar em Arquivos". Os gastos aparecem se você já abriu o Controle de Gastos neste aparelho.</p>
 <div id="lv"></div>
 </div>
-<script src="nav.js?v=151"></script><script src="ckstore.js?v=151"></script><script src="dias.js?v=151"></script><script type="module" src="fb.js?v=151"></script>
+<script src="nav.js?v=153"></script><script src="ckstore.js?v=153"></script><script src="dias.js?v=153"></script><script type="module" src="fb.js?v=153"></script>
 <script>
 (function(){
 var T0='2027-05-14',T1='2027-06-05',WK='balcas2027-wiki-v1';
@@ -302,12 +302,13 @@ function routeSvg(cks){var P=cks.filter(function(c){return c.lat!=null&&c.lon!=n
  if(xy.length>1){d='M'+xy[0][0].toFixed(1)+' '+xy[0][1].toFixed(1);
   for(var n=0;n<xy.length-1;n++){var p0=xy[Math.max(0,n-1)],p1=xy[n],p2=xy[n+1],p3=xy[Math.min(xy.length-1,n+2)];
    d+='C'+(p1[0]+(p2[0]-p0[0])/6).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])/6).toFixed(1)+' '+(p2[0]-(p3[0]-p1[0])/6).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])/6).toFixed(1)+' '+p2[0].toFixed(1)+' '+p2[1].toFixed(1)}}
- var dots='',labs='',seen=[],cities={};
+ var dots='',labs='',seen=[],cities={},LB=[];
  P.forEach(function(c,i){var q=xy[i],last=i===P.length-1;
   dots+='<circle class="pt'+(last?' last':'')+'" cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="'+(last?11:8)+'" style="animation-delay:'+(.4+3.4*(i/Math.max(1,P.length-1))).toFixed(2)+'s"/>';
   var w=where(c).city;if(w&&!cities[w]){var near=seen.some(function(s){return Math.abs(s[0]-q[0])<150&&Math.abs(s[1]-q[1])<34});
-   if(!near){cities[w]=1;seen.push(q);var right=q[0]<W-200;labs+='<text x="'+(q[0]+(right?12:-12)).toFixed(1)+'" y="'+(q[1]-10).toFixed(1)+'" text-anchor="'+(right?'start':'end')+'">'+esc(w)+'</text>'}}});
+   if(!near){cities[w]=1;seen.push(q);var right=q[0]<W-200;LB.push({x:q[0]+(right?12:-12),y:q[1]-10,t:w,a:right?'left':'right'});labs+='<text x="'+(q[0]+(right?12:-12)).toFixed(1)+'" y="'+(q[1]-10).toFixed(1)+'" text-anchor="'+(right?'start':'end')+'">'+esc(w)+'</text>'}}});
  if(P.length===1)dots+='<circle class="pulse" cx="'+xy[0][0].toFixed(1)+'" cy="'+xy[0][1].toFixed(1)+'" r="14"/>';
+window.__rt={W:W,H:H,d:d,pts:xy,labs:LB};
  return '<svg class="cv-map" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Mapa da rota percorrida">'+g+(d?'<path class="rt0" d="'+d+'"/><path class="rt" pathLength="1" d="'+d+'"/>':'')+dots+labs+'</svg>'}
 var PAL=['#2FB5C4','#E2552F','#E9B44C','#7C8CF0','#5BC48A','#C96FB5','#9AA9B3','#F08C79'];
 function render(){
@@ -318,7 +319,7 @@ function render(){
  cks.forEach(function(c){(days[c.date]=days[c.date]||{ck:[],g:[]}).ck.push(c)});
  gs.forEach(function(e){(days[e.date]=days[e.date]||{ck:[],g:[]}).g.push(e)});
  var ks=Object.keys(days).sort();
- var cover0='<header class="cv"><p class="cv-who">Sergio e Andréa</p><h1>Bálcãs<em>2027</em></h1><p class="cv-dt">14 de maio a 5 de junho de 2027 · uma viagem de carro pelo Adriático</p>';
+ var cover0='<header class="cv"><p class="cv-who">Sérgio e Andréa</p><h1>Bálcãs<em>2027</em></h1><p class="cv-dt">14 de maio a 5 de junho de 2027 · uma viagem de carro pelo Adriático</p>';
  if(!ks.length){el.innerHTML='<div class="lvx">'+cover0+'<div style="height:40px"></div></header><div class="bdy"><div class="empty"><b>Ainda não há nada para mostrar.</b><p>Faça check-ins e lance gastos durante a viagem. O livro se monta sozinho com o que estiver neste aparelho: a rota no mapa, um capítulo para cada dia, o texto de cada lugar, a sua nota, curiosidades e os números da viagem.</p></div></div></div>';return}
  /* ---- estatísticas gerais ---- */
  var rated=cks.filter(function(c){return c.rating>0}),avg=rated.length?rated.reduce(function(a,c){return a+c.rating},0)/rated.length:0;
@@ -398,6 +399,11 @@ function render(){
 /* PDF: gera no próprio aparelho (funciona no iPhone, onde "imprimir" não existe no app instalado) */
 function loadJs(u){return new Promise(function(ok,no){if(document.querySelector('script[data-l="'+u+'"]'))return ok();var e=document.createElement('script');e.src=u+'?v='+(window.SITE_VERSION||'0');e.dataset.l=u;e.onload=ok;e.onerror=function(){no(new Error('js'))};document.head.appendChild(e)})}
 function pdfMsg(t,err){var m=document.getElementById('lv-msg');if(m){m.textContent=t;m.style.color=err?'#B3341F':''}}
+function routeCanvas(){var R=window.__rt;if(!R)return null;var k=2,c=document.createElement('canvas');c.width=R.W*k;c.height=R.H*k;c.style.cssText='display:block;width:100%;height:auto';var x=c.getContext('2d');x.scale(k,k);
+ x.strokeStyle='rgba(150,210,225,.14)';x.lineWidth=1;for(var i=1;i<8;i++){x.beginPath();x.moveTo(R.W/8*i,0);x.lineTo(R.W/8*i,R.H);x.stroke()}for(var j=1;j<4;j++){x.beginPath();x.moveTo(0,R.H/4*j);x.lineTo(R.W,R.H/4*j);x.stroke()}
+ if(R.d&&window.Path2D){var p=new Path2D(R.d);x.lineCap='round';x.lineJoin='round';x.strokeStyle='rgba(255,255,255,.18)';x.lineWidth=1.5;x.setLineDash([3,6]);x.stroke(p);x.setLineDash([]);x.save();x.shadowColor='rgba(47,181,196,.8)';x.shadowBlur=12;x.strokeStyle='#2FB5C4';x.lineWidth=5;x.stroke(p);x.restore()}
+ R.pts.forEach(function(q,i){var last=i===R.pts.length-1;x.beginPath();x.arc(q[0],q[1],last?11:8,0,7);x.fillStyle=last?'#E9B44C':'#E2552F';x.fill();x.lineWidth=2;x.strokeStyle='#fff';x.stroke()});
+ x.font='italic 500 27px Fraunces,Georgia,serif';x.lineJoin='round';R.labs.forEach(function(l){x.textAlign=l.a;x.lineWidth=6;x.strokeStyle='rgba(7,24,42,.75)';x.strokeText(l.t,l.x,l.y);x.fillStyle='#EAF4F6';x.fillText(l.t,l.x,l.y)});return c}
 function makePdf(){var btn=document.getElementById('lv-pdf');btn.disabled=true;pdfMsg('Preparando…');
  var root=document.querySelector('.lvx');if(!root||!root.querySelector('.cv')){pdfMsg('Ainda não há nada no livro para salvar.',1);btn.disabled=false;return}
  var cs=getComputedStyle(root),W=Math.min(root.offsetWidth,720);
@@ -410,7 +416,7 @@ function makePdf(){var btn=document.getElementById('lv-pdf');btn.disabled=true;p
    var wrap=document.createElement('div');wrap.className='lvx pdfmode';wrap.style.cssText='position:fixed;left:-99999px;top:0;width:'+W+'px;margin:0;border-radius:0;background:'+paper;
    var inner=document.createElement('div');if(i>0){inner.className='bdy';inner.style.cssText='padding:24px 18px 8px;margin:0'}
    parts[i].forEach(function(n){inner.appendChild(n.cloneNode(true))});wrap.appendChild(inner);
-   if(i===0)inner.style.paddingBottom='24px';
+   if(i===0){inner.style.paddingBottom='24px';var sv=wrap.querySelector('svg.cv-map'),rc=routeCanvas();if(sv&&rc)sv.parentNode.replaceChild(rc,sv);else if(sv)sv.remove()}
    document.body.appendChild(wrap);
    return html2canvas(wrap,{scale:Math.min(2,Math.max(1.2,1400/W)),backgroundColor:null,useCORS:true,logging:false}).then(function(c){
     document.body.removeChild(wrap);var ph=pw*c.height/c.width,MAXH=420;
