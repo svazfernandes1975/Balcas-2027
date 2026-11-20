@@ -42,13 +42,13 @@ function nearby(lat,lon){var ck='ckn:'+lat.toFixed(3)+','+lon.toFixed(3);try{var
  return nearby0(lat,lon).then(function(l){try{sessionStorage.setItem(ck,JSON.stringify(l))}catch(e){}return l})}
 function liteQ(lat,lon,R){var a='(around:'+R+','+lat+','+lon+')';
  return '[out:json][timeout:20];(nwr'+a+'["name"]["tourism"];nwr'+a+'["name"]["historic"];nwr'+a+'["name"]["amenity"~"^(restaurant|cafe|bar|pub|fast_food|place_of_worship|theatre|cinema|library|university)$"];nwr'+a+'["name"]["leisure"~"^(park|garden)$"];);out center tags 25;'}
-function photon(lat,lon){
- return timed('https://photon.komoot.io/reverse?lang=default&radius=0.35&limit=40&lat='+lat+'&lon='+lon,{},9000).then(function(j){
-  var els=[];(j.features||[]).forEach(function(f){var p=f.properties||{},g=f.geometry&&f.geometry.coordinates;if(!p.name||!g)return;var k=p.osm_key,v=p.osm_value,t={name:p.name};
-   if(k==='tourism'||k==='historic'||k==='amenity'||k==='leisure'||k==='shop'||k==='natural'||k==='man_made'){t[k]=v}else return;
-   if(k==='amenity'&&!/^(restaurant|cafe|bar|pub|fast_food|ice_cream|place_of_worship|theatre|cinema|marketplace|fountain|library|university|bus_station|townhall)$/.test(v))return;
-   els.push({lat:g[1],lon:g[0],tags:t})});
-  if(!els.length)throw new Error('photon vazio');return {elements:els}})}
+var BADK={highway:1,building:1,place:1,boundary:1,landuse:1,waterway:1,railway:0,route:1,addr:1,postcode:1};
+function phEls(j,lat,lon,maxD){var els=[];(j.features||[]).forEach(function(f){var p=f.properties||{},g=f.geometry&&f.geometry.coordinates;if(!p.name||!g)return;var k=p.osm_key,v=p.osm_value;if(!k||BADK[k]||v==='yes')return;
+  if(maxD&&dist(lat,lon,g[1],g[0])>maxD)return;var t={name:p.name};t[k]=v;if(k==='amenity'&&/^(parking|bench|atm|toilets|waste_basket|bicycle_parking|fuel|post_box|recycling|charging_station)$/.test(v))return;els.push({lat:g[1],lon:g[0],tags:t})});
+ if(!els.length)throw new Error('sem lugares');return {elements:els}}
+function photon(lat,lon){return timed('https://photon.komoot.io/reverse?lang=default&radius=0.4&limit=50&lat='+lat+'&lon='+lon,{},9000).then(function(j){return phEls(j,lat,lon,450)})}
+var PTERMS=['restaurante','café','padaria','mercado','farmácia','praça','parque','igreja','bar','loja','hotel','museu'];
+function photonQ(term,lat,lon){return timed('https://photon.komoot.io/api/?q='+encodeURIComponent(term)+'&lat='+lat+'&lon='+lon+'&location_bias_scale=0.9&limit=10&lang=default',{},9000).then(function(j){return phEls(j,lat,lon,450)})}
 function nominatimNear(lat,lon){var dd=.003,vb=[lon-dd,lat+dd,lon+dd,lat-dd].join(',');
  return timed('https://nominatim.openstreetmap.org/search?format=jsonv2&accept-language=pt-BR&bounded=1&limit=15&viewbox='+vb+'&q=restaurant',{},10000).then(function(a){
   var els=[];(a||[]).forEach(function(x){if(x.name){var t={name:x.name};t[x.category||'amenity']=x.type;els.push({lat:+x.lat,lon:+x.lon,tags:t})}});
@@ -64,14 +64,15 @@ function nearbyLive(lat,lon,onPart){
  var all={},fails=[],jobs=[];
  function add(l){l.forEach(function(x){var k=x.name.toLowerCase();if(!all[k]||all[k].d>x.d)all[k]=x});
   var out=Object.keys(all).map(function(k){return all[k]}).sort(function(a,b){return a.score-b.score}).slice(0,10);onPart(out)}
- function job(nm,delay,fn){jobs.push(new Promise(function(r){setTimeout(r,delay)}).then(fn).then(function(j){add(parseEls(j,lat,lon))}).catch(function(e){fails.push(nm+': '+(e&&e.name==='AbortError'?'demorou':(e&&e.message)||'falhou'))}))}
+ function job(nm,delay,fn){jobs.push(new Promise(function(r){setTimeout(r,delay)}).then(fn).then(function(j){add(parseEls(j,lat,lon))}).catch(function(e){fails.push(nm.replace(/^photon .*/,'photon')+': '+(e&&e.name==='AbortError'?'demorou':(e&&e.message)||'falhou'))}))}
  var q=liteQ(lat,lon,200);
  function ov(u){return timed(u,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(q)},9000).then(function(j){if(!j||!j.elements)throw new Error('vazio');return j})}
  job('photon',0,function(){return photon(lat,lon)});
+ PTERMS.forEach(function(t,i){job('photon '+t,i*120,function(){return photonQ(t,lat,lon)})});
  job('overpass',0,function(){return ov(OVP[0])});
  job('kumi',0,function(){return ov(OVP[1])});
  job('coffee',3000,function(){return ov(OVP[2])});
- return Promise.all(jobs).then(function(){window.__ovErr=fails;return Object.keys(all).length})}
+ return Promise.all(jobs).then(function(){window.__ovErr=fails.filter(function(x,i){return fails.indexOf(x)===i});return Object.keys(all).length})}
 function nearby0(lat,lon){
  window.__ovErr=[];
  function lag(ms,fn,nm){return new Promise(function(r){setTimeout(r,ms)}).then(fn).catch(function(e){window.__ovErr.push(nm+': '+(e&&e.name==='AbortError'?'demorou':(e&&e.message)||'falhou'));throw e})}
