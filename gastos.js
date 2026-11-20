@@ -398,6 +398,8 @@ function submitG(){
   if(catLines(F.cat).length>1&&!F.ln&&!F.legacy){toast('Escolha a subcategoria');F.step=2;rLancar();return}
   var diff=m.cur!==F.ecur,deb=diff?num($('#g-debit').value):a;
   if(!(deb>0))deb=conv(a,F.ecur,m.cur);
+  if(m.cnt){var old=F.edit?S.entries.filter(function(x){return x.id===F.edit})[0]:null,bal=balance(m)+(old&&old.m===m.id?debited(old):0);
+    if(bal-deb<-0.005&&!confirm(bal<=0.005?m.name+' está zerado (saldo '+money(bal,m.cur)+'). Lançar mesmo assim?':m.name+' tem só '+money(bal,m.cur)+' e este gasto é de '+money(deb,m.cur)+'. Vai ficar negativo. Lançar mesmo assim?'))return}
   snap();
   var e={id:F.edit||uid(),t:'g',date:$('#g-date').value||dateDefault(F.cat),m:m.id,cur:F.ecur,amt:r2(a),debit:r2(deb),cat:F.cat,ln:F.ln||null,desc:$('#g-desc').value.trim(),eur:Math.round(toEUR(a,F.ecur)*10000)/10000,usd:r2(conv(a,F.ecur,'USD')),brl:r2(brlOf(a,m,diff)),ctry:curCountry($('#g-date').value||dateDefault(F.cat)).name};
   if(isFuel(F.cat,F.ln)||F.fuelOpen){var fl=num($('#g-fl').value),fk=num($('#g-fkm').value);if(fl>0||fk>0)e.fuel={l:fl>0?r2(fl):null,km:fk>0?Math.round(fk):null}}
