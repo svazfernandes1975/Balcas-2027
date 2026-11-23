@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=157"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=158"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Dirigir · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -127,22 +127,188 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 .dr-ck input{margin-top:4px;flex:none}
 @media(max-width:640px){.dr-tb.st{min-width:0}.dr-tb.st thead{display:none}.dr-tb.st tr{display:block;padding:8px 10px;border-top:1px solid var(--line)}.dr-tb.st tr:first-child{border-top:0}.dr-tb.st td{display:block;border:0;padding:2px 0;white-space:normal}}
 h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
+.dr-grp{margin:34px 0 4px;padding:12px 14px;border-radius:12px;background:var(--accent);color:var(--accent-ink)}
+.dr-grp h2{margin:0;font:800 1.2rem var(--f-display)}
+.dr-grp p{margin:2px 0 0;font-size:14px;opacity:.92}
+.dr-lbl{font:700 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:14px 0 2px}
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="dirigir.html" aria-current="page">Dirigir</a><a href="seguranca.html">Segurança</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
 
 <section class="day"><div class="day-h"><span class="date">planejamento</span><h2>Como dirigir nos 4 países</h2></div>
-<p class="prose">Croácia, Eslovênia, Itália (só Trieste) e Montenegro. A direção é do mesmo lado do Brasil (mão direita, volante à esquerda), mas há regras, placas e multas que pegam brasileiro desprevenido. Leia esta página antes de buscar o carro.</p>
-<div class="dr-ch"><a href="#moveover">Move Over</a><a href="#regras">Regras</a><a href="#difer">Diferenças</a><a href="#comb">Combustível</a><a href="#placas">Placas</a><a href="#entrar">Onde entrar</a><a href="#estac">Estacionar</a><a href="#vinheta">Vinheta</a><a href="#rota">Rota</a><a href="#multas">Multas</a><a href="#aluguel">Meu carro</a><a href="#balcao">Balcão</a><a href="#sos">Emergência</a></div>
+<p class="prose">Croácia, Eslovênia, Itália (só Trieste) e Montenegro. A direção é do mesmo lado do Brasil (mão direita, volante à esquerda), mas há regras, placas e multas que pegam brasileiro desprevenido. A primeira parte da página é para usar durante a viagem, com a checklist da locação no topo. A segunda é para estudar antes de ir.</p>
+<p class="dr-lbl">Na viagem</p>
+<div class="dr-ch"><a href="#checklist">Checklist</a><a href="#balcao">Balcão</a><a href="#sos">Emergência</a><a href="#rota">Rota</a><a href="#vinheta">Vinheta</a><a href="#comb">Combustível</a><a href="#estac">Estacionar</a><a href="#entrar">Onde entrar</a><a href="#multas">Multas</a></div>
+<p class="dr-lbl">Para estudar antes de ir</p>
+<div class="dr-ch"><a href="#aluguel">Meu carro</a><a href="#regras">Regras</a><a href="#difer">Diferenças</a><a href="#placas">Placas</a><a href="#moveover">Move Over</a></div>
 </section>
 
-<section class="day" id="moveover"><div class="day-h"><span class="date">o que te multou nos EUA</span><h2>E o "Move Over"?</h2></div>
-<div class="dr-k in"><b class="t">Resposta curta</b><p>Não encontrei, nesses 4 países, uma lei idêntica à americana (trocar de faixa ao passar por veículo parado com pisca-alerta). Mas existem regras parecidas, e a conduta esperada é a mesma.</p></div>
+<div class="dr-grp"><h2>Para usar na viagem</h2><p>Checklist, frases do balcão, emergência e o que consultar na estrada.</p></div>
+
+<section class="day" id="checklist"><div class="day-h"><span class="date">use do começo ao fim da viagem</span><h2>Checklist da locação</h2></div>
+<div id="lc-mount"></div></section>
+
+<section class="day" id="balcao"><div class="day-h"><span class="date">18/05 · balcão</span><h2>No balcão: o que dizer (PT e EN)</h2></div>
+<p class="prose">Prepare-se para ser abordado com ofertas de seguro extra. É normal e você não precisa aceitar. Fale com calma, repita a mesma frase e peça tudo por escrito. Deixe livre no cartão até <b>€2.200</b>, caso a caução venha maior que os €1.100 estimados.</p>
+<div class="dr-k in"><b class="t">1. Abertura</b><p><b>PT</b> Olá, tenho uma reserva feita pela Rentcars, em nome de ___, número ___. Retirada hoje às 11:00.</p><p lang="en"><b>EN</b> Hi, I have a reservation booked through Rentcars, under the name ___, confirmation number ___. Pick-up today at 11:00.</p></div>
+<div class="dr-k"><b class="t">2. Recusar seguro extra</b><p><b>PT</b> Obrigado, mas não preciso de seguro adicional. Já tenho a cobertura de franquia por um provedor externo (RentalCover). Fico com a proteção básica que já está incluída na minha reserva.</p><p lang="en"><b>EN</b> Thank you, but I don't need additional insurance. I already have excess reimbursement coverage through a third-party provider (RentalCover). I'll keep the basic protection that's included in my booking.</p></div>
+<div class="dr-k"><b class="t">3. Se insistirem</b><p><b>PT</b> Entendo, mas recuso todas as coberturas opcionais. Pode só confirmar o que já está incluído na minha reserva?</p><p lang="en"><b>EN</b> I understand, but I'm declining all optional coverage. Could you please just confirm what is already included in my reservation?</p></div>
+<div class="dr-k"><b class="t">4. Caução (valor exato)</b><p><b>PT</b> Pode me dizer o valor exato da caução que será bloqueada no meu cartão e confirmar por escrito que ela não muda porque recusei a cobertura extra? Minha confirmação mostra €___.</p><p lang="en"><b>EN</b> Could you please tell me the exact security deposit that will be held on my card, and confirm in writing that it does not change because I'm declining the extra coverage? My confirmation shows €___.</p></div>
+<div class="dr-k"><b class="t">5. Se a caução vier maior</b><p><b>PT</b> Minha confirmação diz €___. Pode me mostrar onde está escrito que a caução aumenta quando se recusa a cobertura opcional? Se não estiver, quero a caução do valor original. Vou ligar para a Rentcars daqui mesmo.</p><p lang="en"><b>EN</b> My booking confirmation says €___. Could you show me where it says the deposit increases when optional coverage is declined? If it doesn't, I'd like the original amount. I'll call my booking agency, Rentcars, from here.</p></div>
+<div class="dr-k"><b class="t">6. Fronteiras</b><p><b>PT</b> Vou dirigir para Eslovênia, Itália, Montenegro e, talvez, Bósnia e Herzegovina (Neum). Pode incluir a autorização de viagem internacional e a carta verde no contrato e me dizer a taxa total?</p><p lang="en"><b>EN</b> I'm planning to drive to Slovenia, Italy, Montenegro and possibly Bosnia and Herzegovina (Neum). Could you add the cross-border authorization and the green card to the contract, and tell me the total fee?</p></div>
+<div class="dr-k"><b class="t">7. Condutora adicional</b><p><b>PT</b> Pode incluir minha esposa, Andréa ___, como condutora adicional? Quanto custa?</p><p lang="en"><b>EN</b> Could you please add my wife, Andréa ___, as an additional driver? What is the cost?</p></div>
+<div class="dr-k"><b class="t">8. Carro sujo, antigo ou diferente do reservado</b><p><b>PT</b> Este carro não está limpo (ou não é a categoria que reservei). Posso trocar por outro antes de sair?</p><p lang="en"><b>EN</b> This car is not clean (or not the category I booked). Could I get a different one before I leave?</p></div>
+<div class="dr-k"><b class="t">9. Vistoria</b><p><b>PT</b> Pode marcar todos os danos existentes no termo de saída? Vou fotografar e filmar o carro e quero uma cópia assinada.</p><p lang="en"><b>EN</b> Could you please mark all existing damage on the check-out form? I'm going to take photos and a video, and I'd like a signed copy.</p></div>
+<div class="dr-k"><b class="t">10. Combustível</b><p><b>PT</b> Qual é a política de combustível, e o carro é gasolina ou diesel? Onde fica o posto mais próximo do aeroporto?</p><p lang="en"><b>EN</b> What is the fuel policy, and does the car take petrol or diesel? Where is the nearest gas station to the airport?</p></div>
+<div class="dr-k"><b class="t">11. Na devolução (05/06)</b><p><b>PT</b> Pode me dar o termo de devolução assinado, ou confirmar por e-mail que não há danos novos e que a caução será liberada?</p><p lang="en"><b>EN</b> Could you please give me a signed return form, or confirm by email that there is no new damage and that my deposit will be released?</p></div>
+<div class="dr-k ok"><b class="t">Antes de assinar, confira no contrato</b><p>Preço total, caução, política de combustível, quilometragem, fronteiras autorizadas, condutora adicional, e <b>que nenhum seguro opcional foi acrescentado</b> sem você pedir. Não assine o que não entendeu. Peça uma cópia e fotografe.</p></div>
+<div class="dr-k"><b class="t">Quando ligar para a Rentcars</b><p>Se o balcão cobrar caução diferente da confirmação, acrescentar seguro que você recusou ou negar o carro reservado. Tenha à mão o número da reserva e o app aberto. Peça o e-mail ou o chat da resposta, para mostrar ao balcão.</p></div></section>
+
+<section class="day" id="sos"><div class="day-h"><span class="date">se der errado</span><h2>Acidente, pane ou polícia</h2></div>
+<h3 style="margin:8px 0 6px">Carro alugado: dano, acidente, furto ou pane</h3>
+<ol class="bul">
+<li><b>Segurança primeiro:</b> pisca-alerta, colete, triângulo, todos atrás do guard-rail. Ligue 112 se houver ferido.</li>
+<li><b>Ligue para a locadora antes de qualquer reparo.</b> Use o telefone do contrato: a assistência para pane e guincho é <b>+385 72 606 606, opção 9</b>. O número do balcão de Zagreb, no voucher, é +385 99 382 4785. Eles definem guincho e oficina.</li>
+<li><b>Chame a polícia em qualquer dano</b>, até arranhão de estacionamento: o contrato da locadora exige, e peça o <b>boletim</b>. Faça o <b>bafômetro no local</b>, que precisa dar 0,00, e não saia antes do fim do atendimento. Sem isso, a locadora anula todos os seguros e a Rentalcover não paga.</li>
+<li><b>Fotografe tudo:</b> o dano, o local, as placas, os documentos do outro motorista e do seguro. Com outro veículo, preencha o <b>constat</b> e passe esses dados à Rentalcover.</li>
+<li><b>Não pague reparo por conta própria</b> nem assine nada sem ler. Peça cópia de tudo.</li>
+<li><b>Pague a locadora no cartão, nunca em dinheiro.</b> Pagamento em dinheiro sem comprovante suficiente não é reembolsado.</li>
+<li><b>Guarde:</b> contrato, CNH, extrato do cartão com a cobrança, <b>fatura final</b> da Alamo (pode chegar semanas depois), boletim, laudo, orçamento de reparo e todos os e-mails com a locadora.</li>
+<li><b>Peça o reembolso</b> em rentalcover.com/claim com esses documentos. Contestação: complaints@rentalcover.com (resposta em até 5 dias). Não há taxa de reivindicação (R$ 0,00). O certificado não informa o prazo para pedir o reembolso: peça logo depois do incidente (<b>a confirmar</b> nos termos da apólice).</li>
+<li><b>Seu cartão ou seguro pessoal</b> com cobertura equivalente deve ser acionado primeiro; a Rentalcover paga o restante.</li>
+</ol>
+
+<h3 style="margin:18px 0 6px">Lembretes rápidos</h3>
 <ul class="bul">
-<li><b>Ambulância, bombeiro ou polícia com sirene e luz:</b> abra caminho sempre, encostando à direita e parando se preciso. Vale nos 4 países. Não passe sinal vermelho para abrir passagem, a menos que o agente mande.</li>
-<li><b>Corredor de emergência no congestionamento:</b> em autoestrada parada, quem está na faixa da esquerda vai para a esquerda e todos os outros vão para a direita, deixando um corredor no meio. Obrigatório na Croácia, na Eslovênia e na Itália. Faça isso assim que o trânsito começar a frear, não depois que a sirene aparecer. (Informação confirmada em fontes de clubes automobilísticos de 2018; a prática é a mesma hoje.)</li>
-<li><b>Veículo parado no acostamento:</b> reduza e, se der, afaste-se para a faixa ao lado. Não é obrigatório como nos EUA, mas é o que a polícia espera e evita acidente.</li>
-<li><b>Ao parar numa emergência:</b> pisca-alerta, colete refletivo antes de sair, triângulo a cerca de 50 m (em autoestrada, 100 m) e todos atrás do guard-rail.</li>
-<li><b>Fila na autoestrada:</b> ligue o pisca-alerta ao ver o fim da fila e frear forte. É costume e evita colisão traseira.</li>
+<li><b>112</b> em qualquer país (polícia, ambulância, bombeiros).</li>
+<li>Triângulo a 50 m na estrada e a 100 m na autoestrada, colete vestido e todos atrás do guard-rail.</li>
+<li>Em blitz: pare, desligue o motor, mantenha as mãos visíveis e entregue passaporte, CNH, PID e o contrato.</li>
+<li>Números de socorro dos clubes e da locadora: veja <a href="sos.html">SOS</a>.</li>
 </ul></section>
+
+<section class="day" id="rota"><div class="day-h"><span class="date">trecho a trecho</span><h2>Pontos de atenção na sua rota</h2></div>
+<ul class="bul">
+<li><b>Zagreb → Ljubljana:</b> compre a <b>e-vinheta</b> antes de cruzar (classe 2A, 7 dias, €16; veja a seção "Vinheta: onde comprar" acima). Sem ela, a multa citada pelos sites oficiais vai de €300 a €800. Digite a placa certa. Não há cabine de pedágio na Eslovênia, então a câmera é o único fiscal.</li>
+<li><b>Ljubljana → Trieste:</b> é fronteira Schengen sem controle fixo. Atenção à ZTL de Trieste e à garagem Silos. Evite o Molo IV (estacionamento com guincho frequente).</li>
+<li><b>Trieste → Plitvice:</b> volta à Croácia. Pode haver controle de polícia móvel; tenha passaporte à mão.</li>
+<li><b>Plitvice → Split (A1):</b> pedágio por ticket; pague na saída. Tarifa citada de €25 a €30 no total da A1. Túnel Sveti Rok fecha com vento forte.</li>
+<li><b>Split → Dubrovnik:</b> a <b>ponte de Pelješac é gratuita</b> e evita a Bósnia. Confirme que o GPS não manda você por <b>Neum</b>: lá há duas fronteiras com a Bósnia e é preciso passaporte e carta verde.</li>
+<li><b>Dubrovnik → Kotor (fronteira Debeli Brijeg):</b> Montenegro não é UE nem Schengen. Leve passaporte, <b>carta verde</b> e a autorização da locadora para sair do país. No verão a fila pode passar de uma hora. Farol baixo ligado o dia todo lá.</li>
+<li><b>Em Montenegro:</b> álcool 0,3 ‰, estradas estreitas, ultrapassagens arriscadas, buzinas. Túnel Sozina é pago (cerca de €2,50). Moeda é o euro.</li>
+<li><b>Kotor → Vodice (Šibenik):</b> são ≈ 430 km direto, o dia mais longo de estrada. Saia cedo, planeje paradas sem deixar bagagem no carro, não dirija cansado e abasteça antes da fronteira.</li>
+</ul>
+<div class="dr-k ok"><b class="t">Documentos no carro</b><p>Passaporte, CNH, <b>Permissão Internacional para Dirigir (PID)</b>, contrato da locadora e a carta verde. A Itália costuma exigir a PID para CNH brasileira; confirme com a locadora. Mais detalhes em <a href="seguranca.html">Segurança e documentos</a>.</p></div>
+</section>
+
+<section class="day" id="vinheta"><div class="day-h"><span class="date">eslovênia</span><h2>Vinheta: onde comprar</h2></div>
+<div class="dr-k"><b class="t">Regra</b><p>Pague <b>antes</b> de pegar a autoestrada eslovena. Dirigir sem vinheta válida custa <b>€300 a €800</b>. A vinheta é ligada à <b>placa</b>: digite a placa exata e o país de registro. Escolha a classe <b>2A</b> (carro de passeio). A semanal custa <b>€16</b> e a mensal €32.</p></div>
+<h3 class="dr-h">Online (vendedores autorizados)</h3>
+<div class="dr-w"><table class="dr-tb st"><thead><tr><th>Onde</th><th>Link</th><th>Observação</th></tr></thead><tbody>
+<tr><td>DARS (oficial)</td><td><a href="https://evinjeta.dars.si/en" target="_blank" rel="noopener">evinjeta.dars.si</a></td><td>Preço de tabela. Cartão ou PayPal vale na hora. Instruções: <a href="https://evinjeta.dars.si/en/how-buy" target="_blank" rel="noopener">como comprar</a>.</td></tr>
+<tr><td>Petrol (rede de postos da Eslovênia)</td><td><a href="https://www.petrol.si/na-poti/za-vozilo/vinjete" target="_blank" rel="noopener">petrol.si/vinjete</a></td><td>Vendedor autorizado pela DARS. Boa alternativa se o site oficial falhar.</td></tr>
+<tr><td>ASFINAG (Áustria)</td><td><a href="https://shop.asfinag.at/en" target="_blank" rel="noopener">shop.asfinag.at</a></td><td>Vendedor autorizado, em inglês.</td></tr>
+<tr><td>ADAC (Alemanha)</td><td><a href="https://www.adac.de/fahrzeugwelt/maut-vignette/" target="_blank" rel="noopener">adac.de/maut-vignette</a></td><td>Vendedor autorizado. A página é em alemão.</td></tr>
+<tr><td>Telepass (Itália)</td><td><a href="https://www.telepass.com/en/privati/servizi/vignetta-autostrada/slovenia" target="_blank" rel="noopener">telepass.com</a></td><td>Vende a mesma vinheta pelo site e app. Não confirmei se aceita cliente de fora da UE.</td></tr>
+</tbody></table></div>
+<p class="dr-note">Atenção: sites não autorizados cobram comissão. Já houve caso de vinheta anual a €134,99, contra €117,50 na DARS. Se o endereço não estiver acima, desconfie.</p>
+<h3 class="dr-h">Pessoalmente</h3>
+<ul class="bul">
+<li><b>Fronteiras:</b> a DARS cita pontos de venda nas fronteiras de <b>Obrežje</b> (vindo de Zagreb), <b>Gruškovje</b> e <b>Fernetiči</b> (Itália). Em Zagreb → Ljubljana você cruza em Obrežje.</li>
+<li><b>Escritórios DarsGo:</b> Ljubljana, Maribor e Hrušica.</li>
+<li><b>Postos de combustível</b> (como o Petrol) também vendem, segundo as fontes oficiais. Confirme com o posto antes de contar com isso.</li>
+<li>Lista oficial dos pontos: <a href="https://evinjeta.dars.si/kako-kupiti-e-vinjeto" target="_blank" rel="noopener">evinjeta.dars.si/kako-kupiti-e-vinjeto</a>. Central 24 h: <b>+386 1 518 8 350</b>.</li>
+</ul>
+<h3 class="dr-h">Dicas</h3>
+<ul class="bul">
+<li>Pague com <b>cartão ou PayPal</b>. Transferência bancária só vale <b>4 dias úteis depois</b>.</li>
+<li>Dá para marcar a data de início com até 30 dias de antecedência. O ideal é comprar na véspera da viagem, depois de saber a placa do carro.</li>
+<li>Guarde o comprovante (print da tela) e confira a placa depois da compra.</li>
+<li><b>Não precisa de vinheta</b> no trecho da fronteira com a Áustria até a saída Hrušica (o túnel Karavanke tem pedágio próprio) e na via expressa costeira entre Škofije e Izola.</li>
+</ul>
+<p class="dr-note">Confirmei os links nas páginas de turismo da Eslovênia e da DARS. Os pontos de venda nas fronteiras vêm de um artigo que cita a DARS: confirme no site oficial antes da viagem.</p>
+</section>
+
+<section class="day" id="comb"><div class="day-h"><span class="date">posto</span><h2>Gasolina ou diesel: como identificar</h2></div>
+<div class="dr-k"><b class="t">Cuidado</b><p>Abastecer com o combustível errado é um dos erros mais caros da viagem, e o seguro da locadora normalmente não cobre. Confira a tampa do tanque ou o contrato antes de sair do pátio.</p></div>
+<h3 class="dr-h">Símbolo padrão da UE</h3>
+<ul class="bul"><li><b>Círculo com E5 ou E10 = gasolina.</b> E10 tem até 10% de etanol e a maioria dos carros aceita (veja a tampa do tanque).</li><li><b>Quadrado com B7 ou B10 = diesel.</b></li><li>Vale para Croácia, Eslovênia e Itália. Montenegro costuma seguir o mesmo padrão, mas não confirmei.</li></ul>
+<h3 class="dr-h">Nome na bomba</h3>
+<div class="dr-w"><table class="dr-tb st"><thead><tr><th>País</th><th>Gasolina</th><th>Diesel</th></tr></thead><tbody>
+<tr><td>Croácia</td><td>Eurosuper 95 (também Eurosuper 100)</td><td>Eurodizel</td></tr>
+<tr><td>Eslovênia</td><td>Bencin 95, ou NMB 95 (neosvinčeni motorni bencin)</td><td>Dizel</td></tr>
+<tr><td>Itália</td><td>Benzina senza piombo (95)</td><td>Gasolio</td></tr>
+<tr><td>Montenegro</td><td>Eurosuper BMB 95, ou só BMB 95 (bezolovni motorni benzin)</td><td>Eurodizel ou D</td></tr>
+</tbody></table></div>
+<p class="dr-note">Pista mais segura: o número <b>95</b> indica gasolina comum. Na Itália, "fai da te" é self-service (mais barato) e "servito" tem frentista (mais caro). Os nomes da Eslovênia e de Montenegro vêm de conhecimento geral, sem fonte consultada: confirme no primeiro posto de cada país.</p>
+</section>
+
+<section class="day" id="estac"><div class="day-h"><span class="date">parquímetros</span><h2>Estacionar sem tomar multa</h2></div>
+<h3 class="dr-h">Em todo lugar</h3>
+<ul class="bul">
+<li>Leia a <b>placa complementar</b> abaixo do "P": horário, "pago", disco, dias úteis.</li>
+<li>Muitos parquímetros <b>não dão troco</b> e só aceitam moedas. Leve moedas de €1 e €2 e cartão contactless.</li>
+<li>Deixe o tíquete visível no painel. Alguns pedem a placa digitada; guarde a placa em foto.</li>
+<li>Guarde o comprovante até devolver o carro. Em alguns lugares a multa chega por e-mail a locadora.</li>
+<li>Na dúvida, pare em <b>garagem</b>. Custa mais, mas não tem guincho nem bloqueio.</li>
+</ul>
+<h3 class="dr-h">Por país</h3>
+<div class="dr-w"><table class="dr-tb st"><thead><tr><th>País</th><th>Como funciona</th></tr></thead><tbody>
+<tr><td>Croácia</td><td>Zonas numeradas (1, 2, 3...), a 1 é a mais cara e de menor tempo. Pague no parkomat, por SMS ou aplicativo, e tenha o comprovante. Horário e tarifa variam por cidade e estação; confira a placa.</td></tr>
+<tr><td>Eslovênia</td><td>Zonas coloridas, com limite de 30 a 120 minutos no centro de Ljubljana. Pague em parquímetro, máquina Urbanomat ou SMS pelo serviço Urbana. Parquímetro sem troco. Carro estacionado errado pode ser guinchado.</td></tr>
+<tr><td>Itália</td><td>Faixas <b>azuis</b> são pagas (parcometro), <b>brancas</b> são livres (às vezes com disco horário) e <b>amarelas</b> são reservadas (não use). Em algumas cidades o parcometro pede a placa.</td></tr>
+<tr><td>Montenegro</td><td>Zonas verde, amarela e vermelha, com tarifas citadas de €0,40, €0,50 e €0,60 por hora. Parquímetros com moedas ou SMS com chip local. Estacionamentos com cancela cobram na saída, sem limite de tempo.</td></tr>
+</tbody></table></div>
+<p class="dr-note">Tarifas e horários são de sites de turismo e mudam. Servem como ordem de grandeza.</p>
+</section>
+
+<section class="day" id="entrar"><div class="day-h"><span class="date">onde posso entrar</span><h2>Posso ir de carro?</h2></div>
+<p class="prose">Regra geral: <b>centro histórico murado ou de pedestres, assim como ilha-cidade, não é lugar de carro</b>. Estacione na borda e entre a pé. Onde a entrada é controlada, a multa vem por câmera meses depois, pela locadora.</p>
+<div class="dr-w"><table class="dr-tb st"><thead><tr><th>Lugar</th><th>Carro</th><th>O que saber</th></tr></thead><tbody>
+<tr><td>Zagreb, centro</td><td><span class="dr-b rs">cuidado</span></td><td>Cidade Alta (Gornji Grad) é quase toda de pedestres e bondes. Pare em garagem pública na Cidade Baixa e caminhe.</td></tr>
+<tr><td>Ljubljana, centro</td><td><span class="dr-b no">restrito</span></td><td>O núcleo é sem carro. Hotel dentro da zona libera acesso (peça ao hotel). Para visitar, use a garagem ou os P+R: o ticket já inclui 2 passagens de ônibus por 24 h.</td></tr>
+<tr><td>Trieste, centro</td><td><span class="dr-b no">ZTL</span></td><td>Câmeras na entrada. Multa citada como cerca de €80, mais taxa da locadora. Use a Garagem Silos e vá a pé. O GPS ignora a ZTL.</td></tr>
+<tr><td>Plitvice</td><td><span class="dr-b ok">livre</span></td><td>Dentro do parque não se entra de carro. Estacionamento pago por hora nas entradas (P1/P2); pague no caixa antes de sair.</td></tr>
+<tr><td>Rastoke (Slunj)</td><td><span class="dr-b ok">livre</span></td><td>Vila pequena; estacione na entrada e caminhe.</td></tr>
+<tr><td>Split, Palácio de Diocleciano</td><td><span class="dr-b no">proibido</span></td><td>Núcleo de pedestres. Use estacionamento nas margens (zona paga) ou a garagem do hotel. Fonte de preços é de novembro de 2024: confira.</td></tr>
+<tr><td>Trogir</td><td><span class="dr-b no">proibido</span></td><td>Cidade antiga fica em ilha; estacione no continente e atravesse a ponte a pé.</td></tr>
+<tr><td>Šibenik, cidade velha</td><td><span class="dr-b no">proibido</span></td><td>Ruas só de pedestres. Estacione na orla ou nas zonas pagas.</td></tr>
+<tr><td>Dubrovnik, cidade velha e entorno</td><td><span class="dr-b no">restrito</span></td><td>De 1.º mar a 30 nov. o acesso de veículos ao entorno da cidade velha é restrito. Entra só com acomodação que registre a placa, estacionamento reservado pelo app oficial (Pile e teleférico) ou ônibus. Procure registro pelo hotel antes de chegar. Multa citada em sites de turismo: €260, sem confirmação oficial.</td></tr>
+<tr><td>Kotor, cidade velha</td><td><span class="dr-b no">proibido</span></td><td>Estacione em estacionamento junto à muralha. Tarifas citadas: €0,80 a €1,20 por hora. Chegue cedo.</td></tr>
+<tr><td>Perast e a Baía</td><td><span class="dr-b rs">cuidado</span></td><td>Estrada estreita e sem acostamento. Pare só em baias demarcadas.</td></tr>
+<tr><td>Lovćen (25 curvas)</td><td><span class="dr-b rs">cuidado</span></td><td>Subida estreita; buzine antes de curva cega e dê preferência a quem sobe.</td></tr>
+</tbody></table></div></section>
+
+<section class="day" id="multas"><div class="day-h"><span class="date">dinheiro</span><h2>Multas: como chegam e como pagar</h2></div>
+<ul class="bul">
+<li><b>Abordagem na hora:</b> a polícia pode multar na rua. Peça o recibo e pague como indicado. Não pague dinheiro a quem não der recibo.</li>
+<li><b>Por câmera (radar, ZTL, vinheta):</b> chega depois, para a locadora, que cobra de você no cartão <b>mais uma taxa administrativa</b>. Pode demorar meses.</li>
+<li><b>Montenegro:</b> multas de €15 a €150 em estacionamento; pagam-se nos correios quando o valor está no aviso. Sem valor, fale com a locadora. Reboque tem taxa de guincho e de depósito.</li>
+<li><b>Fotografe o carro</b> na retirada e na devolução, com estacionamento incluso, para contestar cobranças.</li>
+</ul></section>
+
+<div class="dr-grp"><h2>Para estudar antes de ir</h2><p>Contrato do carro, regras de trânsito e placas. Leia com calma antes da viagem.</p></div>
+
+<section class="day" id="aluguel"><div class="day-h"><span class="date">contrato</span><h2>Meu carro alugado: contrato, caução e seguro</h2></div>
+<div class="dr-w"><table class="dr-tb dr-n"><thead><tr><th>Item</th><th>O que vale</th></tr></thead><tbody>
+<tr><td>Locadora</td><td>Alamo (operada pela Enterprise em Zagreb; as condições gerais são da franqueada Auto Benussi, de Pula), reservada pela Rentcars. <b>Reserva confirmada</b>, com voucher. Carro: Volkswagen Golf ou compacto similar, automático, 5 lugares, ar-condicionado, 1 mala, quilometragem livre. Condutor no voucher: Sérgio. Balcão: +385 99 382 4785.</td></tr>
+<tr><td>Valor</td><td>Pago: <b>R$ 4.564,89</b> na Rentcars, já com o cupom de desconto. Nesse total entram o carro e a Rentalcover (R$ 1.021,28, sendo R$ 982,00 de prêmio e R$ 39,28 de taxas). O voucher mostra €732,01 pagos online e €0,00 a pagar no destino.</td></tr>
+<tr><td>Rentcars</td><td>Para dúvidas e cancelamento: +55 (41) 4042 1479 (ligações internacionais) e chat 24 h. Telefone de segunda a sexta, 7h às 22h; sábado e domingo, 10h às 20h (horário de Brasília).</td></tr>
+<tr><td>Retirada</td><td>18/05 (terça), <b>11:00</b>, balcão dentro do terminal do aeroporto de Zagreb (Ulica Rudolfa Fizira 21), sem transfer. A Alamo guarda a reserva por até <b>29 minutos</b> depois do horário; depois disso conta como não comparecimento. Não é permitido retirar antes da hora marcada. O contrato da franqueada fala em 2 horas de tolerância, mas vale o mais rígido. Horário do balcão: 7:00 às 23:00 todos os dias, segundo o Google (<b>a confirmar</b>). Retirada fora do horário custa <b>+€50</b>.</td></tr>
+<tr><td>Devolução</td><td>05/06 (sábado), <b>11:00</b>, no mesmo aeroporto, com o <b>mesmo nível de combustível</b> da retirada. Se for menos, a locadora cobra a diferença mais uma taxa de reabastecimento. Tolerância de atraso de <b>59 minutos</b>; depois, cobram uma diária inteira. Fora do horário: estacione no espaço indicado, tranque e deixe a chave na caixa do balcão.</td></tr>
+<tr><td>Caução</td><td>O valor é definido pela Alamo no contrato; o voucher não informa. Estimativa do planejamento: <b>€1.100</b> bloqueados no cartão de crédito do condutor, liberados depois da devolução. Use um cartão com limite folgado, porque hotéis e combustível correm no mesmo limite.</td></tr>
+<tr><td>Seguro da locadora</td><td>Incluídas: proteção do veículo, contra roubo e contra terceiros, com franquia definida pela Alamo no contrato. <b>Sem cobertura</b>: pneus, vidros e para-brisa, rádio, estofamento, acessórios, riscos, mau uso, vandalismo, estradas não permitidas e excesso de carga. Se oferecerem seguro extra no balcão, confira se já está coberto pela Rentalcover antes de aceitar.</td></tr>
+<tr><td>Franquia zero</td><td>Proteção Total da Rentalcover (Full Protection, incluída na reserva): <b>reembolso</b>, não pagamento direto. Você paga a Alamo e pede o dinheiro de volta. Se a reserva do carro for cancelada, a apólice da Rentalcover precisa ser cancelada à parte, até 23h59 do dia da retirada, para ter reembolso. Pelo certificado: vale de 18/05 a 05/06/2027, limite de R$ 469.200, sem taxa de reivindicação (R$ 0,00), idade de 19 a 85 anos e residente no Brasil. Os condutores que constam no contrato da Alamo são cobertos de graça.</td></tr>
+<tr><td>Fronteiras</td><td>Aviso e autorização no contrato. Taxa de <b>€40</b> para países da UE (Eslovênia, Itália) e de <b>€60</b> para fora da UE (Montenegro e a Bósnia, se passar por Neum). Somam <b>€100</b>; <b>a confirmar</b> se o preço da Rentcars já inclui. O contrato exige autorização escrita e taxa para qualquer saída da Croácia e para Neum; sem isso, você perde o seguro e paga todos os custos, inclusive roubo do carro. O voucher mostra €0,00 a pagar no destino, mas manda consultar a locadora antes sobre uso em outros países e custos extras. Rentalcover: o certificado diz "Croácia + os países seguintes, sujeito aos termos", mas o PDF não lista os países. Em geral a cobertura vale onde o contrato da locadora permite dirigir, então a autorização escrita da Alamo importa também para o seguro (<b>a confirmar</b> no texto da apólice).</td></tr>
+<tr><td>Condutores</td><td>Só quem está no contrato dirige e fica coberto. Se a Andréa for dirigir, ela precisa constar como condutora adicional. No voucher consta só o Sérgio.</td></tr>
+<tr><td>Documentos e cartão</td><td>CNH <b>física, original e válida</b> (a CNH digital não é aceita fora do Brasil, e cópia ou foto não vale), passaporte e PID, que a Rentcars recomenda. Cartão de crédito <b>físico, internacional e em nome do condutor</b>, com limite para a caução. Não aceitam cartão pré-pago, virtual ou por aproximação, e a locadora pode recusar cartões de bancos digitais.</td></tr>
+</tbody></table></div>
+<div class="dr-k"><b class="t">Lembrete: cancelar a Nova</b><p>A reserva da Alamo na Rentcars está confirmada e paga. Falta cancelar a da <b>Nova Rent a Car</b>: veja antes a política e o prazo de cancelamento grátis, cancele pelo mesmo canal em que reservou, guarde o e-mail de confirmação do cancelamento e confira o estorno no cartão. O mesmo lembrete está em <a href="pendencias.html">Pendências</a>.</p></div>
+
+<h3 style="margin:18px 0 6px">O que a Proteção Total cobre e o que não cobre</h3>
+<div class="dr-w"><table class="dr-tb dr-n"><thead><tr><th>Cobre (franquia zero)</th><th>Não cobre</th></tr></thead><tbody>
+<tr><td style="font-weight:400;white-space:normal"><ul style="margin:0;padding-left:16px"><li>Lataria, teto e parte inferior do carro</li><li>Para-brisa, espelhos e faróis</li><li>Rodas e pneus, inclusive furo</li><li>Furto e vandalismo</li><li>Granizo, vento e incêndio</li><li>Chave perdida ou roubada</li><li>Reboque, assistência e taxas administrativas</li><li>Dias de carro parado em reparo</li></ul></td><td style="font-weight:400;white-space:normal"><ul style="margin:0;padding-left:16px"><li>Lesões e danos a terceiros (isso é do seguro da Alamo)</li><li>Bagagem e objetos pessoais, inclusive roubados do carro</li><li>Combustível errado e falha mecânica por condução irresponsável</li><li>Fora de estrada (exceto o acesso ao hotel)</li><li>Violação do contrato ou das leis de trânsito, como cruzar fronteira sem autorização</li><li>Multas</li><li>Pagamento em dinheiro sem comprovante</li><li>Falta de aviso à polícia quando exigido</li></ul></td></tr>
+</tbody></table></div>
+
+
+<p class="dr-note">Certificado da Rentalcover recebido em 23/11/2026: período de 18/05 a 05/06/2027 e proteção completa. A lista acima vem de uma versão antiga dos termos da rentalcars.com (março de 2020), então confira no texto da sua apólice (link "Veja os termos da proteção" no certificado). Taxas e horário do balcão: página da Alamo Zagreb Aeroporto.</p></section>
 
 <section class="day" id="regras"><div class="day-h"><span class="date">comparativo</span><h2>Regras rápidas por país</h2></div>
 <div class="dr-w"><table class="dr-tb"><thead><tr><th>Item</th><th>Croácia</th><th>Eslovênia</th><th>Itália</th><th>Montenegro</th></tr></thead><tbody>
@@ -177,21 +343,6 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 <li><b>Câmbio manual.</b> A frota barata é manual. Se você pediu automático, confirme na retirada.</li>
 </ul></section>
 
-
-<section class="day" id="comb"><div class="day-h"><span class="date">posto</span><h2>Gasolina ou diesel: como identificar</h2></div>
-<div class="dr-k"><b class="t">Cuidado</b><p>Abastecer com o combustível errado é um dos erros mais caros da viagem, e o seguro da locadora normalmente não cobre. Confira a tampa do tanque ou o contrato antes de sair do pátio.</p></div>
-<h3 class="dr-h">Símbolo padrão da UE</h3>
-<ul class="bul"><li><b>Círculo com E5 ou E10 = gasolina.</b> E10 tem até 10% de etanol e a maioria dos carros aceita (veja a tampa do tanque).</li><li><b>Quadrado com B7 ou B10 = diesel.</b></li><li>Vale para Croácia, Eslovênia e Itália. Montenegro costuma seguir o mesmo padrão, mas não confirmei.</li></ul>
-<h3 class="dr-h">Nome na bomba</h3>
-<div class="dr-w"><table class="dr-tb st"><thead><tr><th>País</th><th>Gasolina</th><th>Diesel</th></tr></thead><tbody>
-<tr><td>Croácia</td><td>Eurosuper 95 (também Eurosuper 100)</td><td>Eurodizel</td></tr>
-<tr><td>Eslovênia</td><td>Bencin 95, ou NMB 95 (neosvinčeni motorni bencin)</td><td>Dizel</td></tr>
-<tr><td>Itália</td><td>Benzina senza piombo (95)</td><td>Gasolio</td></tr>
-<tr><td>Montenegro</td><td>Eurosuper BMB 95, ou só BMB 95 (bezolovni motorni benzin)</td><td>Eurodizel ou D</td></tr>
-</tbody></table></div>
-<p class="dr-note">Pista mais segura: o número <b>95</b> indica gasolina comum. Na Itália, "fai da te" é self-service (mais barato) e "servito" tem frentista (mais caro). Os nomes da Eslovênia e de Montenegro vêm de conhecimento geral, sem fonte consultada: confirme no primeiro posto de cada país.</p>
-</section>
-
 <section class="day" id="placas"><div class="day-h"><span class="date">sinais</span><h2>Placas que você vai ver</h2></div>
 <p class="prose">As placas seguem a convenção europeia. Muitas são iguais às do Brasil; estas são as diferentes ou as que mais geram multa.</p>
 <div class="dr-sg"><div class="dr-s"><svg viewBox="0 0 64 64"><polygon points="32,5 59,32 32,59 5,32" fill="#fff" stroke="#111" stroke-width="3"/><polygon points="32,12 52,32 32,52 12,32" fill="#f7c600"/></svg><b>Via com preferência</b><span>Losango amarelo: você tem prioridade nas interseções até ver o sinal de fim. Não existe no Brasil.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><polygon points="32,5 59,32 32,59 5,32" fill="#fff" stroke="#111" stroke-width="3"/><polygon points="32,12 52,32 32,52 12,32" fill="#f7c600"/><path d="M8 56L56 8" stroke="#111" stroke-width="5"/></svg><b>Fim da preferência</b><span>Losango riscado: a partir daqui vale a regra comum (dê preferência a quem vem da direita, se não houver placa).</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><polygon points="4,8 60,8 32,58" fill="#fff" stroke="#c4271b" stroke-width="7" stroke-linejoin="round"/></svg><b>Dê a preferência</b><span>Triângulo invertido, igual ao Brasil. Em rotatória, quem está dentro passa primeiro.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff" stroke="#c4271b" stroke-width="7"/><rect x="14" y="27" width="36" height="10" fill="#c4271b"/></svg><b>Entrada proibida</b><span>Círculo vermelho com barra: contramão ou rua só de saída.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff" stroke="#c4271b" stroke-width="7"/></svg><b>Proibido veículos</b><span>Círculo vermelho vazio: nenhum veículo motorizado passa. Típico de cidade velha e zona de pedestres.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff" stroke="#c4271b" stroke-width="7"/><text x="32" y="41" font-size="26" font-weight="700" text-anchor="middle" fill="#111" font-family="Arial">50</text></svg><b>Limite de velocidade</b><span>Número em km/h. Igual ao Brasil. Na entrada da cidade vale 50 mesmo sem placa redonda.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff" stroke="#777" stroke-width="3"/><path d="M14 50L50 14M20 54L54 20M10 44L44 10" stroke="#777" stroke-width="3"/></svg><b>Fim de restrição</b><span>Círculo cinza com listras: acabou o limite anterior. Volta o limite padrão da via.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="16" width="58" height="32" rx="3" fill="#fff" stroke="#111" stroke-width="3"/><text x="32" y="38" font-size="13" font-weight="700" text-anchor="middle" fill="#111" font-family="Arial">SPLIT</text></svg><b>Entrada de localidade</b><span>Retângulo branco com o nome: começa a área urbana (50 km/h, salvo placa).</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="16" width="58" height="32" rx="3" fill="#fff" stroke="#111" stroke-width="3"/><text x="32" y="38" font-size="13" font-weight="700" text-anchor="middle" fill="#111" font-family="Arial">SPLIT</text><path d="M6 46L58 18" stroke="#c4271b" stroke-width="4"/></svg><b>Saída de localidade</b><span>Mesmo nome com risco vermelho: acabou o limite urbano, vale o da estrada.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="6" fill="#1a5fb4"/><text x="32" y="46" font-size="40" font-weight="700" text-anchor="middle" fill="#fff" font-family="Arial">P</text></svg><b>Estacionamento</b><span>Quadrado azul com P. Veja sempre as placas complementares (horário, pago, disco).</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#1a5fb4" stroke="#c4271b" stroke-width="7"/><path d="M14 50L50 14" stroke="#c4271b" stroke-width="7"/></svg><b>Proibido estacionar</b><span>Fundo azul, uma barra vermelha. Pode parar rapidamente; não pode ficar.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#1a5fb4" stroke="#c4271b" stroke-width="7"/><path d="M16 16L48 48M48 16L16 48" stroke="#c4271b" stroke-width="7"/></svg><b>Proibido parar</b><span>Fundo azul com X: nem parar. É onde o guincho age mais rápido.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="12" width="58" height="40" rx="3" fill="#fff" stroke="#111" stroke-width="3"/><circle cx="32" cy="32" r="14" fill="#fff" stroke="#c4271b" stroke-width="5"/><text x="32" y="38" font-size="12" font-weight="700" text-anchor="middle" fill="#111" font-family="Arial">ZTL</text></svg><b>ZTL (Itália)</b><span>Zona a Traffico Limitato. Câmeras multam na hora quem entra sem autorização. Veja "varco attivo".</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#1a5fb4"/><path d="M32 14a18 18 0 1 1-17 12" fill="none" stroke="#fff" stroke-width="5"/><polygon points="8,24 22,22 17,35" fill="#fff"/></svg><b>Rotatória</b><span>Circular, sentido anti-horário, quem está dentro tem preferência. Sinalize só ao sair.</span></div><div class="dr-s"><svg viewBox="0 0 64 64"><rect x="3" y="3" width="58" height="58" rx="6" fill="#1a7f3c"/><path d="M12 54L28 10h8l16 44" fill="none" stroke="#fff" stroke-width="4"/><path d="M32 14v8M32 30v8M32 46v8" stroke="#fff" stroke-width="4"/></svg><b>Autoestrada</b><span>Placa verde: pedágio (Croácia e Itália). Na Eslovênia exige vinheta digital.</span></div></div>
@@ -209,188 +360,16 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 <tr><td>Atenção</td><td>Oprez</td><td>Previdno</td><td>Attenzione</td></tr>
 </tbody></table></div></section>
 
-<section class="day" id="entrar"><div class="day-h"><span class="date">onde posso entrar</span><h2>Posso ir de carro?</h2></div>
-<p class="prose">Regra geral: <b>centro histórico murado ou de pedestres, assim como ilha-cidade, não é lugar de carro</b>. Estacione na borda e entre a pé. Onde a entrada é controlada, a multa vem por câmera meses depois, pela locadora.</p>
-<div class="dr-w"><table class="dr-tb st"><thead><tr><th>Lugar</th><th>Carro</th><th>O que saber</th></tr></thead><tbody>
-<tr><td>Zagreb, centro</td><td><span class="dr-b rs">cuidado</span></td><td>Cidade Alta (Gornji Grad) é quase toda de pedestres e bondes. Pare em garagem pública na Cidade Baixa e caminhe.</td></tr>
-<tr><td>Ljubljana, centro</td><td><span class="dr-b no">restrito</span></td><td>O núcleo é sem carro. Hotel dentro da zona libera acesso (peça ao hotel). Para visitar, use a garagem ou os P+R: o ticket já inclui 2 passagens de ônibus por 24 h.</td></tr>
-<tr><td>Trieste, centro</td><td><span class="dr-b no">ZTL</span></td><td>Câmeras na entrada. Multa citada como cerca de €80, mais taxa da locadora. Use a Garagem Silos e vá a pé. O GPS ignora a ZTL.</td></tr>
-<tr><td>Plitvice</td><td><span class="dr-b ok">livre</span></td><td>Dentro do parque não se entra de carro. Estacionamento pago por hora nas entradas (P1/P2); pague no caixa antes de sair.</td></tr>
-<tr><td>Rastoke (Slunj)</td><td><span class="dr-b ok">livre</span></td><td>Vila pequena; estacione na entrada e caminhe.</td></tr>
-<tr><td>Split, Palácio de Diocleciano</td><td><span class="dr-b no">proibido</span></td><td>Núcleo de pedestres. Use estacionamento nas margens (zona paga) ou a garagem do hotel. Fonte de preços é de novembro de 2024: confira.</td></tr>
-<tr><td>Trogir</td><td><span class="dr-b no">proibido</span></td><td>Cidade antiga fica em ilha; estacione no continente e atravesse a ponte a pé.</td></tr>
-<tr><td>Šibenik, cidade velha</td><td><span class="dr-b no">proibido</span></td><td>Ruas só de pedestres. Estacione na orla ou nas zonas pagas.</td></tr>
-<tr><td>Dubrovnik, cidade velha e entorno</td><td><span class="dr-b no">restrito</span></td><td>De 1.º mar a 30 nov. o acesso de veículos ao entorno da cidade velha é restrito. Entra só com acomodação que registre a placa, estacionamento reservado pelo app oficial (Pile e teleférico) ou ônibus. Procure registro pelo hotel antes de chegar. Multa citada em sites de turismo: €260, sem confirmação oficial.</td></tr>
-<tr><td>Kotor, cidade velha</td><td><span class="dr-b no">proibido</span></td><td>Estacione em estacionamento junto à muralha. Tarifas citadas: €0,80 a €1,20 por hora. Chegue cedo.</td></tr>
-<tr><td>Perast e a Baía</td><td><span class="dr-b rs">cuidado</span></td><td>Estrada estreita e sem acostamento. Pare só em baias demarcadas.</td></tr>
-<tr><td>Lovćen (25 curvas)</td><td><span class="dr-b rs">cuidado</span></td><td>Subida estreita; buzine antes de curva cega e dê preferência a quem sobe.</td></tr>
-</tbody></table></div></section>
-
-<section class="day" id="estac"><div class="day-h"><span class="date">parquímetros</span><h2>Estacionar sem tomar multa</h2></div>
-<h3 class="dr-h">Em todo lugar</h3>
+<section class="day" id="moveover"><div class="day-h"><span class="date">o que te multou nos EUA</span><h2>E o "Move Over"?</h2></div>
+<div class="dr-k in"><b class="t">Resposta curta</b><p>Não encontrei, nesses 4 países, uma lei idêntica à americana (trocar de faixa ao passar por veículo parado com pisca-alerta). Mas existem regras parecidas, e a conduta esperada é a mesma.</p></div>
 <ul class="bul">
-<li>Leia a <b>placa complementar</b> abaixo do "P": horário, "pago", disco, dias úteis.</li>
-<li>Muitos parquímetros <b>não dão troco</b> e só aceitam moedas. Leve moedas de €1 e €2 e cartão contactless.</li>
-<li>Deixe o tíquete visível no painel. Alguns pedem a placa digitada; guarde a placa em foto.</li>
-<li>Guarde o comprovante até devolver o carro. Em alguns lugares a multa chega por e-mail a locadora.</li>
-<li>Na dúvida, pare em <b>garagem</b>. Custa mais, mas não tem guincho nem bloqueio.</li>
-</ul>
-<h3 class="dr-h">Por país</h3>
-<div class="dr-w"><table class="dr-tb st"><thead><tr><th>País</th><th>Como funciona</th></tr></thead><tbody>
-<tr><td>Croácia</td><td>Zonas numeradas (1, 2, 3...), a 1 é a mais cara e de menor tempo. Pague no parkomat, por SMS ou aplicativo, e tenha o comprovante. Horário e tarifa variam por cidade e estação; confira a placa.</td></tr>
-<tr><td>Eslovênia</td><td>Zonas coloridas, com limite de 30 a 120 minutos no centro de Ljubljana. Pague em parquímetro, máquina Urbanomat ou SMS pelo serviço Urbana. Parquímetro sem troco. Carro estacionado errado pode ser guinchado.</td></tr>
-<tr><td>Itália</td><td>Faixas <b>azuis</b> são pagas (parcometro), <b>brancas</b> são livres (às vezes com disco horário) e <b>amarelas</b> são reservadas (não use). Em algumas cidades o parcometro pede a placa.</td></tr>
-<tr><td>Montenegro</td><td>Zonas verde, amarela e vermelha, com tarifas citadas de €0,40, €0,50 e €0,60 por hora. Parquímetros com moedas ou SMS com chip local. Estacionamentos com cancela cobram na saída, sem limite de tempo.</td></tr>
-</tbody></table></div>
-<p class="dr-note">Tarifas e horários são de sites de turismo e mudam. Servem como ordem de grandeza.</p>
-</section>
-
-
-<section class="day" id="vinheta"><div class="day-h"><span class="date">eslovênia</span><h2>Vinheta: onde comprar</h2></div>
-<div class="dr-k"><b class="t">Regra</b><p>Pague <b>antes</b> de pegar a autoestrada eslovena. Dirigir sem vinheta válida custa <b>€300 a €800</b>. A vinheta é ligada à <b>placa</b>: digite a placa exata e o país de registro. Escolha a classe <b>2A</b> (carro de passeio). A semanal custa <b>€16</b> e a mensal €32.</p></div>
-<h3 class="dr-h">Online (vendedores autorizados)</h3>
-<div class="dr-w"><table class="dr-tb st"><thead><tr><th>Onde</th><th>Link</th><th>Observação</th></tr></thead><tbody>
-<tr><td>DARS (oficial)</td><td><a href="https://evinjeta.dars.si/en" target="_blank" rel="noopener">evinjeta.dars.si</a></td><td>Preço de tabela. Cartão ou PayPal vale na hora. Instruções: <a href="https://evinjeta.dars.si/en/how-buy" target="_blank" rel="noopener">como comprar</a>.</td></tr>
-<tr><td>Petrol (rede de postos da Eslovênia)</td><td><a href="https://www.petrol.si/na-poti/za-vozilo/vinjete" target="_blank" rel="noopener">petrol.si/vinjete</a></td><td>Vendedor autorizado pela DARS. Boa alternativa se o site oficial falhar.</td></tr>
-<tr><td>ASFINAG (Áustria)</td><td><a href="https://shop.asfinag.at/en" target="_blank" rel="noopener">shop.asfinag.at</a></td><td>Vendedor autorizado, em inglês.</td></tr>
-<tr><td>ADAC (Alemanha)</td><td><a href="https://www.adac.de/fahrzeugwelt/maut-vignette/" target="_blank" rel="noopener">adac.de/maut-vignette</a></td><td>Vendedor autorizado. A página é em alemão.</td></tr>
-<tr><td>Telepass (Itália)</td><td><a href="https://www.telepass.com/en/privati/servizi/vignetta-autostrada/slovenia" target="_blank" rel="noopener">telepass.com</a></td><td>Vende a mesma vinheta pelo site e app. Não confirmei se aceita cliente de fora da UE.</td></tr>
-</tbody></table></div>
-<p class="dr-note">Atenção: sites não autorizados cobram comissão. Já houve caso de vinheta anual a €134,99, contra €117,50 na DARS. Se o endereço não estiver acima, desconfie.</p>
-<h3 class="dr-h">Pessoalmente</h3>
-<ul class="bul">
-<li><b>Fronteiras:</b> a DARS cita pontos de venda nas fronteiras de <b>Obrežje</b> (vindo de Zagreb), <b>Gruškovje</b> e <b>Fernetiči</b> (Itália). Em Zagreb → Ljubljana você cruza em Obrežje.</li>
-<li><b>Escritórios DarsGo:</b> Ljubljana, Maribor e Hrušica.</li>
-<li><b>Postos de combustível</b> (como o Petrol) também vendem, segundo as fontes oficiais. Confirme com o posto antes de contar com isso.</li>
-<li>Lista oficial dos pontos: <a href="https://evinjeta.dars.si/kako-kupiti-e-vinjeto" target="_blank" rel="noopener">evinjeta.dars.si/kako-kupiti-e-vinjeto</a>. Central 24 h: <b>+386 1 518 8 350</b>.</li>
-</ul>
-<h3 class="dr-h">Dicas</h3>
-<ul class="bul">
-<li>Pague com <b>cartão ou PayPal</b>. Transferência bancária só vale <b>4 dias úteis depois</b>.</li>
-<li>Dá para marcar a data de início com até 30 dias de antecedência. O ideal é comprar na véspera da viagem, depois de saber a placa do carro.</li>
-<li>Guarde o comprovante (print da tela) e confira a placa depois da compra.</li>
-<li><b>Não precisa de vinheta</b> no trecho da fronteira com a Áustria até a saída Hrušica (o túnel Karavanke tem pedágio próprio) e na via expressa costeira entre Škofije e Izola.</li>
-</ul>
-<p class="dr-note">Confirmei os links nas páginas de turismo da Eslovênia e da DARS. Os pontos de venda nas fronteiras vêm de um artigo que cita a DARS: confirme no site oficial antes da viagem.</p>
-</section>
-
-<section class="day" id="rota"><div class="day-h"><span class="date">trecho a trecho</span><h2>Pontos de atenção na sua rota</h2></div>
-<ul class="bul">
-<li><b>Zagreb → Ljubljana:</b> compre a <b>e-vinheta</b> antes de cruzar (classe 2A, 7 dias, €16; veja a seção "Vinheta: onde comprar" acima). Sem ela, a multa citada pelos sites oficiais vai de €300 a €800. Digite a placa certa. Não há cabine de pedágio na Eslovênia, então a câmera é o único fiscal.</li>
-<li><b>Ljubljana → Trieste:</b> é fronteira Schengen sem controle fixo. Atenção à ZTL de Trieste e à garagem Silos. Evite o Molo IV (estacionamento com guincho frequente).</li>
-<li><b>Trieste → Plitvice:</b> volta à Croácia. Pode haver controle de polícia móvel; tenha passaporte à mão.</li>
-<li><b>Plitvice → Split (A1):</b> pedágio por ticket; pague na saída. Tarifa citada de €25 a €30 no total da A1. Túnel Sveti Rok fecha com vento forte.</li>
-<li><b>Split → Dubrovnik:</b> a <b>ponte de Pelješac é gratuita</b> e evita a Bósnia. Confirme que o GPS não manda você por <b>Neum</b>: lá há duas fronteiras com a Bósnia e é preciso passaporte e carta verde.</li>
-<li><b>Dubrovnik → Kotor (fronteira Debeli Brijeg):</b> Montenegro não é UE nem Schengen. Leve passaporte, <b>carta verde</b> e a autorização da locadora para sair do país. No verão a fila pode passar de uma hora. Farol baixo ligado o dia todo lá.</li>
-<li><b>Em Montenegro:</b> álcool 0,3 ‰, estradas estreitas, ultrapassagens arriscadas, buzinas. Túnel Sozina é pago (cerca de €2,50). Moeda é o euro.</li>
-<li><b>Kotor → Vodice (Šibenik):</b> são ≈ 430 km direto, o dia mais longo de estrada. Saia cedo, planeje paradas sem deixar bagagem no carro, não dirija cansado e abasteça antes da fronteira.</li>
-</ul>
-<div class="dr-k ok"><b class="t">Documentos no carro</b><p>Passaporte, CNH, <b>Permissão Internacional para Dirigir (PID)</b>, contrato da locadora e a carta verde. A Itália costuma exigir a PID para CNH brasileira; confirme com a locadora. Mais detalhes em <a href="seguranca.html">Segurança e documentos</a>.</p></div>
-</section>
-
-<section class="day" id="multas"><div class="day-h"><span class="date">dinheiro</span><h2>Multas: como chegam e como pagar</h2></div>
-<ul class="bul">
-<li><b>Abordagem na hora:</b> a polícia pode multar na rua. Peça o recibo e pague como indicado. Não pague dinheiro a quem não der recibo.</li>
-<li><b>Por câmera (radar, ZTL, vinheta):</b> chega depois, para a locadora, que cobra de você no cartão <b>mais uma taxa administrativa</b>. Pode demorar meses.</li>
-<li><b>Montenegro:</b> multas de €15 a €150 em estacionamento; pagam-se nos correios quando o valor está no aviso. Sem valor, fale com a locadora. Reboque tem taxa de guincho e de depósito.</li>
-<li><b>Fotografe o carro</b> na retirada e na devolução, com estacionamento incluso, para contestar cobranças.</li>
+<li><b>Ambulância, bombeiro ou polícia com sirene e luz:</b> abra caminho sempre, encostando à direita e parando se preciso. Vale nos 4 países. Não passe sinal vermelho para abrir passagem, a menos que o agente mande.</li>
+<li><b>Corredor de emergência no congestionamento:</b> em autoestrada parada, quem está na faixa da esquerda vai para a esquerda e todos os outros vão para a direita, deixando um corredor no meio. Obrigatório na Croácia, na Eslovênia e na Itália. Faça isso assim que o trânsito começar a frear, não depois que a sirene aparecer. (Informação confirmada em fontes de clubes automobilísticos de 2018; a prática é a mesma hoje.)</li>
+<li><b>Veículo parado no acostamento:</b> reduza e, se der, afaste-se para a faixa ao lado. Não é obrigatório como nos EUA, mas é o que a polícia espera e evita acidente.</li>
+<li><b>Ao parar numa emergência:</b> pisca-alerta, colete refletivo antes de sair, triângulo a cerca de 50 m (em autoestrada, 100 m) e todos atrás do guard-rail.</li>
+<li><b>Fila na autoestrada:</b> ligue o pisca-alerta ao ver o fim da fila e frear forte. É costume e evita colisão traseira.</li>
 </ul></section>
 
-<section class="day" id="aluguel"><div class="day-h"><span class="date">contrato</span><h2>Meu carro alugado: Alamo, caução e seguro</h2></div>
-<div class="dr-k"><b class="t">Checklist da locação</b><p>Passo a passo para a retirada, a viagem, o acidente e a devolução, com as regras que anulam o seguro. Cada item pode ser marcado e fica salvo. <a href="locacao.html"><b>Abrir a checklist da locação</b></a></p></div>
-<div class="dr-w"><table class="dr-tb dr-n"><thead><tr><th>Item</th><th>O que vale</th></tr></thead><tbody>
-<tr><td>Locadora</td><td>Alamo (operada pela Enterprise em Zagreb; as condições gerais são da franqueada Auto Benussi, de Pula), reservada pela Rentcars. <b>Reserva confirmada</b>, com voucher. Carro: Volkswagen Golf ou compacto similar, automático, 5 lugares, ar-condicionado, 1 mala, quilometragem livre. Condutor no voucher: Sérgio. Balcão: +385 99 382 4785.</td></tr>
-<tr><td>Valor</td><td>Pago: <b>R$ 4.564,89</b> na Rentcars, já com o cupom de desconto. Nesse total entram o carro e a Rentalcover (R$ 1.021,28, sendo R$ 982,00 de prêmio e R$ 39,28 de taxas). O voucher mostra €732,01 pagos online e €0,00 a pagar no destino.</td></tr>
-<tr><td>Rentcars</td><td>Para dúvidas e cancelamento: +55 (41) 4042 1479 (ligações internacionais) e chat 24 h. Telefone de segunda a sexta, 7h às 22h; sábado e domingo, 10h às 20h (horário de Brasília).</td></tr>
-<tr><td>Retirada</td><td>18/05 (terça), <b>11:00</b>, balcão dentro do terminal do aeroporto de Zagreb (Ulica Rudolfa Fizira 21), sem transfer. A Alamo guarda a reserva por até <b>29 minutos</b> depois do horário; depois disso conta como não comparecimento. Não é permitido retirar antes da hora marcada. O contrato da franqueada fala em 2 horas de tolerância, mas vale o mais rígido. Horário do balcão: 7:00 às 23:00 todos os dias, segundo o Google (<b>a confirmar</b>). Retirada fora do horário custa <b>+€50</b>.</td></tr>
-<tr><td>Devolução</td><td>05/06 (sábado), <b>11:00</b>, no mesmo aeroporto, com o <b>mesmo nível de combustível</b> da retirada. Se for menos, a locadora cobra a diferença mais uma taxa de reabastecimento. Tolerância de atraso de <b>59 minutos</b>; depois, cobram uma diária inteira. Fora do horário: estacione no espaço indicado, tranque e deixe a chave na caixa do balcão.</td></tr>
-<tr><td>Caução</td><td>O valor é definido pela Alamo no contrato; o voucher não informa. Estimativa do planejamento: <b>€1.100</b> bloqueados no cartão de crédito do condutor, liberados depois da devolução. Use um cartão com limite folgado, porque hotéis e combustível correm no mesmo limite.</td></tr>
-<tr><td>Seguro da locadora</td><td>Incluídas: proteção do veículo, contra roubo e contra terceiros, com franquia definida pela Alamo no contrato. <b>Sem cobertura</b>: pneus, vidros e para-brisa, rádio, estofamento, acessórios, riscos, mau uso, vandalismo, estradas não permitidas e excesso de carga. Se oferecerem seguro extra no balcão, confira se já está coberto pela Rentalcover antes de aceitar.</td></tr>
-<tr><td>Franquia zero</td><td>Proteção Total da Rentalcover (Full Protection, incluída na reserva): <b>reembolso</b>, não pagamento direto. Você paga a Alamo e pede o dinheiro de volta. Se a reserva do carro for cancelada, a apólice da Rentalcover precisa ser cancelada à parte, até 23h59 do dia da retirada, para ter reembolso. Pelo certificado: vale de 18/05 a 05/06/2027, limite de R$ 469.200, sem taxa de reivindicação (R$ 0,00), idade de 19 a 85 anos e residente no Brasil. Os condutores que constam no contrato da Alamo são cobertos de graça.</td></tr>
-<tr><td>Fronteiras</td><td>Aviso e autorização no contrato. Taxa de <b>€40</b> para países da UE (Eslovênia, Itália) e de <b>€60</b> para fora da UE (Montenegro e a Bósnia, se passar por Neum). Somam <b>€100</b>; <b>a confirmar</b> se o preço da Rentcars já inclui. O contrato exige autorização escrita e taxa para qualquer saída da Croácia e para Neum; sem isso, você perde o seguro e paga todos os custos, inclusive roubo do carro. O voucher mostra €0,00 a pagar no destino, mas manda consultar a locadora antes sobre uso em outros países e custos extras. Rentalcover: o certificado diz "Croácia + os países seguintes, sujeito aos termos", mas o PDF não lista os países. Em geral a cobertura vale onde o contrato da locadora permite dirigir, então a autorização escrita da Alamo importa também para o seguro (<b>a confirmar</b> no texto da apólice).</td></tr>
-<tr><td>Condutores</td><td>Só quem está no contrato dirige e fica coberto. Se a Andréa for dirigir, ela precisa constar como condutora adicional. No voucher consta só o Sérgio.</td></tr>
-<tr><td>Documentos e cartão</td><td>CNH <b>física, original e válida</b> (a CNH digital não é aceita fora do Brasil, e cópia ou foto não vale), passaporte e PID, que a Rentcars recomenda. Cartão de crédito <b>físico, internacional e em nome do condutor</b>, com limite para a caução. Não aceitam cartão pré-pago, virtual ou por aproximação, e a locadora pode recusar cartões de bancos digitais.</td></tr>
-</tbody></table></div>
-<div class="dr-k"><b class="t">Lembrete: cancelar a Nova</b><p>A reserva da Alamo na Rentcars está confirmada e paga. Falta cancelar a da <b>Nova Rent a Car</b>: veja antes a política e o prazo de cancelamento grátis, cancele pelo mesmo canal em que reservou, guarde o e-mail de confirmação do cancelamento e confira o estorno no cartão. O mesmo lembrete está em <a href="pendencias.html">Pendências</a>.</p></div>
-
-<h3 style="margin:18px 0 6px">Na retirada</h3>
-<p class="dr-note">Versão completa, com a inspeção feita junto com o funcionário e itens salvos: <a href="locacao.html">checklist da locação</a>.</p>
-<ul class="dr-ck">
-<li><label><input type="checkbox"> Cartão de crédito do titular, CNH, PID, passaporte e voucher da Rentcars</label></li>
-<li><label><input type="checkbox"> Frases do balcão revistas (<a href="#balcao">PT e EN</a>) e e-mail da reserva com a caução à mão</label></li>
-<li><label><input type="checkbox"> Certificado da Rentalcover impresso e salvo no celular</label></li>
-<li><label><input type="checkbox"> Autorização de Eslovênia, Itália, Montenegro e Bósnia (Neum) escrita no contrato</label></li>
-<li><label><input type="checkbox"> Vistoria com fotos e vídeo (lataria, rodas, para-brisa, teto, interior, hodômetro e combustível) e termo de vistoria assinado</label></li>
-<li><label><input type="checkbox"> Triângulo, colete, estepe ou kit, e carta verde no porta-luvas</label></li>
-<li><label><input type="checkbox"> Telefone da locadora e do clube salvos offline</label></li>
-</ul>
-
-<h3 style="margin:18px 0 6px">Se houver acidente, dano, furto ou pane</h3>
-<ol class="bul">
-<li><b>Segurança primeiro:</b> pisca-alerta, colete, triângulo, todos atrás do guard-rail. Ligue 112 se houver ferido.</li>
-<li><b>Ligue para a locadora antes de qualquer reparo.</b> Use o telefone do contrato: a assistência para pane e guincho é <b>+385 72 606 606, opção 9</b>. O número do balcão de Zagreb, no voucher, é +385 99 382 4785. Eles definem guincho e oficina.</li>
-<li><b>Chame a polícia em qualquer dano</b>, até arranhão de estacionamento: o contrato da locadora exige, e peça o <b>boletim</b>. Faça o <b>bafômetro no local</b>, que precisa dar 0,00, e não saia antes do fim do atendimento. Sem isso, a locadora anula todos os seguros e a Rentalcover não paga.</li>
-<li><b>Fotografe tudo:</b> o dano, o local, as placas, os documentos do outro motorista e do seguro. Com outro veículo, preencha o <b>constat</b> e passe esses dados à Rentalcover.</li>
-<li><b>Não pague reparo por conta própria</b> nem assine nada sem ler. Peça cópia de tudo.</li>
-<li><b>Pague a locadora no cartão, nunca em dinheiro.</b> Pagamento em dinheiro sem comprovante suficiente não é reembolsado.</li>
-<li><b>Guarde:</b> contrato, CNH, extrato do cartão com a cobrança, <b>fatura final</b> da Alamo (pode chegar semanas depois), boletim, laudo, orçamento de reparo e todos os e-mails com a locadora.</li>
-<li><b>Peça o reembolso</b> em rentalcover.com/claim com esses documentos. Contestação: complaints@rentalcover.com (resposta em até 5 dias). Não há taxa de reivindicação (R$ 0,00). O certificado não informa o prazo para pedir o reembolso: peça logo depois do incidente (<b>a confirmar</b> nos termos da apólice).</li>
-<li><b>Seu cartão ou seguro pessoal</b> com cobertura equivalente deve ser acionado primeiro; a Rentalcover paga o restante.</li>
-</ol>
-
-<h3 style="margin:18px 0 6px">O que a Proteção Total cobre e o que não cobre</h3>
-<div class="dr-w"><table class="dr-tb dr-n"><thead><tr><th>Cobre (franquia zero)</th><th>Não cobre</th></tr></thead><tbody>
-<tr><td style="font-weight:400;white-space:normal"><ul style="margin:0;padding-left:16px"><li>Lataria, teto e parte inferior do carro</li><li>Para-brisa, espelhos e faróis</li><li>Rodas e pneus, inclusive furo</li><li>Furto e vandalismo</li><li>Granizo, vento e incêndio</li><li>Chave perdida ou roubada</li><li>Reboque, assistência e taxas administrativas</li><li>Dias de carro parado em reparo</li></ul></td><td style="font-weight:400;white-space:normal"><ul style="margin:0;padding-left:16px"><li>Lesões e danos a terceiros (isso é do seguro da Alamo)</li><li>Bagagem e objetos pessoais, inclusive roubados do carro</li><li>Combustível errado e falha mecânica por condução irresponsável</li><li>Fora de estrada (exceto o acesso ao hotel)</li><li>Violação do contrato ou das leis de trânsito, como cruzar fronteira sem autorização</li><li>Multas</li><li>Pagamento em dinheiro sem comprovante</li><li>Falta de aviso à polícia quando exigido</li></ul></td></tr>
-</tbody></table></div>
-<div class="dr-k"><b class="t">Regras que anulam a cobertura</b><p>Sair da Croácia ou passar por Neum sem a autorização por escrito e a taxa paga; qualquer álcool (o bafômetro depois de um dano precisa dar 0,00); não chamar a polícia ou sair antes dela; outra pessoa dirigindo sem constar no contrato; estrada de terra, praia ou caminho de mata; balsa ou ilha sem o produto TRN; deixar o documento do carro dentro do carro; abastecer com o combustível errado e deixar o carro destrancado ou com objetos à vista. Bagagem no carro não tem seguro: só seguro viagem cobre. <a href="locacao.html">Checklist da locação</a>.</p></div>
-
-<h3 style="margin:18px 0 6px">Na devolução</h3>
-<ul class="bul">
-<li>Abasteça perto do aeroporto, guarde o comprovante e fotografe e filme o carro todo, com o hodômetro e o tanque.</li>
-<li>Se devolver fora do horário, a responsabilidade só termina quando a locadora inspeciona o carro no dia útil seguinte. As fotos e o vídeo são a sua prova.</li>
-<li>Peça o termo de devolução ou o e-mail de encerramento e guarde por alguns meses.</li>
-<li>Cobranças que cheguem depois (multas, taxas) são contestadas com os documentos acima.</li>
-</ul>
-<p class="dr-note">Certificado da Rentalcover recebido em 23/11/2026: período de 18/05 a 05/06/2027 e proteção completa. A lista acima vem de uma versão antiga dos termos da rentalcars.com (março de 2020), então confira no texto da sua apólice (link "Veja os termos da proteção" no certificado). Taxas e horário do balcão: página da Alamo Zagreb Aeroporto.</p></section>
-
-<section class="day" id="balcao"><div class="day-h"><span class="date">18/05 · balcão</span><h2>No balcão: o que dizer (PT e EN)</h2></div>
-<p class="prose">Prepare-se para ser abordado com ofertas de seguro extra. É normal e você não precisa aceitar. Fale com calma, repita a mesma frase e peça tudo por escrito. Deixe livre no cartão até <b>€2.200</b>, caso a caução venha maior que os €1.100 estimados.</p>
-<div class="dr-k in"><b class="t">1. Abertura</b><p><b>PT</b> Olá, tenho uma reserva feita pela Rentcars, em nome de ___, número ___. Retirada hoje às 11:00.</p><p lang="en"><b>EN</b> Hi, I have a reservation booked through Rentcars, under the name ___, confirmation number ___. Pick-up today at 11:00.</p></div>
-<div class="dr-k"><b class="t">2. Recusar seguro extra</b><p><b>PT</b> Obrigado, mas não preciso de seguro adicional. Já tenho a cobertura de franquia por um provedor externo (RentalCover). Fico com a proteção básica que já está incluída na minha reserva.</p><p lang="en"><b>EN</b> Thank you, but I don't need additional insurance. I already have excess reimbursement coverage through a third-party provider (RentalCover). I'll keep the basic protection that's included in my booking.</p></div>
-<div class="dr-k"><b class="t">3. Se insistirem</b><p><b>PT</b> Entendo, mas recuso todas as coberturas opcionais. Pode só confirmar o que já está incluído na minha reserva?</p><p lang="en"><b>EN</b> I understand, but I'm declining all optional coverage. Could you please just confirm what is already included in my reservation?</p></div>
-<div class="dr-k"><b class="t">4. Caução (valor exato)</b><p><b>PT</b> Pode me dizer o valor exato da caução que será bloqueada no meu cartão e confirmar por escrito que ela não muda porque recusei a cobertura extra? Minha confirmação mostra €___.</p><p lang="en"><b>EN</b> Could you please tell me the exact security deposit that will be held on my card, and confirm in writing that it does not change because I'm declining the extra coverage? My confirmation shows €___.</p></div>
-<div class="dr-k"><b class="t">5. Se a caução vier maior</b><p><b>PT</b> Minha confirmação diz €___. Pode me mostrar onde está escrito que a caução aumenta quando se recusa a cobertura opcional? Se não estiver, quero a caução do valor original. Vou ligar para a Rentcars daqui mesmo.</p><p lang="en"><b>EN</b> My booking confirmation says €___. Could you show me where it says the deposit increases when optional coverage is declined? If it doesn't, I'd like the original amount. I'll call my booking agency, Rentcars, from here.</p></div>
-<div class="dr-k"><b class="t">6. Fronteiras</b><p><b>PT</b> Vou dirigir para Eslovênia, Itália, Montenegro e, talvez, Bósnia e Herzegovina (Neum). Pode incluir a autorização de viagem internacional e a carta verde no contrato e me dizer a taxa total?</p><p lang="en"><b>EN</b> I'm planning to drive to Slovenia, Italy, Montenegro and possibly Bosnia and Herzegovina (Neum). Could you add the cross-border authorization and the green card to the contract, and tell me the total fee?</p></div>
-<div class="dr-k"><b class="t">7. Condutora adicional</b><p><b>PT</b> Pode incluir minha esposa, Andréa ___, como condutora adicional? Quanto custa?</p><p lang="en"><b>EN</b> Could you please add my wife, Andréa ___, as an additional driver? What is the cost?</p></div>
-<div class="dr-k"><b class="t">8. Carro sujo, antigo ou diferente do reservado</b><p><b>PT</b> Este carro não está limpo (ou não é a categoria que reservei). Posso trocar por outro antes de sair?</p><p lang="en"><b>EN</b> This car is not clean (or not the category I booked). Could I get a different one before I leave?</p></div>
-<div class="dr-k"><b class="t">9. Vistoria</b><p><b>PT</b> Pode marcar todos os danos existentes no termo de saída? Vou fotografar e filmar o carro e quero uma cópia assinada.</p><p lang="en"><b>EN</b> Could you please mark all existing damage on the check-out form? I'm going to take photos and a video, and I'd like a signed copy.</p></div>
-<div class="dr-k"><b class="t">10. Combustível</b><p><b>PT</b> Qual é a política de combustível, e o carro é gasolina ou diesel? Onde fica o posto mais próximo do aeroporto?</p><p lang="en"><b>EN</b> What is the fuel policy, and does the car take petrol or diesel? Where is the nearest gas station to the airport?</p></div>
-<div class="dr-k"><b class="t">11. Na devolução (05/06)</b><p><b>PT</b> Pode me dar o termo de devolução assinado, ou confirmar por e-mail que não há danos novos e que a caução será liberada?</p><p lang="en"><b>EN</b> Could you please give me a signed return form, or confirm by email that there is no new damage and that my deposit will be released?</p></div>
-<div class="dr-k ok"><b class="t">Antes de assinar, confira no contrato</b><p>Preço total, caução, política de combustível, quilometragem, fronteiras autorizadas, condutora adicional, e <b>que nenhum seguro opcional foi acrescentado</b> sem você pedir. Não assine o que não entendeu. Peça uma cópia e fotografe.</p></div>
-<div class="dr-k"><b class="t">Quando ligar para a Rentcars</b><p>Se o balcão cobrar caução diferente da confirmação, acrescentar seguro que você recusou ou negar o carro reservado. Tenha à mão o número da reserva e o app aberto. Peça o e-mail ou o chat da resposta, para mostrar ao balcão.</p></div></section>
-
-<section class="day" id="sos"><div class="day-h"><span class="date">se der errado</span><h2>Acidente, pane ou polícia</h2></div>
-<ul class="bul">
-<li><b>112</b> em qualquer país (polícia, ambulância, bombeiros).</li>
-<li>Pisque o alerta, coloque o colete, ponha o triângulo (50 m na estrada; 100 m na autoestrada) e fique atrás do guard-rail.</li>
-<li>Ligue para a locadora antes de qualquer reparo. Eles definem o guincho e a cobertura. O passo a passo com seguro e reembolso está em <a href="#aluguel">Meu carro alugado</a>.</li>
-<li>Acidente sem feridos: preencha o <b>constat</b> (formulário europeu de acidente), fotografe tudo e peça os dados do outro motorista e do seguro. Com feridos ou desacordo, chame a polícia.</li>
-<li>Em blitz: pare, desligue o motor, mantenha as mãos visíveis e entregue passaporte, CNH, PID e o contrato.</li>
-</ul></section>
-
-<section class="day" id="chk"><div class="day-h"><span class="date">antes de sair</span><h2>Checklist rápido</h2></div>
-<ul class="dr-ck">
-<li><label><input type="checkbox"> Vistoria com fotos e vídeo de todo o carro</label></li>
-<li><label><input type="checkbox"> Combustível certo (gasolina ou diesel)</label></li>
-<li><label><input type="checkbox"> Triângulo, colete e roda estepe ou kit</label></li>
-<li><label><input type="checkbox"> Autorização da Alamo para Montenegro, Bósnia (Neum) e UE no contrato, e carta verde</label></li>
-<li><label><input type="checkbox"> Cartão com limite para a caução de €1.100 e certificado da Rentalcover</label></li>
-<li><label><input type="checkbox"> E-vinheta da Eslovênia comprada com a placa correta</label></li>
-<li><label><input type="checkbox"> Moedas de €1 e €2 para parquímetro e pedágio</label></li>
-<li><label><input type="checkbox"> Hotel de Dubrovnik registrou a placa</label></li>
-<li><label><input type="checkbox"> GPS configurado para evitar ZTL e Neum</label></li>
-<li><label><input type="checkbox"> Telefone da locadora e do clube salvos offline</label></li>
-</ul>
 <p class="dr-note">Fontes: sites de clubes automobilísticos (AMZS, HAK, ACI, ANWB, ÖTC), turismo oficial de Ljubljana e Dubrovnik, <a href="https://visitljubljana.com/en/visitors/travel-information/getting-around/parking" target="_blank" rel="noopener">Visit Ljubljana</a>, <a href="https://montenegroguides.co/guides/parking-and-fines-montenegro" target="_blank" rel="noopener">Montenegro Guides</a> e <a href="https://www.htz.hr/en/node/12049" target="_blank" rel="noopener">HTZ (Dubrovnik)</a>. Algumas informações têm datas diferentes entre fontes e foram sinalizadas. Confirme as regras principais antes de viajar.</p>
-<p class="foot">Veja também <a href="seguranca.html">Segurança e documentos</a> e <a href="pendencias.html">Pendências</a>.</p></section></div>
-<script src="nav.js?v=157"></script><script type="module" src="fb.js?v=157"></script>
+<p class="foot">Veja também <a href="seguranca.html">Segurança e documentos</a> e <a href="pendencias.html">Pendências</a>.</p></div>
+<script src="locacao.js?v=158"></script><script src="nav.js?v=158"></script><script type="module" src="fb.js?v=158"></script>
