@@ -898,10 +898,11 @@ function orcSeg(){return '<div class="seg orcseg" role="group" aria-label="Visã
 function bindSeg(){$$('[data-ov]',$('#v-orc')).forEach(function(b){b.onclick=function(){orcView=b.dataset.ov;try{sessionStorage.setItem('gx-orc',orcView)}catch(e){}rOrc();window.scrollTo(0,0)}})}
 function ms(v){return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(v||0)}
 function spentIn(e,cur){return cur==='BRL'?entryBrl(e):(cur==='USD'?(e.usd!=null?e.usd:conv(e.eur,'EUR','USD')):e.eur)}
+function pgCell(){return '<td class="cz okp"><span class="pgb">Pago</span></td>'}
 function rOrcTab(){
   var st=stats(),B=preBuckets(),h=orcSeg();
   function cell(v,cls){return '<td class="'+(cls||'')+'">'+ms(v)+'</td>'}
-  h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro. Previsto vem das linhas do orçamento; gasto vem dos lançamentos (antes e durante a viagem). Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p>@@TOP@@<div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>';
+  h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro. Previsto vem das linhas do orçamento; gasto vem dos lançamentos (antes e durante a viagem). Linhas pagas ficam em verde, com ✓ e o selo "Pago". Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p>@@TOP@@<div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>';
   S.cats.forEach(function(c){
     var ls=S.budget.filter(function(l){return l.cat===c.id}),plan=(st.bT[c.id]||0)+(st.bP[c.id]||0)+(st.bO[c.id]||0),sp=st.by[c.id]||0,rest=plan-sp;
     var planB=0,spB=0,mix={};ls.forEach(function(l){planB+=conv(l.val,l.cur,'BRL');mix[l.cur]=1});S.entries.forEach(function(e){if(e.t==='g'&&e.cat===c.id)spB+=entryBrl(e)});
@@ -913,14 +914,14 @@ function rOrcTab(){
       var tol=Math.max(0.015,Math.abs(l.val)*0.002),pd=l.val>0.005&&Math.abs(l.val-sc)<=tol;lpaid[l.id]=pd;if(l.val>0.005){anyPlan=true;if(!pd)allPaid=false}});
     var noOrphan=ls.length===1||S.entries.every(function(e){return e.t!=='g'||e.cat!==c.id||(e.ln&&ls.some(function(l){return l.id===e.ln}))});
     var paidC=(plan>0.005&&Math.abs(rest)<=0.005)||(anyPlan&&allPaid&&noOrphan),restS=paidC?0:rest,restSB=paidC?0:planB-spB;
-    h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+(paidC?' paid':'')+'" data-goc="'+c.id+'"><td>'+ci(c)+esc(c.name)+(plan>0?'<small class="pd">previsto '+money(plan/st.total)+'/dia · '+money(planB/st.total,'BRL')+'/dia'+(((st.bT[c.id]||0)>0&&Math.abs((st.bT[c.id]||0)-plan)>0.005)?'<br>só durante a viagem '+money(st.bT[c.id]/st.total)+'/dia':'')+'</small>':'')+(nm>1?' <em class="tag" title="Linhas em moedas diferentes: cada uma é convertida pela cotação">'+Object.keys(mix).join(' + ')+'</em>':'')+'</td>'+cb(plan,planB,'cp')+cb(sp,spB,'cg')+cb(restS,restSB,paidC?'cz okp':(rest<-0.005?'neg cr':(rest>0.005?'cr':'cz')))+'</tr>';
+    h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+(paidC?' paid':'')+'" data-goc="'+c.id+'"><td>'+ci(c)+esc(c.name)+(plan>0?'<small class="pd">previsto '+money(plan/st.total)+'/dia · '+money(planB/st.total,'BRL')+'/dia'+(((st.bT[c.id]||0)>0&&Math.abs((st.bT[c.id]||0)-plan)>0.005)?'<br>só durante a viagem '+money(st.bT[c.id]/st.total)+'/dia':'')+'</small>':'')+(nm>1?' <em class="tag" title="Linhas em moedas diferentes: cada uma é convertida pela cotação">'+Object.keys(mix).join(' + ')+'</em>':'')+'</td>'+cb(plan,planB,'cp')+cb(sp,spB,'cg')+(paidC?pgCell():cb(restS,restSB,rest<-0.005?'neg cr':(rest>0.005?'cr':'cz')))+'</tr>';
     var showLines=ls.length>1||(ls[0]&&(ls[0].label||ls[0].cur!=='EUR'||ls[0].when==='pre'));
     if(showLines){var sumL=0,sumLB=0;
       ls.forEach(function(l){
         var sL=0,sLB=0;S.entries.forEach(function(e){if(e.t!=='g'||e.cat!==c.id)return;var mine=e.ln?e.ln===l.id:ls.length===1;if(mine){sL+=e.eur;sLB+=entryBrl(e)}});sumL+=sL;sumLB+=sLB;
         var pl=lEur(l),plB=conv(l.val,l.cur,'BRL'),rL=pl-sL;
         var paidL=(pl>0.005&&Math.abs(rL)<=0.005)||!!lpaid[l.id],rLs=paidL?0:rL,rLB=paidL?0:plB-sLB;
-        h+='<tr class="ol'+(paidL?' paid':'')+'"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':(l.when==='post'?'depois':'durante'))+'</em></td><td class="cp">'+ms(pl)+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td>'+cb(sL,sLB,'cg')+cb(rLs,rLB,paidL?'cz okp':(rL<-0.005?'neg cr':(rL>0.005?'cr':'cz')))+'</tr>'});
+        h+='<tr class="ol'+(paidL?' paid':'')+'"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':(l.when==='post'?'depois':'durante'))+'</em></td><td class="cp">'+ms(pl)+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td>'+cb(sL,sLB,'cg')+(paidL?pgCell():cb(rLs,rLB,rL<-0.005?'neg cr':(rL>0.005?'cr':'cz')))+'</tr>'});
       var un=sp-sumL;
       if(ls.length>1&&Math.abs(un)>0.005){var unB=spB-sumLB;h+='<tr class="ol"><td>Lançamentos sem subcategoria</td><td></td>'+cb(un,unB,'cg')+'<td></td></tr>'}}});
   var tp=B.br.planned+B.out.planned+st.budT+st.budO,ts=B.br.spent+B.out.spent+st.spentT+st.spentO;
