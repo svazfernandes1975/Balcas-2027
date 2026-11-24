@@ -109,6 +109,20 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 .pd-gh{list-style:none;grid-template-columns:1fr!important;font:700 13px var(--f-mono);letter-spacing:.04em;color:var(--ink);border-bottom:2px solid var(--line);padding:14px 0 6px!important;margin-top:6px}
 .pd-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}.pd-meta .pd-c,.pd-meta .pd-m{margin:0}
 .pc-r input[type=date]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+
+/*tabela*/#todo{gap:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+#todo li{display:grid;grid-template-columns:30px 112px minmax(0,1fr) 116px;gap:4px 12px;align-items:start;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:10px 12px;background:transparent}
+#todo li:last-child{border-bottom:0}
+#todo li.k-warn{border-left:4px solid var(--c-warn)}#todo li.k-tip{border-left:4px solid var(--c-tip)}#todo li.k-drive{border-left:4px solid var(--c-drive)}
+#todo label{color:var(--ink);min-width:0;overflow-wrap:anywhere}
+#todo .pd-cat{font:700 12px/1.35 var(--f-mono);letter-spacing:.01em;color:var(--cc,var(--muted));padding-top:3px;overflow-wrap:anywhere}
+#todo .pd-m{margin:0;justify-self:start;align-self:start}.pd-m.none{border:0;padding:0}
+#todo li.ok .pd-cat{opacity:.55}
+#todo li.pd-th{background:color-mix(in srgb,var(--ink) 7%,var(--surface));padding-block:6px;align-items:center;border-bottom:2px solid var(--line)}
+#todo .pd-th button{font:700 11px/1.3 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:none;border:0;padding:6px 0;text-align:left;cursor:pointer}
+#todo .pd-th button[aria-pressed="true"]{color:var(--ink)}
+#todo li.pd-gh{display:block;font:700 13px var(--f-mono);letter-spacing:.04em;color:var(--ink);background:color-mix(in srgb,var(--ink) 4%,var(--surface));padding:10px 12px!important;margin:0;border-bottom:1px solid var(--line)}
+@media (max-width:640px){#todo li{grid-template-columns:28px 84px minmax(0,1fr);gap:2px 10px}#todo .pd-m{grid-column:3}#todo .pd-m.none{display:none}#todo .pd-th button[data-hs="data"]{display:none}}
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="pendencias.html" aria-current="page">Pendências</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><div id="gx-sync" class="fbstrip" style="margin-top:10px"></div><section class="day"><div class="day-h"><span class="date">antes de ir</span><h2>Pendências</h2></div>
 <div class="pd-mode" role="tablist"><button type="button" role="tab" id="pV" aria-selected="true">Lista</button><button type="button" role="tab" id="pC" aria-selected="false">Configurar itens</button></div>
 <div id="pd-prog" class="pd-prog"></div><div id="pd-tools"><div class="pd-seg" role="group" aria-label="Ordenar a lista"><button type="button" data-s="orig">Ordem da lista</button><button type="button" data-s="data">Por prazo</button><button type="button" data-s="cat">Por categoria</button></div><div class="pd-chips" id="pd-chips" role="group" aria-label="Filtrar por categoria"></div><label class="pd-hide"><input type="checkbox" id="pd-hide"> Ocultar concluídas</label></div><ol class="tl" id="todo"></ol><div id="pd-cfg" hidden></div></section>
@@ -144,7 +158,9 @@ function dst(i){if(i.d){var t=iso();return i.d<t?'late':(i.d.slice(0,7)===t.slic
 function dtxt(i){return i.d?dfmt(i.d):(i.m?mfmt(i.m):'')}
 function byD(a,b){var x=dkey(a),y=dkey(b);return x<y?-1:x>y?1:0}
 function itemH(i){var c=!!s[i.id],ct=cOf(i),st=c?'ok':dst(i),dt=dtxt(i);
- return '<li class="k-'+i.k+(c?' ok':'')+'" style="grid-template-columns:28px minmax(0,1fr)"><input type="checkbox" id="td'+esc(i.id)+'" data-i="'+esc(i.id)+'" aria-label="feito"'+(c?' checked':'')+'><div><label for="td'+esc(i.id)+'" style="color:var(--ink)">'+rich(i.t)+'</label><div class="pd-meta"><span class="pd-c pd-c-'+ct+'">'+CN[ct]+'</span>'+(dt?'<span class="pd-m '+st+'">'+(!c&&st==='late'?'atrasada · ':'até ')+dt+'</span>':'')+'</div></div></li>'}
+ return '<li class="k-'+i.k+(c?' ok':'')+'"><input type="checkbox" id="td'+esc(i.id)+'" data-i="'+esc(i.id)+'" aria-label="feito"'+(c?' checked':'')+'><span class="pd-cat pd-c-'+ct+'">'+CN[ct]+'</span><label for="td'+esc(i.id)+'">'+rich(i.t)+'</label>'+(dt?'<span class="pd-m '+st+'">'+(!c&&st==='late'?'atrasada · ':'até ')+dt+'</span>':'<span class="pd-m none"></span>')+'</li>'}
+function headH(){var q=function(k,t){return '<button type="button" data-hs="'+k+'" aria-pressed="'+(sortS===k)+'" title="Ordenar por '+t.toLowerCase()+'">'+t+(sortS===k?' ↓':'')+'</button>'};
+ return '<li class="pd-th"><span></span>'+q('cat','Categoria')+q('orig','Pendência')+q('data','Prazo')+'</li>'}
 function toolsR(){
  $$s('#pd-tools [data-s]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.s===sortS)});
  var h='<button type="button" class="pd-chip" data-c="" aria-pressed="'+(fCat==='')+'">Todas<i>'+cfg.items.filter(function(i){return !s[i.id]}).length+'</i></button>';
@@ -161,7 +177,7 @@ function viewR(){var ok=0,shown;
    var all=cfg.items.filter(function(i){return cOf(i)===g[0]}),dn=all.filter(function(i){return s[i.id]}).length;
    h+='<li class="pd-gh">'+CN[g[0]]+' · '+dn+' de '+all.length+' concluídas</li>'+gi.map(itemH).join('')})}
  else{if(sortS==='data')shown.sort(byD);h=shown.map(itemH).join('')}
- ol.innerHTML=cfg.items.length?(shown.length?h:'<li class="k-tip" style="grid-template-columns:1fr">Nenhuma pendência para mostrar com este filtro.</li>'):'<li class="k-tip" style="grid-template-columns:1fr">Nenhuma pendência. Use "Configurar itens" para adicionar.</li>';
+ ol.innerHTML=cfg.items.length?(shown.length?headH()+h:'<li class="k-tip" style="grid-template-columns:1fr">Nenhuma pendência para mostrar com este filtro.</li>'):'<li class="k-tip" style="grid-template-columns:1fr">Nenhuma pendência. Use "Configurar itens" para adicionar.</li>';
  toolsR();
  var n=cfg.items.length,fx='';
  if(fCat){var fa=cfg.items.filter(function(i){return cOf(i)===fCat}),fd=fa.filter(function(i){return s[i.id]}).length;fx=' · '+CN[fCat]+': '+fd+' de '+fa.length}
@@ -187,6 +203,7 @@ function svs(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 document.getElementById('pd-tools').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
  if(b.dataset.s){sortS=b.dataset.s;svs('balcas2027-todosort',sortS);viewR()}
  else if(b.dataset.c!==undefined&&b.classList.contains('pd-chip')){fCat=b.dataset.c;svs('balcas2027-todofilt',fCat);viewR()}});
+ol.addEventListener('click',function(e){var b=e.target.closest('button[data-hs]');if(!b)return;sortS=b.dataset.hs;svs('balcas2027-todosort',sortS);viewR()});
 document.getElementById('pd-hide').addEventListener('change',function(){hideD=this.checked;svs('balcas2027-todohide',hideD?'1':'0');viewR()});
 document.getElementById('pV').onclick=function(){mode='V';render()};
 document.getElementById('pC').onclick=function(){mode='C';render()};
@@ -220,4 +237,4 @@ function bind(){if(!window.FB)return;
    readyC=true;if(!meta.fromCache)seedOnce()})})}
 if(window.FB)bind();else{document.addEventListener('fb-ready',bind);setTimeout(function(){var el=document.getElementById('gx-sync');if(!window.FB){if(el)el.textContent='☁ Salvo só neste aparelho (Firebase indisponível)';seedOnce()}},4000)}})();
 </script>
-<script src="nav.js?v=167"></script><script type="module" src="fb.js?v=167"></script>
+<script src="nav.js?v=168"></script><script type="module" src="fb.js?v=168"></script>
