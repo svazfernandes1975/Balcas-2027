@@ -19,7 +19,7 @@ mnt.innerHTML='<div id="gx-sync" class="fbstrip" style="margin:6px 0 10px"></div
 '<div><b>Reembolso da Rentalcover</b><span>rentalcover.com/pt-br/claim</span></div></div>'+
 '<div id="pd-prog" class="pd-prog"></div><div id="lc-list"></div>'+
 '<p class="lc-note"><b>Carta verde:</b> o contrato não a menciona. A Alamo disse no chat de 24/11 que ela cobre só o seguro básico contra terceiros (TPI), e só nos países para os quais foi emitida. Peça à locadora junto com a autorização de fronteira e confirme se está incluída na taxa. Ela é emitida no seguro do carro, então só a locadora a entrega.</p>'+
-'<p class="lc-note">Fonte: condições gerais da franqueada (Auto Benussi d.o.o., de Pula, marca Executive Lease), recebidas em 23/11/2026, voucher da Rentcars e chat com a Alamo de 24/11/2026 (atendente Marketta). É um texto de referência: vale o contrato que você assinar no balcão. Se algo diferir, confirme com a locadora.</p>';
+'<p class="lc-note">Fonte: condições gerais da franqueada (Auto Benussi d.o.o., de Pula, marca Executive Lease), recebidas em 23/11/2026, voucher da Rentcars, chat com a Alamo de 24/11/2026 (atendente Marketta) e termos da Rentalcover (página da apólice e resposta do suporte de 24/11/2026). É um texto de referência: vale o contrato que você assinar no balcão. Se algo diferir, confirme com a locadora.</p>';
 var K='balcas2027-loc',s={};
 try{s=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
 var DATA=[
@@ -49,16 +49,17 @@ var DATA=[
 ['c7','drive','Combustível certo (confira a tampa). Combustível errado não é coberto.'],
 ['c8','drive','Não deixe nada à vista no carro. Bagagem e objetos pessoais não têm seguro do carro.'],
 ['c9','drive','Pedágios, e-vinheta da Eslovênia e estacionamento são seus. Multas chegam por e-mail da locadora: responda em <b>5 dias úteis</b> com o comprovante, ou eles pagam e cobram no cartão com taxa.'],
+['c11','warn','<b>Infração de trânsito</b> em qualquer país (velocidade, sinal, estacionamento proibido) é exclusão da apólice da Rentalcover: sinistro depois de uma infração pode não ser reembolsado. Dirija sem pressa.'],
 ['c10','drive','Configure o GPS para evitar a <b>ZTL</b> e <b>Neum</b>. Antes de chegar a Dubrovnik, confirme que o hotel registrou a placa do carro.']]},
 {id:'d',t:'Se houver dano, acidente, furto ou pane',s:'Siga na ordem. Pular um passo pode custar o seguro.',i:[
 ['d1','drive','Segurança primeiro: pisca-alerta, colete e triângulo. Ligue <b>112</b> se houver ferido.'],
 ['d2','warn','Ligue para a locadora: <b>+385 72 606 606, opção 9</b> (guincho, conserto e carro de troca em até 24 horas).'],
-['d3','warn','<b>Colisão, furto ou dano com outro envolvido: chame a polícia</b> e peça o boletim. Sem boletim, pode-se perder a cobertura. Arranhão de estacionamento sem outro envolvido: a Alamo disse no chat de 24/11 que não precisa, mas o contrato fala em qualquer dano. Fotografe tudo e avise a assistência.'],
+['d3','warn','<b>Colisão, furto ou dano com outro envolvido: chame a polícia</b> e peça o boletim. Sem boletim, pode-se perder a cobertura. Arranhão de estacionamento sem outro envolvido: a Alamo disse no chat de 24/11 que não precisa, mas o contrato fala em qualquer dano. Fotografe tudo e avise a assistência. A Rentalcover confirmou (24/11) que em dano leve aceita a documentação da Alamo detalhando o incidente no lugar do boletim: peça esse relatório por escrito.'],
 ['d4','warn','Quando a polícia for chamada: <b>faça o bafômetro no local</b> (precisa dar 0,00) e fique até ela liberar. Recusar ou sair antes anula tudo.'],
 ['d5','drive','Fotografe tudo: o dano, o local, as placas, os documentos do outro motorista e do seguro dele.'],
 ['d6','drive','Preencha o <b>constat</b> (relatório europeu de acidente), a declaração do evento e um novo termo de vistoria.'],
 ['d7','drive','<b>Não conserte por conta própria.</b> O reembolso de reparo exige aprovação escrita da locadora, oficina autorizada e nota original.'],
-['d8','drive','Pague a franquia à locadora <b>no cartão, nunca em dinheiro</b>, e peça o reembolso à Rentalcover, com contrato, boletim, fotos e comprovantes.'],
+['d8','drive','Pague a franquia à locadora <b>no cartão, nunca em dinheiro</b> (sem comprovante a Rentalcover não paga). Peça o reembolso <b>o mais breve possível</b> pela Conta Rentalcover (rentalcover.com/account), com contrato, CNH, extrato do cartão, fatura final da Alamo, relatório do dano, boletim se houver e as mensagens com a Alamo.'],
 ['d9','drive','Guarde e-mails, contrato, termos e extratos. A fatura final pode chegar semanas depois.']]},
 {id:'e',t:'Na devolução',s:'05/06 às 11:00, aeroporto de Zagreb (sábado).',i:[
 ['e1','warn','Chegue <b>antes das 11:00</b>. A tolerância é de 59 minutos; depois disso cobram uma diária inteira.'],
@@ -78,7 +79,7 @@ var DATA=[
 ['a6','drive','Se a Andréa for dirigir, peça a inclusão como <b>condutora adicional</b>, que tem taxa. Quem não está no contrato não pode dirigir.'],
 ['a7','drive','Roteiro sem balsa nem ilha croata. Se isso mudar, peça por escrito o produto <b>TRN</b>; sem ele o carro fica sem seguro na balsa e na ilha.'],
 ['a8','drive','Cancelar a reserva da <b>Nova Rent a Car</b> (veja o lembrete em <a href="pendencias.html">Pendências</a>).'],
-['a9','warn','Pedir à <b>Rentalcover</b> (e-mail do certificado) a lista de países cobertos e o prazo para pedir reembolso. O certificado diz "Croácia + os países seguintes", sem listar.'],
+['a9','warn','Entre na <b>Conta Rentalcover</b> (rentalcover.com/account) e veja a lista de países do certificado, que no PDF vem em branco ("Croácia + os países seguintes"). Tire um print. Se não aparecer, peça os nomes por e-mail. O suporte confirmou em 24/11 que vale nos países do certificado se a Alamo autorizar a fronteira.'],
 ['a10','drive','Ainda sem resposta da Alamo: a CNH brasileira com PID é aceita? Algum tipo de cartão de crédito é recusado? Qual é a franquia exata?']]}
 ];
 function keep(){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
