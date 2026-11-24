@@ -7,7 +7,7 @@ mnt.innerHTML='<div id="gx-sync" class="fbstrip" style="margin:6px 0 10px"></div
 '<div class="lc-alert"><h3>Estas regras anulam o seguro inteiro, até o da Rentalcover</h3><ol>'+
 '<li>Sair da Croácia, ou passar por Neum (Bósnia), sem autorização escrita da locadora e taxa paga.</li>'+
 '<li>Qualquer álcool: depois de um dano, o bafômetro precisa dar <b>0,00</b>.</li>'+
-'<li>Não chamar a polícia em <b>qualquer</b> dano, ou sair do local antes de ela terminar.</li>'+
+'<li>Não chamar a polícia numa colisão, furto ou dano com outro envolvido, ou sair do local antes de ela terminar.</li>'+
 '<li>Outra pessoa dirigir sem constar no contrato.</li>'+
 '<li>Estrada de terra, praia ou caminho de mata; balsa ou ilha sem o produto TRN.</li>'+
 '<li>Deixar o documento do carro dentro do carro: se roubarem, você paga o valor do carro.</li></ol></div>'+
@@ -18,8 +18,8 @@ mnt.innerHTML='<div id="gx-sync" class="fbstrip" style="margin:6px 0 10px"></div
 '<div><b>Emergência na Croácia</b><a href="tel:112">112</a></div>'+
 '<div><b>Reembolso da Rentalcover</b><span>rentalcover.com/pt-br/claim</span></div></div>'+
 '<div id="pd-prog" class="pd-prog"></div><div id="lc-list"></div>'+
-'<p class="lc-note"><b>Carta verde:</b> o contrato não a menciona. Peça à locadora junto com a autorização de fronteira e confirme se ela está incluída na taxa. Ela é emitida no seguro do carro, então só a locadora a entrega.</p>'+
-'<p class="lc-note">Fonte: condições gerais da franqueada (Auto Benussi d.o.o., de Pula, marca Executive Lease), recebidas em 23/11/2026, e voucher da Rentcars. É um texto de referência: vale o contrato que você assinar no balcão. Se algo diferir, confirme com a locadora.</p>';
+'<p class="lc-note"><b>Carta verde:</b> o contrato não a menciona. A Alamo disse no chat de 24/11 que ela cobre só o seguro básico contra terceiros (TPI), e só nos países para os quais foi emitida. Peça à locadora junto com a autorização de fronteira e confirme se está incluída na taxa. Ela é emitida no seguro do carro, então só a locadora a entrega.</p>'+
+'<p class="lc-note">Fonte: condições gerais da franqueada (Auto Benussi d.o.o., de Pula, marca Executive Lease), recebidas em 23/11/2026, voucher da Rentcars e chat com a Alamo de 24/11/2026 (atendente Marketta). É um texto de referência: vale o contrato que você assinar no balcão. Se algo diferir, confirme com a locadora.</p>';
 var K='balcas2027-loc',s={};
 try{s=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
 var DATA=[
@@ -28,22 +28,23 @@ var DATA=[
 ['b1','drive','Chegue às <b>11:00</b>. O voucher da Rentcars dá 29 minutos de tolerância (o contrato da franqueada fala em 2 horas; vale o mais rígido). Se for atrasar, avise a locadora antes.'],
 ['b2','warn','<b>Leia o contrato antes de assinar:</b> valor a pagar no balcão (só extras, porque o carro já está pago), franquia, bloqueio no cartão, combustível, quilometragem livre, condutores e países autorizados. Confira se não incluíram nada a mais.'],
 ['b3','drive','Se oferecerem seguro extra (CDW, ZE, WUG, Premium), recuse com educação, porque a Rentalcover já cobre. Use a frase do <a href="dirigir.html#balcao">balcão</a> e peça a lista do que já está incluído.'],
-['b4','warn','<b>Autorização de fronteira por escrito no contrato</b>, com a taxa paga, para cada país do roteiro, e a carta verde em mãos. Sem isso, o seguro não vale fora da Croácia.'],
-['b5','drive','Anote a <b>franquia</b> e o valor bloqueado no cartão e peça cópia do contrato.'],
+['b4','warn','<b>Autorização de fronteira por escrito no contrato</b>, com a taxa paga (€40 UE + €60 fora da UE = €100, valores que a Alamo confirmou no chat de 24/11; o voucher mostra €0 no destino, então pague aqui), para Eslovênia, Itália, Montenegro e Bósnia, e a carta verde em mãos. Sem isso, o seguro não vale fora da Croácia.'],
+['b5','drive','Anote a <b>franquia</b> e o valor bloqueado no cartão (a Alamo confirmou €1.100 de caução para o Compact) e peça cópia do contrato.'],
 ['b6','warn','<b>Inspeção com o funcionário, antes de sair do local:</b> lataria, teto, rodas e pneus, para-brisa, espelhos, faróis, interior e estofamento. Todo dano precisa estar marcado no termo de vistoria. Reclamação depois que o carro saiu do local não é aceita.'],
 ['b7','drive','Fotografe e filme o carro todo, com o funcionário presente, incluindo o hodômetro e o nível de combustível.'],
-['b8','drive','Confira o triângulo, o colete e o estepe ou kit de reparo. Veja onde ficam os documentos do carro.'],
+['b8','drive','Confira o triângulo, o colete e o estepe ou kit de reparo. Pergunte quais papéis do carro ficam com você (a Alamo disse no chat que o documento de registro vai na bolsa, não no carro) e se a carta verde pode ficar no carro.'],
 ['b9','drive','Pergunte se o carro é <b>gasolina ou diesel</b> e onde fica o posto mais perto do aeroporto.'],
 ['b10','drive','Assine o termo de vistoria <b>só depois</b> da inspeção e guarde cópia dele e do contrato.'],
 ['b14','drive','Moedas de €1 e €2 para parquímetro e pedágio.'],
-['b13','drive','Antes de cruzar para a Eslovênia: e-vinheta comprada com a <b>placa exata</b> do carro (veja <a href="#vinheta">Vinheta</a>).'],
-['b11','drive','Salve offline a <b>assistência da locadora: +385 72 606 606, opção 9</b>, o telefone do balcão e o do clube automobilístico (veja <a href="sos.html">SOS</a>).']]},
+['b13','drive','Pergunte se o carro tem vinheta eslovena. No chat de 24/11 disseram que "estaria equipado", mas não conte com isso. Anote a <b>placa exata</b> e, sem comprovante, compre a e-vinheta antes de cruzar (veja <a href="#vinheta">Vinheta</a>).'],
+['b11','drive','Salve offline a <b>assistência da locadora: +385 72 606 606, opção 9</b>, o telefone do balcão e o do clube automobilístico (veja <a href="sos.html">SOS</a>).'],
+['b15','warn','Tenha no celular o <b>print do chat com a Alamo de 24/11</b> (atendente Marketta, com data e hora): fronteira, caução, polícia, documentos. Mostre se o balcão disser algo diferente, mas lembre que vale o contrato que você assinar.']]},
 {id:'c',t:'Durante a viagem',s:'Os itens em vermelho anulam todo o seguro, inclusive o da Rentalcover.',i:[
-['c1','warn','<b>Documento do carro fora do carro.</b> Ao estacionar e sair, leve o documento com você. Se o carro for roubado com o documento dentro, é falta grave e você paga o valor de mercado do carro. A chave nunca fica no carro.'],
+['c1','warn','<b>Documento do carro fora do carro.</b> Ao estacionar e sair, leve o documento com você. Se o carro for roubado com o documento dentro, é falta grave e você paga o valor de mercado do carro. A Alamo confirmou no chat de 24/11: o documento fica com você, na bolsa ou mochila. A chave nunca fica no carro.'],
 ['c2','warn','<b>Álcool zero ao volante.</b> Depois de qualquer dano o contrato exige bafômetro com 0,00 g/kg. A lei croata tolera 0,5 ‰, mas a cobertura não. Defina quem dirige antes do jantar.'],
 ['c3','warn','<b>Só quem está no contrato dirige</b>, sem exceção.'],
 ['c4','warn','<b>Só pelo asfalto.</b> Nada de estrada de terra, praia ou caminho de mata. Se o GPS mandar por um trecho de terra, volte e escolha outro caminho.'],
-['c5','warn','<b>Fronteira só com autorização por escrito e carta verde</b> no porta-luvas, mais o passaporte. Neum (Bósnia) também conta; pela ponte de Pelješac você evita.'],
+['c5','warn','<b>Fronteira só com autorização por escrito e carta verde</b> à mão, mais o passaporte. Neum (Bósnia) também conta; pela ponte de Pelješac você evita.'],
 ['c6','drive','Luz de óleo, AdBlue ou arrefecimento acesa: pare com segurança e ligue para a assistência. Seguir rodando com o aviso aceso é por sua conta.'],
 ['c7','drive','Combustível certo (confira a tampa). Combustível errado não é coberto.'],
 ['c8','drive','Não deixe nada à vista no carro. Bagagem e objetos pessoais não têm seguro do carro.'],
@@ -52,8 +53,8 @@ var DATA=[
 {id:'d',t:'Se houver dano, acidente, furto ou pane',s:'Siga na ordem. Pular um passo pode custar o seguro.',i:[
 ['d1','drive','Segurança primeiro: pisca-alerta, colete e triângulo. Ligue <b>112</b> se houver ferido.'],
 ['d2','warn','Ligue para a locadora: <b>+385 72 606 606, opção 9</b> (guincho, conserto e carro de troca em até 24 horas).'],
-['d3','warn','<b>Chame a polícia em qualquer dano</b>, até arranhão de estacionamento, e peça o boletim. Sem boletim, perde-se a cobertura.'],
-['d4','warn','<b>Faça o bafômetro no local</b> (precisa dar 0,00) e fique até a polícia liberar. Recusar ou sair antes anula tudo.'],
+['d3','warn','<b>Colisão, furto ou dano com outro envolvido: chame a polícia</b> e peça o boletim. Sem boletim, pode-se perder a cobertura. Arranhão de estacionamento sem outro envolvido: a Alamo disse no chat de 24/11 que não precisa, mas o contrato fala em qualquer dano. Fotografe tudo e avise a assistência.'],
+['d4','warn','Quando a polícia for chamada: <b>faça o bafômetro no local</b> (precisa dar 0,00) e fique até ela liberar. Recusar ou sair antes anula tudo.'],
 ['d5','drive','Fotografe tudo: o dano, o local, as placas, os documentos do outro motorista e do seguro dele.'],
 ['d6','drive','Preencha o <b>constat</b> (relatório europeu de acidente), a declaração do evento e um novo termo de vistoria.'],
 ['d7','drive','<b>Não conserte por conta própria.</b> O reembolso de reparo exige aprovação escrita da locadora, oficina autorizada e nota original.'],
@@ -69,14 +70,16 @@ var DATA=[
 ['e7','drive','Devolva no local combinado. Deixar o carro em outro lugar gera multa e taxa de transferência.'],
 ['e8','drive','Guarde por alguns meses o contrato, os termos, as fotos e os extratos. Multas e cobranças podem chegar depois.']]},
 {id:'a',t:'Antes de viajar (preparação)',s:'Faça até abril de 2027. Peça tudo por escrito (e-mail ou chat) para mostrar no balcão.',i:[
-['a1','warn','<b>Fronteiras:</b> peça por escrito à Alamo os países autorizados (Eslovênia, Itália e Montenegro; Bósnia só se for passar por Neum), o valor da taxa de fronteira e se a <b>carta verde</b> vem junto.'],
-['a2','drive','Pergunte a <b>franquia</b> do carro reservado e o valor exato do <b>bloqueio no cartão</b>. O bloqueio é a franquia mais o custo estimado da locação, então pode passar de €1.100.'],
+['a1','warn','<b>Fronteiras:</b> a Alamo confirmou no chat de 24/11 as taxas (€40 UE + €60 fora da UE = €100). Falta por escrito: a <b>carta verde</b> (se vem junto e para quais países) e a autorização com Eslovênia, Itália, Montenegro e Bósnia (Neum) no contrato.'],
+['a2','drive','Caução confirmada no chat da Alamo em 24/11: <b>€1.100</b> (Compact), liberada de 3 a 7 dias úteis depois da devolução. Falta saber a <b>franquia</b> exata; confira no contrato.'],
 ['a3','drive','Confirme o horário do balcão em 18/05 e em <b>05/06 (sábado)</b>. Retirada ou devolução fora do horário tem taxa e riscos.'],
 ['a4','warn','<b>Cartão de crédito físico, internacional e no nome do condutor</b>, com limite para o bloqueio e para pagar a franquia se houver dano. Não valem cartão pré-pago, virtual ou por aproximação, e a locadora pode recusar cartão de banco digital.'],
 ['a5','warn','<b>CNH física e original</b> (a digital não vale fora do Brasil), PID, passaporte, voucher da Rentcars e certificado da Rentalcover, impressos e no celular.'],
 ['a6','drive','Se a Andréa for dirigir, peça a inclusão como <b>condutora adicional</b>, que tem taxa. Quem não está no contrato não pode dirigir.'],
 ['a7','drive','Roteiro sem balsa nem ilha croata. Se isso mudar, peça por escrito o produto <b>TRN</b>; sem ele o carro fica sem seguro na balsa e na ilha.'],
-['a8','drive','Cancelar a reserva da <b>Nova Rent a Car</b> (veja o lembrete em <a href="pendencias.html">Pendências</a>).']]}
+['a8','drive','Cancelar a reserva da <b>Nova Rent a Car</b> (veja o lembrete em <a href="pendencias.html">Pendências</a>).'],
+['a9','warn','Pedir à <b>Rentalcover</b> (e-mail do certificado) a lista de países cobertos e o prazo para pedir reembolso. O certificado diz "Croácia + os países seguintes", sem listar.'],
+['a10','drive','Ainda sem resposta da Alamo: a CNH brasileira com PID é aceita? Algum tipo de cartão de crédito é recusado? Qual é a franquia exata?']]}
 ];
 function keep(){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
 var box=document.getElementById('lc-list'),ready=false;
