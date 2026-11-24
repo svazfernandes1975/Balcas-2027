@@ -562,7 +562,7 @@ function rExtrato(){
    '<div class="lbl">Meio de pagamento <span class="hint">(pode escolher vários)</span></div><div class="chips">'+S.methods.map(function(m){return chip('meth',m.id,m.name,FX.meth.indexOf(m.id)>-1)}).join('')+'</div>'+
    (Object.keys(ctries).length?'<div class="lbl">País</div><div class="chips">'+Object.keys(ctries).map(function(c){return chip('ctry',c,c,FX.ctry.indexOf(c)>-1)}).join('')+'</div>':'')+
    '<div class="lbl">Período</div><div class="fxg"><label class="f">De<input type="date" id="fx-from" value="'+esc(FX.from)+'"></label><label class="f">Até<input type="date" id="fx-to" value="'+esc(FX.to)+'"></label></div>'+
-   '</div></details></div><div class="card" id="fx-list"></div>';
+   '</div></details></div><div class="card" id="fx-meios"></div><div class="card" id="fx-list"></div>';
   $('#v-extrato').innerHTML=h;
   $$('.fch').forEach(function(b){b.onclick=function(){var g=b.dataset.fg,v=b.dataset.fv;
     if(g==='type'||g==='when')FX[g]=(FX[g]===v?'':v);
@@ -632,12 +632,25 @@ function ledger(){var bal={},after={},eod={},dayg={},ord=S.entries.map(function(
 function balTxt(a){var r=[];S.methods.forEach(function(m){if(a&&a[m.id]!==undefined&&m.cnt!==false)r.push(esc(m.name)+': <b'+(a[m.id]<-0.005?' style="color:#B3341F"':'')+'>'+money(a[m.id],m.cur)+'</b>')});return r.length?'<div class="m">saldo após · '+r.join(' · ')+'</div>':''}
 function closing(date,LG){var d=LG.dayg[date],eo=LG.eod[date];if(!eo)return '';
   var rows=S.methods.filter(function(m){return m.cnt}).map(function(m){return '<tr><td>'+esc(m.name)+'</td><td style="text-align:right"><b'+(eo[m.id]<-0.005?' style="color:#B3341F"':'')+'>'+money(eo[m.id],m.cur)+'</b></td></tr>'}).join('');
-  return '<details class="clo" style="margin:4px 0 12px;padding:8px 12px;border:1px dashed var(--bd,#b9c4c8);border-radius:10px"><summary style="cursor:pointer;font-weight:600">🌙 Fechamento de '+fmtDate(date)+'</summary><p style="margin:8px 0 4px">'+(d?'Gastos do dia: <b>'+money(d.eur)+'</b> ('+money(d.brl,'BRL')+') em '+d.n+' lançamento'+(d.n>1?'s':''):'Sem gastos neste dia.')+'</p><div class="lbl">Saldos ao fim do dia</div><table style="width:100%;border-collapse:collapse">'+rows+'</table></details>'}
+  return '<details class="clo" style="margin:4px 0 12px;padding:8px 12px;border:1px dashed var(--line,#b9c4c8);border-radius:10px"><summary style="cursor:pointer;font-weight:600">🌙 Fechamento de '+fmtDate(date)+'</summary><p style="margin:8px 0 4px">'+(d?'Gastos do dia: <b>'+money(d.eur)+'</b> ('+money(d.brl,'BRL')+') em '+d.n+' lançamento'+(d.n>1?'s':''):'Sem gastos neste dia.')+'</p><div class="lbl">Saldos ao fim do dia</div><table style="width:100%;border-collapse:collapse">'+rows+'</table></details>'}
+/* total de gastos por meio de pagamento, respeitando os filtros do extrato */
+function meiosCard(es){
+  var box=$('#fx-meios');if(!box)return;
+  var by={},tn=0,te=0,tb=0;
+  es.forEach(function(e){if(e.t!=='g')return;var k=e.m||'?',o=by[k]||(by[k]={n:0,eur:0,brl:0,deb:0});o.n++;o.eur+=e.eur;o.brl+=entryBrl(e);o.deb+=debited(e);tn++;te+=e.eur;tb+=entryBrl(e)});
+  var ks=Object.keys(by).sort(function(a,b){return by[b].eur-by[a].eur});
+  if(!ks.length){box.hidden=true;box.innerHTML='';return}
+  box.hidden=false;
+  var rows=ks.map(function(k){var o=by[k],m=mById(k),pc=te>0?Math.round(o.eur/te*100):0;
+    var extra=(m&&m.cur!=='EUR'&&m.cur!=='BRL')?'<small>debitado '+money(o.deb,m.cur)+'</small>':'';
+    return '<tr><td>'+esc(m?m.name:'Meio removido')+'<small class="pd">'+o.n+' lançamento'+(o.n>1?'s':'')+' · '+pc+'% do total</small></td><td class="cg">'+money(o.eur)+extra+'</td><td class="cp">'+money(o.brl,'BRL')+'</td></tr>'}).join('');
+  box.innerHTML='<h3>Gasto por meio de pagamento</h3><p class="hint">'+(fxCount()?'Só dos lançamentos que passam pelos filtros acima.':'Todos os gastos lançados.')+' Saques e correções de saldo não entram.</p><div class="tblw"><table class="otbl mtot"><thead><tr><th>Meio</th><th>Gasto em €</th><th>Em R$</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr class="ot"><td>Total<small class="pd">'+tn+' lançamento'+(tn>1?'s':'')+'</small></td><td class="cg">'+money(te)+'</td><td class="cp">'+money(tb,'BRL')+'</td></tr></tfoot></table></div>'}
 function drawList(){
   var es=S.entries.filter(fxMatch).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1)});
   var gsum=0,gb=0,gn=0;es.forEach(function(e){if(e.t==='g'){gsum+=e.eur;gb+=entryBrl(e);gn++}});
   $('#fx-sum').textContent=(fxCount()?es.length+' de '+S.entries.length+' lançamentos':es.length+' lançamentos')+(gn?' · gastos '+money(gsum)+' ('+money(gb,'BRL')+')':'');
   $('#fx-clr').hidden=!fxCount();
+  meiosCard(es);
   var L=$('#fx-list');
   if(!es.length){L.innerHTML='<p class="hint">Nenhum lançamento com esses filtros.</p>';return}
   var LG=ledger(),h='',cur='',dayTot={};
