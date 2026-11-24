@@ -643,8 +643,8 @@ function meiosCard(es){
   box.hidden=false;
   var rows=ks.map(function(k){var o=by[k],m=mById(k),pc=te>0?Math.round(o.eur/te*100):0;
     var extra=(m&&m.cur!=='EUR'&&m.cur!=='BRL')?'<small>debitado '+money(o.deb,m.cur)+'</small>':'';
-    return '<tr><td>'+esc(m?m.name:'Meio removido')+'<small class="pd">'+o.n+' lançamento'+(o.n>1?'s':'')+' · '+pc+'% do total</small></td><td class="cg">'+money(o.eur)+extra+'</td><td class="cp">'+money(o.brl,'BRL')+'</td></tr>'}).join('');
-  box.innerHTML='<h3>Gasto por meio de pagamento</h3><p class="hint">'+(fxCount()?'Só dos lançamentos que passam pelos filtros acima.':'Todos os gastos lançados.')+' Saques e correções de saldo não entram.</p><div class="tblw"><table class="otbl mtot"><thead><tr><th>Meio</th><th>Gasto em €</th><th>Em R$</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr class="ot"><td>Total<small class="pd">'+tn+' lançamento'+(tn>1?'s':'')+'</small></td><td class="cg">'+money(te)+'</td><td class="cp">'+money(tb,'BRL')+'</td></tr></tfoot></table></div>'}
+    return '<tr><td>'+esc(m?m.name:'Meio removido')+'<small class="pd">'+o.n+' lançamento'+(o.n>1?'s':'')+' · '+pc+'% do total</small></td><td class="cg">'+money(o.eur)+extra+'</td><td class="cg">'+money(o.brl,'BRL')+'</td></tr>'}).join('');
+  box.innerHTML='<h3>Gasto por meio de pagamento</h3><p class="hint">'+(fxCount()?'Só dos lançamentos que passam pelos filtros acima.':'Todos os gastos lançados.')+' Saques e correções de saldo não entram.</p><div class="tblw"><table class="otbl mtot"><thead><tr><th>Meio</th><th>Gasto em €</th><th>Em R$</th></tr></thead><tbody>'+rows+'</tbody><tfoot><tr class="ot"><td>Total<small class="pd">'+tn+' lançamento'+(tn>1?'s':'')+'</small></td><td class="cg">'+money(te)+'</td><td class="cg">'+money(tb,'BRL')+'</td></tr></tfoot></table></div>'}
 function drawList(){
   var es=S.entries.filter(fxMatch).sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1)});
   var gsum=0,gb=0,gn=0;es.forEach(function(e){if(e.t==='g'){gsum+=e.eur;gb+=entryBrl(e);gn++}});
