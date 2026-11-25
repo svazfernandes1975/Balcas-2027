@@ -143,8 +143,8 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 .ml-al{border-radius:10px;padding:10px 14px;margin:10px 0 0;font-size:14px;border:1px solid var(--c-eat);background:color-mix(in srgb,var(--c-eat) 12%,transparent);color:var(--ink);font-weight:600}.ml-al.bad{border-color:var(--c-warn);background:color-mix(in srgb,var(--c-warn) 13%,transparent);color:var(--c-warn)}
 </style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="mala.html" aria-current="page">Checklist de mala</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div><div id="gx-sync" class="fbstrip" style="margin-top:10px"></div>
 <section class="day"><div class="day-h"><span class="date">antes de ir</span><h2>Checklist de mala</h2></div>
-<p class="prose">Uma mala de mão de até 12 kg e uma mochila pequena sob o assento, por pessoa. As marcações ficam salvas na base e aparecem iguais em qualquer aparelho.</p>
-<div class="ml-lim"><div><b><span class="ml-ic" data-w="M"></span>Mala de mão</b>até 12 kg, 55×35×25 cm</div><div><b><span class="ml-ic" data-w="B"></span>Mochila sob o assento</b>até 10 kg, 45×35×20 cm. Leve aqui documentos, eletrônicos, power bank e remédios</div><div><b><span class="ml-ic" data-w="U"></span>No corpo</b>jaqueta e tênis vão vestidos no voo, e não pesam na mala</div></div>
+<p class="prose">Plano: ir só com bagagem de mão na ida (limite da Lufthansa) e despachar uma mala na volta. As marcações ficam salvas na base e aparecem iguais em qualquer aparelho.</p><div class="lh-box" role="note" style="border:2px solid var(--c-warn);background:color-mix(in srgb,var(--c-warn) 10%,var(--surface));border-radius:12px;padding:14px 16px;margin:12px 0;color:var(--ink)"><b style="display:block;font-size:1.05rem;margin-bottom:6px">Lufthansa: o que você pode levar na cabine</b><ul style="margin:0 0 8px;padding-left:20px;font-size:1.02rem"><li><b>1 objeto pessoal:</b> no máximo <b>40×30×15 cm</b></li><li><b>1 volume de bagagem de mão:</b> no máximo <b>8 kg</b> e <b>55×40×23 cm</b></li></ul><p style="margin:0;font-size:14px">Vale para o LH 1406 (Frankfurt–Zagreb, 15/05) e o LH 1405 (Zagreb–Frankfurt, 05/06), mesmo que a passagem da LATAM diga 12 kg. Fonte: site da Lufthansa; o chat com a Lufthansa em 25/11/2026 confirmou os 8 kg. Nos voos da LATAM (Guarulhos–Frankfurt e Frankfurt–Guarulhos) valem 12 kg e a mochila de 10 kg.</p></div>
+<div class="ml-lim"><div><b><span class="ml-ic" data-w="M"></span>Mala de mão</b>Lufthansa: até 8 kg, 55×40×23 cm. Na LATAM: 12 kg, 55×35×25 cm</div><div><b><span class="ml-ic" data-w="B"></span>Objeto pessoal / mochila</b>Lufthansa: até 40×30×15 cm. Na LATAM: 10 kg, 45×35×20 cm. Leve aqui documentos, eletrônicos, power bank e remédios</div><div><b><span class="ml-ic" data-w="U"></span>No corpo</b>jaqueta e tênis vão vestidos no voo, e não pesam na mala</div></div>
 <div class="ml-mode" role="tablist"><button type="button" role="tab" id="mV" aria-selected="true">Checklist</button><button type="button" role="tab" id="mC" aria-selected="false">Configurar itens</button></div><div class="ml-tabs" role="tablist"><button type="button" role="tab" id="tS" aria-selected="true">Sérgio</button><button type="button" role="tab" id="tA" aria-selected="false">Andréa</button></div>
 <div id="ml-prog"></div><div id="ml-root"></div>
 <button type="button" class="ml-clr" id="ml-clr">Desmarcar tudo desta lista</button></section></div>
@@ -172,7 +172,7 @@ S:{nome:'Sérgio',grupos:[
   ['s38','Garrafa de água reutilizável (vazia no aeroporto)','B'],['s39','Guarda-chuva dobrável','B'],['s40','Toalha de microfibra','M'],['s41','Pochete ou bolsa para usar à frente','B'],['s42','Sacos zip e sacolas plásticas','M']]},
  {g:'Volta e antes de sair',it:[
   ['s43','Mala dobrável vazia para as compras da volta (divide com a Andréa)','M'],['s44','Saco para roupa suja','M'],
-  ['s45','Pesar a mala de mão (máx. 12 kg, 55×35×25 cm) e a mochila (máx. 10 kg, 45×35×20 cm)','M'],['s46','Fotografar passaporte, cartões e voucher do carro e guardar na nuvem','B']]}
+  ['s45','Pesar a mala de mão (máx. 8 kg, 55×40×23 cm, Lufthansa) e conferir o objeto pessoal (máx. 40×30×15 cm)','M'],['s46','Fotografar passaporte, cartões e voucher do carro e guardar na nuvem','B']]}
 ]},
 A:{nome:'Andréa',grupos:[
  {g:'Documentos e dinheiro',it:[
@@ -194,20 +194,21 @@ A:{nome:'Andréa',grupos:[
  {g:'Passeios e carro',it:[
   ['a39','Garrafa de água reutilizável (vazia no aeroporto)','B'],['a40','Guarda-chuva dobrável','B'],['a41','Toalha de microfibra','M'],['a42','Bolsa transversal para usar à frente','B'],['a43','Sacos zip e sacolas plásticas','M']]},
  {g:'Volta e antes de sair',it:[
-  ['a44','Saco para roupa suja','M'],['a45','Pesar a mala de mão (máx. 12 kg, 55×35×25 cm) e a mochila (máx. 10 kg, 45×35×20 cm)','M'],['a46','Fotografar passaporte, cartões e voucher do carro e guardar na nuvem','B']]}
+  ['a44','Saco para roupa suja','M'],['a45','Pesar a mala de mão (máx. 8 kg, 55×40×23 cm, Lufthansa) e conferir o objeto pessoal (máx. 40×30×15 cm)','M'],['a46','Fotografar passaporte, cartões e voucher do carro e guardar na nuvem','B']]}
 ]}};
 
 var WK={s01:0.05,s02:0.05,s03:0.03,s04:0.2,s05:0.05,s06:0.15,s07:0.02,s08:0.04,s09:0.02,s10:0.35,s11:0.3,s12:0.08,s13:0.25,s14:0.1,s15:0,s16:0.15,s17:0.2,s18:0.2,s19:0.1,s20:0.15,s21:0.25,s22:0.15,s23:1.0,s24:0.5,s25:0.7,s26:1.1,s27:0.5,s28:0.45,s29:0.49,s30:0.43,s31:0.3,s32:0.2,s33:0.2,s34:0.15,s35:1.0,s36:0.45,s37:0.8,s38:0.25,s39:0.25,s40:0.25,s41:0.15,s42:0.1,s43:0.5,s44:0.05,s45:0,s46:0,a01:0.05,a02:0,a03:0.03,a04:0.15,a05:0.05,a06:0.15,a07:0.02,a08:0.04,a09:0.02,a10:0.35,a11:0.3,a12:0.08,a13:0.1,a14:0.3,a15:0.15,a16:0.3,a17:0.6,a18:0.4,a19:0.35,a20:0.15,a21:0.25,a22:0.15,a23:0.15,a24:0.9,a25:0.6,a26:0.5,a27:1.1,a28:0.5,a29:0.4,a30:0.15,a31:0.52,a32:0.43,a33:0.3,a34:0.15,a35:0.25,a36:1.0,a37:0.4,a38:0.5,a39:0.25,a40:0.25,a41:0.25,a42:0.3,a43:0.1,a44:0.05,a45:0,a46:0};
 (function(){var K='balcas2027-mala',KC='balcas2027-malacfg',s={},cur='S',mode='V',cfg=null;
 try{s=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
-function defCfg(){var o={ts:0,tare:{S:{M:2.8,B:0.7},A:{M:2.8,B:0.7}},lim:{S:{M:12,B:10,L:8},A:{M:12,B:10,L:8}}};['S','A'].forEach(function(k){o[k]=DATA[k].grupos.map(function(g){return{g:g.g,it:g.it.map(function(i){return{id:i[0],t:i[1],w:i[2],kg:WK[i[0]]}})}})});return o}
+function defCfg(){var o={ts:0,tare:{S:{M:2.8,B:0.7},A:{M:2.8,B:0.7}},lim:{S:{M:8,B:10,L:0},A:{M:8,B:10,L:0}}};['S','A'].forEach(function(k){o[k]=DATA[k].grupos.map(function(g){return{g:g.g,it:g.it.map(function(i){return{id:i[0],t:i[1],w:i[2],kg:WK[i[0]]}})}})});return o}
 try{cfg=JSON.parse(localStorage.getItem(KC)||'null')}catch(e){}
 if(!cfg||!cfg.S||!cfg.A)cfg=defCfg();
 var L={M:'Mala de mão',B:'Mochila',U:'No corpo'},NOME={S:'Sérgio',A:'Andréa'};
 var IC={M:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7V3.500h6V7"/><rect x="4.500" y="7" width="15" height="11" rx="2"/><path d="M9.500 10.500v4M14.500 10.500v4"/><circle cx="8" cy="20.500" r="1"/><circle cx="16" cy="20.500" r="1"/></svg>',B:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.500v2"/><path d="M5.500 21V12a6.500 6.500 0 0 1 13 0v9z"/><path d="M8.500 21v-6h7v6"/><path d="M8.500 17.500h7"/><path d="M3.500 14v5M20.500 14v5"/></svg>',U:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 7l2.500 4L8 10v10h8V10l2.500 1L21 7l-6-3a3 3 0 0 1-6 0z"/></svg>'};
 [].forEach.call(document.querySelectorAll('.ml-ic'),function(e){e.innerHTML=IC[e.dataset.w]});
 
-function fixKg(c){['S','A'].forEach(function(k){c[k].forEach(function(g){g.it.forEach(function(i){if(i.kg==null&&WK[i.id]!==undefined)i.kg=WK[i.id]})})});if(!c.tare)c.tare={S:{M:2.8,B:0.7},A:{M:2.8,B:0.7}};if(!c.lim)c.lim={S:{M:12,B:10,L:8},A:{M:12,B:10,L:8}};return c}
+function migLh(c){var O='Pesar a mala de mão (máx. 12 kg, 55×35×25 cm) e a mochila (máx. 10 kg, 45×35×20 cm)',N='Pesar a mala de mão (máx. 8 kg, 55×40×23 cm, Lufthansa) e conferir o objeto pessoal (máx. 40×30×15 cm)';['S','A'].forEach(function(k){c[k].forEach(function(g){g.it.forEach(function(i){if(i.t===O)i.t=N})});var l=c.lim&&c.lim[k];if(l&&l.M===12&&l.L===8){l.M=8;l.L=0}})}
+function fixKg(c){['S','A'].forEach(function(k){c[k].forEach(function(g){g.it.forEach(function(i){if(i.kg==null&&WK[i.id]!==undefined)i.kg=WK[i.id]})})});if(!c.tare)c.tare={S:{M:2.8,B:0.7},A:{M:2.8,B:0.7}};if(!c.lim)c.lim={S:{M:8,B:10,L:0},A:{M:8,B:10,L:0}};migLh(c);return c}
 fixKg(cfg);
 function fk(v){return (Math.round(v*100)/100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:2})}
 function pk(x){x=String(x).trim().replace(',','.');return x===''?NaN:parseFloat(x)}
@@ -216,7 +217,7 @@ var EST=[[/mala dobr[aá]vel/,.5],[/power ?bank|carregador port/,.3],[/notebook|
  [/toalha/,.25],[/guarda-chuva/,.25],[/garrafa/,.25],[/pochete|bolsa/,.3],[/saco|sacola/,.05],[/maquiagem/,.4],[/skincare|protetor/,.3],[/shampoo|condicionador|desodorante|creme|perfume|escova|pasta|pente|cabelo/,.15],[/rem[eé]dio|medicamento|kit|analg/,.2],[/lenços|len[cç]os umedecidos|[aá]lcool gel/,.15],[/livro/,.4],[/secador/,.5]];
 function est(t){var x=String(t).toLowerCase(),m=x.match(/^\s*(\d+)\s/),n=m?Math.min(+m[1],30):1;for(var k=0;k<EST.length;k++){if(EST[k][0].test(x))return{kg:Math.round(EST[k][1]*n*100)/100,g:false}}return{kg:0.2,g:true}}
 function sums(){var r={M:0,B:0,U:0,miss:0};cfg[cur].forEach(function(g){g.it.forEach(function(i){if(i.kg==null)r.miss++;else r[i.w]+=i.kg})});return r}
-function sumH(){var r=sums(),t=(cfg.tare&&cfg.tare[cur])||{M:2.8,B:0.7},q=(cfg.lim&&cfg.lim[cur])||{M:12,B:10,L:8},al='';
+function sumH(){var r=sums(),t=(cfg.tare&&cfg.tare[cur])||{M:2.8,B:0.7},q=(cfg.lim&&cfg.lim[cur])||{M:8,B:10,L:0},al='';
  function row(ic,nm,it,ta,lim,lh){var tot=it+ta,pct=Math.min(100,tot/lim*100),cl=tot>lim?'bad':(lh&&tot>lh?'warn':'ok');
   if(tot>lim)al+='<div class="ml-al bad" role="alert">⚠ '+nm+' passa do limite de '+fk(lim)+' kg em '+fk(tot-lim)+' kg. Tire pelo menos esse peso ou mude itens de lugar.</div>';
   else if(lh&&tot>lh)al+='<div class="ml-al warn" role="alert">⚠ '+nm+' está '+fk(tot-lh)+' kg acima do limite menor de '+fk(lh)+' kg (Lufthansa), embora dentro do limite de '+fk(lim)+' kg.</div>';
@@ -297,4 +298,4 @@ function bind(){if(!window.FB)return;
    readyC=true})})}
 if(window.FB)bind();else{document.addEventListener('fb-ready',bind);setTimeout(function(){var el=document.getElementById('gx-sync');if(!window.FB&&el)el.textContent='☁ Salvo só neste aparelho (Firebase indisponível)'},4000)}})();
 </script>
-<script src="nav.js?v=170"></script><script type="module" src="fb.js?v=61"></script>
+<script src="nav.js?v=171"></script><script type="module" src="fb.js?v=61"></script>
