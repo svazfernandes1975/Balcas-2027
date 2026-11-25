@@ -4,13 +4,6 @@ var mnt=document.getElementById('lc-mount');if(!mnt)return;
 var st=document.createElement('style');st.textContent="\n.lc-alert{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c-warn);border-radius:12px;padding:14px 16px;margin:12px 0}\n.lc-alert h3{margin:0 0 6px;font:800 1.05rem var(--f-display);color:var(--c-warn)}\n.lc-alert ol{margin:6px 0 0;padding-left:20px;display:grid;gap:6px;font-size:15px}\n.lc-meta{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 14px;margin:12px 0}\n.lc-meta div{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}\n.lc-meta div:first-child{border-top:0}\n.lc-meta b{font-weight:600}\n.lc-meta a{font:600 14px var(--f-mono);color:var(--accent);text-decoration:none;white-space:nowrap}\n.lc-sec{margin-top:24px}\n.lc-sec h3{font:800 1.15rem var(--f-display);margin:0 0 2px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}\n.lc-cnt{font:700 11px var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap}\n.lc-sub{font-size:13px;color:var(--muted);margin:0 0 8px}\n.lcl input[type=checkbox]{width:20px;height:20px;margin-top:2px;accent-color:var(--accent)}\n.lcl li.ok label{opacity:.55;text-decoration:line-through}\n.lc-note{font-size:13px;color:var(--muted);margin:18px 0 0}\n.pd-prog{margin:4px 0 10px}\n.pd-bar{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:6px 0 4px}\n.pd-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}\n";document.head.appendChild(st);
 mnt.innerHTML='<div id="gx-sync" class="fbstrip" style="margin:6px 0 10px"></div>'+
 '<p class="prose">Retirada em <b>18/05 às 11:00</b> e devolução em <b>05/06 às 11:00</b>, no aeroporto de Zagreb. Marque cada item: o que você marca fica salvo e vale nos dois aparelhos.</p>'+
-'<div class="lc-alert"><h3>Estas regras anulam o seguro inteiro, até o da Rentalcover</h3><ol>'+
-'<li>Sair da Croácia, ou passar por Neum (Bósnia), sem autorização escrita da locadora e taxa paga.</li>'+
-'<li>Qualquer álcool: depois de um dano, o bafômetro precisa dar <b>0,00</b>.</li>'+
-'<li>Não chamar a polícia numa colisão, furto ou dano com outro envolvido, ou sair do local antes de ela terminar.</li>'+
-'<li>Outra pessoa dirigir sem constar no contrato.</li>'+
-'<li>Estrada de terra, praia ou caminho de mata; balsa ou ilha sem o produto TRN.</li>'+
-'<li>Deixar o documento do carro dentro do carro: se roubarem, você paga o valor do carro.</li></ol></div>'+
 '<div class="lc-meta">'+
 '<div><b>Assistência da locadora (pane, guincho, carro de troca)</b><a href="tel:+38572606606">+385 72 606 606, opção 9</a></div>'+
 '<div><b>Balcão de Zagreb (voucher da Rentcars)</b><a href="tel:+385993824785">+385 99 382 4785</a></div>'+
@@ -43,24 +36,17 @@ var DATA=[
 ['c1','warn','<b>Documento do carro fora do carro.</b> Ao estacionar e sair, leve o documento com você. Se o carro for roubado com o documento dentro, é falta grave e você paga o valor de mercado do carro. A Alamo confirmou no chat de 24/11: o documento fica com você, na bolsa ou mochila. A chave nunca fica no carro.'],
 ['c2','warn','<b>Álcool zero ao volante.</b> Depois de qualquer dano o contrato exige bafômetro com 0,00 g/kg. A lei croata tolera 0,5 ‰, mas a cobertura não. Defina quem dirige antes do jantar.'],
 ['c3','warn','<b>Só quem está no contrato dirige</b>, sem exceção.'],
-['c4','warn','<b>Só pelo asfalto.</b> Nada de estrada de terra, praia ou caminho de mata. Se o GPS mandar por um trecho de terra, volte e escolha outro caminho.'],
+['c4','warn','<b>Só pelo asfalto.</b> Nada de estrada de terra, praia ou caminho de mata. Se o GPS mandar por um trecho de terra, volte e escolha outro caminho. Balsa ou ilha sem o produto TRN também fica fora.'],
 ['c5','warn','<b>Fronteira só com autorização por escrito e carta verde</b> à mão, mais o passaporte. Neum (Bósnia) também conta; pela ponte de Pelješac você evita.'],
 ['c6','drive','Luz de óleo, AdBlue ou arrefecimento acesa: pare com segurança e ligue para a assistência. Seguir rodando com o aviso aceso é por sua conta.'],
 ['c7','drive','Combustível certo (confira a tampa). Combustível errado não é coberto.'],
 ['c8','drive','Não deixe nada à vista no carro. Bagagem e objetos pessoais não têm seguro do carro.'],
 ['c9','drive','Pedágios, e-vinheta da Eslovênia e estacionamento são seus. Multas chegam por e-mail da locadora: responda em <b>5 dias úteis</b> com o comprovante, ou eles pagam e cobram no cartão com taxa.'],
 ['c11','warn','<b>Infração de trânsito</b> em qualquer país (velocidade, sinal, estacionamento proibido) é exclusão da apólice da Rentalcover: sinistro depois de uma infração pode não ser reembolsado. Dirija sem pressa.'],
+['c12','warn','<b>Polícia numa colisão, furto ou dano com outro envolvido:</b> chame e fique até ela terminar. Sair do local antes anula o seguro.'],
 ['c10','drive','Configure o GPS para evitar a <b>ZTL</b> e <b>Neum</b>. Antes de chegar a Dubrovnik, confirme que o hotel registrou a placa do carro.']]},
-{id:'d',t:'Se houver dano, acidente, furto ou pane',s:'Siga na ordem. Pular um passo pode custar o seguro.',i:[
-['d1','drive','Segurança primeiro: pisca-alerta, colete e triângulo. Ligue <b>112</b> se houver ferido.'],
-['d2','warn','Ligue para a locadora: <b>+385 72 606 606, opção 9</b> (guincho, conserto e carro de troca em até 24 horas).'],
-['d3','warn','<b>Colisão, furto ou dano com outro envolvido: chame a polícia</b> e peça o boletim. Sem boletim, pode-se perder a cobertura. Arranhão de estacionamento sem outro envolvido: a Alamo disse no chat de 24/11 que não precisa, mas o contrato fala em qualquer dano. Fotografe tudo e avise a assistência. A Rentalcover confirmou (24/11) que em dano leve aceita a documentação da Alamo detalhando o incidente no lugar do boletim: peça esse relatório por escrito.'],
-['d4','warn','Quando a polícia for chamada: <b>faça o bafômetro no local</b> (precisa dar 0,00) e fique até ela liberar. Recusar ou sair antes anula tudo.'],
-['d5','drive','Fotografe tudo: o dano, o local, as placas, os documentos do outro motorista e do seguro dele.'],
-['d6','drive','Preencha o <b>constat</b> (relatório europeu de acidente), a declaração do evento e um novo termo de vistoria.'],
-['d7','drive','<b>Não conserte por conta própria.</b> O reembolso de reparo exige aprovação escrita da locadora, oficina autorizada e nota original.'],
-['d8','drive','Pague a franquia à locadora <b>no cartão, nunca em dinheiro</b> (sem comprovante a Rentalcover não paga). Peça o reembolso <b>o mais breve possível</b> pela Conta Rentalcover (rentalcover.com/account), com contrato, CNH, extrato do cartão, fatura final da Alamo, relatório do dano, boletim se houver e as mensagens com a Alamo.'],
-['d9','drive','Guarde e-mails, contrato, termos e extratos. A fatura final pode chegar semanas depois.']]},
+{id:'d',t:'Se houver dano, acidente, furto ou pane',s:'O passo a passo completo fica na página Dirigir.',i:[
+['d1','warn','<b>Siga o passo a passo</b> em <a href="dirigir.html#sos">Dirigir: Acidente, pane ou polícia</a>. Em resumo: 112 se houver ferido, ligue para a locadora (+385 72 606 606, opção 9), chame a polícia se houver outro envolvido, fotografe tudo e peça o relatório da Alamo.']]},
 {id:'e',t:'Na devolução',s:'05/06 às 11:00, aeroporto de Zagreb (sábado).',i:[
 ['e1','warn','Chegue <b>antes das 11:00</b>. A tolerância é de 59 minutos; depois disso cobram uma diária inteira.'],
 ['e2','drive','Abasteça perto do aeroporto, no <b>mesmo nível</b> da retirada, e guarde o comprovante. Se faltar, cobram a diferença mais uma taxa de reabastecimento.'],
