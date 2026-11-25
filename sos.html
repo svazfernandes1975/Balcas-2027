@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=172"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=173"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>SOS · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -138,7 +138,7 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 .sos-tb td:first-child{font-weight:700}
 .sos-my{display:grid;gap:10px}
 .sos-my label{display:grid;gap:4px;font:600 13px var(--f-body);color:var(--muted)}
-.sos-my input,.sos-my textarea{font:400 16px var(--f-body);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);width:100%;box-sizing:border-box}
+.sos-my textarea{resize:vertical;overflow:hidden}.sos-my input,.sos-my textarea{font:400 16px var(--f-body);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);width:100%;box-sizing:border-box}
 .sos-ph{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sos-ph div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px}
 .sos-ph b{display:block;font:600 11px var(--f-mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
@@ -218,14 +218,14 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 <section class="day" id="meus"><div class="day-h"><span class="date">preencha antes de ir</span><h2>Meus dados</h2></div>
 <p class="sos-note" style="margin:0 0 10px">Tudo que você digitar aqui fica salvo só neste celular e abre sem internet. Cada celular tem o seu.</p>
 <div class="sos-my">
-<label>Telefone da locadora (do contrato)<input id="m-loc" inputmode="tel" autocomplete="off" placeholder="+385 …"></label>
-<label>Contrato / reserva da locadora<input id="m-ctr" autocomplete="off" placeholder="Número do contrato e placa do carro"></label>
-<label>Seguro viagem: telefone e apólice<input id="m-seg" autocomplete="off" placeholder="Central 24 h e número da apólice"></label>
-<label>Rentalcover: certificado / reserva<input id="m-rc" autocomplete="off" placeholder="Número do certificado"></label>
+<label>Telefone da locadora (do contrato)<textarea id="m-loc" rows="2" autocomplete="off" placeholder="Assistência, balcão e telefones do contrato"></textarea></label>
+<label>Contrato / reserva da locadora<textarea id="m-ctr" rows="2" autocomplete="off" placeholder="Número do contrato e placa do carro"></textarea></label>
+<label>Seguro viagem: telefone e apólice<textarea id="m-seg" rows="3" autocomplete="off" placeholder="Central 24 h e número da apólice"></textarea></label>
+<label>Rentalcover: certificado / reserva<textarea id="m-rc" rows="2" autocomplete="off" placeholder="Número do certificado"></textarea></label>
 <label>Hospedagem de hoje (nome, endereço, telefone)<textarea id="m-hot" rows="2" placeholder="Nome, endereço e telefone"></textarea></label>
 <label>Alergias, remédios, tipo sanguíneo<textarea id="m-sau" rows="2" placeholder="Informações médicas importantes"></textarea></label>
-<label>Contato de emergência no Brasil<input id="m-cont" autocomplete="off" placeholder="Nome e telefone"></label>
-<label>Embaixada do Brasil em Zagreb<input id="m-emb" autocomplete="off" placeholder="Confirme o telefone no site oficial do Itamaraty"></label>
+<label>Contato de emergência no Brasil<textarea id="m-cont" rows="2" autocomplete="off" placeholder="Nome e telefone"></textarea></label>
+<label>Embaixada do Brasil em Zagreb<textarea id="m-emb" rows="2" autocomplete="off" placeholder="Confirme o telefone no site oficial do Itamaraty"></textarea></label>
 </div>
 <div class="sos-saved" id="m-ok" role="status"></div>
 </section>
@@ -234,9 +234,10 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 <script>
 (function(){var K='balcas2027-sos-v1',ids=['m-loc','m-ctr','m-seg','m-rc','m-hot','m-sau','m-cont','m-emb'],D={},t;
 try{D=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}
-ids.forEach(function(i){var el=document.getElementById(i);if(!el)return;if(D[i])el.value=D[i];
- el.addEventListener('input',function(){D[i]=el.value;clearTimeout(t);t=setTimeout(function(){try{localStorage.setItem(K,JSON.stringify(D));document.getElementById('m-ok').textContent='✓ salvo neste aparelho'}catch(e){document.getElementById('m-ok').textContent='Não foi possível salvar neste navegador'}},400)})});
+function fit(el){el.style.height='auto';el.style.height=(el.scrollHeight+2)+'px'}
+ids.forEach(function(i){var el=document.getElementById(i);if(!el)return;if(D[i])el.value=D[i];fit(el);
+ el.addEventListener('input',function(){fit(el);D[i]=el.value;clearTimeout(t);t=setTimeout(function(){try{localStorage.setItem(K,JSON.stringify(D));document.getElementById('m-ok').textContent='✓ salvo neste aparelho'}catch(e){document.getElementById('m-ok').textContent='Não foi possível salvar neste navegador'}},400)})});
 var l=document.getElementById('m-loc');
 })();
 </script>
-<script src="nav.js?v=172"></script><script type="module" src="fb.js?v=172"></script></body></html>
+<script src="nav.js?v=173"></script><script type="module" src="fb.js?v=173"></script></body></html>
