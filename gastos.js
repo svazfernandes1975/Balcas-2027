@@ -909,7 +909,7 @@ var orcW='all',orcP='all';try{orcW=sessionStorage.getItem('gx-orcw')||'all';orcP
 function orcWBar(){function b(a,v,x,on){return '<button type="button" class="chip" data-'+a+'="'+v+'" aria-pressed="'+on+'">'+x+'</button>'}
   return '<div class="owfw"><div class="chips owf" role="group" aria-label="Filtrar pelo momento do pagamento">'+b('ow','all','Todos',orcW==='all')+b('ow','pre','Antes',orcW==='pre')+b('ow','trip','Durante',orcW==='trip')+'</div>'+
   '<div class="chips owf" role="group" aria-label="Filtrar pela situação do pagamento">'+b('op','all','Pago ou não',orcP==='all')+b('op','pago','Pago',orcP==='pago')+b('op','nao','Não pago',orcP==='nao')+'</div></div>'+
-  '<p class="hint owfn">'+(orcW==='all'&&orcP==='all'?'Os filtros escondem as linhas de item e recalculam as linhas de total só com o que ficar visível.':'Os totais abaixo usam só as linhas do filtro. "Já nos meios" continua somando tudo, porque o dinheiro dos meios não é separado por linha.')+'</p>'}
+  '<p class="hint owfn">'+(orcW==='all'&&orcP==='all'?'Os filtros escondem as linhas de item e recalculam as linhas de total só com o que ficar visível.':'Os totais abaixo usam só as linhas do filtro. "Fora do filtro" mostra o resto e o "Total geral" fecha a conta. "Já nos meios" soma tudo, porque o dinheiro dos meios não é separado por linha.')+'</p>'}
 function bindOW(){$$('[data-ow],[data-op]',$('#v-orc')).forEach(function(b){b.onclick=function(){var y=window.scrollY,k=b.dataset.ow!==undefined?'ow':'op',v=b.dataset[k];
   if(k==='ow'){orcW=v;try{sessionStorage.setItem('gx-orcw',v)}catch(e){}}else{orcP=v;try{sessionStorage.setItem('gx-orcp',v)}catch(e){}}
   rOrcTab();window.scrollTo(0,y);var n=$('[data-'+k+'="'+v+'"]',$('#v-orc'));if(n)n.focus({preventScroll:true})}})}
@@ -965,12 +965,13 @@ function rOrcTab(){
   $$('[data-goc]').forEach(function(r){r.onclick=function(){orcView='edit';try{sessionStorage.setItem('gx-orc','edit')}catch(e){}openCat(r.dataset.goc);rOrc();var t=$('[data-c="'+r.dataset.goc+'"]');if(t)t.scrollIntoView({block:'start'})}});
 }
 function rOrcTabF(){
-  var st=stats(),h=orcSeg();
+  var st=stats(),B=preBuckets(),h=orcSeg();
+  var G={p:B.br.planned+B.out.planned+st.budT+st.budO,s:B.br.spent+B.out.spent+st.spentT+st.spentO,pb:0,sb:B.br.spentB+B.out.spentB+st.spentTb+st.spentOb};S.budget.forEach(function(l){G.pb+=conv(l.val,l.cur,'BRL')});
   function cb(v,b,cls){return '<td class="'+cls+'">'+ms(v)+'<small class="rb">'+money(b,'BRL')+'</small></td>'}
   function tot(name,p,s,cls,pb,sb){var r=p-s,rb=pb-sb;return '<tr class="ot '+(cls||'')+'"><td>'+name+'</td>'+cb(p,pb,'cp')+cb(s,sb,'cg')+cb(r,rb,r<-0.005?'neg cr':(r>0.005?'cr':'cz'))+'</tr>'}
   function Z(){return{p:0,pb:0,s:0,sb:0}}
   function add(o,p,pb,s,sb){o.p+=p;o.pb+=pb;o.s+=s;o.sb+=sb}
-  var T=Z(),P={br:Z(),out:Z(),trip:Z(),post:Z()};
+  var T=Z();
   var desc=[orcW==='pre'?'Antes':(orcW==='trip'?'Durante':''),orcP==='pago'?'Pago':(orcP==='nao'?'Não pago':'')].filter(Boolean).join(' · ');
   var body='';
   S.cats.forEach(function(c){
@@ -986,24 +987,22 @@ function rOrcTabF(){
       if(orcP==='pago'&&!paidL)return;
       if(orcP==='nao'&&(paidL||!active))return;
       add(K,pl,plB,sL,sLB);add(T,pl,plB,sL,sLB);mix[l.cur]=1;
-      add(P[w==='pre'?(l.cur==='BRL'?'br':'out'):w],pl,plB,sL,sLB);
       if(pl>0.005){anyPlan=true;if(!paidL)allPaid=false}
       if(showLines){var rLs=paidL?0:rL,rLB=paidL?0:plB-sLB;
         items+='<tr class="ol'+(paidL?' paid':'')+'"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(w==='pre'?'antes':(w==='post'?'depois':'durante'))+'</em></td><td class="cp">'+ms(pl)+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td>'+cb(sL,sLB,'cg')+(paidL?pgCell():cb(rLs,rLB,rL<-0.005?'neg cr':(rL>0.005?'cr':'cz')))+'</tr>'}});
     var rest=K.p-K.s,paidC=anyPlan&&allPaid,nm=Object.keys(mix).length;
     body+='<tr class="oc go'+(K.p<0.005&&K.s<0.005?' zero':'')+(paidC?' paid':'')+'" data-goc="'+c.id+'"><td>'+ci(c)+esc(c.name)+(K.p>0.005?'<small class="pd">previsto '+money(K.p/st.total)+'/dia · '+money(K.pb/st.total,'BRL')+'/dia</small>':'')+(nm>1?' <em class="tag" title="Linhas em moedas diferentes: cada uma é convertida pela cotação">'+Object.keys(mix).join(' + ')+'</em>':'')+'</td>'+cb(K.p,K.pb,'cp')+cb(K.s,K.sb,'cg')+(paidC?pgCell():cb(rest,K.pb-K.sb,rest<-0.005?'neg cr':(rest>0.005?'cr':'cz')))+'</tr>'+items});
-  var av=st.avail,r=T.p-T.s,rB=T.pb-T.sb;
+  var av=st.avail,fal=(T.p-T.s)-av,falB=fal*S.rates.eurBrl;
   var top='<div class="gtop"><div class="gt-h">Total do filtro: '+esc(desc)+'</div><div class="split3">'+
     '<div class="sp gp"><span>Previsto</span><b>'+money(T.p)+'</b><small>'+money(T.pb,'BRL')+'</small></div>'+
     '<div class="sp gg"><span>Gasto</span><b>'+money(T.s)+'</b><small>'+money(T.sb,'BRL')+'</small></div>'+
     '<div class="sp gmx"><span>Já nos meios</span><b>'+money(av)+'</b><small>'+money(av*S.rates.eurBrl,'BRL')+'</small></div>'+
-    '<div class="sp gr '+(Math.abs(r)>0.005?'rest':'ok')+'"><span>'+(r>0.005?'Resta':(r<-0.005?'Passou do previsto':'Sem diferença'))+'</span><b>'+money(Math.abs(r))+'</b><small>'+money(Math.abs(rB),'BRL')+'</small></div></div></div>';
+    '<div class="sp gr '+(fal>0.005?'rest':'ok')+'"><span>'+(fal>0.005?'Falta cobrir':(fal<-0.005?'Sobra nos meios':'Tudo coberto'))+'</span><b>'+money(Math.abs(fal))+'</b><small>'+money(Math.abs(falB),'BRL')+'</small></div></div><p class="hint gt-n">"Falta cobrir" = previsto − gasto das linhas do filtro − o que já está nos meios (os meios valem para o orçamento todo).</p></div>';
   h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro. Previsto vem das linhas do orçamento; gasto vem dos lançamentos. Linhas pagas ficam em verde, com ✓ e o selo "Pago". Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p>'+top+orcWBar()+
     '<div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>'+body+'</tbody><tfoot>'+
     tot('Total do filtro<small class="pd">'+esc(desc)+' · previsto '+money(T.p/st.total)+'/dia · '+money(T.pb/st.total,'BRL')+'/dia</small>',T.p,T.s,'gt',T.pb,T.sb)+
-    '<tr class="osub"><td colspan="4">Divisão por momento do pagamento</td></tr>'+
-    tot('Antes da viagem · pago aqui em R$',P.br.p,P.br.s,'',P.br.pb,P.br.sb)+tot('Antes da viagem · outra moeda',P.out.p,P.out.s,'',P.out.pb,P.out.sb)+
-    tot('Durante a viagem<small class="pd">previsto '+money(P.trip.p/st.total)+'/dia · '+money(P.trip.pb/st.total,'BRL')+'/dia</small>',P.trip.p,P.trip.s,'',P.trip.pb,P.trip.sb)+tot('Depois da viagem',P.post.p,P.post.s,'',P.post.pb,P.post.sb)+
+    tot('Fora do filtro<small class="pd">as outras linhas e os lançamentos sem subcategoria</small>',G.p-T.p,G.s-T.s,'',G.pb-T.pb,G.sb-T.sb)+
+    tot('Total geral<small class="pd">o mesmo que sem filtro</small>',G.p,G.s,'',G.pb,G.sb)+
     '</tfoot></table></div><p class="hint">Em reais, neste filtro: previsto '+money(T.pb,'BRL')+' · gasto '+money(T.sb,'BRL')+'.</p><div class="acts"><button type="button" class="btn" data-ov="edit">Configurar orçamento</button></div></div>';
   $('#v-orc').innerHTML=h;bindSeg();bindOW();
   $$('[data-goc]').forEach(function(r){r.onclick=function(){orcView='edit';try{sessionStorage.setItem('gx-orc','edit')}catch(e){}openCat(r.dataset.goc);rOrc();var t=$('[data-c="'+r.dataset.goc+'"]');if(t)t.scrollIntoView({block:'start'})}});
