@@ -905,6 +905,10 @@ function lineRow(l,n){
   (l.when==='trip'?'<label class="chk"><input type="checkbox" data-f="bal"'+(l.bal?' checked':'')+'> sai do dinheiro dos meios</label>':(l.when==='post'?'<span class="hint">paga depois da viagem; não sai do dinheiro dos meios na viagem</span>':'<span class="hint">paga daqui'+(l.cur==='BRL'?', em reais':', em '+l.cur)+'</span>'))+
   '<button type="button" class="btn sec sm danger" data-rml="'+l.id+'">Remover linha</button></div>'}
 var orcView='tab';try{orcView=sessionStorage.getItem('gx-orc')||'tab'}catch(e){}
+var orcW='all';try{orcW=sessionStorage.getItem('gx-orcw')||'all'}catch(e){}
+function orcWBar(){function b(v,x){return '<button type="button" class="chip" data-ow="'+v+'" aria-pressed="'+(orcW===v)+'">'+x+'</button>'}return '<div class="chips owf" role="group" aria-label="Filtrar as linhas pelo momento do pagamento">'+b('all','Todos')+b('pre','Antes')+b('trip','Durante')+'</div><p class="hint owfn">O filtro esconde só as linhas de item. As linhas de total (categorias e total geral) não mudam.</p>'}
+function applyOW(){var v=$('#v-orc');if(!v)return;$$('.otbl tr.ol[data-w]',v).forEach(function(r){r.classList.toggle('ofh',orcW!=='all'&&r.dataset.w!==orcW)});$$('[data-ow]',v).forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.ow===orcW))})}
+function bindOW(){$$('[data-ow]',$('#v-orc')).forEach(function(b){b.onclick=function(){orcW=b.dataset.ow;try{sessionStorage.setItem('gx-orcw',orcW)}catch(e){}applyOW()}});applyOW()}
 try{if(/[?&]aba=orcamento/.test(location.search)){tab='orc';orcView='tab';sessionStorage.setItem('gx-tab','orc');sessionStorage.setItem('gx-orc','tab');history.replaceState(null,'',location.pathname)}}catch(e){}
 try{if(/[?&]aba=lancar/.test(location.search)){tab='lancar';F.mode='g';F.step=1;F.edit=null;F.editT=null;F.editA=null;sessionStorage.setItem('gx-tab','lancar');history.replaceState(null,'',location.pathname)}}catch(e){}
 function orcSeg(){return '<div class="seg orcseg" role="group" aria-label="Visão do orçamento"><button type="button" data-ov="tab" aria-pressed="'+(orcView==='tab')+'">Ver tabela</button><button type="button" data-ov="edit" aria-pressed="'+(orcView==='edit')+'">Configurar orçamento</button></div>'}
@@ -915,7 +919,7 @@ function pgCell(){return '<td class="cz okp"><span class="pgb">Pago</span></td>'
 function rOrcTab(){
   var st=stats(),B=preBuckets(),h=orcSeg();
   function cell(v,cls){return '<td class="'+(cls||'')+'">'+ms(v)+'</td>'}
-  h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro. Previsto vem das linhas do orçamento; gasto vem dos lançamentos (antes e durante a viagem). Linhas pagas ficam em verde, com ✓ e o selo "Pago". Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p>@@TOP@@<div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>';
+  h+='<div class="card"><h3>Orçamento em tabela</h3><p class="hint">Valores em euro. Previsto vem das linhas do orçamento; gasto vem dos lançamentos (antes e durante a viagem). Linhas pagas ficam em verde, com ✓ e o selo "Pago". Para mudar valores, moedas ou linhas, toque em uma categoria ou em "Configurar orçamento".</p>@@TOP@@'+orcWBar()+'<div class="tblw"><table class="otbl"><thead><tr><th>Item</th><th>Previsto</th><th>Gasto</th><th>Resta</th></tr></thead><tbody>';
   S.cats.forEach(function(c){
     var ls=S.budget.filter(function(l){return l.cat===c.id}),plan=(st.bT[c.id]||0)+(st.bP[c.id]||0)+(st.bO[c.id]||0),sp=st.by[c.id]||0,rest=plan-sp;
     var planB=0,spB=0,mix={};ls.forEach(function(l){planB+=conv(l.val,l.cur,'BRL');mix[l.cur]=1});S.entries.forEach(function(e){if(e.t==='g'&&e.cat===c.id)spB+=entryBrl(e)});
@@ -934,9 +938,9 @@ function rOrcTab(){
         var sL=0,sLB=0;S.entries.forEach(function(e){if(e.t!=='g'||e.cat!==c.id)return;var mine=e.ln?e.ln===l.id:ls.length===1;if(mine){sL+=e.eur;sLB+=entryBrl(e)}});sumL+=sL;sumLB+=sLB;
         var pl=lEur(l),plB=conv(l.val,l.cur,'BRL'),rL=pl-sL;
         var paidL=(pl>0.005&&Math.abs(rL)<=0.005)||!!lpaid[l.id],rLs=paidL?0:rL,rLB=paidL?0:plB-sLB;
-        h+='<tr class="ol'+(paidL?' paid':'')+'"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':(l.when==='post'?'depois':'durante'))+'</em></td><td class="cp">'+ms(pl)+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td>'+cb(sL,sLB,'cg')+(paidL?pgCell():cb(rLs,rLB,rL<-0.005?'neg cr':(rL>0.005?'cr':'cz')))+'</tr>'});
+        h+='<tr class="ol'+(paidL?' paid':'')+'" data-w="'+(l.when==='pre'?'pre':(l.when==='post'?'post':'trip'))+'"><td>'+esc(l.label||'(sem descrição)')+(l.qty!==1?' <span class="qx">'+finq(l.qty)+' × '+money(l.unit,l.cur)+'</span>':'')+' <em class="tag">'+(l.when==='pre'?'antes':(l.when==='post'?'depois':'durante'))+'</em></td><td class="cp">'+ms(pl)+(l.cur!=='EUR'?'<small>'+money(l.val,l.cur)+'</small>':'')+'</td>'+cb(sL,sLB,'cg')+(paidL?pgCell():cb(rLs,rLB,rL<-0.005?'neg cr':(rL>0.005?'cr':'cz')))+'</tr>'});
       var un=sp-sumL;
-      if(ls.length>1&&Math.abs(un)>0.005){var unB=spB-sumLB;h+='<tr class="ol"><td>Lançamentos sem subcategoria</td><td></td>'+cb(un,unB,'cg')+'<td></td></tr>'}}});
+      if(ls.length>1&&Math.abs(un)>0.005){var unB=spB-sumLB;h+='<tr class="ol" data-w="sem"><td>Lançamentos sem subcategoria</td><td></td>'+cb(un,unB,'cg')+'<td></td></tr>'}}});
   var tp=B.br.planned+B.out.planned+st.budT+st.budO,ts=B.br.spent+B.out.spent+st.spentT+st.spentO;
   function pB(f){var t=0;S.budget.forEach(function(l){if(f(l))t+=conv(l.val,l.cur,'BRL')});return t}
   function cellB(v,b,cls){return '<td class="'+(cls||'')+'">'+ms(v)+'<small class="rb">'+money(b,'BRL')+'</small></td>'}
@@ -952,7 +956,7 @@ function rOrcTab(){
     h=h.replace('@@TOP@@',top)})();
   h+='</tbody><tfoot>'+tot('Total geral<small class="pd">previsto '+money(tp/st.total)+'/dia · '+money((pbBr+pbOut+pbT+pbO)/st.total,'BRL')+'/dia</small>',tp,ts,'gt',pbBr+pbOut+pbT+pbO,B.br.spentB+B.out.spentB+st.spentTb+st.spentOb)+'<tr class="osub"><td colspan="4">Divisão por momento do pagamento</td></tr>'+tot('Antes da viagem · pago aqui em R$',B.br.planned,B.br.spent,'',pbBr,B.br.spentB)+tot('Antes da viagem · outra moeda',B.out.planned,B.out.spent,'',pbOut,B.out.spentB)+tot('Durante a viagem<small class="pd">previsto '+money(st.budT/st.total)+'/dia · '+money(st.budT/st.total*S.rates.eurBrl,'BRL')+'/dia</small>',st.budT,st.spentT,'',pbT,st.spentTb)+tot('Depois da viagem',st.budO,st.spentO,'',pbO,st.spentOb)+'</tfoot></table></div>';
   h+='<p class="hint">Em reais: previsto '+brl(tp)+' · gasto '+money(st.spentTb+st.spentPb+st.spentOb,'BRL')+'.</p><div class="acts"><button type="button" class="btn" data-ov="edit">Configurar orçamento</button></div></div>';
-  $('#v-orc').innerHTML=h;bindSeg();
+  $('#v-orc').innerHTML=h;bindSeg();bindOW();
   $$('[data-goc]').forEach(function(r){r.onclick=function(){orcView='edit';try{sessionStorage.setItem('gx-orc','edit')}catch(e){}openCat(r.dataset.goc);rOrc();var t=$('[data-c="'+r.dataset.goc+'"]');if(t)t.scrollIntoView({block:'start'})}});
 }
 function rOrc(){
