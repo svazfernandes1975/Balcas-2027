@@ -7,7 +7,7 @@ var SH={cult:'Cultura',hist:'História',gastro:'Gastro',nat:'Natureza',cheio:'Ch
 function D(d,w,cid,loc,km,a,r,h){return {d:d,w:w,cid:cid,loc:loc,km:km,h:h||'',c:{cult:a[0],hist:a[1],gastro:a[2],nat:a[3],cheio:a[4],esf:a[5],estr:a[6],cans:a[7]},r:r}}
 /*          cult hist gastro nat cheio esf estr cans */
 var L=[
-D('15/05','Sáb','zagreb','Chegada a Zagreb',0,[0,0,0,0,1,0,0,4],'Voo longo, imigração em Frankfurt e pouso de madrugada em Zagreb; só o táxi até o hotel.',''),
+D('15/05','Sáb','zagreb','Chegada a Zagreb',0,[0,0,0,0,1,0,0,4],'Voo longo, imigração em Frankfurt e pouso de madrugada em Zagreb; só o transfer até o hotel, já reservado.',''),
 D('16/05','Dom','zagreb','Zagreb',0,[4,3,3,2,3,3,0,2],'Cidade Alta toda de uma vez, canhão ao meio-dia e almoço: começa tarde, termina cedo.',''),
 D('17/05','Seg','zagreb','Zagreb',0,[3,2,3,1,2,3,0,2],'Dolac, catedral e Ilica: dia solto, sem subir à Cidade Alta.',''),
 D('18/05','Ter','ljubljana','Zagreb → Ljubljana',140,[3,2,3,1,3,2,2,3],'Retirada do carro no aeroporto às 11:00, estrada até Ljubljana, almoço no Krakovo, castelo e centro histórico com volta pelo rio.','1h45'),
