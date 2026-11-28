@@ -980,7 +980,7 @@ function rOrcTab(){
     /* pago na moeda da própria linha: evita falso "negativo" quando a cotação do dia do gasto difere da cotação atual do orçamento */
     var lpaid={},allPaid=ls.length>0,anyPlan=false;
     ls.forEach(function(l){var sc=0;S.entries.forEach(function(e){if(e.t!=='g'||e.cat!==c.id)return;if(e.ln?e.ln===l.id:ls.length===1)sc+=spentIn(e,l.cur)});
-      var tol=Math.max(0.015,Math.abs(l.val)*0.002),pd=l.val>0.005&&Math.abs(l.val-sc)<=tol;lpaid[l.id]=pd;if(l.val>0.005){anyPlan=true;if(!pd)allPaid=false}});
+      var tol=Math.max(0.015,Math.abs(l.val)*0.002),pd=l.val>0.005&&sc>=l.val-tol;lpaid[l.id]=pd;if(l.val>0.005){anyPlan=true;if(!pd)allPaid=false}});
     var noOrphan=ls.length===1||S.entries.every(function(e){return e.t!=='g'||e.cat!==c.id||(e.ln&&ls.some(function(l){return l.id===e.ln}))});
     var paidC=(plan>0.005&&Math.abs(rest)<=0.005)||(anyPlan&&allPaid&&noOrphan),restS=paidC?0:rest,restSB=paidC?0:planB-spB;
     h+='<tr class="oc go'+(plan===0&&sp===0?' zero':'')+(paidC?' paid':'')+'" data-goc="'+c.id+'"><td>'+ci(c)+esc(c.name)+(plan>0?'<small class="pd">previsto '+money(plan/st.total)+'/dia · '+money(planB/st.total,'BRL')+'/dia'+(((st.bT[c.id]||0)>0&&Math.abs((st.bT[c.id]||0)-plan)>0.005)?'<br>só durante a viagem '+money(st.bT[c.id]/st.total)+'/dia':'')+'</small>':'')+(nm>1?' <em class="tag" title="Linhas em moedas diferentes: cada uma é convertida pela cotação">'+Object.keys(mix).join(' + ')+'</em>':'')+'</td>'+cb(plan,planB,'cp')+cb(sp,spB,'cg')+(paidC?pgCell():cb(restS,restSB,rest<-0.005?'neg cr':(rest>0.005?'cr':'cz')))+'</tr>';
@@ -1028,7 +1028,7 @@ function rOrcTabF(){
       var sL=0,sLB=0,sc=0;
       S.entries.forEach(function(e){if(e.t!=='g'||e.cat!==c.id)return;if(e.ln?e.ln===l.id:ls.length===1){sL+=e.eur;sLB+=entryBrl(e);sc+=spentIn(e,l.cur)}});
       var pl=lEur(l),plB=conv(l.val,l.cur,'BRL'),rL=pl-sL,tol=Math.max(0.015,Math.abs(l.val)*0.002);
-      var paidL=(pl>0.005&&Math.abs(rL)<=0.005)||(l.val>0.005&&Math.abs(l.val-sc)<=tol);
+      var paidL=(pl>0.005&&Math.abs(rL)<=0.005)||(l.val>0.005&&sc>=l.val-tol);
       var w=l.when==='pre'?'pre':(l.when==='post'?'post':'trip'),active=pl>0.005||sL>0.005;
       if(orcW!=='all'&&w!==orcW)return;
       if(orcP==='pago'&&!paidL)return;
