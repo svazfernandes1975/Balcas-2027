@@ -265,7 +265,7 @@ function catLines(id){return S.budget.filter(function(l){return l.cat===id})}
 function lnName(l,i){return l.label||('Linha '+(i+1))}
 function subTxt(e){var cls=catLines(e.cat),lq=e.ln?lnById(e.ln):(cls.length===1?cls[0]:null);return lq&&cls.indexOf(lq)>-1?' › '+esc(lnName(lq,cls.indexOf(lq))):''}
 function lnById(id){return S.budget.filter(function(l){return l.id===id})[0]||null}
-var F={ln:null,mode:'g',cat:null,meth:null,ecur:'EUR',step:1,country:null,ctouched:false,whereOpen:false,edit:null,editT:null,editA:null,brlTouched:false,tIn:false,debTouched:false,dateTouched:false,curTouched:false};
+var F={ln:null,mode:'g',cat:null,meth:null,ecur:'EUR',step:1,country:null,ctouched:false,whereOpen:false,edit:null,editT:null,editA:null,brlTouched:false,tIn:false,debTouched:false,dateTouched:false,curTouched:false,ov:{},ovSrc:{},ovCur:null};
 F.ecur=(mById(S.last.method)&&mById(S.last.method).dcur)||S.last.cur||'EUR';
 var tab='lancar';try{tab=sessionStorage.getItem('gx-tab')||'lancar'}catch(e){}
 var undoSnap=null,toastT=null;
@@ -330,7 +330,8 @@ function rLancar(){
     else{se.innerHTML='';se.hidden=true;F.ln=null}
     chipsMeth();renderWhere(ct,dt);
     $('#g-ecur').innerHTML=curList().map(function(c){return '<button type="button" data-c="'+c+'" aria-pressed="'+(c===F.ecur)+'">'+curSym(c)+'</button>'}).join('');
-    var m=mById(F.meth),cb=bById(F.cat),a=num($('#g-amt').value),diff=!!m&&m.cur!==F.ecur;
+    if(F.ovCur!==F.ecur){ovClear();F.ovCur=F.ecur}
+    var m=mById(F.meth),cb=bById(F.cat),a=num($('#g-amt').value),diff=!!m&&m.cur!==F.ecur,gv=a>0?gVals(a):null;
     F.step=stepGuardQuiet(F.step);
     $('#s2').classList.toggle('lock',!stepOk(1));$('#s3').classList.toggle('lock',!(stepOk(1)&&stepOk(2)));
     [1,2,3].forEach(function(n){$('#s'+n).classList.toggle('on',F.step===n);$('#s'+n+' .stp-h').setAttribute('aria-expanded',String(F.step===n))});
@@ -338,15 +339,8 @@ function rLancar(){
     var cl2=catLines(F.cat),lx=lnById(F.ln);$('#sv2').textContent=cb?cb.name+(lx&&cl2.length>0?' › '+lnName(lx,cl2.indexOf(lx)):''):'—';
     $('#sv3').textContent=a>0?money(a,F.ecur):'informe o valor';
     $('#g-deb').hidden=!diff;
-    if(diff){$('#g-debname').textContent=m.name;$('#g-debcur').textContent=m.cur;if(!F.debTouched)$('#g-debit').value=a>0?fin(conv(a,F.ecur,m.cur)):''}
-    var needBrl=F.ecur!=='BRL'&&!(m&&m.cur==='BRL');
-    $('#g-brl').hidden=!needBrl;
-    if(needBrl&&!F.brlTouched)$('#g-brlv').value=a>0?fin(conv(a,F.ecur,'BRL')):'';
-    var brlv=brlOf(a,m,diff);
-    var cv='';
-    if(a>0){cv='<div class="cvs">'+curList().map(function(c){var v=c==='BRL'?brlv:conv(a,F.ecur,c);return '<span class="cv'+(c===F.ecur?' on':'')+'"><small>'+c+'</small><b>'+money(v,c)+'</b></span>'}).join('')+'</div>';
-      if(!diff&&m)cv+='<p class="hint" style="margin:6px 0 0">Sai de <b>'+esc(m.name)+'</b>: '+money(a,m.cur)+'</p>'}
-    $('#g-conv').innerHTML=cv;
+    if(diff){$('#g-debname').textContent=m.name;$('#g-debcur').textContent=m.cur;var dd=$('#g-debit');if(THREE.indexOf(m.cur)>-1){if(document.activeElement!==dd)dd.value=gv?fin(gv.v[m.cur]):''}else if(!F.debTouched)dd.value=a>0?fin(conv(a,F.ecur,m.cur)):''}
+    renderConv(a,m,diff,gv);
     var go=$('#g-go');
     var ok1=stepOk(1),ok2=stepOk(2);
     go.textContent=!ok1?'Escolha o meio de pagamento':(!ok2?(cb?'Escolha a subcategoria':'Escolha a categoria'):(F.edit?'Salvar alteração':(a>0?('Lançar '+money(a,F.ecur)+(cb?' · '+cb.name:'')):'Digite o valor')));
@@ -384,24 +378,64 @@ function aUpdate(){
   var real=num($('#a-real').value);
   $('#a-diff').textContent=isFinite(real)?('Ajuste de '+(real-cur>=0?'+':'')+money(real-cur,m.cur)):'';
 }
-function resetForm(){F.meth=null;F.cat=null;F.ln=null;F.legacy=false;F.brlTouched=false;$('#g-brlv').value='';F.step=1;F.ctouched=false;F.country=null;F.whereOpen=false;F.edit=null;F.debTouched=false;F.dateTouched=false;F.curTouched=false;$('#g-amt').value='';$('#g-debit').value='';$('#g-desc').value='';$('#g-date').value=dateDefault(F.cat)}
-function brlOf(a,m,diff){
-  if(!(a>0))return 0;
-  if(F.ecur==='BRL')return a;
-  if(m&&m.cur==='BRL'&&diff){var d=num($('#g-debit').value);return d>0?d:conv(a,F.ecur,'BRL')}
-  var v=num($('#g-brlv').value);return(F.brlTouched&&v>0)?v:conv(a,F.ecur,'BRL')}
+function resetForm(){F.meth=null;F.cat=null;F.ln=null;F.legacy=false;ovClear();F.ovCur=null;F.step=1;F.ctouched=false;F.country=null;F.whereOpen=false;F.edit=null;F.debTouched=false;F.dateTouched=false;F.curTouched=false;$('#g-amt').value='';$('#g-debit').value='';$('#g-desc').value='';$('#g-date').value=dateDefault(F.cat)}
+var THREE=['EUR','BRL','USD'];
+function ovClear(){F.ov={};F.ovSrc={}}
+/* valores do lançamento nas 3 moedas: a moeda do gasto é a digitada; as outras vêm da cotação do app, a não ser que você tenha digitado (F.ov) */
+function gVals(a){
+  var known={},v={},srcOf={};
+  if(THREE.indexOf(F.ecur)>-1)known[F.ecur]=a;
+  THREE.forEach(function(c){if(c!==F.ecur&&F.ov[c]>0)known[c]=F.ov[c]});
+  THREE.forEach(function(c){
+    if(known[c]!=null){v[c]=known[c];return}
+    var od=THREE.filter(function(x){return x!==c&&known[x]!=null});
+    if(od.length){srcOf[c]=od[0];v[c]=conv(known[od[0]],od[0],c)}
+    else{srcOf[c]=F.ecur;v[c]=conv(a,F.ecur,c)}});
+  return{v:v,known:known,srcOf:srcOf}}
+function ovMan(){return THREE.filter(function(c){return F.ov[c]>0&&F.ovSrc[c]==='digitada'})}
+function ratesTxt(gv){
+  var any=THREE.some(function(c){return F.ov[c]>0}),P=[['EUR','BRL'],['USD','BRL'],['EUR','USD']];
+  return P.map(function(p){var X=p[0],Y=p[1],r=gv.v[Y]/gv.v[X],tag;
+    if(!any)tag='app';
+    else if(gv.known[X]!=null&&gv.known[Y]!=null){tag=((gv.known[X]!=null&&X!==F.ecur&&F.ovSrc[X]==='gravada')||(Y!==F.ecur&&F.ovSrc[Y]==='gravada'))?'gravada':'digitada'}
+    else if(gv.srcOf[X]===Y||gv.srcOf[Y]===X)tag='app';
+    else tag='derivada';
+    return '<span class="crt '+tag+'">1 '+curSym(X)+' = '+curSym(Y)+' '+fin4(r)+' <i>'+(tag==='app'?'cotação do app':tag==='derivada'?'derivada':tag)+'</i></span>'}).join('')}
+function renderConv(a,m,diff,gv){
+  var box=$('#g-conv');
+  if(!(a>0)){box.innerHTML='';box.dataset.k='';return}
+  var cl=curList(),key=F.ecur+'|'+cl.join(',');
+  if(box.dataset.k!==key){
+    box.innerHTML='<div class="cvs">'+cl.map(function(c){
+      var ed=THREE.indexOf(c)>-1&&c!==F.ecur;
+      if(ed)return '<label class="cv ed" data-c="'+c+'"><small>'+curSym(c)+'</small><input type="text" inputmode="decimal" data-ov="'+c+'" aria-label="Valor em '+c+', toque para corrigir"><em></em></label>';
+      return '<span class="cv'+(c===F.ecur?' on':'')+'" data-c="'+c+'"><small>'+curSym(c)+'</small><b></b></span>'}).join('')+'</div><div class="cvx"></div>';
+    box.dataset.k=key}
+  cl.forEach(function(c){
+    var n=box.querySelector('[data-c="'+c+'"]');if(!n)return;
+    var ed=THREE.indexOf(c)>-1&&c!==F.ecur,val=THREE.indexOf(c)>-1?gv.v[c]:(c===F.ecur?a:conv(a,F.ecur,c));
+    if(ed){var inp=n.querySelector('input'),man=F.ov[c]>0;
+      if(document.activeElement!==inp)inp.value=fin(val);
+      n.classList.toggle('man',man);
+      n.querySelector('em').textContent=man?(F.ovSrc[c]==='gravada'?'gravado':'digitado'):'cotação do app'}
+    else n.querySelector('b').textContent=money(val,c)});
+  var x='<div class="crts">'+ratesTxt(gv)+'</div>';
+  if(THREE.some(function(c){return F.ov[c]>0}))x+='<button type="button" class="lnk" data-ovreset>Voltar às cotações do app</button>';
+  if(!diff&&m)x+='<p class="hint" style="margin:6px 0 0">Sai de <b>'+esc(m.name)+'</b>: '+money(a,m.cur)+'</p>';
+  box.querySelector('.cvx').innerHTML=x}
 function submitG(){
   var m=mById(F.meth),a=num($('#g-amt').value);
   if(!m){toast('Escolha o meio de pagamento (passo 1)');F.step=1;rLancar();return}
   if(!F.cat){toast('Escolha a categoria (passo 2)');F.step=2;rLancar();return}
   if(!(a>0)){toast('Informe um valor maior que zero');$('#g-amt').focus();return}
   if(catLines(F.cat).length>1&&!F.ln&&!F.legacy){toast('Escolha a subcategoria');F.step=2;rLancar();return}
-  var diff=m.cur!==F.ecur,deb=diff?num($('#g-debit').value):a;
-  if(!(deb>0))deb=conv(a,F.ecur,m.cur);
+  var gv=gVals(a),diff=m.cur!==F.ecur,deb=diff?num($('#g-debit').value):a;
+  if(!(deb>0))deb=THREE.indexOf(m.cur)>-1?gv.v[m.cur]:conv(a,F.ecur,m.cur);
   if(m.cnt){var old=F.edit?S.entries.filter(function(x){return x.id===F.edit})[0]:null,bal=balance(m)+(old&&old.m===m.id?debited(old):0);
     if(bal-deb<-0.005&&!confirm(bal<=0.005?m.name+' está zerado (saldo '+money(bal,m.cur)+'). Lançar mesmo assim?':m.name+' tem só '+money(bal,m.cur)+' e este gasto é de '+money(deb,m.cur)+'. Vai ficar negativo. Lançar mesmo assim?'))return}
   snap();
-  var e={id:F.edit||uid(),t:'g',date:$('#g-date').value||dateDefault(F.cat),m:m.id,cur:F.ecur,amt:r2(a),debit:r2(deb),cat:F.cat,ln:F.ln||null,desc:$('#g-desc').value.trim(),eur:Math.round(toEUR(a,F.ecur)*10000)/10000,usd:r2(conv(a,F.ecur,'USD')),brl:r2(brlOf(a,m,diff)),ctry:curCountry($('#g-date').value||dateDefault(F.cat)).name};
+  var e={id:F.edit||uid(),t:'g',date:$('#g-date').value||dateDefault(F.cat),m:m.id,cur:F.ecur,amt:r2(a),debit:r2(deb),cat:F.cat,ln:F.ln||null,desc:$('#g-desc').value.trim(),eur:Math.round(gv.v.EUR*10000)/10000,usd:r2(gv.v.USD),brl:r2(gv.v.BRL),ctry:curCountry($('#g-date').value||dateDefault(F.cat)).name};
+  var mn=ovMan();if(mn.length)e.man=mn;
   if(isFuel(F.cat,F.ln)||F.fuelOpen){var fl=num($('#g-fl').value),fk=num($('#g-fkm').value);if(fl>0||fk>0)e.fuel={l:fl>0?r2(fl):null,km:fk>0?Math.round(fk):null}}
   if(F.edit){S.entries=S.entries.map(function(x){return x.id===F.edit?e:x})}else S.entries.push(e);
   S.last.cur=F.ecur;save();var was=F.edit;resetForm();render();
@@ -658,7 +692,7 @@ function drawList(){
   es.forEach(function(e){
     if(e.date!==cur){if(cur)h+=closing(cur,LG);cur=e.date;h+='<div class="dh"><span>'+fmtDate(cur)+'</span><span>'+(dayTot[cur]?money(dayTot[cur]):'')+'</span></div>'}
     if(e.t==='g'){var m=mById(e.m),b=bById(e.cat),c=e.cur||(m?m.cur:'EUR');
-      var sub=[];if(m&&m.cur!==c)sub.push('debitado '+money(debited(e),m.cur));if(m&&m.cur==='BRL'&&c!=='BRL'&&e.amt>0&&debited(e)>0)sub.push('cotação '+qfmt(debited(e)/e.amt)+' por '+curSym(c));if(c==='BRL'&&e.eur>0&&entryBrl(e)>0)sub.push('cotação '+qfmt(entryBrl(e)/e.eur)+' por €');if(c!=='EUR')sub.push('≈ '+money(e.eur));if(c!=='BRL')sub.push(money(entryBrl(e),'BRL'));
+      var sub=[];if(m&&m.cur!==c)sub.push('debitado '+money(debited(e),m.cur));if(m&&m.cur==='BRL'&&c!=='BRL'&&e.amt>0&&debited(e)>0)sub.push('cotação '+qfmt(debited(e)/e.amt)+' por '+curSym(c));if(c==='BRL'&&e.eur>0&&entryBrl(e)>0)sub.push('cotação '+qfmt(entryBrl(e)/e.eur)+' por €');if(e.man&&e.man.length&&c!=='BRL'&&e.eur>0&&entryBrl(e)>0)sub.push('cotação '+qfmt(entryBrl(e)/e.eur)+' por €');if(c!=='EUR')sub.push('≈ '+money(e.eur));if(c!=='BRL')sub.push(money(entryBrl(e),'BRL'));
       var cls=catLines(e.cat),lq=e.ln?lnById(e.ln):(cls.length===1?cls[0]:null),lt=lq&&cls.indexOf(lq)>-1?' › '+esc(lnName(lq,cls.indexOf(lq))):'';
       h+='<div class="it"><div>'+ci(b)+esc(b?b.name:'Sem categoria')+lt+(isPre(e)?' <em class="tag">antes</em>':(isPost(e)?' <em class="tag">depois</em>':''))+(e.desc?'<div class="dsc">'+esc(e.desc)+'</div>':'')+'<div class="m">'+esc(m?m.name:'?')+(e.ctry?' · '+esc(e.ctry):'')+'</div>'+balTxt(LG.after[e.id])+'</div><div class="v">'+money(e.amt,c)+(sub.length?'<small>'+sub.join(' · ')+'</small>':'')+'</div><div class="acts"><button class="btn sec sm" data-edit="'+e.id+'">Editar</button><button class="btn sec sm danger" data-del="'+e.id+'">Apagar</button></div></div>'}
     else if(e.t==='t'){var f=mById(e.from),t=mById(e.to);
@@ -681,7 +715,10 @@ function drawList(){
     var e=S.entries.filter(function(x){return x.id===b.dataset.edit})[0];if(!e)return;
     F.mode='g';F.step=3;F.whereOpen=false;F.ctouched=!!e.ctry;F.country=e.ctry||null;F.edit=e.id;F.cat=e.cat;F.ln=e.ln||null;F.legacy=!e.ln;F.meth=e.m;F.ecur=e.cur||'EUR';F.debTouched=true;F.dateTouched=true;F.curTouched=true;
     setTab('lancar');$('#g-amt').value=fin(e.amt);$('#g-date').value=e.date;$('#g-desc').value=e.desc||'';
-    var m=mById(e.m);$('#g-debit').value=fin(debited(e));F.brlTouched=true;$('#g-brlv').value=fin(entryBrl(e));rLancar()}});
+    var m=mById(e.m);$('#g-debit').value=fin(debited(e));F.debTouched=true;
+    ovClear();F.ovCur=F.ecur;var mg=e.man||[];
+    [['EUR',e.eur],['BRL',e.brl],['USD',e.usd]].forEach(function(p){if(p[0]!==F.ecur&&p[1]!=null&&p[1]>0){F.ov[p[0]]=p[1];F.ovSrc[p[0]]=mg.indexOf(p[0])>-1?'digitada':'gravada'}});
+    $('#g-conv').dataset.k='';rLancar()}});
 }
 
 /* ---------- COMPRA DE MOEDA ---------- */
@@ -1081,7 +1118,7 @@ function pillify(root){
     sel.parentNode.insertBefore(g,sel.nextSibling)})}
 (function(){['#v-meios','#v-orc','#v-moeda'].forEach(function(id){var el=$(id);if(!el||!window.MutationObserver)return;new MutationObserver(function(){pillify(el)}).observe(el,{childList:true,subtree:true})})})();
 /* máscara de dinheiro: digita só números e a vírgula já fica nas 2 últimas casas */
-var MASK='.mcr-brl,.mcr-amt,#g-amt,#g-brlv,#g-debit,#t-out,#t-in,#a-real,#dl-unit,#b-unit,#n-init,[data-f=unit],[data-f=init],#mc-brl,#mc-amt,#cv-amt';
+var MASK='.mcr-brl,.mcr-amt,#g-amt,#g-conv [data-ov],#g-debit,#t-out,#t-in,#a-real,#dl-unit,#b-unit,#n-init,[data-f=unit],[data-f=init],#mc-brl,#mc-amt,#cv-amt';
 var MASK4='#c-usd,#c-brl,#x-rate,.xrow [data-f=brl]';
 function maskVal(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';while(d.length<3)d='0'+d;return d.slice(0,-2)+','+d.slice(-2)}
 function maskVal4(v){var d=String(v).replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';while(d.length<5)d='0'+d;return d.slice(0,-4)+','+d.slice(-4)}
@@ -1113,10 +1150,17 @@ function render(){
 $('#t-cancel').onclick=function(){endEditTA();F.mode='g';render();setTab('extrato')};
 $('#a-cancel').onclick=function(){endEditTA();F.mode='g';render();setTab('extrato')};
 $$('[data-mode]').forEach(function(b){b.onclick=function(){F.mode=b.dataset.mode;if(F.mode==='g')F.step=1;endEditTA();render();if(F.mode==='g'){$('#g-amt').focus()}else{window.scrollTo(0,0)}}});
-$('#g-ecur').addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;F.ecur=b.dataset.c;F.curTouched=true;F.debTouched=false;F.brlTouched=false;rLancar();$('#g-amt').focus()});
-$('#g-amt').addEventListener('input',function(){F.debTouched=false;F.brlTouched=false;rLancar()});
-$('#g-brlv').addEventListener('input',function(){F.brlTouched=true;rLancar()});
-$('#g-debit').addEventListener('input',function(){F.debTouched=true;rLancar()});
+$('#g-ecur').addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;F.ecur=b.dataset.c;F.curTouched=true;F.debTouched=false;ovClear();rLancar();$('#g-amt').focus()});
+$('#g-amt').addEventListener('input',function(){F.debTouched=false;ovClear();rLancar()});
+$('#g-debit').addEventListener('input',function(){var m=mById(F.meth);F.debTouched=true;
+  if(m&&THREE.indexOf(m.cur)>-1&&m.cur!==F.ecur){var v=num(this.value);if(v>0){F.ov[m.cur]=v;F.ovSrc[m.cur]='digitada'}else{delete F.ov[m.cur];delete F.ovSrc[m.cur]}}
+  rLancar()});
+$('#g-debit').addEventListener('focusout',function(){rLancar()});
+$('#g-conv').addEventListener('input',function(ev){var t=ev.target;if(!t.dataset||!t.dataset.ov)return;var c=t.dataset.ov,v=num(t.value);
+  if(v>0){F.ov[c]=v;F.ovSrc[c]='digitada'}else{delete F.ov[c];delete F.ovSrc[c]}
+  rLancar()});
+$('#g-conv').addEventListener('focusout',function(ev){if(ev.target.dataset&&ev.target.dataset.ov)rLancar()});
+$('#g-conv').addEventListener('click',function(ev){if(ev.target.closest('[data-ovreset]')){ovClear();F.debTouched=false;rLancar()}});
 $('#g-date').addEventListener('change',function(){F.dateTouched=true;rLancar()});
 $$('.stp-h').forEach(function(b){b.onclick=function(){F.step=stepGuard(+b.dataset.step);rLancar();if(F.step===3)$('#g-amt').focus()}});
 $('#g-form').addEventListener('submit',function(e){e.preventDefault();submitG()});
