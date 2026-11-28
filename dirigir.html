@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=202"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=203"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Dirigir · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -125,7 +125,8 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 .dr-ck{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}
 .dr-ck li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
 .dr-ck input{margin-top:4px;flex:none}
-@media(max-width:640px){.dr-tb.st{min-width:0}.dr-tb.st thead{display:none}.dr-tb.st tr{display:block;padding:8px 10px;border-top:1px solid var(--line)}.dr-tb.st tr:first-child{border-top:0}.dr-tb.st td{display:block;border:0;padding:2px 0;white-space:normal}}
+@media(max-width:640px){.dr-tb.st{min-width:0}.dr-tb.st thead{display:none}.dr-tb.st tr{display:block;padding:8px 10px;border-top:1px solid var(--line)}.dr-tb.st tr:first-child{border-top:0}.dr-tb.st td{display:block;border:0;padding:2px 0;white-space:normal}
+.dr-tb.st.lbl td[data-l]::before{content:attr(data-l);display:block;font:700 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px}}
 h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 .dr-grp{margin:34px 0 4px;padding:12px 14px;border-radius:12px;background:var(--accent);color:var(--accent-ink)}
 .dr-grp h2{margin:0;font:800 1.2rem var(--f-display)}
@@ -339,13 +340,13 @@ h3.dr-h{font-size:1.15rem;margin:18px 0 4px}
 <h3 class="dr-h">Símbolo padrão da UE</h3>
 <ul class="bul"><li><b>Círculo com E5 ou E10 = gasolina.</b> E10 tem até 10% de etanol e a maioria dos carros aceita (veja a tampa do tanque).</li><li><b>Quadrado com B7 ou B10 = diesel.</b></li><li>Vale para Croácia, Eslovênia e Itália. Montenegro costuma seguir o mesmo padrão, mas não confirmei.</li></ul>
 <h3 class="dr-h">Nome na bomba</h3>
-<div class="dr-w"><table class="dr-tb st"><thead><tr><th>País</th><th>Gasolina</th><th>Diesel</th></tr></thead><tbody>
-<tr><td>Croácia</td><td>Eurosuper 95 (também Eurosuper 100)</td><td>Eurodizel</td></tr>
-<tr><td>Eslovênia</td><td>Bencin 95, ou NMB 95 (neosvinčeni motorni bencin)</td><td>Dizel</td></tr>
-<tr><td>Itália</td><td>Benzina senza piombo (95)</td><td>Gasolio</td></tr>
-<tr><td>Montenegro</td><td>Eurosuper BMB 95, ou só BMB 95 (bezolovni motorni benzin)</td><td>Eurodizel ou D</td></tr>
+<div class="dr-w"><table class="dr-tb st lbl"><thead><tr><th>País</th><th>Gasolina</th><th>Diesel</th></tr></thead><tbody>
+<tr><td>Croácia</td><td data-l="Gasolina">Eurosuper 95 (também Eurosuper 100)</td><td data-l="Diesel">Eurodizel</td></tr>
+<tr><td>Eslovênia</td><td data-l="Gasolina">Bencin 95, ou NMB 95 (neosvinčeni motorni bencin)</td><td data-l="Diesel">Dizel</td></tr>
+<tr><td>Itália</td><td data-l="Gasolina">Benzina senza piombo (95)</td><td data-l="Diesel">Gasolio <span class="dr-b no">é diesel, não gasolina</span></td></tr>
+<tr><td>Montenegro</td><td data-l="Gasolina">Eurosuper BMB 95, ou só BMB 95 (bezolovni motorni benzin)</td><td data-l="Diesel">Eurodizel ou D</td></tr>
 </tbody></table></div>
-<p class="dr-note">Pista mais segura: o número <b>95</b> indica gasolina comum. Na Itália, "fai da te" é self-service (mais barato) e "servito" tem frentista (mais caro). Os nomes da Eslovênia e de Montenegro vêm de conhecimento geral, sem fonte consultada: confirme no primeiro posto de cada país.</p>
+<p class="dr-note">Pista mais segura: o número <b>95</b> indica gasolina comum. Palavras com <b>diz</b> ou <b>dizel</b>, e o <b>D</b> sozinho, são diesel. Na Itália, <b>"Gasolio" é diesel</b>; a gasolina é "Benzina". Na Itália, "fai da te" é self-service (mais barato) e "servito" tem frentista (mais caro). Os nomes da Eslovênia e de Montenegro vêm de conhecimento geral, sem fonte consultada: confirme no primeiro posto de cada país.</p>
 </section>
 
 <section class="day" id="estac"><div class="day-h"><span class="date">parquímetros</span><h2>Estacionar sem tomar multa</h2></div>
@@ -467,4 +468,4 @@ window.addEventListener('resize',pos);
 init();
 })();
 </script>
-<script src="locacao.js?v=202"></script><script src="nav.js?v=202"></script><script type="module" src="fb.js?v=202"></script>
+<script src="locacao.js?v=203"></script><script src="nav.js?v=203"></script><script type="module" src="fb.js?v=203"></script>
