@@ -3,6 +3,6 @@
 import glob,re,json
 v=re.search(r"SITE_VERSION='(v\d+)'",open('nav.js',encoding='utf-8').read()).group(1)
 fs=sorted(glob.glob('*.html')+glob.glob('*.js')+glob.glob('*.css'))
-fs=[f for f in fs if f not in('sw.js','sw.tpl.js')]+['manifest.webmanifest']+sorted(glob.glob('icon-*.png'))
+fs=[f for f in fs if f not in('sw.js','sw.tpl.js')]+['manifest.webmanifest']+(['search-index.json'] if __import__('os').path.exists('search-index.json') else [])+sorted(glob.glob('icon-*.png'))
 t=open('sw.tpl.js',encoding='utf-8').read().replace('__VERSION__',v).replace('__FILES__',json.dumps(fs))
 open('sw.js','w',encoding='utf-8').write(t);print(v,len(fs),'arquivos')
