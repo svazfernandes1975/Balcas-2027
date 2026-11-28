@@ -41,6 +41,7 @@ function defaults(){return{
   entries:[],mc:[],
   last:{method:'cash',cat:'almoco',cur:'EUR'}
 }}
+var MIGCHG=false;
 function migrate(o){
   if(o.v===1){
     o.budget.forEach(function(b){b.when=b.pre?'pre':'trip';b.bal=!b.pre;b.cur=b.cur||'EUR';delete b.pre});
@@ -59,9 +60,17 @@ function migrate(o){
   o.extra.forEach(function(x){if(x.brl===undefined)x.brl=Math.round(o.rates.eurBrl/(x.perEur||1)*10000)/10000});
   if(!o.countries){o.countries=defCountries();o.route=defRoute()}
   o.methods.forEach(function(m){if(!m.dcur)m.dcur=m.cur==='USD'?'EUR':m.cur});
+  /* v189: a linha "Pré Viagem" (2 × € 125) de Ingressos e passeios vira um ingresso por linha; roda uma vez, só se a linha ainda existir como estava */
+  (function(){var cs=(o.cats||[]).filter(function(c){return c.id==='ingr'||/ingress/i.test(c.name||'')}).map(function(c){return c.id});
+    for(var i=0;i<o.budget.length;i++){var l=o.budget[i];
+      if(cs.indexOf(l.cat)>-1&&l.when==='pre'&&/^pr[e\u00e9]\s*viagem$/i.test(String(l.label||'').trim())&&l.qty===2&&Math.abs(l.unit-125)<0.005&&l.cur==='EUR'&&!o.budget.some(function(b){return b.id==='ing_plitvice'})){
+        var T=[['ing_plitvice','Plitvice',23],['ing_postojna','Postojna + Predjama',55],['ing_muralhas','Muralhas de Dubrovnik',40],['ing_krka','Krka (opcional)',30]];
+        o.budget.splice.apply(o.budget,[i,1].concat(T.map(function(t){return{id:t[0],cat:l.cat,label:t[1],qty:2,unit:t[2],val:t[2]*2,cur:'EUR',when:'pre',bal:!!l.bal}})));
+        MIGCHG=true;break}}})();
   return o}
 function load(){try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);if(o&&(o.v===1||o.v===2||o.v===3))return migrate(o)}}catch(e){}return defaults()}
 var S=load();
+if(MIGCHG){MIGCHG=false;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}try{pushDiff()}catch(e){}}
 /* ---------- SYNC (Firebase: Firestore + login Google) ----------
    config: documento data/config; lançamentos: um documento por lançamento em entries/{id}.
@@ -104,13 +113,14 @@ function step(changed){
     if(synced){S.entries=rem}
     else{S.entries=rem.concat(S.entries.filter(function(e){return e&&e.id&&!ids[e.id]}).map(jclean)).sort(byId)}
     setBaseline(rem);
-    if(SYNC.cfg&&SYNC.cfg.c){applyCfg(SYNC.cfg.c);SYNC.cfgPushed=JSON.stringify(cfgOf(S))}else SYNC.cfgPushed='';
+    if(SYNC.cfg&&SYNC.cfg.c){applyCfg(SYNC.cfg.c);SYNC.cfgPushed=MIGCHG?'':JSON.stringify(cfgOf(S));MIGCHG=false}else SYNC.cfgPushed='';
     try{localStorage.setItem(SKEY,SYNC.uid)}catch(e){}
     SYNC.ready=true;save();refreshUI();applyLock();return;
   }
   S.entries=SYNC.ent.slice().sort(byId);setBaseline(S.entries);
-  if(SYNC.cfg&&SYNC.cfg.c){applyCfg(SYNC.cfg.c);SYNC.cfgPushed=JSON.stringify(cfgOf(S))}
+  var mg=false;if(SYNC.cfg&&SYNC.cfg.c){applyCfg(SYNC.cfg.c);mg=MIGCHG;MIGCHG=false;SYNC.cfgPushed=mg?'':JSON.stringify(cfgOf(S))}
   try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
+  if(mg)save();
   refreshUI();
 }
 function syncStop(){clearTimeout(SYNC.slowT);SYNC.slow=false;SYNC.unsubs.forEach(function(f){try{f()}catch(e){}});SYNC.unsubs=[];SYNC.on=false;SYNC.ready=false;SYNC.cfgSeen=SYNC.entSeen=SYNC.cfgServer=SYNC.entServer=false;SYNC.cfgSig=SYNC.entSig=null}
