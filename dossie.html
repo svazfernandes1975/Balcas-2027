@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=203"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=204"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Dossiê de imigração · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -97,11 +97,12 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 .paper{background:#fff;color:#000;border:1px solid var(--line);border-radius:6px;padding:18px 20px;overflow-x:auto;box-shadow:0 1px 6px rgba(0,0,0,.12)}
 .paper .dossier{max-width:760px;margin:0 auto}
 .ntx{font-size:14px;color:var(--muted);max-width:70ch}
-@media print{nav.pills,.bk,.bt,#form,.ntx,.day-h,.prose,.foot{display:none!important}.paper{border:0;box-shadow:none;padding:0}}
+@media print{nav.pills,.bk,.bt,#form,#gx-sync,.ntx,.day-h,.prose,.foot{display:none!important}.paper{border:0;box-shadow:none;padding:0}}
 </style><style id="dst"></style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="dossie.html" aria-current="page">Dossiê de imigração</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
 <section class="day" id="dossie"><div class="day-h"><span class="date">para mostrar ao oficial</span><h2>Dossiê de imigração</h2></div>
 <p class="prose">Um resumo da viagem em uma página só para mostrar no controle de passaportes: quem viaja, voos, hotéis, carro, seguro e recursos. Preencha os campos abaixo e gere o documento em inglês (para o oficial) ou em português.</p>
-<p class="ntx"><b>Privacidade:</b> o que você digita aqui (passaporte, apólice, telefones) fica só neste aparelho e não vai para a nuvem nem para o site. Campos vazios saem com uma linha em branco para preencher à mão depois de imprimir.</p>
+<p class="ntx"><b>Privacidade:</b> o que você digita aqui (apólice, telefones, endereço, data de nascimento) fica salvo neste aparelho e, depois que você entra com o Google, na conta do portal, onde só você e a Andréa conseguem ver. Não vai para o site público. Não há campo de número do passaporte: o oficial já está com os passaportes na mão. Campos vazios saem com uma linha em branco para preencher à mão depois de imprimir.</p>
+<div id="gx-sync" class="fbstrip" style="margin:10px 0"></div>
 <div class="dz"><div id="form"></div></div>
 <div class="bt" role="group" aria-label="Gerar documento"><button type="button" class="main" id="b-doc">⬇ Gerar documento (.doc)</button><button type="button" id="b-pdf">🖨 Imprimir / salvar em PDF</button><span class="sep"></span><span style="font-size:13px;color:var(--muted)">Idioma:</span><button type="button" data-lg="en" aria-pressed="true">English</button><button type="button" data-lg="pt" aria-pressed="false">Português</button><button type="button" id="b-clr">Limpar dados</button></div>
 <div class="paper" id="prev" aria-label="Prévia do documento"></div>
@@ -112,14 +113,34 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 var K='balcas2027-dossie';
 var F={};try{F=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
 var LANG='en';try{LANG=localStorage.getItem(K+'-lang')||'en'}catch(e){}
+/* sincronização com a conta (Firestore data/dossie): cada campo tem a hora da última edição; vale o mais recente. Passaporte não existe mais aqui. */
+var T={};try{T=JSON.parse(localStorage.getItem(K+'-t')||'{}')}catch(e){}
+var DROP=['pp1','pp2','exp1','exp2'],unsub=null,pend={},tmr=null;
+DROP.forEach(function(k){delete F[k];delete T[k]});
+Object.keys(F).forEach(function(k){if(!T[k])T[k]=1});
 var DEF={n1:'Sérgio Vaz Fernandes',nat1:'Portugal (EU citizen)',n2:'Andréa Balieiro Dias',nat2:'Brazil'};
-var P1=[['n','Nome completo',''],['nat','Nacionalidade / passaporte',''],['pp','Nº do passaporte','AB123456'],['exp','Validade do passaporte','dd/mm/aaaa'],['dob','Data de nascimento','dd/mm/aaaa'],['job','Profissão','ex.: gerente de projetos'],['ph','Telefone','+55 11 ...'],['em','E-mail','']];
+var P1=[['n','Nome completo',''],['nat','Nacionalidade / passaporte',''],['dob','Data de nascimento','dd/mm/aaaa'],['job','Profissão','ex.: gerente de projetos'],['ph','Telefone','+55 11 ...'],['em','E-mail','']];
 var SH=[['rel','Relação entre os viajantes','ex.: marido e mulher / companheiros'],['addr','Endereço residencial (Brasil)','rua, nº, cidade, CEP'],['emn','Contato de emergência (nome e parentesco)',''],['emp','Telefone do contato de emergência','+55 ...'],
 ['ins','Seguradora','nome da seguradora'],['pol','Nº da apólice','apólice'],['insp','Telefone de assistência 24 h','+55 ... / +...'],['cov','Cobertura médica','ex.: EUR 60.000 por pessoa'],
 ['funds','Recursos disponíveis / meios de pagamento','ex.: cartões de crédito + EUR em espécie'],['plate','Placa do carro alugado','preencher na retirada (18/05)'],['rent','Nº do contrato da Alamo (Rentcars)',''],['idp','Nº da PID (Permissão Internacional para Dirigir)','']];
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function val(k){return (F[k]!=null&&F[k]!=='')?F[k]:(DEF[k]||'')}
-function save(){try{localStorage.setItem(K,JSON.stringify(F))}catch(e){}}
+function save(){try{localStorage.setItem(K,JSON.stringify(F));localStorage.setItem(K+'-t',JSON.stringify(T))}catch(e){}}
+function push(map){
+ var ks=Object.keys(map);if(!ks.length||!(window.FB&&FB.user))return;
+ var f={},t={};ks.forEach(function(k){f[k]=map[k];t[k]=T[k]||Date.now()});
+ FB.set('data/dossie',{f:f,t:t},true)}
+function queue(k,v){pend[k]=v;clearTimeout(tmr);tmr=setTimeout(function(){var m=pend;pend={};push(m)},700)}
+function setInput(k){var el=document.querySelector('[data-k="'+k+'"]');if(el&&document.activeElement!==el)el.value=val(k)}
+function onRemote(d){
+ var rf=(d&&d.f)||{},rt=(d&&d.t)||{},changed=false,up={};
+ Object.keys(rf).forEach(function(k){if(DROP.indexOf(k)>=0)return;if((rt[k]||0)>(T[k]||0)){F[k]=rf[k];T[k]=rt[k];changed=true;setInput(k)}});
+ Object.keys(F).forEach(function(k){if(F[k]!==''&&F[k]!=null&&(T[k]||0)>(rt[k]||0))up[k]=F[k]});
+ if(changed){save();paint()}
+ push(up)}
+function startFB(){
+ var el=document.getElementById('gx-sync');if(el)FB.strip(el);
+ FB.onAuth(function(u){if(unsub){try{unsub()}catch(e){}unsub=null}if(u)unsub=FB.watchDoc('dossie','data/dossie',onRemote)})}
 /* ---- formulário */
 function field(k,lab,ph){return '<label class="f"><span>'+esc(lab)+'</span><input type="text" data-k="'+k+'" value="'+esc(val(k))+'" placeholder="'+esc(ph||'')+'" autocomplete="off"></label>'}
 function drawForm(){
@@ -141,7 +162,7 @@ function build(lang){
  o+='<p class="note">'+L('Prepared to present at immigration control. Original documents are carried with us.','Preparado para apresentar no controle de imigração. Os documentos originais estão conosco.')+'</p>';
  /* 1 */
  o+='<h2>1. '+L('Travellers','Viajantes')+'</h2><table border="1" cellspacing="0" cellpadding="4"><tr><th></th><th>'+L('Traveller 1','Viajante 1')+'</th><th>'+L('Traveller 2','Viajante 2')+'</th></tr>';
- [['n',L('Full name','Nome completo')],['nat',L('Nationality / passport','Nacionalidade / passaporte')],['pp',L('Passport no.','Nº do passaporte')],['exp',L('Passport expiry','Validade do passaporte')],['dob',L('Date of birth','Data de nascimento')],['job',L('Occupation','Profissão')],['ph',L('Phone','Telefone')],['em','E-mail']].forEach(function(r){o+='<tr><th>'+r[1]+'</th><td>'+v(r[0]+'1')+'</td><td>'+v(r[0]+'2')+'</td></tr>'});
+ [['n',L('Full name','Nome completo')],['nat',L('Nationality / passport','Nacionalidade / passaporte')],['dob',L('Date of birth','Data de nascimento')],['job',L('Occupation','Profissão')],['ph',L('Phone','Telefone')],['em','E-mail']].forEach(function(r){o+='<tr><th>'+r[1]+'</th><td>'+v(r[0]+'1')+'</td><td>'+v(r[0]+'2')+'</td></tr>'});
  o+='</table><p>'+L('Relationship between travellers: ','Relação entre os viajantes: ')+v('rel')+'</p><p>'+L('Home address: ','Endereço residencial: ')+v('addr')+'</p>';
  /* 2 */
  o+='<h2>2. '+L('Purpose and length of stay','Motivo e duração da estadia')+'</h2><table border="1" cellspacing="0" cellpadding="4">';
@@ -222,7 +243,7 @@ var prev=document.getElementById('prev');
 function paint(){prev.innerHTML='<div class="dossier">'+build(LANG)+'</div>';
  [].forEach.call(document.querySelectorAll('[data-lg]'),function(b){b.setAttribute('aria-pressed',b.dataset.lg===LANG?'true':'false')})}
 document.getElementById('dst').textContent=CSS;
-document.getElementById('form').addEventListener('input',function(e){var k=e.target.getAttribute('data-k');if(!k)return;F[k]=e.target.value;save();paint()});
+document.getElementById('form').addEventListener('input',function(e){var k=e.target.getAttribute('data-k');if(!k)return;F[k]=e.target.value;T[k]=Date.now();save();queue(k,F[k]);paint()});
 [].forEach.call(document.querySelectorAll('[data-lg]'),function(b){b.addEventListener('click',function(){LANG=b.dataset.lg;try{localStorage.setItem(K+'-lang',LANG)}catch(e){}paint()})});
 document.getElementById('b-doc').addEventListener('click',function(){
  var blob=new Blob(['﻿'+fullDoc(LANG)],{type:'application/msword;charset=utf-8'});
@@ -234,11 +255,12 @@ document.getElementById('b-pdf').addEventListener('click',function(){
  w.document.open();w.document.write(fullDoc(LANG));w.document.close();
  setTimeout(function(){try{w.focus();w.print()}catch(e){}},400)});
 document.getElementById('b-clr').addEventListener('click',function(){
- if(!confirm('Apagar os dados que você preencheu neste aparelho (passaporte, apólice, telefones etc.)?'))return;
- F={};save();drawForm();paint()});
-drawForm();paint();
+ if(!confirm('Apagar os dados que você preencheu (apólice, telefones etc.)? Se a sincronização estiver ligada, eles também somem da conta e dos outros aparelhos.'))return;
+ var ks=Object.keys(F),m={};F={};ks.forEach(function(k){T[k]=Date.now();m[k]=''});save();push(m);drawForm();paint()});
+drawForm();paint();save();
+if(window.FB)startFB();else document.addEventListener('fb-ready',startFB);
 })();
 
 </script>
-<script src="nav.js?v=203"></script>
+<script src="nav.js?v=204"></script><script type="module" src="fb.js?v=204"></script>
 </body></html>
