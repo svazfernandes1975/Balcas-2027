@@ -1,4 +1,4 @@
-<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=204"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#0B7285"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Balcãs 2027"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="stylesheet" href="temas.css?v=205"><script>try{var t=localStorage.getItem("balcas-tema");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Dossiê de imigração · Balcãs 2027</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;600&display=swap"><style>
 :root{
  /* layout: faixa de pílulas fixa no topo, linha do tempo vertical por dia, mapa esquemático do Adriático na capa */
@@ -101,7 +101,7 @@ table.opt th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-
 </style><style id="dst"></style><div id="top"></div><nav class="pills" aria-label="Planejamento"><a href="index.html">← início</a><a href="dossie.html" aria-current="page">Dossiê de imigração</a></nav><div class="wrap"><div class="bk"><button type="button" class="back" data-back>← Voltar</button></div>
 <section class="day" id="dossie"><div class="day-h"><span class="date">para mostrar ao oficial</span><h2>Dossiê de imigração</h2></div>
 <p class="prose">Um resumo da viagem em uma página só para mostrar no controle de passaportes: quem viaja, voos, hotéis, carro, seguro e recursos. Preencha os campos abaixo e gere o documento em inglês (para o oficial) ou em português.</p>
-<p class="ntx"><b>Privacidade:</b> o que você digita aqui (apólice, telefones, endereço, data de nascimento) fica salvo neste aparelho e, depois que você entra com o Google, na conta do portal, onde só você e a Andréa conseguem ver. Não vai para o site público. Não há campo de número do passaporte: o oficial já está com os passaportes na mão. Campos vazios saem com uma linha em branco para preencher à mão depois de imprimir.</p>
+<p class="ntx"><b>Privacidade:</b> o que você digita aqui (apólice, telefones, endereço, data de nascimento) fica salvo neste aparelho e, depois que você entra com o Google, na conta do portal, onde só você e a Andréa conseguem ver. Não vai para o site público. Não há campo de número do passaporte: o oficial já está com os passaportes na mão. Se você deixar em branco os campos do seguro ou do contrato do carro, o dossiê usa o que você salvou em <a href="sos.html#meus">Meus dados</a>, na página SOS, neste aparelho. Campos vazios saem com uma linha em branco para preencher à mão depois de imprimir.</p>
 <div id="gx-sync" class="fbstrip" style="margin:10px 0"></div>
 <div class="dz"><div id="form"></div></div>
 <div class="bt" role="group" aria-label="Gerar documento"><button type="button" class="main" id="b-doc">⬇ Gerar documento (.doc)</button><button type="button" id="b-pdf">🖨 Imprimir / salvar em PDF</button><span class="sep"></span><span style="font-size:13px;color:var(--muted)">Idioma:</span><button type="button" data-lg="en" aria-pressed="true">English</button><button type="button" data-lg="pt" aria-pressed="false">Português</button><button type="button" id="b-clr">Limpar dados</button></div>
@@ -153,6 +153,9 @@ function drawForm(){
 var CSS='.dossier{font:11pt/1.4 Arial,Helvetica,sans-serif;color:#000;background:#fff}.dossier h1{font-size:20pt;margin:0 0 2pt}.dossier h2{font-size:12.5pt;margin:16pt 0 4pt;padding-bottom:2pt;border-bottom:1.5pt solid #000}.dossier p{margin:3pt 0}.dossier .sub{color:#444;font-size:10.5pt}.dossier table{border-collapse:collapse;width:100%;margin:3pt 0}.dossier th,.dossier td{border:1px solid #777;padding:3pt 5pt;text-align:left;vertical-align:top;font-size:10pt}.dossier th{background:#eee}.dossier .sig{display:inline-block;width:46%;margin-top:26pt;border-top:1px solid #000;padding-top:2pt;font-size:10pt}.dossier ul{margin:3pt 0 3pt 14pt;padding:0}.dossier li{margin:1pt 0}.dossier .note{font-size:9.5pt;color:#444}.dossier .box{border:1px solid #000;padding:5pt 8pt;margin:6pt 0}';
 function build(lang){
  var pt=lang==='pt';
+ var SOS={};try{SOS=JSON.parse(localStorage.getItem('balcas2027-sos-v1')||'{}')||{}}catch(e){}
+ function nl(s){return esc(s).replace(/\n/g,'<br>')}
+ var segTxt=String(SOS['m-seg']||'').trim(),ctrTxt=String(SOS['m-ctr']||'').trim();
  function L(en,p){return pt?p:en}
  function v(k){var x=val(k);return x?esc(x):'________________'}
  function row(a,b){return '<tr><th style="width:34%">'+a+'</th><td>'+b+'</td></tr>'}
@@ -203,8 +206,9 @@ function build(lang){
  o+='<h2>6. '+L('Rental car','Carro alugado')+'</h2><table border="1" cellspacing="0" cellpadding="4">';
  o+=row(L('Company','Locadora'),L('Alamo (operated by Enterprise Rent-A-Car), booked through Rentcars','Alamo (operada pela Enterprise), reservada pela Rentcars'));
  o+=row(L('Pick-up / return','Retirada / devolução'),L('Pick-up at Zagreb airport (ZAG) on 18 May 2027; return at Zagreb airport (ZAG) on 5 June 2027','Retirada no aeroporto de Zagreb (ZAG) em 18/05/2027; devolução no mesmo aeroporto em 05/06/2027'));
- o+=row(L('Rental contract no.','Nº do contrato'),v('rent'));
- o+=row(L('Licence plate','Placa'),v('plate'));
+ if(!val('rent')&&!val('plate')&&ctrTxt)o+=row(L('Rental contract no. and licence plate','Nº do contrato e placa'),nl(ctrTxt));
+ else{o+=row(L('Rental contract no.','Nº do contrato'),v('rent'));
+ o+=row(L('Licence plate','Placa'),v('plate'))}
  o+=row(L('Cross-border use','Uso em outros países'),L('Slovenia, Italy and Montenegro, and Bosnia and Herzegovina if crossing at Neum (cross-border authorisation and green card from the rental company)','Eslovênia, Itália e Montenegro, e Bósnia e Herzegovina se passar por Neum (autorização de viagem internacional e carta verde da locadora)'));
  o+=row(L('Insurance and deposit','Seguro e caução'),L('Rental company cover with excess; excess reimbursement policy (Rentalcover Full Protection); security deposit on credit card, EUR 1,100 confirmed by the rental company for the compact category','Seguro da locadora com franquia; franquia zero por reembolso (Rentalcover Proteção Total); caução no cartão de crédito, EUR 1.100 confirmados pela locadora para a categoria Compact'));
  o+=row(L('Driving documents','Documentos de condução'),L('Brazilian driving licence (CNH) and International Driving Permit no. ','CNH brasileira e PID (Permissão Internacional para Dirigir) nº ')+v('idp'));
@@ -217,7 +221,8 @@ function build(lang){
  o+='</table><p class="note">'+L('Bank statements and card statements are available on request.','Extratos bancários e de cartão disponíveis se solicitados.')+'</p>';
  /* 8 */
  o+='<h2>8. '+L('Travel medical insurance','Seguro viagem')+'</h2><table border="1" cellspacing="0" cellpadding="4">';
- o+=row(L('Insurer','Seguradora'),v('ins'))+row(L('Policy no.','Nº da apólice'),v('pol'))+row(L('24-hour assistance phone','Telefone de assistência 24 h'),v('insp'))+row(L('Medical coverage','Cobertura médica'),v('cov'));
+ if(!val('ins')&&!val('pol')&&!val('insp')&&segTxt)o+=row(L('Insurance details (insurer, policy no., 24-hour phone)','Dados do seguro (seguradora, apólice, telefone 24 h)'),nl(segTxt))+row(L('Medical coverage','Cobertura médica'),v('cov'));
+ else o+=row(L('Insurer','Seguradora'),v('ins'))+row(L('Policy no.','Nº da apólice'),v('pol'))+row(L('24-hour assistance phone','Telefone de assistência 24 h'),v('insp'))+row(L('Medical coverage','Cobertura médica'),v('cov'));
  o+='</table>';
  /* 9 */
  o+='<h2>9. '+L('Emergency contact','Contato de emergência')+'</h2><p>'+L('Contact in Brazil: ','Contato no Brasil: ')+v('emn')+' · '+L('Phone: ','Telefone: ')+v('emp')+'</p><p class="note">'+L('Emergency number in the EU and Montenegro: 112.','Emergência na UE e em Montenegro: 112.')+'</p>';
@@ -262,5 +267,5 @@ if(window.FB)startFB();else document.addEventListener('fb-ready',startFB);
 })();
 
 </script>
-<script src="nav.js?v=204"></script><script type="module" src="fb.js?v=204"></script>
+<script src="nav.js?v=205"></script><script type="module" src="fb.js?v=205"></script>
 </body></html>
