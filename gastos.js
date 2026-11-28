@@ -67,6 +67,13 @@ function migrate(o){
         var T=[['ing_plitvice','Plitvice',23],['ing_postojna','Postojna + Predjama',55],['ing_muralhas','Muralhas de Dubrovnik',40],['ing_krka','Krka (opcional)',30]];
         o.budget.splice.apply(o.budget,[i,1].concat(T.map(function(t){return{id:t[0],cat:l.cat,label:t[1],qty:2,unit:t[2],val:t[2]*2,cur:'EUR',when:'pre',bal:!!l.bal}})));
         MIGCHG=true;break}}})();
+  /* v196: Muralhas já estão em "Antes"; entram também o Castelo de Ljubljana e o de Bled. Roda uma vez (marca em o.mig), para não voltar se você apagar a linha */
+  if(!(o.mig&&o.mig.l196)){
+    var ix=-1;for(var j=0;j<o.budget.length;j++){if(o.budget[j].id==='ing_muralhas'){ix=j;break}}
+    o.mig=o.mig||{};o.mig.l196=1;MIGCHG=true;
+    if(ix>=0&&!o.budget.some(function(b){return b.id==='ing_lj'||b.id==='ing_bled'})){
+      var m0=o.budget[ix],A=[['ing_lj','Castelo de Ljubljana + funicular',21],['ing_bled','Castelo de Bled',19]];
+      o.budget.splice.apply(o.budget,[ix+1,0].concat(A.map(function(t){return{id:t[0],cat:m0.cat,label:t[1],qty:2,unit:t[2],val:t[2]*2,cur:'EUR',when:'pre',bal:!!m0.bal}})))}}
   return o}
 function load(){try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);if(o&&(o.v===1||o.v===2||o.v===3))return migrate(o)}}catch(e){}return defaults()}
 var S=load();
@@ -76,7 +83,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}try{pu
    config: documento data/config; lançamentos: um documento por lançamento em entries/{id}.
    O localStorage continua sendo o cache local; o Firestore guarda a cópia compartilhada. */
 var SYNC={on:false,ready:false,uid:null,unsubs:[],pushed:{},cfgPushed:'',cfg:null,ent:[],cfgSeen:false,entSeen:false,cfgServer:false,entServer:false,cfgSig:null,entSig:null,bound:false,slow:false,slowT:0};
-var CFGK=['v','cats','budget','methods','rates','extra','countries','route','trip','refDate','ratesAt','mc'];
+var CFGK=['v','cats','budget','methods','rates','extra','countries','route','trip','refDate','ratesAt','mc','mig'];
 var SKEY='balcas2027-synced';
 function cfgOf(o){var c={};CFGK.forEach(function(k){if(o[k]!==undefined)c[k]=o[k]});return c}
 function jclean(o){return JSON.parse(JSON.stringify(o))}
@@ -90,7 +97,7 @@ function refreshUI(){
   }
   try{document.dispatchEvent(new Event('gx-sync'))}catch(e){}
 }
-function applyCfg(c){Object.keys(c).forEach(function(k){S[k]=c[k]});migrate(S);if(!S.last)S.last={method:'cash',cat:'almoco',cur:'EUR'}}
+function applyCfg(c){Object.keys(c).forEach(function(k){S[k]=c[k]});if(!c.mig)delete S.mig;migrate(S);if(!S.last)S.last={method:'cash',cat:'almoco',cur:'EUR'}}
 function setBaseline(entList){SYNC.pushed={};entList.forEach(function(e){SYNC.pushed[e.id]=JSON.stringify(e)})}
 function pushDiff(){
   if(!SYNC.on||!SYNC.ready||!window.FB)return;
