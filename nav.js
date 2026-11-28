@@ -41,7 +41,7 @@ document.addEventListener('click',function(e){
   if(a.href.split('#')[0]!==location.href.split('#')[0])return;
   e.preventDefault();
   if(a.hash==='#top'){window.scrollTo(0,0)}
-  else{var el=document.getElementById(decodeURIComponent(a.hash.slice(1)));if(el)el.scrollIntoView()}
+  else{var el=document.getElementById(decodeURIComponent(a.hash.slice(1)));if(el){if(window.__drReveal)window.__drReveal(el);el.scrollIntoView()}}
 });
 })();
 
@@ -147,7 +147,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 /* Versão do site: ATUALIZAR a cada nova publicação */
-var SITE_VERSION='v201';
+var SITE_VERSION='v202';
 (function(){
   function put(){var n=document.querySelector('nav.pills');if(!n||n.querySelector('.ver'))return;
     var v=document.createElement('span');v.className='ver';v.textContent=SITE_VERSION;v.title='Versão do site';
@@ -179,7 +179,7 @@ var P=new URLSearchParams(location.search),q=P.get('hl');if(!q||/busca\.html$/.t
 var frag=P.get('b')||'',T0=0,done=false;
 function nz(s){return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
 var terms=nz(q).split(/\s+/).filter(Boolean),phrase=nz(q).replace(/\s+/g,' ').trim(),fr=nz(frag).replace(/\s+/g,' ').trim();
-function hidden(el){for(var e=el;e&&e!==document.body;e=e.parentElement){if(getComputedStyle(e).display==='none')return true}return false}
+function hidden(el){for(var e=el;e&&e!==document.body;e=e.parentElement){if(e.classList&&e.classList.contains('dr-pn'))continue;if(getComputedStyle(e).display==='none')return true}return false}
 function build(){
   var tw=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),buf=[],mn=[],mo=[],n,last=' ';
   while(n=tw.nextNode()){var p=n.parentElement;if(!p||p.closest('script,style,noscript,.sdm,.sm-ov,.hbg,.hbg-cov,#bk-hl,mark.bk-m')||hidden(p))continue;
@@ -211,6 +211,7 @@ function attempt(){
   for(var i=m.length-1;i>=0;i--){var el=wrap(M,m[i][0],m[i][1]);if(el)f1=el}
   if(!f1)return false;
   for(var e=f1;e;e=e.parentElement){if(e.tagName==='DETAILS')e.open=true;if(e.hidden&&e.getAttribute('hidden')==='until-found')e.hidden=false}
+  if(window.__drReveal)window.__drReveal(f1);
   f1.style.scrollMarginTop='96px';
   setTimeout(function(){f1.scrollIntoView({block:'center'})},60);
   return true;

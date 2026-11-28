@@ -43,6 +43,7 @@ with sync_playwright() as p:
     for f in pages:
         try:
             pg.goto('http://127.0.0.1:%d/%s'%(port,f),wait_until='load');pg.wait_for_timeout(WAIT.get(f,1800))
+            pg.evaluate("window.__drAll&&window.__drAll()")
             r=pg.evaluate(JS)
         except Exception as e:
             print('ERRO',f,e);continue
